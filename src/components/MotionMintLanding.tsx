@@ -13,7 +13,12 @@ import {
   Smartphone, 
   Users,
   Gift,
-  Quote
+  Quote,
+  Clock,
+  TrendingUp,
+  DollarSign,
+  User,
+  LogIn
 } from 'lucide-react';
 import heroImage from '@/assets/hero-bg.jpg';
 import phoneMockup from '@/assets/phone-mockup.jpg';
@@ -65,24 +70,24 @@ const MotionMintLanding = () => {
   const pricingPlans = {
     oneTime: [
       {
-        name: 'Starter Pack',
+        name: 'Starter',
         price: '29€',
-        description: 'Perfect for getting started',
-        features: ['50 Premium Animations', 'HD Quality Downloads', 'Commercial License', 'Email Support'],
+        description: '20 animations to get started',
+        features: ['20 Premium Animations', 'HD Quality Downloads', 'Commercial License', 'Email Support'],
         popular: false
       },
       {
-        name: 'Mega Pack',
+        name: 'Mega',
         price: '79€',
-        description: 'Most popular choice',
-        features: ['200 Premium Animations', '4K Quality Downloads', 'Extended Commercial License', 'Priority Support', 'Bonus Content'],
+        description: '50 animations - most popular',
+        features: ['50 Premium Animations', '4K Quality Downloads', 'Extended Commercial License', 'Priority Support', 'Bonus Content'],
         popular: true
       },
       {
-        name: 'Agency Pack',
+        name: 'Agency',
         price: '129€',
-        description: 'For agencies & teams',
-        features: ['500 Premium Animations', '4K Quality Downloads', 'Team License (5 users)', 'Priority Support', 'Custom Requests'],
+        description: '100 animations for teams',
+        features: ['100 Premium Animations', '4K Quality Downloads', 'Team License (5 users)', 'Priority Support', 'Custom Requests'],
         popular: false
       }
     ],
@@ -90,7 +95,7 @@ const MotionMintLanding = () => {
       {
         name: 'Basic',
         price: '9€/mo',
-        description: 'Essential animations',
+        description: 'Essential animations monthly',
         features: ['20 New Animations/Month', 'HD Downloads', 'Commercial License', 'Cancel Anytime'],
         popular: false
       },
@@ -104,7 +109,7 @@ const MotionMintLanding = () => {
       {
         name: 'Agency',
         price: '49€/mo',
-        description: 'Team collaboration',
+        description: 'Unlimited + 4K + white-label',
         features: ['Unlimited Downloads', 'Team Management', 'White Label License', 'API Access', 'Dedicated Support'],
         popular: false
       }
@@ -115,19 +120,19 @@ const MotionMintLanding = () => {
     {
       name: 'Sarah Chen',
       role: 'Content Creator',
-      content: 'These animations doubled my engagement on Instagram. The quality is incredible and saves me hours of work!',
+      content: 'These animations doubled my engagement on Instagram. Game changer for my content!',
       avatar: '👩‍💼'
     },
     {
       name: 'Marcus Rivera',
       role: 'Marketing Agency Owner',
-      content: 'Game changer for our clients. Professional animations at a fraction of the cost of custom work.',
+      content: 'Much cheaper and faster than hiring a motion designer. Our clients love the results.',
       avatar: '👨‍💻'
     },
     {
       name: 'Elena Kozlov',
       role: 'Freelance Video Editor',
-      content: 'Finally found animations that match my vision. The AI-generated content is surprisingly creative.',
+      content: 'Finally found animations that match my vision. The quality is incredible and saves me hours.',
       avatar: '👩‍🎨'
     }
   ];
@@ -138,23 +143,29 @@ const MotionMintLanding = () => {
       <nav className="fixed top-0 w-full z-50 glass border-b border-border/50">
         <div className="container mx-auto px-4 h-16 flex items-center justify-between">
           <div className="font-bold text-2xl gradient-text">
-            MotionMint
+            BrandName
           </div>
           <div className="hidden md:flex items-center space-x-8">
-            <a href="#categories" className="text-muted-foreground hover:text-foreground transition-colors">
-              Categories
+            <a href="#benefits" className="text-muted-foreground hover:text-foreground transition-colors">
+              Benefits
+            </a>
+            <a href="#how-it-works" className="text-muted-foreground hover:text-foreground transition-colors">
+              How It Works
             </a>
             <a href="#pricing" className="text-muted-foreground hover:text-foreground transition-colors">
               Pricing
             </a>
-            <a href="#testimonials" className="text-muted-foreground hover:text-foreground transition-colors">
-              Reviews
-            </a>
           </div>
-          <Button variant="default" className="btn-glow">
-            <Gift className="w-4 h-4 mr-2" />
-            Free Pack
-          </Button>
+          <div className="flex items-center space-x-3">
+            <Button variant="ghost" size="sm">
+              <LogIn className="w-4 h-4 mr-2" />
+              Login
+            </Button>
+            <Button variant="default" size="sm" className="btn-glow">
+              <User className="w-4 h-4 mr-2" />
+              Sign Up
+            </Button>
+          </div>
         </div>
       </nav>
 
@@ -186,14 +197,14 @@ const MotionMintLanding = () => {
               </h1>
               
               <p className="text-xl lg:text-2xl text-muted-foreground mb-8 max-w-2xl">
-                Ready-to-use video loops to make your content stand out. 
-                Download instantly and boost engagement across all platforms.
+                Get 10 free animations today and instantly boost your content.
+                Ready-to-use video loops for TikTok, Instagram, and Facebook.
               </p>
               
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                 <Button size="lg" className="btn-glow text-lg px-8 py-4">
                   <Gift className="w-5 h-5 mr-2" />
-                  🎁 Download 10 Free Animations
+                  🎁 Download Free Pack
                 </Button>
                 <Button variant="outline" size="lg" className="text-lg px-8 py-4">
                   <Play className="w-5 h-5 mr-2" />
@@ -215,15 +226,65 @@ const MotionMintLanding = () => {
         </div>
       </section>
 
+      {/* Benefits Section */}
+      <section id="benefits" className="py-20">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl lg:text-5xl font-bold mb-6">
+              Why Choose Us?
+            </h2>
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+              Transform your content strategy with professional AI animations
+            </p>
+          </div>
+          
+          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+            {[
+              {
+                title: 'Save Time',
+                description: 'Ready-to-use animations that work instantly. No design skills needed.',
+                icon: <Clock className="w-8 h-8" />,
+                highlight: 'Ready-to-use'
+              },
+              {
+                title: 'Go Viral',
+                description: 'Optimized for TikTok, Reels, and Shorts to maximize engagement.',
+                icon: <TrendingUp className="w-8 h-8" />,
+                highlight: 'Viral-ready'
+              },
+              {
+                title: 'Affordable',
+                description: 'Professional animations starting from just 29€. No monthly designer costs.',
+                icon: <DollarSign className="w-8 h-8" />,
+                highlight: 'From 29€'
+              }
+            ].map((benefit, index) => (
+              <Card key={index} className="glass grid-item border-border/50 hover:border-primary/30 text-center">
+                <CardContent className="p-8">
+                  <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6 text-primary">
+                    {benefit.icon}
+                  </div>
+                  <h3 className="text-2xl font-bold mb-4">{benefit.title}</h3>
+                  <Badge className="mb-4 bg-primary/20 text-primary border-primary/30">
+                    {benefit.highlight}
+                  </Badge>
+                  <p className="text-muted-foreground">{benefit.description}</p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* How It Works */}
-      <section className="py-20">
+      <section id="how-it-works" className="py-20 bg-background-alt">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-4xl lg:text-5xl font-bold mb-6">
               How It Works
             </h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Get professional animations in minutes, not hours
+              Get professional content in 3 simple steps
             </p>
           </div>
           
@@ -231,20 +292,20 @@ const MotionMintLanding = () => {
             {[
               {
                 step: '01',
-                title: 'Choose Your Pack',
-                description: 'Browse our curated collection of AI-generated animation packs',
+                title: 'Pick an Animation',
+                description: 'Choose from our curated collection of viral-ready animations',
                 icon: <Zap className="w-8 h-8" />
               },
               {
                 step: '02',
-                title: 'Customize & Download',
-                description: 'Add your text, logo, or branding in seconds',
+                title: 'Add Text/Logo',
+                description: 'Customize in Canva or CapCut with your branding in seconds',
                 icon: <Download className="w-8 h-8" />
               },
               {
                 step: '03',
                 title: 'Post Instantly',
-                description: 'Upload to TikTok, Instagram, Facebook, and watch engagement soar',
+                description: 'Upload to TikTok, Instagram, Facebook and watch engagement soar',
                 icon: <Smartphone className="w-8 h-8" />
               }
             ].map((item, index) => (
@@ -265,15 +326,15 @@ const MotionMintLanding = () => {
         </div>
       </section>
 
-      {/* Categories */}
-      <section id="categories" className="py-20 bg-background-alt">
+      {/* Product Preview Section (Catalog Grid) */}
+      <section id="categories" className="py-20">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-4xl lg:text-5xl font-bold mb-6">
-              Animation Categories
+              Product Preview
             </h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Discover the perfect animations for every type of content
+              Discover viral-ready animations for every type of content
             </p>
           </div>
           
@@ -379,7 +440,7 @@ const MotionMintLanding = () => {
             <div className="mb-8">
               <Gift className="w-16 h-16 text-primary mx-auto mb-6" />
               <h2 className="text-4xl lg:text-5xl font-bold mb-6">
-                Start Creating Today
+                Start Creating Stunning Content Today
               </h2>
               <p className="text-xl text-muted-foreground mb-8">
                 Download 10 free AI animations and see the difference quality content makes. 
@@ -387,26 +448,16 @@ const MotionMintLanding = () => {
               </p>
             </div>
             
-            <Card className="glass max-w-md mx-auto border-border/50">
-              <CardContent className="p-8">
-                <div className="space-y-4">
-                  <Input 
-                    type="email" 
-                    placeholder="Enter your email address"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className="text-center"
-                  />
-                  <Button size="lg" className="w-full btn-glow">
-                    <Download className="w-5 h-5 mr-2" />
-                    Get Free Pack Now
-                  </Button>
-                  <p className="text-xs text-muted-foreground">
-                    Join 50,000+ creators using MotionMint animations
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
+              <Button size="lg" className="btn-glow text-lg px-8 py-4">
+                <Gift className="w-5 h-5 mr-2" />
+                🎁 Download Free Pack Now
+              </Button>
+              <Button variant="outline" size="lg" className="text-lg px-8 py-4">
+                <ArrowRight className="w-5 h-5 mr-2" />
+                See All Packs
+              </Button>
+            </div>
           </div>
         </div>
       </section>
@@ -454,40 +505,65 @@ const MotionMintLanding = () => {
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-4xl lg:text-5xl font-bold mb-6">
-              Boost Your Content with 
-              <span className="gradient-text block">
-                AI-Powered Animations
-              </span>
+              Ready to Transform Your Content?
             </h2>
             <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-              Join thousands of creators who've transformed their content strategy with MotionMint.
+              Join thousands of creators who've boosted their engagement with AI-powered animations.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
               <Button size="lg" className="btn-glow text-lg px-8 py-4">
-                <Users className="w-5 h-5 mr-2" />
-                Start Creating Now
+                <Gift className="w-5 h-5 mr-2" />
+                🎁 Download Free Pack
               </Button>
               <Button variant="outline" size="lg" className="text-lg px-8 py-4">
-                <Gift className="w-5 h-5 mr-2" />
-                Get Free Pack
+                <LogIn className="w-5 h-5 mr-2" />
+                Login / Sign Up
               </Button>
             </div>
+          </div>
+
+          {/* Newsletter Signup */}
+          <div className="max-w-md mx-auto mb-12">
+            <Card className="glass border-border/50">
+              <CardContent className="p-6">
+                <h3 className="text-xl font-semibold mb-4 text-center">Get Free Weekly Animations</h3>
+                <div className="flex gap-2">
+                  <Input 
+                    type="email" 
+                    placeholder="Enter your email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="flex-1"
+                  />
+                  <Button className="btn-glow">
+                    Subscribe
+                  </Button>
+                </div>
+                <p className="text-xs text-muted-foreground mt-2 text-center">
+                  No spam, unsubscribe anytime
+                </p>
+              </CardContent>
+            </Card>
           </div>
           
           <div className="border-t border-border/20 pt-8 text-center text-muted-foreground">
             <div className="flex flex-col md:flex-row justify-between items-center">
               <div className="font-bold text-2xl gradient-text mb-4 md:mb-0">
-                MotionMint
+                BrandName
               </div>
               <div className="flex space-x-6 text-sm">
                 <a href="#" className="hover:text-foreground transition-colors">Privacy Policy</a>
                 <a href="#" className="hover:text-foreground transition-colors">Terms of Service</a>
                 <a href="#" className="hover:text-foreground transition-colors">Contact</a>
+                <Button variant="ghost" size="sm">
+                  <LogIn className="w-4 h-4 mr-2" />
+                  Login / Sign Up
+                </Button>
               </div>
             </div>
             <div className="mt-4 text-sm">
-              © 2024 MotionMint. All rights reserved. Empowering creators with AI-powered animations.
+              © 2024 BrandName. All rights reserved. Empowering creators with AI-powered animations.
             </div>
           </div>
         </div>
