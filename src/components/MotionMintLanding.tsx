@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -18,8 +19,12 @@ import {
   TrendingUp,
   DollarSign,
   User,
-  LogIn
+  LogIn,
+  LayoutDashboard
 } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
+import { LoginModal } from '@/components/auth/LoginModal';
+import { SignUpModal } from '@/components/auth/SignUpModal';
 import heroImage from '@/assets/hero-bg.jpg';
 import phoneMockup from '@/assets/phone-mockup.jpg';
 import techAnimation from '@/assets/tech-animation.jpg';
@@ -27,6 +32,10 @@ import fitnessAnimation from '@/assets/fitness-animation.jpg';
 
 const MotionMintLanding = () => {
   const [email, setEmail] = useState('');
+  const [showLoginModal, setShowLoginModal] = useState(false);
+  const [showSignUpModal, setShowSignUpModal] = useState(false);
+  const { user } = useAuth();
+  const navigate = useNavigate();
 
   const categories = [
     {
@@ -142,9 +151,12 @@ const MotionMintLanding = () => {
       {/* Navigation */}
       <nav className="fixed top-0 w-full z-50 glass border-b border-border/50">
         <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-          <div className="font-bold text-2xl gradient-text">
+          <button
+            onClick={() => navigate('/')}
+            className="font-bold text-2xl gradient-text hover:opacity-80 transition-opacity"
+          >
             BrandName
-          </div>
+          </button>
           <div className="hidden md:flex items-center space-x-8">
             <a href="#benefits" className="text-muted-foreground hover:text-foreground transition-colors">
               Benefits
@@ -157,17 +169,57 @@ const MotionMintLanding = () => {
             </a>
           </div>
           <div className="flex items-center space-x-3">
-            <Button variant="ghost" size="sm">
-              <LogIn className="w-4 h-4 mr-2" />
-              Login
-            </Button>
-            <Button variant="default" size="sm" className="btn-glow">
-              <User className="w-4 h-4 mr-2" />
-              Sign Up
-            </Button>
+            {user ? (
+              <Button 
+                variant="hero" 
+                size="sm"
+                onClick={() => navigate('/dashboard')}
+              >
+                <LayoutDashboard className="w-4 h-4 mr-2" />
+                Dashboard
+              </Button>
+            ) : (
+              <>
+                <Button 
+                  variant="ghost" 
+                  size="sm"
+                  onClick={() => setShowLoginModal(true)}
+                >
+                  <LogIn className="w-4 h-4 mr-2" />
+                  Login
+                </Button>
+                <Button 
+                  variant="default" 
+                  size="sm" 
+                  className="btn-glow"
+                  onClick={() => setShowSignUpModal(true)}
+                >
+                  <User className="w-4 h-4 mr-2" />
+                  Sign Up
+                </Button>
+              </>
+            )}
           </div>
         </div>
       </nav>
+
+      {/* Auth Modals */}
+      <LoginModal
+        open={showLoginModal}
+        onClose={() => setShowLoginModal(false)}
+        onSwitchToSignUp={() => {
+          setShowLoginModal(false);
+          setShowSignUpModal(true);
+        }}
+      />
+      <SignUpModal
+        open={showSignUpModal}
+        onClose={() => setShowSignUpModal(false)}
+        onSwitchToLogin={() => {
+          setShowSignUpModal(false);
+          setShowLoginModal(true);
+        }}
+      />
 
       {/* Hero Section */}
       <section className="relative pt-24 pb-16 overflow-hidden">
@@ -202,7 +254,11 @@ const MotionMintLanding = () => {
               </p>
               
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                <Button size="lg" className="btn-glow text-lg px-8 py-4">
+                <Button 
+                  size="lg" 
+                  className="btn-glow text-lg px-8 py-4"
+                  onClick={() => user ? navigate('/dashboard') : setShowSignUpModal(true)}
+                >
                   <Gift className="w-5 h-5 mr-2" />
                   🎁 Download Free Pack
                 </Button>
@@ -449,7 +505,11 @@ const MotionMintLanding = () => {
             </div>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
-              <Button size="lg" className="btn-glow text-lg px-8 py-4">
+              <Button 
+                size="lg" 
+                className="btn-glow text-lg px-8 py-4"
+                onClick={() => user ? navigate('/dashboard') : setShowSignUpModal(true)}
+              >
                 <Gift className="w-5 h-5 mr-2" />
                 🎁 Download Free Pack Now
               </Button>
