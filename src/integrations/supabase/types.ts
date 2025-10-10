@@ -14,6 +14,42 @@ export type Database = {
   }
   public: {
     Tables: {
+      animations: {
+        Row: {
+          category: string
+          created_at: string
+          description: string | null
+          file_url: string
+          id: string
+          tags: string[] | null
+          thumbnail_url: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          category: string
+          created_at?: string
+          description?: string | null
+          file_url: string
+          id?: string
+          tags?: string[] | null
+          thumbnail_url: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          description?: string | null
+          file_url?: string
+          id?: string
+          tags?: string[] | null
+          thumbnail_url?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           created_at: string
@@ -37,6 +73,78 @@ export type Database = {
           updated_at?: string
         }
         Relationships: []
+      }
+      user_downloads: {
+        Row: {
+          animation_id: string
+          downloaded_at: string
+          id: string
+          user_id: string
+        }
+        Insert: {
+          animation_id: string
+          downloaded_at?: string
+          id?: string
+          user_id: string
+        }
+        Update: {
+          animation_id?: string
+          downloaded_at?: string
+          id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_downloads_animation_id_fkey"
+            columns: ["animation_id"]
+            isOneToOne: false
+            referencedRelation: "animations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_downloads_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_favorites: {
+        Row: {
+          animation_id: string
+          created_at: string
+          id: string
+          user_id: string
+        }
+        Insert: {
+          animation_id: string
+          created_at?: string
+          id?: string
+          user_id: string
+        }
+        Update: {
+          animation_id?: string
+          created_at?: string
+          id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_favorites_animation_id_fkey"
+            columns: ["animation_id"]
+            isOneToOne: false
+            referencedRelation: "animations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_favorites_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {
