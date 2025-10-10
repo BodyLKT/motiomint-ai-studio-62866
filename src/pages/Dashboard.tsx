@@ -3,25 +3,136 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Loader2, LogOut, Search, Heart, Download as DownloadIcon } from 'lucide-react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Loader2, LogOut, Library, Heart, Download as DownloadIcon } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
+import { toast } from '@/hooks/use-toast';
 import AnimationCard from '@/components/dashboard/AnimationCard';
-import { useAnimations, useFavorites, useCategories } from '@/hooks/useAnimations';
+import CategoryFilter from '@/components/dashboard/CategoryFilter';
+import SearchBar from '@/components/dashboard/SearchBar';
+
+interface Animation {
+  id: string;
+  title: string;
+  description: string;
+  category: string;
+  file_url: string;
+  thumbnail_url: string;
+  tags: string[];
+}
 
 export default function Dashboard() {
   const { user, session, loading, signOut } = useAuth();
   const navigate = useNavigate();
-  const [selectedCategory, setSelectedCategory] = useState('All');
+  
+  const [animations, setAnimations] = useState<Animation[]>([]);
+  const [favorites, setFavorites] = useState<Set<string>>(new Set());
+  const [downloads, setDownloads] = useState<number>(0);
   const [searchQuery, setSearchQuery] = useState('');
-  const { animations, loading: animationsLoading } = useAnimations(selectedCategory, searchQuery);
-  const { favorites, toggleFavorite } = useFavorites();
-  const categories = useCategories();
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [loadingData, setLoadingData] = useState(true);
 
   useEffect(() => {
     if (!loading && !session) {
       navigate('/');
     }
   }, [session, loading, navigate]);
+
+  useEffect(() => {
+    if (user) {
+      fetchAnimations();
+      fetchUserData();
+    }
+  }, [user]);
+
+  const fetchAnimations = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('animations')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      if (error) throw error;
+      setAnimations(data || []);
+    } catch (error: any) {
+      toast({
+        title: 'Error loading animations',
+        description: error.message,
+        variant: 'destructive',
+      });
+    } finally {
+      setLoadingData(false);
+    }
+  };
+
+  const fetchUserData = async () => {
+    if (!user) return;
+
+    try {
+      const [favoritesRes, downloadsRes] = await Promise.all([
+        supabase
+          .from('user_favorites')
+          .select('animation_id')
+          .eq('user_id', user.id),
+        supabase
+          .from('user_downloads')
+          .select('id')
+          .eq('user_id', user.id),
+      ]);
+
+      if (favoritesRes.data) {
+        setFavorites(new Set(favoritesRes.data.map((f: any) => f.animation_id)));
+      }
+      if (downloadsRes.data) {
+        setDownloads(downloadsRes.data.length);
+      }
+    } catch (error: any) {
+      console.error('Error fetching user data:', error);
+    }
+  };
+
+  const toggleFavorite = async (animationId: string) => {
+    if (!user) return;
+
+    const isFavorite = favorites.has(animationId);
+
+    try {
+      if (isFavorite) {
+        await supabase
+          .from('user_favorites')
+          .delete()
+          .eq('user_id', user.id)
+          .eq('animation_id', animationId);
+
+        setFavorites((prev) => {
+          const newSet = new Set(prev);
+          newSet.delete(animationId);
+          return newSet;
+        });
+
+        toast({
+          title: 'Removed from favorites',
+        });
+      } else {
+        await supabase.from('user_favorites').insert({
+          user_id: user.id,
+          animation_id: animationId,
+        });
+
+        setFavorites((prev) => new Set(prev).add(animationId));
+
+        toast({
+          title: 'Added to favorites',
+        });
+      }
+    } catch (error: any) {
+      toast({
+        title: 'Error',
+        description: error.message,
+        variant: 'destructive',
+      });
+    }
+  };
 
   const handleSignOut = async () => {
     await signOut();
@@ -39,6 +150,22 @@ export default function Dashboard() {
   if (!user) {
     return null;
   }
+
+  const categories = Array.from(new Set(animations.map((a) => a.category)));
+
+  const filteredAnimations = animations.filter((animation) => {
+    const matchesSearch =
+      searchQuery === '' ||
+      animation.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      animation.description?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      animation.tags.some((tag) => tag.toLowerCase().includes(searchQuery.toLowerCase()));
+
+    const matchesCategory = selectedCategory === null || animation.category === selectedCategory;
+
+    return matchesSearch && matchesCategory;
+  });
+
+  const favoriteAnimations = animations.filter((a) => favorites.has(a.id));
 
   return (
     <div className="min-h-screen bg-gradient-dark">
@@ -64,106 +191,125 @@ export default function Dashboard() {
       </header>
 
       {/* Main Content */}
-      <main className="container mx-auto px-4 py-8">
-        {/* Welcome Section */}
-        <div className="mb-8">
-          <h1 className="text-3xl md:text-4xl font-bold mb-2">
-            Hi {user.user_metadata?.full_name || 'there'} 👋
-          </h1>
-          <p className="text-muted-foreground">
-            Browse and download premium animations for your projects
-          </p>
-        </div>
+      <main className="container mx-auto px-4 py-12">
+        <div className="max-w-6xl mx-auto">
+          {/* Welcome Section */}
+          <div className="mb-12">
+            <h1 className="text-4xl md:text-5xl font-bold mb-4">
+              Hi {user.user_metadata?.full_name || 'there'}, welcome back 👋
+            </h1>
+            <p className="text-muted-foreground text-lg">
+              Access your animation library, manage subscriptions, and download your favorite content.
+            </p>
+          </div>
 
-        {/* Quick Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-          <Card className="p-4 bg-card/50 backdrop-blur-sm border-primary/20">
-            <div className="flex items-center gap-3">
-              <div className="p-2 rounded-lg bg-primary/10">
+          {/* Quick Stats */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <Card className="p-6 bg-card/50 backdrop-blur-sm border-primary/20">
+              <div className="flex items-center gap-3 mb-2">
+                <Library className="h-5 w-5 text-primary" />
+                <h3 className="text-sm text-muted-foreground">Total Animations</h3>
+              </div>
+              <p className="text-3xl font-bold">{animations.length}</p>
+            </Card>
+            <Card className="p-6 bg-card/50 backdrop-blur-sm border-primary/20">
+              <div className="flex items-center gap-3 mb-2">
                 <Heart className="h-5 w-5 text-primary" />
+                <h3 className="text-sm text-muted-foreground">Favorites</h3>
               </div>
-              <div>
-                <p className="text-sm text-muted-foreground">Favorites</p>
-                <p className="text-2xl font-bold">{favorites.size}</p>
-              </div>
-            </div>
-          </Card>
-          <Card className="p-4 bg-card/50 backdrop-blur-sm border-primary/20">
-            <div className="flex items-center gap-3">
-              <div className="p-2 rounded-lg bg-primary/10">
+              <p className="text-3xl font-bold">{favorites.size}</p>
+            </Card>
+            <Card className="p-6 bg-card/50 backdrop-blur-sm border-primary/20">
+              <div className="flex items-center gap-3 mb-2">
                 <DownloadIcon className="h-5 w-5 text-primary" />
+                <h3 className="text-sm text-muted-foreground">Downloads</h3>
               </div>
-              <div>
-                <p className="text-sm text-muted-foreground">Downloads</p>
-                <p className="text-2xl font-bold">Unlimited</p>
-              </div>
-            </div>
-          </Card>
-          <Card className="p-4 bg-card/50 backdrop-blur-sm border-primary/20">
-            <div className="flex items-center gap-3">
-              <div className="p-2 rounded-lg bg-primary/10">
-                <span className="text-2xl">✨</span>
-              </div>
-              <div>
-                <p className="text-sm text-muted-foreground">Plan</p>
-                <p className="text-2xl font-bold">Free</p>
-              </div>
-            </div>
-          </Card>
-        </div>
+              <p className="text-3xl font-bold">{downloads}</p>
+            </Card>
+          </div>
 
-        {/* Search and Filters */}
-        <div className="mb-6">
-          <div className="relative mb-4">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-            <Input
-              placeholder="Search animations..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-10"
-            />
-          </div>
-          
-          <div className="flex gap-2 overflow-x-auto pb-2">
-            {categories.map((category) => (
-              <Button
-                key={category}
-                variant={selectedCategory === category ? 'default' : 'outline'}
-                size="sm"
-                onClick={() => setSelectedCategory(category)}
-                className="whitespace-nowrap"
-              >
-                {category}
-              </Button>
-            ))}
-          </div>
-        </div>
+          {/* Animation Library */}
+          <Tabs defaultValue="library" className="w-full">
+            <TabsList className="mb-6">
+              <TabsTrigger value="library" className="gap-2">
+                <Library className="h-4 w-4" />
+                Library
+              </TabsTrigger>
+              <TabsTrigger value="favorites" className="gap-2">
+                <Heart className="h-4 w-4" />
+                Favorites
+              </TabsTrigger>
+            </TabsList>
 
-        {/* Animation Grid */}
-        {animationsLoading ? (
-          <div className="flex items-center justify-center py-12">
-            <Loader2 className="h-8 w-8 animate-spin text-primary" />
-          </div>
-        ) : animations.length === 0 ? (
-          <Card className="p-12 text-center bg-card/50 backdrop-blur-sm border-primary/20">
-            <p className="text-muted-foreground">No animations found</p>
-          </Card>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {animations.map((animation) => (
-              <AnimationCard
-                key={animation.id}
-                id={animation.id}
-                title={animation.title}
-                description={animation.description || ''}
-                category={animation.category}
-                thumbnailUrl={animation.thumbnail_url}
-                isFavorite={favorites.has(animation.id)}
-                onFavoriteToggle={() => toggleFavorite(animation.id)}
+            <TabsContent value="library" className="space-y-6">
+              <div className="flex flex-col md:flex-row gap-4">
+                <div className="flex-1">
+                  <SearchBar value={searchQuery} onChange={setSearchQuery} />
+                </div>
+              </div>
+
+              <CategoryFilter
+                categories={categories}
+                selectedCategory={selectedCategory}
+                onSelectCategory={setSelectedCategory}
               />
-            ))}
-          </div>
-        )}
+
+              {loadingData ? (
+                <div className="flex items-center justify-center py-12">
+                  <Loader2 className="h-8 w-8 animate-spin text-primary" />
+                </div>
+              ) : filteredAnimations.length === 0 ? (
+                <Card className="p-12 text-center bg-card/50 backdrop-blur-sm border-primary/20">
+                  <p className="text-muted-foreground">No animations found matching your criteria.</p>
+                </Card>
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {filteredAnimations.map((animation) => (
+                    <AnimationCard
+                      key={animation.id}
+                      id={animation.id}
+                      title={animation.title}
+                      description={animation.description || ''}
+                      category={animation.category}
+                      thumbnailUrl={animation.thumbnail_url}
+                      tags={animation.tags}
+                      isFavorite={favorites.has(animation.id)}
+                      onFavoriteToggle={() => toggleFavorite(animation.id)}
+                    />
+                  ))}
+                </div>
+              )}
+            </TabsContent>
+
+            <TabsContent value="favorites">
+              {favoriteAnimations.length === 0 ? (
+                <Card className="p-12 text-center bg-card/50 backdrop-blur-sm border-primary/20">
+                  <Heart className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
+                  <h3 className="text-xl font-semibold mb-2">No favorites yet</h3>
+                  <p className="text-muted-foreground">
+                    Start adding animations to your favorites to see them here!
+                  </p>
+                </Card>
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {favoriteAnimations.map((animation) => (
+                    <AnimationCard
+                      key={animation.id}
+                      id={animation.id}
+                      title={animation.title}
+                      description={animation.description || ''}
+                      category={animation.category}
+                      thumbnailUrl={animation.thumbnail_url}
+                      tags={animation.tags}
+                      isFavorite={true}
+                      onFavoriteToggle={() => toggleFavorite(animation.id)}
+                    />
+                  ))}
+                </div>
+              )}
+            </TabsContent>
+          </Tabs>
+        </div>
       </main>
     </div>
   );

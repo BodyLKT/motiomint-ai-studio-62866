@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Heart, Download } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
+import { Heart, Download, Play } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from '@/hooks/use-toast';
 
@@ -11,6 +12,7 @@ interface AnimationCardProps {
   description: string;
   category: string;
   thumbnailUrl: string;
+  tags: string[];
   isFavorite: boolean;
   onFavoriteToggle: () => void;
 }
@@ -21,6 +23,7 @@ export default function AnimationCard({
   description,
   category,
   thumbnailUrl,
+  tags,
   isFavorite,
   onFavoriteToggle,
 }: AnimationCardProps) {
@@ -32,14 +35,10 @@ export default function AnimationCard({
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error('Not authenticated');
 
-      const { error } = await supabase
-        .from('user_downloads')
-        .insert({ 
-          user_id: user.id,
-          animation_id: id 
-        });
-
-      if (error) throw error;
+      await supabase.from('user_downloads').insert({
+        user_id: user.id,
+        animation_id: id,
+      });
 
       toast({
         title: 'Download started',
@@ -57,47 +56,53 @@ export default function AnimationCard({
   };
 
   return (
-    <Card className="group overflow-hidden bg-card/50 backdrop-blur-sm border-primary/20 hover:border-primary/40 transition-all">
-      <div className="aspect-video relative overflow-hidden bg-muted">
+    <Card className="group overflow-hidden hover:shadow-xl transition-all duration-300 bg-card/50 backdrop-blur-sm border-primary/20">
+      <div className="relative aspect-video overflow-hidden bg-muted">
         <img
           src={thumbnailUrl}
           alt={title}
-          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+          className="object-cover w-full h-full group-hover:scale-110 transition-transform duration-300"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
-          <div className="absolute bottom-4 left-4 right-4 flex gap-2">
-            <Button
-              onClick={handleDownload}
-              disabled={isDownloading}
-              className="flex-1"
-              size="sm"
-            >
-              <Download className="mr-2 h-4 w-4" />
-              Download
-            </Button>
-            <Button
-              onClick={onFavoriteToggle}
-              variant="outline"
-              size="sm"
-              className="aspect-square p-0"
-            >
-              <Heart
-                className={`h-4 w-4 ${isFavorite ? 'fill-primary' : ''}`}
-              />
-            </Button>
-          </div>
+        <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+          <Button size="icon" variant="secondary" className="rounded-full">
+            <Play className="h-5 w-5" />
+          </Button>
         </div>
+        <Button
+          size="icon"
+          variant={isFavorite ? "default" : "secondary"}
+          className="absolute top-2 right-2 rounded-full"
+          onClick={onFavoriteToggle}
+        >
+          <Heart className={`h-4 w-4 ${isFavorite ? 'fill-current' : ''}`} />
+        </Button>
       </div>
-      <CardContent className="p-4">
-        <div className="flex items-start justify-between gap-2 mb-2">
-          <h3 className="font-semibold text-lg">{title}</h3>
-          <span className="text-xs px-2 py-1 rounded-full bg-primary/10 text-primary whitespace-nowrap">
-            {category}
-          </span>
+      <CardHeader>
+        <div className="flex items-start justify-between gap-2">
+          <div className="flex-1">
+            <CardTitle className="text-lg">{title}</CardTitle>
+            <CardDescription className="mt-1">{description}</CardDescription>
+          </div>
+          <Badge variant="secondary">{category}</Badge>
         </div>
-        <p className="text-sm text-muted-foreground line-clamp-2">
-          {description}
-        </p>
+      </CardHeader>
+      <CardContent>
+        <div className="flex flex-wrap gap-2 mb-4">
+          {tags.map((tag) => (
+            <Badge key={tag} variant="outline" className="text-xs">
+              {tag}
+            </Badge>
+          ))}
+        </div>
+        <Button
+          onClick={handleDownload}
+          disabled={isDownloading}
+          className="w-full"
+          variant="hero"
+        >
+          <Download className="mr-2 h-4 w-4" />
+          {isDownloading ? 'Downloading...' : 'Download'}
+        </Button>
       </CardContent>
     </Card>
   );
