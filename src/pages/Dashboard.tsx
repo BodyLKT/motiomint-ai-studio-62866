@@ -10,6 +10,7 @@ import { toast } from '@/hooks/use-toast';
 import AnimationCard from '@/components/dashboard/AnimationCard';
 import CategoryFilter from '@/components/dashboard/CategoryFilter';
 import SearchBar from '@/components/dashboard/SearchBar';
+import { ThemeToggle } from '@/components/ThemeToggle';
 
 interface Animation {
   id: string;
@@ -188,15 +189,18 @@ export default function Dashboard() {
           >
             BrandName
           </button>
-          <Button
-            onClick={handleSignOut}
-            variant="outline"
-            size="sm"
-            className="gap-2"
-          >
-            <LogOut size={16} />
-            Logout
-          </Button>
+          <div className="flex items-center gap-2">
+            <ThemeToggle />
+            <Button
+              onClick={handleSignOut}
+              variant="outline"
+              size="sm"
+              className="gap-2"
+            >
+              <LogOut size={16} />
+              Logout
+            </Button>
+          </div>
         </div>
       </header>
 

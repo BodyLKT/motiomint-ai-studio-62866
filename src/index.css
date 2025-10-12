@@ -8,7 +8,74 @@
 
 @layer base {
   :root {
-    /* Core Backgrounds */
+    /* Light Mode - Premium Clean Design */
+    --background: 0 0% 100%;           /* Pure white */
+    --background-alt: 240 20% 98%;     /* Subtle off-white */
+    --foreground: 240 10% 10%;         /* Near black text */
+
+    /* Cards & Surfaces */
+    --card: 0 0% 100%;                 /* White cards */
+    --card-foreground: 240 10% 10%;    /* Dark text on cards */
+    --card-border: 240 6% 90%;         /* Light borders */
+
+    /* Neon Accents - Primary Purple */
+    --primary: 270 91% 65%;            /* Vibrant purple */
+    --primary-foreground: 0 0% 100%;   /* White text on purple */
+    --primary-glow: 270 91% 75%;       /* Lighter purple for glows */
+
+    /* Neon Accents - Secondary Cyan */
+    --secondary: 189 94% 57%;          /* Vibrant cyan */
+    --secondary-foreground: 0 0% 100%; /* White text on cyan */
+    --secondary-glow: 189 94% 67%;     /* Lighter cyan for glows */
+
+    /* Muted Elements */
+    --muted: 240 6% 95%;               /* Light gray backgrounds */
+    --muted-foreground: 240 4% 46%;    /* Medium gray text */
+
+    /* Interactive Elements */
+    --accent: 270 91% 65%;             /* Same as primary */
+    --accent-foreground: 0 0% 100%;
+
+    /* System Colors */
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --success: 142 76% 36%;
+    --success-foreground: 0 0% 100%;
+    --warning: 38 92% 50%;
+    --warning-foreground: 0 0% 100%;
+
+    /* Borders & Inputs */
+    --border: 240 6% 88%;
+    --input: 240 6% 88%;
+    --ring: 270 91% 65%;
+
+    /* Component Specific */
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 10%;
+
+    /* Design System Tokens */
+    --radius: 0.75rem;
+    --radius-sm: 0.5rem;
+    --radius-lg: 1rem;
+
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(270 91% 65%), hsl(189 94% 57%));
+    --gradient-dark: linear-gradient(135deg, hsl(240 20% 98%), hsl(0 0% 100%));
+    --gradient-glow: linear-gradient(135deg, hsl(270 91% 65% / 0.15), hsl(189 94% 57% / 0.15));
+
+    /* Shadows & Glows */
+    --shadow-glow: 0 0 40px hsl(270 91% 65% / 0.3);
+    --shadow-glow-secondary: 0 0 40px hsl(189 94% 57% / 0.3);
+    --shadow-card: 0 4px 24px hsl(240 10% 3% / 0.08);
+    --shadow-elevated: 0 8px 40px hsl(240 10% 3% / 0.12);
+
+    /* Animations */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  }
+
+  .dark {
+    /* Dark Mode - Original Futuristic Design */
     --background: 240 10% 4%;           /* Deep dark navy */
     --background-alt: 240 8% 8%;       /* Slightly lighter dark */
     --foreground: 240 5% 96%;          /* Light text */
@@ -53,11 +120,6 @@
     --popover: 240 8% 8%;
     --popover-foreground: 240 5% 92%;
 
-    /* Design System Tokens */
-    --radius: 0.75rem;
-    --radius-sm: 0.5rem;
-    --radius-lg: 1rem;
-
     /* Gradients */
     --gradient-primary: linear-gradient(135deg, hsl(270 91% 65%), hsl(189 94% 57%));
     --gradient-dark: linear-gradient(135deg, hsl(240 10% 4%), hsl(240 8% 8%));
@@ -68,10 +130,6 @@
     --shadow-glow-secondary: 0 0 40px hsl(189 94% 57% / 0.3);
     --shadow-card: 0 4px 24px hsl(240 10% 2% / 0.4);
     --shadow-elevated: 0 8px 40px hsl(240 10% 2% / 0.6);
-
-    /* Animations */
-    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    --transition-bounce: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
   }
 }
 
