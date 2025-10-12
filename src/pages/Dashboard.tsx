@@ -45,6 +45,16 @@ export default function Dashboard() {
     }
   }, [user]);
 
+  // Listen for download events to refresh stats
+  useEffect(() => {
+    const handleDownloadComplete = () => {
+      fetchUserData();
+    };
+
+    window.addEventListener('download-complete', handleDownloadComplete);
+    return () => window.removeEventListener('download-complete', handleDownloadComplete);
+  }, [user]);
+
   const fetchAnimations = async () => {
     try {
       const { data, error } = await supabase

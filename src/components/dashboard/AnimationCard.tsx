@@ -35,15 +35,36 @@ export default function AnimationCard({
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error('Not authenticated');
 
+      // Get animation file URL
+      const { data: animation, error: fetchError } = await supabase
+        .from('animations')
+        .select('file_url')
+        .eq('id', id)
+        .single();
+
+      if (fetchError) throw fetchError;
+
+      // Track download in database
       await supabase.from('user_downloads').insert({
         user_id: user.id,
         animation_id: id,
       });
 
+      // Trigger file download
+      const link = document.createElement('a');
+      link.href = animation.file_url;
+      link.download = `${title.replace(/\s+/g, '-').toLowerCase()}.jpg`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
       toast({
-        title: 'Download started',
-        description: `${title} is being downloaded.`,
+        title: 'Download complete!',
+        description: `${title} has been downloaded.`,
       });
+
+      // Refresh page to update stats
+      window.dispatchEvent(new CustomEvent('download-complete'));
     } catch (error: any) {
       toast({
         title: 'Download failed',
