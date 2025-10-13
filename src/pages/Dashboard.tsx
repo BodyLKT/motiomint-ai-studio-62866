@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -12,6 +13,7 @@ import CategoryFilter from '@/components/dashboard/CategoryFilter';
 import CategoryGrid from '@/components/dashboard/CategoryGrid';
 import SearchBar from '@/components/dashboard/SearchBar';
 import { ThemeToggle } from '@/components/ThemeToggle';
+import { LanguageSelector } from '@/components/LanguageSelector';
 
 interface Animation {
   id: string;
@@ -27,6 +29,7 @@ interface Animation {
 }
 
 export default function Dashboard() {
+  const { t } = useTranslation();
   const { user, session, loading, signOut } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
@@ -254,6 +257,7 @@ export default function Dashboard() {
             motiomint
           </button>
           <div className="flex items-center gap-2">
+            <LanguageSelector />
             <ThemeToggle />
             <Button
               onClick={handleSignOut}
@@ -262,7 +266,7 @@ export default function Dashboard() {
               className="gap-2"
             >
               <LogOut size={16} />
-              Logout
+              {t('nav.logout')}
             </Button>
           </div>
         </div>
@@ -274,10 +278,12 @@ export default function Dashboard() {
           {/* Welcome Section */}
           <div className="mb-12">
             <h1 className="text-4xl md:text-5xl font-bold mb-4">
-              Hi {user.user_metadata?.full_name || 'there'}, welcome back 👋
+              {user.user_metadata?.full_name 
+                ? t('dashboard.welcome', { name: user.user_metadata.full_name })
+                : t('dashboard.welcomeDefault')}
             </h1>
             <p className="text-muted-foreground text-lg">
-              Access your animation library, manage subscriptions, and download your favorite content.
+              {t('dashboard.subtitle')}
             </p>
           </div>
 
@@ -286,21 +292,21 @@ export default function Dashboard() {
             <Card className="p-6 bg-card/50 backdrop-blur-sm border-primary/20">
               <div className="flex items-center gap-3 mb-2">
                 <Library className="h-5 w-5 text-primary" />
-                <h3 className="text-sm text-muted-foreground">Total Animations</h3>
+                <h3 className="text-sm text-muted-foreground">{t('dashboard.totalAnimations')}</h3>
               </div>
               <p className="text-3xl font-bold">{animations.length}</p>
             </Card>
             <Card className="p-6 bg-card/50 backdrop-blur-sm border-primary/20">
               <div className="flex items-center gap-3 mb-2">
                 <Heart className="h-5 w-5 text-primary" />
-                <h3 className="text-sm text-muted-foreground">Favorites</h3>
+                <h3 className="text-sm text-muted-foreground">{t('dashboard.favorites')}</h3>
               </div>
               <p className="text-3xl font-bold">{favorites.size}</p>
             </Card>
             <Card className="p-6 bg-card/50 backdrop-blur-sm border-primary/20">
               <div className="flex items-center gap-3 mb-2">
                 <DownloadIcon className="h-5 w-5 text-primary" />
-                <h3 className="text-sm text-muted-foreground">Downloads</h3>
+                <h3 className="text-sm text-muted-foreground">{t('dashboard.downloads')}</h3>
               </div>
               <p className="text-3xl font-bold">{downloads}</p>
             </Card>
@@ -311,15 +317,15 @@ export default function Dashboard() {
             <TabsList className="mb-6">
               <TabsTrigger value="library" className="gap-2">
                 <Library className="h-4 w-4" />
-                Library
+                {t('dashboard.library')}
               </TabsTrigger>
               <TabsTrigger value="categories" className="gap-2">
                 <Grid3x3 className="h-4 w-4" />
-                Categories
+                {t('dashboard.categories')}
               </TabsTrigger>
               <TabsTrigger value="favorites" className="gap-2">
                 <Heart className="h-4 w-4" />
-                Favorites
+                {t('dashboard.favorites')}
               </TabsTrigger>
             </TabsList>
 

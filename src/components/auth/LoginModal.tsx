@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -14,6 +15,7 @@ interface LoginModalProps {
 }
 
 export const LoginModal = ({ open, onClose, onSwitchToSignUp }: LoginModalProps) => {
+  const { t } = useTranslation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -40,20 +42,20 @@ export const LoginModal = ({ open, onClose, onSwitchToSignUp }: LoginModalProps)
       <DialogContent className="sm:max-w-md bg-background/95 backdrop-blur-lg border-primary/20">
         <DialogHeader>
           <DialogTitle className="text-2xl font-bold bg-gradient-primary bg-clip-text text-transparent">
-            Welcome Back
+            {t('auth.welcomeBack')}
           </DialogTitle>
           <DialogDescription className="text-muted-foreground">
-            Login to access your dashboard and downloads
+            {t('auth.loginSubtitle')}
           </DialogDescription>
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-4 mt-4">
           <div className="space-y-2">
-            <Label htmlFor="email">Email</Label>
+            <Label htmlFor="email">{t('auth.email')}</Label>
             <Input
               id="email"
               type="email"
-              placeholder="your@email.com"
+              placeholder={t('auth.emailPlaceholder')}
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
@@ -62,12 +64,12 @@ export const LoginModal = ({ open, onClose, onSwitchToSignUp }: LoginModalProps)
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="password">Password</Label>
+            <Label htmlFor="password">{t('auth.password')}</Label>
             <div className="relative">
               <Input
                 id="password"
                 type={showPassword ? 'text' : 'password'}
-                placeholder="••••••••"
+                placeholder={t('auth.passwordPlaceholder')}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
@@ -93,21 +95,21 @@ export const LoginModal = ({ open, onClose, onSwitchToSignUp }: LoginModalProps)
             {loading ? (
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Logging in...
+                {t('auth.loggingIn')}
               </>
             ) : (
-              'Login'
+              t('auth.loginButton')
             )}
           </Button>
         </form>
 
         <div className="text-center text-sm text-muted-foreground mt-4">
-          Don't have an account?{' '}
+          {t('auth.noAccount')}{' '}
           <button
             onClick={onSwitchToSignUp}
             className="text-primary hover:underline font-medium"
           >
-            Sign Up
+            {t('nav.signUp')}
           </button>
         </div>
       </DialogContent>

@@ -1,0 +1,224 @@
+{
+  "nav": {
+    "benefits": "Avantages",
+    "howItWorks": "Comment Ça Marche",
+    "pricing": "Tarifs",
+    "login": "Connexion",
+    "signUp": "Inscription",
+    "dashboard": "Tableau de Bord",
+    "logout": "Déconnexion",
+    "backToHome": "Retour à l'Accueil",
+    "backToDashboard": "Retour au Tableau de Bord"
+  },
+  "hero": {
+    "badge": "✨ Animations Propulsées par IA",
+    "title": "Animations Stock IA",
+    "titleHighlight": "pour les Réseaux Sociaux",
+    "subtitle": "Obtenez 10 animations gratuites aujourd'hui et boostez instantanément votre contenu. Boucles vidéo prêtes à l'emploi pour TikTok, Instagram et Facebook.",
+    "ctaFree": "🎁 Télécharger le Pack Gratuit",
+    "ctaPreview": "Voir l'Aperçu"
+  },
+  "benefits": {
+    "title": "Pourquoi Nous Choisir ?",
+    "subtitle": "Transformez votre stratégie de contenu avec des animations IA professionnelles",
+    "saveTime": {
+      "title": "Gagnez du Temps",
+      "description": "Animations prêtes à l'emploi qui fonctionnent instantanément. Aucune compétence en design requise.",
+      "highlight": "Prêt à l'emploi"
+    },
+    "goViral": {
+      "title": "Devenez Viral",
+      "description": "Optimisé pour TikTok, Reels et Shorts pour maximiser l'engagement.",
+      "highlight": "Prêt pour le viral"
+    },
+    "affordable": {
+      "title": "Abordable",
+      "description": "Animations professionnelles à partir de seulement 29€. Pas de coûts mensuels de designer.",
+      "highlight": "À partir de 29€"
+    }
+  },
+  "howItWorks": {
+    "title": "Comment Ça Marche",
+    "subtitle": "Obtenez du contenu professionnel en 3 étapes simples",
+    "step1": {
+      "title": "Choisissez une Animation",
+      "description": "Sélectionnez parmi notre collection d'animations prêtes pour le viral"
+    },
+    "step2": {
+      "title": "Ajoutez Texte/Logo",
+      "description": "Personnalisez dans Canva ou CapCut avec votre marque en quelques secondes"
+    },
+    "step3": {
+      "title": "Publiez Instantanément",
+      "description": "Téléchargez sur TikTok, Instagram, Facebook et regardez l'engagement monter en flèche"
+    }
+  },
+  "categories": {
+    "title": "Aperçu des Produits",
+    "subtitle": "Découvrez des animations prêtes pour le viral pour chaque type de contenu",
+    "viewCollection": "Voir la Collection",
+    "browseCollection": "Parcourir la Collection",
+    "techFuturistic": {
+      "title": "Tech & Futuriste",
+      "description": "Interfaces holographiques, motifs de circuits, visuels IA et graphiques futuristes",
+      "count": "120+ animations"
+    },
+    "fitnessLifestyle": {
+      "title": "Fitness & Style de Vie",
+      "description": "Graphiques d'entraînement, métriques de santé, flux d'énergie et animations bien-être",
+      "count": "85+ animations"
+    },
+    "businessFinance": {
+      "title": "Business & Finance",
+      "description": "Graphiques, tableaux, graphiques d'entreprise et animations professionnelles",
+      "count": "95+ animations"
+    },
+    "travelNature": {
+      "title": "Voyage & Nature",
+      "description": "Paysages, itinéraires de voyage, éléments naturels et animations panoramiques",
+      "count": "110+ animations"
+    },
+    "abstractBackgrounds": {
+      "title": "Arrière-plans Abstraits",
+      "description": "Formes fluides, particules, mouvements de gradient et motifs abstraits",
+      "count": "200+ animations"
+    },
+    "socialMediaHooks": {
+      "title": "Accroches Réseaux Sociaux",
+      "description": "Intros captivantes, transitions et animations prêtes pour le viral",
+      "count": "150+ animations"
+    }
+  },
+  "pricing": {
+    "title": "Choisissez Votre Plan",
+    "subtitle": "Achats uniques ou abonnements flexibles. Annulez à tout moment.",
+    "oneTimePacks": "Packs Uniques",
+    "subscriptions": "Abonnements",
+    "mostPopular": "Le Plus Populaire",
+    "getStarted": "Commencer",
+    "starter": {
+      "name": "Starter",
+      "price": "29€",
+      "description": "20 animations pour commencer",
+      "features": ["20 Animations Premium", "Téléchargements Qualité HD", "Licence Commerciale", "Support Email"]
+    },
+    "mega": {
+      "name": "Mega",
+      "price": "79€",
+      "description": "50 animations - le plus populaire",
+      "features": ["50 Animations Premium", "Téléchargements Qualité 4K", "Licence Commerciale Étendue", "Support Prioritaire", "Contenu Bonus"]
+    },
+    "agency": {
+      "name": "Agence",
+      "price": "129€",
+      "description": "100 animations pour les équipes",
+      "features": ["100 Animations Premium", "Téléchargements Qualité 4K", "Licence Équipe (5 utilisateurs)", "Support Prioritaire", "Demandes Personnalisées"]
+    },
+    "basic": {
+      "name": "Basic",
+      "price": "9€/mois",
+      "description": "Animations essentielles mensuelles",
+      "features": ["20 Nouvelles Animations/Mois", "Téléchargements HD", "Licence Commerciale", "Annulez à Tout Moment"]
+    },
+    "pro": {
+      "name": "Pro",
+      "price": "19€/mois",
+      "description": "Plan utilisateur avancé",
+      "features": ["50 Nouvelles Animations/Mois", "Téléchargements 4K", "Accès Prioritaire", "Demandes Personnalisées", "Tableau de Bord Analytics"]
+    },
+    "agencySub": {
+      "name": "Agence",
+      "price": "49€/mois",
+      "description": "Illimité + 4K + marque blanche",
+      "features": ["Téléchargements Illimités", "Gestion d'Équipe", "Licence Marque Blanche", "Accès API", "Support Dédié"]
+    },
+    "additionalInfo": "Tous les plans incluent une licence commerciale et un accès instantané au téléchargement",
+    "noHiddenFees": "✓ Pas de Frais Cachés",
+    "securePayment": "✓ Paiement Sécurisé",
+    "instantAccess": "✓ Accès Instantané",
+    "cancelAnytime": "✓ Annulez à Tout Moment"
+  },
+  "auth": {
+    "welcomeBack": "Bon Retour",
+    "loginSubtitle": "Connectez-vous pour accéder à votre tableau de bord et téléchargements",
+    "createAccount": "Créez Votre Compte",
+    "signUpSubtitle": "Rejoignez-nous et accédez aux animations IA premium",
+    "email": "Email",
+    "emailPlaceholder": "votre@email.com",
+    "password": "Mot de passe",
+    "passwordPlaceholder": "••••••••",
+    "confirmPassword": "Confirmer le Mot de passe",
+    "fullName": "Nom Complet",
+    "fullNamePlaceholder": "Jean Dupont",
+    "loginButton": "Connexion",
+    "signUpButton": "Inscription",
+    "loggingIn": "Connexion en cours...",
+    "creatingAccount": "Création du compte...",
+    "noAccount": "Vous n'avez pas de compte ?",
+    "hasAccount": "Vous avez déjà un compte ?",
+    "agreeToTerms": "J'accepte les Termes et Conditions",
+    "passwordTooShort": "Le mot de passe doit contenir au moins 6 caractères",
+    "passwordsMismatch": "Les mots de passe ne correspondent pas",
+    "acceptTerms": "Veuillez accepter les termes et conditions"
+  },
+  "dashboard": {
+    "welcome": "Salut {{name}}, bon retour 👋",
+    "welcomeDefault": "Salut, bon retour 👋",
+    "subtitle": "Accédez à votre bibliothèque d'animations, gérez les abonnements et téléchargez votre contenu préféré.",
+    "totalAnimations": "Total Animations",
+    "favorites": "Favoris",
+    "downloads": "Téléchargements",
+    "library": "Bibliothèque",
+    "categories": "Catégories",
+    "searchPlaceholder": "Rechercher des animations...",
+    "all": "Tous",
+    "noAnimations": "Aucune animation trouvée correspondant à vos critères.",
+    "noFavorites": "Pas encore de favoris",
+    "noFavoritesSubtitle": "Commencez à ajouter des animations à vos favoris pour les voir ici !",
+    "browseByCategory": "Parcourir par Catégorie",
+    "browseByCategorySubtitle": "Explorez nos collections d'animations organisées par thème"
+  },
+  "category": {
+    "total": "Total",
+    "recent": "Récent",
+    "trending": "Tendance",
+    "popular": "Populaire",
+    "format": "Format :",
+    "resolution": "Résolution :",
+    "all": "tous",
+    "noAnimations": "Aucune animation trouvée dans cette catégorie.",
+    "viewAll": "Voir tout dans {{category}}"
+  },
+  "animation": {
+    "addToFavorites": "Ajouter aux favoris",
+    "removeFromFavorites": "Retirer des favoris",
+    "addToCart": "Ajouter au Panier",
+    "inCart": "Dans le Panier",
+    "download": "Télécharger",
+    "downloading": "Téléchargement...",
+    "downloadComplete": "Téléchargement terminé !",
+    "downloadCompleteDesc": "{{title}} a été téléchargé.",
+    "downloadFailed": "Échec du téléchargement",
+    "addedToFavorites": "Ajouté aux favoris",
+    "removedFromFavorites": "Retiré des favoris",
+    "addedToCart": "Ajouté au panier",
+    "removedFromCart": "Retiré du panier",
+    "error": "Erreur"
+  },
+  "footer": {
+    "allRightsReserved": "© 2025 MotionMint. Tous droits réservés."
+  },
+  "common": {
+    "loading": "Chargement...",
+    "close": "Fermer",
+    "cancel": "Annuler",
+    "save": "Enregistrer",
+    "delete": "Supprimer",
+    "edit": "Modifier",
+    "continue": "Continuer",
+    "back": "Retour",
+    "next": "Suivant",
+    "submit": "Soumettre",
+    "search": "Rechercher"
+  }
+}

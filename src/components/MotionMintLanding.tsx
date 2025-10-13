@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -26,6 +27,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { LoginModal } from '@/components/auth/LoginModal';
 import { SignUpModal } from '@/components/auth/SignUpModal';
 import { ThemeToggle } from '@/components/ThemeToggle';
+import { LanguageSelector } from '@/components/LanguageSelector';
 import VideoPreview from '@/components/ui/VideoPreview';
 import heroImage from '@/assets/hero-bg.jpg';
 import phoneMockup from '@/assets/phone-mockup.jpg';
@@ -33,6 +35,7 @@ import techAnimation from '@/assets/tech-animation.jpg';
 import fitnessAnimation from '@/assets/fitness-animation.jpg';
 
 const MotionMintLanding = () => {
+  const { t } = useTranslation();
   const [email, setEmail] = useState('');
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showSignUpModal, setShowSignUpModal] = useState(false);
@@ -176,16 +179,17 @@ const MotionMintLanding = () => {
           </button>
           <div className="hidden md:flex items-center space-x-8">
             <a href="#benefits" className="text-muted-foreground hover:text-foreground transition-colors">
-              Benefits
+              {t('nav.benefits')}
             </a>
             <a href="#how-it-works" className="text-muted-foreground hover:text-foreground transition-colors">
-              How It Works
+              {t('nav.howItWorks')}
             </a>
             <a href="#pricing" className="text-muted-foreground hover:text-foreground transition-colors">
-              Pricing
+              {t('nav.pricing')}
             </a>
           </div>
           <div className="flex items-center space-x-3">
+            <LanguageSelector />
             <ThemeToggle />
             {user ? (
               <Button 
@@ -194,7 +198,7 @@ const MotionMintLanding = () => {
                 onClick={() => navigate('/dashboard')}
               >
                 <LayoutDashboard className="w-4 h-4 mr-2" />
-                Dashboard
+                {t('nav.dashboard')}
               </Button>
             ) : (
               <>
@@ -204,7 +208,7 @@ const MotionMintLanding = () => {
                   onClick={() => setShowLoginModal(true)}
                 >
                   <LogIn className="w-4 h-4 mr-2" />
-                  Login
+                  {t('nav.login')}
                 </Button>
                 <Button 
                   variant="default" 
@@ -213,7 +217,7 @@ const MotionMintLanding = () => {
                   onClick={() => setShowSignUpModal(true)}
                 >
                   <User className="w-4 h-4 mr-2" />
-                  Sign Up
+                  {t('nav.signUp')}
                 </Button>
               </>
             )}
@@ -256,19 +260,18 @@ const MotionMintLanding = () => {
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="text-center lg:text-left">
               <Badge className="mb-6 bg-primary/20 text-primary border-primary/30">
-                ✨ AI-Powered Animations
+                {t('hero.badge')}
               </Badge>
               
               <h1 className="text-5xl lg:text-7xl font-black mb-6 leading-tight">
-                AI Stock Animations 
+                {t('hero.title')}
                 <span className="gradient-text block">
-                  for Social Media
+                  {t('hero.titleHighlight')}
                 </span>
               </h1>
               
               <p className="text-xl lg:text-2xl text-muted-foreground mb-8 max-w-2xl">
-                Get 10 free animations today and instantly boost your content.
-                Ready-to-use video loops for TikTok, Instagram, and Facebook.
+                {t('hero.subtitle')}
               </p>
               
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
@@ -278,11 +281,11 @@ const MotionMintLanding = () => {
                   onClick={() => user ? navigate('/dashboard') : setShowSignUpModal(true)}
                 >
                   <Gift className="w-5 h-5 mr-2" />
-                  🎁 Download Free Pack
+                  {t('hero.ctaFree')}
                 </Button>
                 <Button variant="outline" size="lg" className="text-lg px-8 py-4">
                   <Play className="w-5 h-5 mr-2" />
-                  Watch Preview
+                  {t('hero.ctaPreview')}
                 </Button>
               </div>
             </div>

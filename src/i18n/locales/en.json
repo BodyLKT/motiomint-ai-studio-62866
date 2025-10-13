@@ -1,0 +1,224 @@
+{
+  "nav": {
+    "benefits": "Benefits",
+    "howItWorks": "How It Works",
+    "pricing": "Pricing",
+    "login": "Login",
+    "signUp": "Sign Up",
+    "dashboard": "Dashboard",
+    "logout": "Logout",
+    "backToHome": "Back to Home",
+    "backToDashboard": "Back to Dashboard"
+  },
+  "hero": {
+    "badge": "✨ AI-Powered Animations",
+    "title": "AI Stock Animations",
+    "titleHighlight": "for Social Media",
+    "subtitle": "Get 10 free animations today and instantly boost your content. Ready-to-use video loops for TikTok, Instagram, and Facebook.",
+    "ctaFree": "🎁 Download Free Pack",
+    "ctaPreview": "Watch Preview"
+  },
+  "benefits": {
+    "title": "Why Choose Us?",
+    "subtitle": "Transform your content strategy with professional AI animations",
+    "saveTime": {
+      "title": "Save Time",
+      "description": "Ready-to-use animations that work instantly. No design skills needed.",
+      "highlight": "Ready-to-use"
+    },
+    "goViral": {
+      "title": "Go Viral",
+      "description": "Optimized for TikTok, Reels, and Shorts to maximize engagement.",
+      "highlight": "Viral-ready"
+    },
+    "affordable": {
+      "title": "Affordable",
+      "description": "Professional animations starting from just 29€. No monthly designer costs.",
+      "highlight": "From 29€"
+    }
+  },
+  "howItWorks": {
+    "title": "How It Works",
+    "subtitle": "Get professional content in 3 simple steps",
+    "step1": {
+      "title": "Pick an Animation",
+      "description": "Choose from our curated collection of viral-ready animations"
+    },
+    "step2": {
+      "title": "Add Text/Logo",
+      "description": "Customize in Canva or CapCut with your branding in seconds"
+    },
+    "step3": {
+      "title": "Post Instantly",
+      "description": "Upload to TikTok, Instagram, Facebook and watch engagement soar"
+    }
+  },
+  "categories": {
+    "title": "Product Preview",
+    "subtitle": "Discover viral-ready animations for every type of content",
+    "viewCollection": "View Collection",
+    "browseCollection": "Browse Collection",
+    "techFuturistic": {
+      "title": "Tech & Futuristic",
+      "description": "Holographic interfaces, circuit patterns, AI visuals, and futuristic motion graphics",
+      "count": "120+ animations"
+    },
+    "fitnessLifestyle": {
+      "title": "Fitness & Lifestyle",
+      "description": "Workout graphics, health metrics, energy flows, and wellness animations",
+      "count": "85+ animations"
+    },
+    "businessFinance": {
+      "title": "Business & Finance",
+      "description": "Charts, graphs, corporate motion graphics, and professional animations",
+      "count": "95+ animations"
+    },
+    "travelNature": {
+      "title": "Travel & Nature",
+      "description": "Landscapes, travel routes, nature elements, and scenic animations",
+      "count": "110+ animations"
+    },
+    "abstractBackgrounds": {
+      "title": "Abstract Backgrounds",
+      "description": "Flowing shapes, particles, gradient motions, and abstract patterns",
+      "count": "200+ animations"
+    },
+    "socialMediaHooks": {
+      "title": "Social Media Hooks",
+      "description": "Attention-grabbing intros, transitions, and viral-ready animations",
+      "count": "150+ animations"
+    }
+  },
+  "pricing": {
+    "title": "Choose Your Plan",
+    "subtitle": "One-time purchases or flexible subscriptions. Cancel anytime.",
+    "oneTimePacks": "One-time Packs",
+    "subscriptions": "Subscriptions",
+    "mostPopular": "Most Popular",
+    "getStarted": "Get Started",
+    "starter": {
+      "name": "Starter",
+      "price": "29€",
+      "description": "20 animations to get started",
+      "features": ["20 Premium Animations", "HD Quality Downloads", "Commercial License", "Email Support"]
+    },
+    "mega": {
+      "name": "Mega",
+      "price": "79€",
+      "description": "50 animations - most popular",
+      "features": ["50 Premium Animations", "4K Quality Downloads", "Extended Commercial License", "Priority Support", "Bonus Content"]
+    },
+    "agency": {
+      "name": "Agency",
+      "price": "129€",
+      "description": "100 animations for teams",
+      "features": ["100 Premium Animations", "4K Quality Downloads", "Team License (5 users)", "Priority Support", "Custom Requests"]
+    },
+    "basic": {
+      "name": "Basic",
+      "price": "9€/mo",
+      "description": "Essential animations monthly",
+      "features": ["20 New Animations/Month", "HD Downloads", "Commercial License", "Cancel Anytime"]
+    },
+    "pro": {
+      "name": "Pro",
+      "price": "19€/mo",
+      "description": "Power user plan",
+      "features": ["50 New Animations/Month", "4K Downloads", "Priority Access", "Custom Requests", "Analytics Dashboard"]
+    },
+    "agencySub": {
+      "name": "Agency",
+      "price": "49€/mo",
+      "description": "Unlimited + 4K + white-label",
+      "features": ["Unlimited Downloads", "Team Management", "White Label License", "API Access", "Dedicated Support"]
+    },
+    "additionalInfo": "All plans include commercial license and instant download access",
+    "noHiddenFees": "✓ No Hidden Fees",
+    "securePayment": "✓ Secure Payment",
+    "instantAccess": "✓ Instant Access",
+    "cancelAnytime": "✓ Cancel Anytime"
+  },
+  "auth": {
+    "welcomeBack": "Welcome Back",
+    "loginSubtitle": "Login to access your dashboard and downloads",
+    "createAccount": "Create Your Account",
+    "signUpSubtitle": "Join us and get access to premium AI animations",
+    "email": "Email",
+    "emailPlaceholder": "your@email.com",
+    "password": "Password",
+    "passwordPlaceholder": "••••••••",
+    "confirmPassword": "Confirm Password",
+    "fullName": "Full Name",
+    "fullNamePlaceholder": "John Doe",
+    "loginButton": "Login",
+    "signUpButton": "Sign Up",
+    "loggingIn": "Logging in...",
+    "creatingAccount": "Creating account...",
+    "noAccount": "Don't have an account?",
+    "hasAccount": "Already have an account?",
+    "agreeToTerms": "I agree to the Terms & Conditions",
+    "passwordTooShort": "Password must be at least 6 characters",
+    "passwordsMismatch": "Passwords do not match",
+    "acceptTerms": "Please accept the terms and conditions"
+  },
+  "dashboard": {
+    "welcome": "Hi {{name}}, welcome back 👋",
+    "welcomeDefault": "Hi there, welcome back 👋",
+    "subtitle": "Access your animation library, manage subscriptions, and download your favorite content.",
+    "totalAnimations": "Total Animations",
+    "favorites": "Favorites",
+    "downloads": "Downloads",
+    "library": "Library",
+    "categories": "Categories",
+    "searchPlaceholder": "Search animations...",
+    "all": "All",
+    "noAnimations": "No animations found matching your criteria.",
+    "noFavorites": "No favorites yet",
+    "noFavoritesSubtitle": "Start adding animations to your favorites to see them here!",
+    "browseByCategory": "Browse by Category",
+    "browseByCategorySubtitle": "Explore our curated collections of animations organized by theme"
+  },
+  "category": {
+    "total": "Total",
+    "recent": "Recent",
+    "trending": "Trending",
+    "popular": "Popular",
+    "format": "Format:",
+    "resolution": "Resolution:",
+    "all": "all",
+    "noAnimations": "No animations found in this category.",
+    "viewAll": "View all in {{category}}"
+  },
+  "animation": {
+    "addToFavorites": "Add to favorites",
+    "removeFromFavorites": "Remove from favorites",
+    "addToCart": "Add to Cart",
+    "inCart": "In Cart",
+    "download": "Download",
+    "downloading": "Downloading...",
+    "downloadComplete": "Download complete!",
+    "downloadCompleteDesc": "{{title}} has been downloaded.",
+    "downloadFailed": "Download failed",
+    "addedToFavorites": "Added to favorites",
+    "removedFromFavorites": "Removed from favorites",
+    "addedToCart": "Added to cart",
+    "removedFromCart": "Removed from cart",
+    "error": "Error"
+  },
+  "footer": {
+    "allRightsReserved": "© 2025 MotionMint. All rights reserved."
+  },
+  "common": {
+    "loading": "Loading...",
+    "close": "Close",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "continue": "Continue",
+    "back": "Back",
+    "next": "Next",
+    "submit": "Submit",
+    "search": "Search"
+  }
+}

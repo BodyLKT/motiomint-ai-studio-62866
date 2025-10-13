@@ -1,4 +1,5 @@
 import { Button } from '@/components/ui/button';
+import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { ExternalLink } from 'lucide-react';
 
@@ -13,6 +14,8 @@ export default function CategoryFilter({
   selectedCategory,
   onSelectCategory,
 }: CategoryFilterProps) {
+  const { t } = useTranslation();
+  
   return (
     <div className="space-y-3">
       <div className="flex flex-wrap gap-2">
@@ -21,7 +24,7 @@ export default function CategoryFilter({
           onClick={() => onSelectCategory(null)}
           size="sm"
         >
-          All
+          {t('dashboard.all')}
         </Button>
         {categories.map((category) => (
           <Button
@@ -39,7 +42,7 @@ export default function CategoryFilter({
         <Link to={`/category/${encodeURIComponent(selectedCategory)}`}>
           <Button variant="ghost" size="sm" className="gap-2">
             <ExternalLink size={14} />
-            View all in {selectedCategory}
+            {t('category.viewAll', { category: selectedCategory })}
           </Button>
         </Link>
       )}

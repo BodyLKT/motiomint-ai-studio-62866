@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -22,6 +23,7 @@ import { toast } from '@/hooks/use-toast';
 import AnimationCard from '@/components/dashboard/AnimationCard';
 import SearchBar from '@/components/dashboard/SearchBar';
 import { ThemeToggle } from '@/components/ThemeToggle';
+import { LanguageSelector } from '@/components/LanguageSelector';
 
 interface Animation {
   id: string;
@@ -68,6 +70,7 @@ const ALL_CATEGORIES = Object.keys(CATEGORY_INFO);
 
 export default function CategoryPage() {
   const { category: categoryParam } = useParams<{ category: string }>();
+  const { t } = useTranslation();
   const { user, session, loading, signOut } = useAuth();
   const navigate = useNavigate();
   
@@ -308,8 +311,9 @@ export default function CategoryPage() {
               className="gap-2"
             >
               <Home size={16} />
-              Dashboard
+              {t('nav.dashboard')}
             </Button>
+            <LanguageSelector />
             <ThemeToggle />
             <Button
               onClick={handleSignOut}
@@ -318,7 +322,7 @@ export default function CategoryPage() {
               className="gap-2"
             >
               <LogOut size={16} />
-              Logout
+              {t('nav.logout')}
             </Button>
           </div>
         </div>

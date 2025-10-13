@@ -1,0 +1,224 @@
+{
+  "nav": {
+    "benefits": "Beneficii",
+    "howItWorks": "Cum Funcționează",
+    "pricing": "Prețuri",
+    "login": "Autentificare",
+    "signUp": "Înregistrare",
+    "dashboard": "Tablou de Bord",
+    "logout": "Deconectare",
+    "backToHome": "Înapoi la Pagina Principală",
+    "backToDashboard": "Înapoi la Tabloul de Bord"
+  },
+  "hero": {
+    "badge": "✨ Animații Cu Inteligență Artificială",
+    "title": "Animații Stock AI",
+    "titleHighlight": "pentru Social Media",
+    "subtitle": "Obține 10 animații gratuite astăzi și îmbunătățește-ți instantaneu conținutul. Clipuri video gata de utilizat pentru TikTok, Instagram și Facebook.",
+    "ctaFree": "🎁 Descarcă Pachetul Gratuit",
+    "ctaPreview": "Vizionează Previzualizarea"
+  },
+  "benefits": {
+    "title": "De Ce Să Ne Alegi?",
+    "subtitle": "Transformă-ți strategia de conținut cu animații profesionale AI",
+    "saveTime": {
+      "title": "Economisește Timp",
+      "description": "Animații gata de utilizat care funcționează instantaneu. Nu ai nevoie de abilități de design.",
+      "highlight": "Gata de utilizat"
+    },
+    "goViral": {
+      "title": "Devino Viral",
+      "description": "Optimizate pentru TikTok, Reels și Shorts pentru a maximiza implicarea.",
+      "highlight": "Gata pentru viral"
+    },
+    "affordable": {
+      "title": "Accesibil",
+      "description": "Animații profesionale începând de la doar 29€. Fără costuri lunare pentru designer.",
+      "highlight": "De la 29€"
+    }
+  },
+  "howItWorks": {
+    "title": "Cum Funcționează",
+    "subtitle": "Obține conținut profesional în 3 pași simpli",
+    "step1": {
+      "title": "Alege o Animație",
+      "description": "Selectează din colecția noastră de animații gata pentru viral"
+    },
+    "step2": {
+      "title": "Adaugă Text/Logo",
+      "description": "Personalizează în Canva sau CapCut cu brandul tău în câteva secunde"
+    },
+    "step3": {
+      "title": "Postează Instant",
+      "description": "Încarcă pe TikTok, Instagram, Facebook și urmărește implicarea crescând"
+    }
+  },
+  "categories": {
+    "title": "Previzualizare Produse",
+    "subtitle": "Descoperă animații gata pentru viral pentru fiecare tip de conținut",
+    "viewCollection": "Vezi Colecția",
+    "browseCollection": "Răsfoiește Colecția",
+    "techFuturistic": {
+      "title": "Tech & Futurist",
+      "description": "Interfețe holografice, modele de circuite, vizualizări AI și grafică futuristă",
+      "count": "120+ animații"
+    },
+    "fitnessLifestyle": {
+      "title": "Fitness & Lifestyle",
+      "description": "Grafică de antrenament, metrici de sănătate, fluxuri de energie și animații wellness",
+      "count": "85+ animații"
+    },
+    "businessFinance": {
+      "title": "Business & Finanțe",
+      "description": "Grafice, diagrame, grafică corporativă și animații profesionale",
+      "count": "95+ animații"
+    },
+    "travelNature": {
+      "title": "Călătorii & Natură",
+      "description": "Peisaje, rute de călătorie, elemente naturale și animații pitorești",
+      "count": "110+ animații"
+    },
+    "abstractBackgrounds": {
+      "title": "Fundaluri Abstracte",
+      "description": "Forme fluide, particule, mișcări gradient și modele abstracte",
+      "count": "200+ animații"
+    },
+    "socialMediaHooks": {
+      "title": "Hooks Social Media",
+      "description": "Intro-uri captivante, tranziții și animații gata pentru viral",
+      "count": "150+ animații"
+    }
+  },
+  "pricing": {
+    "title": "Alege-ți Planul",
+    "subtitle": "Achiziții unice sau abonamente flexibile. Anulează oricând.",
+    "oneTimePacks": "Pachete Unice",
+    "subscriptions": "Abonamente",
+    "mostPopular": "Cel Mai Popular",
+    "getStarted": "Începe Acum",
+    "starter": {
+      "name": "Starter",
+      "price": "29€",
+      "description": "20 de animații pentru început",
+      "features": ["20 Animații Premium", "Descărcări Calitate HD", "Licență Comercială", "Suport Email"]
+    },
+    "mega": {
+      "name": "Mega",
+      "price": "79€",
+      "description": "50 de animații - cel mai popular",
+      "features": ["50 Animații Premium", "Descărcări Calitate 4K", "Licență Comercială Extinsă", "Suport Prioritar", "Conținut Bonus"]
+    },
+    "agency": {
+      "name": "Agenție",
+      "price": "129€",
+      "description": "100 de animații pentru echipe",
+      "features": ["100 Animații Premium", "Descărcări Calitate 4K", "Licență Echipă (5 utilizatori)", "Suport Prioritar", "Cereri Personalizate"]
+    },
+    "basic": {
+      "name": "Basic",
+      "price": "9€/lună",
+      "description": "Animații esențiale lunar",
+      "features": ["20 Animații Noi/Lună", "Descărcări HD", "Licență Comercială", "Anulează Oricând"]
+    },
+    "pro": {
+      "name": "Pro",
+      "price": "19€/lună",
+      "description": "Plan pentru utilizatori avansați",
+      "features": ["50 Animații Noi/Lună", "Descărcări 4K", "Acces Prioritar", "Cereri Personalizate", "Panou Analytics"]
+    },
+    "agencySub": {
+      "name": "Agenție",
+      "price": "49€/lună",
+      "description": "Nelimitat + 4K + white-label",
+      "features": ["Descărcări Nelimitate", "Management Echipă", "Licență White Label", "Acces API", "Suport Dedicat"]
+    },
+    "additionalInfo": "Toate planurile includ licență comercială și acces instant la descărcare",
+    "noHiddenFees": "✓ Fără Taxe Ascunse",
+    "securePayment": "✓ Plată Securizată",
+    "instantAccess": "✓ Acces Instant",
+    "cancelAnytime": "✓ Anulează Oricând"
+  },
+  "auth": {
+    "welcomeBack": "Bine Ai Revenit",
+    "loginSubtitle": "Autentifică-te pentru a accesa tabloul de bord și descărcările",
+    "createAccount": "Creează-ți Contul",
+    "signUpSubtitle": "Alătură-te nouă și obține acces la animații AI premium",
+    "email": "Email",
+    "emailPlaceholder": "emailul@tau.com",
+    "password": "Parolă",
+    "passwordPlaceholder": "••••••••",
+    "confirmPassword": "Confirmă Parola",
+    "fullName": "Nume Complet",
+    "fullNamePlaceholder": "Ion Popescu",
+    "loginButton": "Autentificare",
+    "signUpButton": "Înregistrare",
+    "loggingIn": "Se autentifică...",
+    "creatingAccount": "Se creează contul...",
+    "noAccount": "Nu ai cont?",
+    "hasAccount": "Ai deja cont?",
+    "agreeToTerms": "Sunt de acord cu Termenii și Condițiile",
+    "passwordTooShort": "Parola trebuie să aibă cel puțin 6 caractere",
+    "passwordsMismatch": "Parolele nu se potrivesc",
+    "acceptTerms": "Te rugăm să accepți termenii și condițiile"
+  },
+  "dashboard": {
+    "welcome": "Salut {{name}}, bine ai revenit 👋",
+    "welcomeDefault": "Salut, bine ai revenit 👋",
+    "subtitle": "Accesează biblioteca ta de animații, gestionează abonamentele și descarcă conținutul tău preferat.",
+    "totalAnimations": "Total Animații",
+    "favorites": "Favorite",
+    "downloads": "Descărcări",
+    "library": "Bibliotecă",
+    "categories": "Categorii",
+    "searchPlaceholder": "Caută animații...",
+    "all": "Toate",
+    "noAnimations": "Nu s-au găsit animații care să corespundă criteriilor tale.",
+    "noFavorites": "Încă nu ai favorite",
+    "noFavoritesSubtitle": "Începe să adaugi animații la favorite pentru a le vedea aici!",
+    "browseByCategory": "Răsfoiește pe Categorie",
+    "browseByCategorySubtitle": "Explorează colecțiile noastre curate de animații organizate pe teme"
+  },
+  "category": {
+    "total": "Total",
+    "recent": "Recente",
+    "trending": "Trending",
+    "popular": "Populare",
+    "format": "Format:",
+    "resolution": "Rezoluție:",
+    "all": "toate",
+    "noAnimations": "Nu s-au găsit animații în această categorie.",
+    "viewAll": "Vezi toate în {{category}}"
+  },
+  "animation": {
+    "addToFavorites": "Adaugă la favorite",
+    "removeFromFavorites": "Elimină din favorite",
+    "addToCart": "Adaugă în Coș",
+    "inCart": "În Coș",
+    "download": "Descarcă",
+    "downloading": "Se descarcă...",
+    "downloadComplete": "Descărcare completă!",
+    "downloadCompleteDesc": "{{title}} a fost descărcat.",
+    "downloadFailed": "Descărcarea a eșuat",
+    "addedToFavorites": "Adăugat la favorite",
+    "removedFromFavorites": "Eliminat din favorite",
+    "addedToCart": "Adăugat în coș",
+    "removedFromCart": "Eliminat din coș",
+    "error": "Eroare"
+  },
+  "footer": {
+    "allRightsReserved": "© 2025 MotionMint. Toate drepturile rezervate."
+  },
+  "common": {
+    "loading": "Se încarcă...",
+    "close": "Închide",
+    "cancel": "Anulează",
+    "save": "Salvează",
+    "delete": "Șterge",
+    "edit": "Editează",
+    "continue": "Continuă",
+    "back": "Înapoi",
+    "next": "Următorul",
+    "submit": "Trimite",
+    "search": "Caută"
+  }
+}
