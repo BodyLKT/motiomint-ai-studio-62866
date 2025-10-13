@@ -176,7 +176,15 @@ export type Database = {
           quantity?: number
           user_id?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "fk_user_cart_animation"
+            columns: ["animation_id"]
+            isOneToOne: false
+            referencedRelation: "animations"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       user_downloads: {
         Row: {
@@ -198,6 +206,13 @@ export type Database = {
           user_id?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "fk_user_downloads_animation"
+            columns: ["animation_id"]
+            isOneToOne: false
+            referencedRelation: "animations"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "user_downloads_animation_id_fkey"
             columns: ["animation_id"]
@@ -234,6 +249,13 @@ export type Database = {
           user_id?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "fk_user_favorites_animation"
+            columns: ["animation_id"]
+            isOneToOne: false
+            referencedRelation: "animations"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "user_favorites_animation_id_fkey"
             columns: ["animation_id"]
