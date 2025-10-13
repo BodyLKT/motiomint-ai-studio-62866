@@ -380,7 +380,48 @@ export default function Dashboard() {
                     {t('dashboard.browseByCategorySubtitle')}
                   </p>
                 </div>
-                <CategoryGrid categories={categories} />
+
+                {/* Search Bar */}
+                <div className="max-w-2xl mx-auto">
+                  <SearchBar value={searchQuery} onChange={setSearchQuery} />
+                </div>
+
+                {/* Category Filters */}
+                <CategoryFilter
+                  categories={categories}
+                  selectedCategory={selectedCategory}
+                  onSelectCategory={setSelectedCategory}
+                />
+
+                {/* Filtered Results */}
+                {loadingData ? (
+                  <div className="flex items-center justify-center py-12">
+                    <Loader2 className="h-8 w-8 animate-spin text-primary" />
+                  </div>
+                ) : filteredAnimations.length === 0 ? (
+                  <Card className="p-12 text-center bg-card/50 backdrop-blur-sm border-primary/20">
+                    <p className="text-muted-foreground">{t('dashboard.noAnimations')}</p>
+                  </Card>
+                ) : (
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {filteredAnimations.map((animation) => (
+                      <AnimationCard
+                        key={animation.id}
+                        id={animation.id}
+                        title={animation.title}
+                        description={animation.description || ''}
+                        category={animation.category}
+                        thumbnailUrl={animation.thumbnail_url}
+                        videoUrl={animation.preview_url || animation.file_url}
+                        tags={animation.tags}
+                        isFavorite={favorites.has(animation.id)}
+                        isInCart={cart.has(animation.id)}
+                        onFavoriteToggle={() => toggleFavorite(animation.id)}
+                        onCartToggle={() => toggleCart(animation.id)}
+                      />
+                    ))}
+                  </div>
+                )}
               </div>
             </TabsContent>
 
