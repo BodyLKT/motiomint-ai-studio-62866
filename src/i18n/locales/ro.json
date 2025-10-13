@@ -206,8 +206,34 @@
     "removedFromCart": "Eliminat din coș",
     "error": "Eroare"
   },
+  "leadMagnet": {
+    "title": "Începe să Creezi Conținut Uimitor Astăzi",
+    "subtitle": "Descarcă 10 animații AI gratuite și vezi diferența pe care o face conținutul de calitate. Fără card necesar.",
+    "downloadFree": "🎁 Descarcă Pachetul Gratuit Acum",
+    "seeAllPacks": "Vezi Toate Pachetele"
+  },
+  "testimonials": {
+    "title": "Iubit de Creatori din Întreaga Lume",
+    "rating": "4.9/5",
+    "reviewCount": "(2,847 recenzii)"
+  },
+  "footerCTA": {
+    "title": "Gata să Transformi Conținutul Tău?",
+    "subtitle": "Alătură-te miilor de creatori care și-au îmbunătățit implicarea cu animații propulsate de AI.",
+    "downloadFree": "🎁 Descarcă Pachetul Gratuit",
+    "loginSignup": "Autentificare / Înregistrare"
+  },
+  "newsletter": {
+    "title": "Primește Animații Gratuite Săptămânale",
+    "placeholder": "Introdu emailul tău",
+    "subscribe": "Abonează-te",
+    "noSpam": "Fără spam, dezabonează-te oricând"
+  },
   "footer": {
-    "allRightsReserved": "© 2025 MotionMint. Toate drepturile rezervate."
+    "allRightsReserved": "© 2025 motiomint. Toate drepturile rezervate. Împuternicim creatorii cu animații propulsate de AI.",
+    "privacyPolicy": "Politica de Confidențialitate",
+    "termsOfService": "Termeni și Condiții",
+    "contact": "Contact"
   },
   "common": {
     "loading": "Se încarcă...",

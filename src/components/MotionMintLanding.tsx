@@ -524,11 +524,10 @@ const MotionMintLanding = () => {
             <div className="mb-8">
               <Gift className="w-16 h-16 text-primary mx-auto mb-6" />
               <h2 className="text-4xl lg:text-5xl font-bold mb-6">
-                Start Creating Stunning Content Today
+                {t('leadMagnet.title')}
               </h2>
               <p className="text-xl text-muted-foreground mb-8">
-                Download 10 free AI animations and see the difference quality content makes. 
-                No credit card required.
+                {t('leadMagnet.subtitle')}
               </p>
             </div>
             
@@ -539,11 +538,16 @@ const MotionMintLanding = () => {
                 onClick={() => user ? navigate('/dashboard') : setShowSignUpModal(true)}
               >
                 <Gift className="w-5 h-5 mr-2" />
-                🎁 Download Free Pack Now
+                {t('leadMagnet.downloadFree')}
               </Button>
-              <Button variant="outline" size="lg" className="text-lg px-8 py-4">
+              <Button 
+                variant="outline" 
+                size="lg" 
+                className="text-lg px-8 py-4"
+                onClick={() => navigate('/pricing')}
+              >
                 <ArrowRight className="w-5 h-5 mr-2" />
-                See All Packs
+                {t('leadMagnet.seeAllPacks')}
               </Button>
             </div>
           </div>
@@ -555,14 +559,14 @@ const MotionMintLanding = () => {
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-4xl lg:text-5xl font-bold mb-6">
-              Loved by Creators Worldwide
+              {t('testimonials.title')}
             </h2>
             <div className="flex justify-center items-center gap-2 mb-8">
               {[...Array(5)].map((_, i) => (
                 <Star key={i} className="w-6 h-6 fill-primary text-primary" />
               ))}
-              <span className="text-xl font-semibold ml-2">4.9/5</span>
-              <span className="text-muted-foreground ml-1">(2,847 reviews)</span>
+              <span className="text-xl font-semibold ml-2">{t('testimonials.rating')}</span>
+              <span className="text-muted-foreground ml-1">{t('testimonials.reviewCount')}</span>
             </div>
           </div>
           
@@ -593,20 +597,29 @@ const MotionMintLanding = () => {
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-4xl lg:text-5xl font-bold mb-6">
-              Ready to Transform Your Content?
+              {t('footerCTA.title')}
             </h2>
             <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-              Join thousands of creators who've boosted their engagement with AI-powered animations.
+              {t('footerCTA.subtitle')}
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
-              <Button size="lg" className="btn-glow text-lg px-8 py-4">
+              <Button 
+                size="lg" 
+                className="btn-glow text-lg px-8 py-4"
+                onClick={() => user ? navigate('/dashboard') : setShowSignUpModal(true)}
+              >
                 <Gift className="w-5 h-5 mr-2" />
-                🎁 Download Free Pack
+                {t('footerCTA.downloadFree')}
               </Button>
-              <Button variant="outline" size="lg" className="text-lg px-8 py-4">
+              <Button 
+                variant="outline" 
+                size="lg" 
+                className="text-lg px-8 py-4"
+                onClick={() => setShowLoginModal(true)}
+              >
                 <LogIn className="w-5 h-5 mr-2" />
-                Login / Sign Up
+                {t('footerCTA.loginSignup')}
               </Button>
             </div>
           </div>
@@ -615,21 +628,21 @@ const MotionMintLanding = () => {
           <div className="max-w-md mx-auto mb-12">
             <Card className="glass border-border/50">
               <CardContent className="p-6">
-                <h3 className="text-xl font-semibold mb-4 text-center">Get Free Weekly Animations</h3>
+                <h3 className="text-xl font-semibold mb-4 text-center">{t('newsletter.title')}</h3>
                 <div className="flex gap-2">
                   <Input 
                     type="email" 
-                    placeholder="Enter your email"
+                    placeholder={t('newsletter.placeholder')}
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     className="flex-1"
                   />
                   <Button className="btn-glow">
-                    Subscribe
+                    {t('newsletter.subscribe')}
                   </Button>
                 </div>
                 <p className="text-xs text-muted-foreground mt-2 text-center">
-                  No spam, unsubscribe anytime
+                  {t('newsletter.noSpam')}
                 </p>
               </CardContent>
             </Card>
@@ -638,20 +651,24 @@ const MotionMintLanding = () => {
           <div className="border-t border-border/20 pt-8 text-center text-muted-foreground">
             <div className="flex flex-col md:flex-row justify-between items-center">
               <div className="font-bold text-2xl gradient-text mb-4 md:mb-0">
-                BrandName
+                motiomint
               </div>
               <div className="flex space-x-6 text-sm">
-                <a href="#" className="hover:text-foreground transition-colors">Privacy Policy</a>
-                <a href="#" className="hover:text-foreground transition-colors">Terms of Service</a>
-                <a href="#" className="hover:text-foreground transition-colors">Contact</a>
-                <Button variant="ghost" size="sm">
+                <a href="#" className="hover:text-foreground transition-colors">{t('footer.privacyPolicy')}</a>
+                <a href="#" className="hover:text-foreground transition-colors">{t('footer.termsOfService')}</a>
+                <a href="#" className="hover:text-foreground transition-colors">{t('footer.contact')}</a>
+                <Button 
+                  variant="ghost" 
+                  size="sm"
+                  onClick={() => setShowLoginModal(true)}
+                >
                   <LogIn className="w-4 h-4 mr-2" />
-                  Login / Sign Up
+                  {t('footerCTA.loginSignup')}
                 </Button>
               </div>
             </div>
             <div className="mt-4 text-sm">
-              © 2024 BrandName. All rights reserved. Empowering creators with AI-powered animations.
+              {t('footer.allRightsReserved')}
             </div>
           </div>
         </div>

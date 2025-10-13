@@ -206,8 +206,34 @@
     "removedFromCart": "Removed from cart",
     "error": "Error"
   },
+  "leadMagnet": {
+    "title": "Start Creating Stunning Content Today",
+    "subtitle": "Download 10 free AI animations and see the difference quality content makes. No credit card required.",
+    "downloadFree": "🎁 Download Free Pack Now",
+    "seeAllPacks": "See All Packs"
+  },
+  "testimonials": {
+    "title": "Loved by Creators Worldwide",
+    "rating": "4.9/5",
+    "reviewCount": "(2,847 reviews)"
+  },
+  "footerCTA": {
+    "title": "Ready to Transform Your Content?",
+    "subtitle": "Join thousands of creators who've boosted their engagement with AI-powered animations.",
+    "downloadFree": "🎁 Download Free Pack",
+    "loginSignup": "Login / Sign Up"
+  },
+  "newsletter": {
+    "title": "Get Free Weekly Animations",
+    "placeholder": "Enter your email",
+    "subscribe": "Subscribe",
+    "noSpam": "No spam, unsubscribe anytime"
+  },
   "footer": {
-    "allRightsReserved": "© 2025 MotionMint. All rights reserved."
+    "allRightsReserved": "© 2025 motiomint. All rights reserved. Empowering creators with AI-powered animations.",
+    "privacyPolicy": "Privacy Policy",
+    "termsOfService": "Terms of Service",
+    "contact": "Contact"
   },
   "common": {
     "loading": "Loading...",

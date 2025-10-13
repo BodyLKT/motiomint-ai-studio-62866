@@ -206,8 +206,34 @@
     "removedFromCart": "Retiré du panier",
     "error": "Erreur"
   },
+  "leadMagnet": {
+    "title": "Commencez à Créer du Contenu Époustouflant Aujourd'hui",
+    "subtitle": "Téléchargez 10 animations IA gratuites et voyez la différence que fait un contenu de qualité. Aucune carte de crédit requise.",
+    "downloadFree": "🎁 Télécharger le Pack Gratuit Maintenant",
+    "seeAllPacks": "Voir Tous les Packs"
+  },
+  "testimonials": {
+    "title": "Aimé par les Créateurs du Monde Entier",
+    "rating": "4.9/5",
+    "reviewCount": "(2,847 avis)"
+  },
+  "footerCTA": {
+    "title": "Prêt à Transformer Votre Contenu ?",
+    "subtitle": "Rejoignez des milliers de créateurs qui ont boosté leur engagement avec des animations propulsées par IA.",
+    "downloadFree": "🎁 Télécharger le Pack Gratuit",
+    "loginSignup": "Connexion / Inscription"
+  },
+  "newsletter": {
+    "title": "Recevez des Animations Gratuites Chaque Semaine",
+    "placeholder": "Entrez votre email",
+    "subscribe": "S'abonner",
+    "noSpam": "Pas de spam, désabonnez-vous à tout moment"
+  },
   "footer": {
-    "allRightsReserved": "© 2025 MotionMint. Tous droits réservés."
+    "allRightsReserved": "© 2025 motiomint. Tous droits réservés. Autonomiser les créateurs avec des animations propulsées par IA.",
+    "privacyPolicy": "Politique de Confidentialité",
+    "termsOfService": "Conditions d'Utilisation",
+    "contact": "Contact"
   },
   "common": {
     "loading": "Chargement...",
