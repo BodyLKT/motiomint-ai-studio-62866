@@ -22,6 +22,8 @@ interface Animation {
   thumbnail_url: string;
   preview_url?: string;
   tags: string[];
+  format?: string;
+  resolution?: string;
 }
 
 export default function Dashboard() {
@@ -31,6 +33,7 @@ export default function Dashboard() {
   
   const [animations, setAnimations] = useState<Animation[]>([]);
   const [favorites, setFavorites] = useState<Set<string>>(new Set());
+  const [cart, setCart] = useState<Set<string>>(new Set());
   const [downloads, setDownloads] = useState<number>(0);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
@@ -83,7 +86,7 @@ export default function Dashboard() {
     if (!user) return;
 
     try {
-      const [favoritesRes, downloadsRes] = await Promise.all([
+      const [favoritesRes, downloadsRes, cartRes] = await Promise.all([
         supabase
           .from('user_favorites')
           .select('animation_id')
@@ -92,6 +95,10 @@ export default function Dashboard() {
           .from('user_downloads')
           .select('id')
           .eq('user_id', user.id),
+        supabase
+          .from('user_cart')
+          .select('animation_id')
+          .eq('user_id', user.id),
       ]);
 
       if (favoritesRes.data) {
@@ -99,6 +106,9 @@ export default function Dashboard() {
       }
       if (downloadsRes.data) {
         setDownloads(downloadsRes.data.length);
+      }
+      if (cartRes.data) {
+        setCart(new Set(cartRes.data.map((c: any) => c.animation_id)));
       }
     } catch (error: any) {
       console.error('Error fetching user data:', error);
@@ -137,6 +147,49 @@ export default function Dashboard() {
 
         toast({
           title: 'Added to favorites',
+        });
+      }
+    } catch (error: any) {
+      toast({
+        title: 'Error',
+        description: error.message,
+        variant: 'destructive',
+      });
+    }
+  };
+
+  const toggleCart = async (animationId: string) => {
+    if (!user) return;
+
+    const isInCart = cart.has(animationId);
+
+    try {
+      if (isInCart) {
+        await supabase
+          .from('user_cart')
+          .delete()
+          .eq('user_id', user.id)
+          .eq('animation_id', animationId);
+
+        setCart((prev) => {
+          const newSet = new Set(prev);
+          newSet.delete(animationId);
+          return newSet;
+        });
+
+        toast({
+          title: 'Removed from cart',
+        });
+      } else {
+        await supabase.from('user_cart').insert({
+          user_id: user.id,
+          animation_id: animationId,
+        });
+
+        setCart((prev) => new Set(prev).add(animationId));
+
+        toast({
+          title: 'Added to cart',
         });
       }
     } catch (error: any) {
@@ -304,7 +357,9 @@ export default function Dashboard() {
                       videoUrl={animation.preview_url || animation.file_url}
                       tags={animation.tags}
                       isFavorite={favorites.has(animation.id)}
+                      isInCart={cart.has(animation.id)}
                       onFavoriteToggle={() => toggleFavorite(animation.id)}
+                      onCartToggle={() => toggleCart(animation.id)}
                     />
                   ))}
                 </div>
@@ -345,7 +400,9 @@ export default function Dashboard() {
                       videoUrl={animation.preview_url || animation.file_url}
                       tags={animation.tags}
                       isFavorite={true}
+                      isInCart={cart.has(animation.id)}
                       onFavoriteToggle={() => toggleFavorite(animation.id)}
+                      onCartToggle={() => toggleCart(animation.id)}
                     />
                   ))}
                 </div>

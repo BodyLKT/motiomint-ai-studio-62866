@@ -13,7 +13,9 @@ import {
   TrendingUp,
   Star,
   Clock,
-  Grid3x3
+  Grid3x3,
+  FileVideo,
+  Monitor
 } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from '@/hooks/use-toast';
@@ -31,6 +33,8 @@ interface Animation {
   preview_url?: string;
   tags: string[];
   created_at: string;
+  format?: string;
+  resolution?: string;
 }
 
 const CATEGORY_INFO: Record<string, { description: string; icon: string }> = {
@@ -72,8 +76,11 @@ export default function CategoryPage() {
 
   const [animations, setAnimations] = useState<Animation[]>([]);
   const [favorites, setFavorites] = useState<Set<string>>(new Set());
+  const [cart, setCart] = useState<Set<string>>(new Set());
   const [searchQuery, setSearchQuery] = useState('');
   const [sortBy, setSortBy] = useState<'recent' | 'popular' | 'trending'>('recent');
+  const [selectedFormat, setSelectedFormat] = useState<string>('all');
+  const [selectedResolution, setSelectedResolution] = useState<string>('all');
   const [loadingData, setLoadingData] = useState(true);
 
   useEffect(() => {
@@ -86,6 +93,7 @@ export default function CategoryPage() {
     if (user && category) {
       fetchAnimations();
       fetchUserFavorites();
+      fetchUserCart();
     }
   }, [user, category, sortBy]);
 
@@ -140,6 +148,24 @@ export default function CategoryPage() {
     }
   };
 
+  const fetchUserCart = async () => {
+    if (!user) return;
+
+    try {
+      const { data, error } = await supabase
+        .from('user_cart')
+        .select('animation_id')
+        .eq('user_id', user.id);
+
+      if (error) throw error;
+      if (data) {
+        setCart(new Set(data.map((c: any) => c.animation_id)));
+      }
+    } catch (error: any) {
+      console.error('Error fetching cart:', error);
+    }
+  };
+
   const toggleFavorite = async (animationId: string) => {
     if (!user) return;
 
@@ -183,6 +209,49 @@ export default function CategoryPage() {
     }
   };
 
+  const toggleCart = async (animationId: string) => {
+    if (!user) return;
+
+    const isInCart = cart.has(animationId);
+
+    try {
+      if (isInCart) {
+        await supabase
+          .from('user_cart')
+          .delete()
+          .eq('user_id', user.id)
+          .eq('animation_id', animationId);
+
+        setCart((prev) => {
+          const newSet = new Set(prev);
+          newSet.delete(animationId);
+          return newSet;
+        });
+
+        toast({
+          title: 'Removed from cart',
+        });
+      } else {
+        await supabase.from('user_cart').insert({
+          user_id: user.id,
+          animation_id: animationId,
+        });
+
+        setCart((prev) => new Set(prev).add(animationId));
+
+        toast({
+          title: 'Added to cart',
+        });
+      }
+    } catch (error: any) {
+      toast({
+        title: 'Error',
+        description: error.message,
+        variant: 'destructive',
+      });
+    }
+  };
+
   const handleLogoClick = () => {
     navigate('/');
   };
@@ -205,14 +274,20 @@ export default function CategoryPage() {
   }
 
   const filteredAnimations = animations.filter((animation) => {
-    if (searchQuery === '') return true;
-    
-    return (
+    const matchesSearch =
+      searchQuery === '' ||
       animation.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       animation.description?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      animation.tags.some((tag) => tag.toLowerCase().includes(searchQuery.toLowerCase()))
-    );
+      animation.tags.some((tag) => tag.toLowerCase().includes(searchQuery.toLowerCase()));
+
+    const matchesFormat = selectedFormat === 'all' || animation.format === selectedFormat;
+    const matchesResolution = selectedResolution === 'all' || animation.resolution === selectedResolution;
+    
+    return matchesSearch && matchesFormat && matchesResolution;
   });
+
+  const formats = ['all', ...Array.from(new Set(animations.map(a => a.format).filter(Boolean)))];
+  const resolutions = ['all', ...Array.from(new Set(animations.map(a => a.resolution).filter(Boolean)))];
 
   return (
     <div className="min-h-screen bg-gradient-dark">
@@ -357,6 +432,37 @@ export default function CategoryPage() {
                 </TabsList>
               </Tabs>
             </div>
+
+            {/* Format & Resolution Filters */}
+            <div className="flex flex-wrap gap-4">
+              <div className="flex items-center gap-2">
+                <FileVideo className="h-4 w-4 text-muted-foreground" />
+                <span className="text-sm text-muted-foreground">Format:</span>
+                <Tabs value={selectedFormat} onValueChange={setSelectedFormat} className="w-auto">
+                  <TabsList>
+                    {formats.map((format) => (
+                      <TabsTrigger key={format} value={format} className="text-xs capitalize">
+                        {format}
+                      </TabsTrigger>
+                    ))}
+                  </TabsList>
+                </Tabs>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <Monitor className="h-4 w-4 text-muted-foreground" />
+                <span className="text-sm text-muted-foreground">Resolution:</span>
+                <Tabs value={selectedResolution} onValueChange={setSelectedResolution} className="w-auto">
+                  <TabsList>
+                    {resolutions.map((res) => (
+                      <TabsTrigger key={res} value={res} className="text-xs capitalize">
+                        {res}
+                      </TabsTrigger>
+                    ))}
+                  </TabsList>
+                </Tabs>
+              </div>
+            </div>
           </div>
 
           {/* Animations Grid */}
@@ -383,7 +489,9 @@ export default function CategoryPage() {
                   videoUrl={animation.preview_url || animation.file_url}
                   tags={animation.tags}
                   isFavorite={favorites.has(animation.id)}
+                  isInCart={cart.has(animation.id)}
                   onFavoriteToggle={() => toggleFavorite(animation.id)}
+                  onCartToggle={() => toggleCart(animation.id)}
                 />
               ))}
             </div>

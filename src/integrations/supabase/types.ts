@@ -20,7 +20,9 @@ export type Database = {
           created_at: string
           description: string | null
           file_url: string
+          format: string | null
           id: string
+          resolution: string | null
           tags: string[] | null
           thumbnail_url: string
           title: string
@@ -31,7 +33,9 @@ export type Database = {
           created_at?: string
           description?: string | null
           file_url: string
+          format?: string | null
           id?: string
+          resolution?: string | null
           tags?: string[] | null
           thumbnail_url: string
           title: string
@@ -42,7 +46,9 @@ export type Database = {
           created_at?: string
           description?: string | null
           file_url?: string
+          format?: string | null
           id?: string
+          resolution?: string | null
           tags?: string[] | null
           thumbnail_url?: string
           title?: string
@@ -71,6 +77,27 @@ export type Database = {
           full_name?: string | null
           id?: string
           updated_at?: string
+        }
+        Relationships: []
+      }
+      user_cart: {
+        Row: {
+          added_at: string
+          animation_id: string
+          id: string
+          user_id: string
+        }
+        Insert: {
+          added_at?: string
+          animation_id: string
+          id?: string
+          user_id: string
+        }
+        Update: {
+          added_at?: string
+          animation_id?: string
+          id?: string
+          user_id?: string
         }
         Relationships: []
       }

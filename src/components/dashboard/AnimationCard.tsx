@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Heart, Download } from 'lucide-react';
+import { Heart, Download, ShoppingCart, Loader2 } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from '@/hooks/use-toast';
 import VideoPreview from '@/components/ui/VideoPreview';
@@ -16,7 +16,9 @@ interface AnimationCardProps {
   videoUrl?: string;
   tags: string[];
   isFavorite: boolean;
+  isInCart?: boolean;
   onFavoriteToggle: () => void;
+  onCartToggle?: () => void;
 }
 
 export default function AnimationCard({
@@ -28,7 +30,9 @@ export default function AnimationCard({
   videoUrl,
   tags,
   isFavorite,
+  isInCart = false,
   onFavoriteToggle,
+  onCartToggle,
 }: AnimationCardProps) {
   const [isDownloading, setIsDownloading] = useState(false);
 
@@ -114,15 +118,31 @@ export default function AnimationCard({
             </Badge>
           ))}
         </div>
-        <Button
-          onClick={handleDownload}
-          disabled={isDownloading}
-          className="w-full"
-          variant="hero"
-        >
-          <Download className="mr-2 h-4 w-4" />
-          {isDownloading ? 'Downloading...' : 'Download'}
-        </Button>
+        <div className="flex gap-2">
+          {onCartToggle && (
+            <Button
+              onClick={onCartToggle}
+              variant={isInCart ? "default" : "outline"}
+              className="flex-1"
+            >
+              <ShoppingCart className="mr-2 h-4 w-4" />
+              {isInCart ? 'In Cart' : 'Add to Cart'}
+            </Button>
+          )}
+          <Button
+            onClick={handleDownload}
+            disabled={isDownloading}
+            className="flex-1"
+            variant="hero"
+          >
+            {isDownloading ? (
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            ) : (
+              <Download className="mr-2 h-4 w-4" />
+            )}
+            {isDownloading ? 'Downloading...' : 'Download'}
+          </Button>
+        </div>
       </CardContent>
     </Card>
   );

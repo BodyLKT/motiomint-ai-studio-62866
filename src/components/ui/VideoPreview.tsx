@@ -136,6 +136,11 @@ export default function VideoPreview({
           </div>
         </div>
       )}
+
+      {/* Watermark */}
+      <div className="absolute bottom-2 right-2 text-xs font-semibold text-white/70 bg-black/40 px-2 py-1 rounded pointer-events-none backdrop-blur-sm">
+        motiomint
+      </div>
     </div>
   );
 }
