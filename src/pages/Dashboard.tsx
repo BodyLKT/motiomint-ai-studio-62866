@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -25,6 +25,7 @@ interface Animation {
 export default function Dashboard() {
   const { user, session, loading, signOut } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
   
   const [animations, setAnimations] = useState<Animation[]>([]);
   const [favorites, setFavorites] = useState<Set<string>>(new Set());
@@ -145,6 +146,14 @@ export default function Dashboard() {
     }
   };
 
+  const handleLogoClick = () => {
+    if (location.pathname === '/') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      navigate('/');
+    }
+  };
+
   const handleSignOut = async () => {
     await signOut();
     navigate('/');
@@ -184,10 +193,10 @@ export default function Dashboard() {
       <header className="border-b border-primary/20 bg-background/50 backdrop-blur-lg sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <button
-            onClick={() => navigate('/')}
+            onClick={handleLogoClick}
             className="text-2xl font-bold bg-gradient-primary bg-clip-text text-transparent hover:opacity-80 transition-opacity"
           >
-            BrandName
+            motiomint
           </button>
           <div className="flex items-center gap-2">
             <ThemeToggle />

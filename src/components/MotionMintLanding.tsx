@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -37,6 +37,15 @@ const MotionMintLanding = () => {
   const [showSignUpModal, setShowSignUpModal] = useState(false);
   const { user } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const handleLogoClick = () => {
+    if (location.pathname === '/') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      navigate('/');
+    }
+  };
 
   const categories = [
     {
@@ -153,10 +162,10 @@ const MotionMintLanding = () => {
       <nav className="fixed top-0 w-full z-50 glass border-b border-border/50">
         <div className="container mx-auto px-4 h-16 flex items-center justify-between">
           <button
-            onClick={() => navigate('/')}
+            onClick={handleLogoClick}
             className="font-bold text-2xl gradient-text hover:opacity-80 transition-opacity"
           >
-            BrandName
+            motiomint
           </button>
           <div className="hidden md:flex items-center space-x-8">
             <a href="#benefits" className="text-muted-foreground hover:text-foreground transition-colors">
@@ -275,7 +284,7 @@ const MotionMintLanding = () => {
               <div className="hero-float">
                 <img 
                   src={phoneMockup} 
-                  alt="MotionMint animations on mobile" 
+                  alt="motiomint animations on mobile" 
                   className="w-full max-w-md mx-auto drop-shadow-2xl"
                 />
               </div>
