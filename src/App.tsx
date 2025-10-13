@@ -9,7 +9,6 @@ import { ThemeProvider } from "@/components/ThemeProvider";
 import Index from "./pages/Index";
 import Dashboard from "./pages/Dashboard";
 import CategoryPage from "./pages/CategoryPage";
-import CartPage from "./pages/CartPage";
 import PricingPage from "./pages/PricingPage";
 import NotFound from "./pages/NotFound";
 
@@ -39,14 +38,6 @@ const App = () => (
                 element={
                   <ProtectedRoute>
                     <CategoryPage />
-                  </ProtectedRoute>
-                } 
-              />
-              <Route 
-                path="/cart" 
-                element={
-                  <ProtectedRoute>
-                    <CartPage />
                   </ProtectedRoute>
                 } 
               />

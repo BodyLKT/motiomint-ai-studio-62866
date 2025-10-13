@@ -12,7 +12,6 @@ import CategoryFilter from '@/components/dashboard/CategoryFilter';
 import CategoryGrid from '@/components/dashboard/CategoryGrid';
 import SearchBar from '@/components/dashboard/SearchBar';
 import { ThemeToggle } from '@/components/ThemeToggle';
-import { CartButton } from '@/components/CartButton';
 
 interface Animation {
   id: string;
@@ -255,7 +254,6 @@ export default function Dashboard() {
             motiomint
           </button>
           <div className="flex items-center gap-2">
-            <CartButton />
             <ThemeToggle />
             <Button
               onClick={handleSignOut}

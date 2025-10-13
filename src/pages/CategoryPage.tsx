@@ -22,7 +22,6 @@ import { toast } from '@/hooks/use-toast';
 import AnimationCard from '@/components/dashboard/AnimationCard';
 import SearchBar from '@/components/dashboard/SearchBar';
 import { ThemeToggle } from '@/components/ThemeToggle';
-import { CartButton } from '@/components/CartButton';
 
 interface Animation {
   id: string;
@@ -311,7 +310,6 @@ export default function CategoryPage() {
               <Home size={16} />
               Dashboard
             </Button>
-            <CartButton />
             <ThemeToggle />
             <Button
               onClick={handleSignOut}

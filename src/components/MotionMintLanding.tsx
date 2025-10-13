@@ -26,7 +26,6 @@ import { useAuth } from '@/contexts/AuthContext';
 import { LoginModal } from '@/components/auth/LoginModal';
 import { SignUpModal } from '@/components/auth/SignUpModal';
 import { ThemeToggle } from '@/components/ThemeToggle';
-import { CartButton } from '@/components/CartButton';
 import VideoPreview from '@/components/ui/VideoPreview';
 import heroImage from '@/assets/hero-bg.jpg';
 import phoneMockup from '@/assets/phone-mockup.jpg';
@@ -187,7 +186,6 @@ const MotionMintLanding = () => {
             </a>
           </div>
           <div className="flex items-center space-x-3">
-            <CartButton />
             <ThemeToggle />
             {user ? (
               <Button 
