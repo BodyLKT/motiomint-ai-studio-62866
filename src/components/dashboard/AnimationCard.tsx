@@ -4,10 +4,11 @@ import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Heart, Download, ShoppingCart, Loader2 } from 'lucide-react';
+import { Heart, Download, ShoppingCart, Loader2, Sparkles } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from '@/hooks/use-toast';
 import VideoPreview from '@/components/ui/VideoPreview';
+import EditShareModal from './EditShareModal';
 
 interface AnimationCardProps {
   id: string;
@@ -39,6 +40,7 @@ export default function AnimationCard({
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [isDownloading, setIsDownloading] = useState(false);
+  const [showEditShare, setShowEditShare] = useState(false);
 
   const handleDownload = async () => {
     setIsDownloading(true);
@@ -88,72 +90,95 @@ export default function AnimationCard({
   };
 
   return (
-    <Card className="group overflow-hidden hover:shadow-xl transition-all duration-300 bg-card/50 backdrop-blur-sm border-primary/20">
-      <div 
-        className="relative aspect-video overflow-hidden bg-muted cursor-pointer"
-        onClick={() => navigate(`/animation/${id}`)}
-      >
-        <VideoPreview
-          thumbnailUrl={thumbnailUrl}
-          videoUrl={videoUrl}
-          alt={title}
-          className="w-full h-full group-hover:scale-110 transition-transform duration-300"
-        />
-        <Button
-          size="icon"
-          variant={isFavorite ? "default" : "secondary"}
-          className="absolute top-2 right-2 rounded-full z-10"
-          onClick={(e) => {
-            e.stopPropagation();
-            onFavoriteToggle();
-          }}
+    <>
+      <Card className="group overflow-hidden hover:shadow-xl transition-all duration-300 bg-card/50 backdrop-blur-sm border-primary/20">
+        <div 
+          className="relative aspect-video overflow-hidden bg-muted cursor-pointer"
+          onClick={() => navigate(`/animation/${id}`)}
         >
-          <Heart className={`h-4 w-4 ${isFavorite ? 'fill-current' : ''}`} />
-        </Button>
-      </div>
-      <CardHeader>
-        <div className="flex items-start justify-between gap-2">
-          <div className="flex-1">
-            <CardTitle className="text-lg">{title}</CardTitle>
-            <CardDescription className="mt-1">{description}</CardDescription>
-          </div>
-          <Badge variant="secondary">{category}</Badge>
-        </div>
-      </CardHeader>
-      <CardContent>
-        <div className="flex flex-wrap gap-2 mb-4">
-          {tags.map((tag) => (
-            <Badge key={tag} variant="outline" className="text-xs">
-              {tag}
-            </Badge>
-          ))}
-        </div>
-        <div className="flex gap-2">
-          {onCartToggle && (
-            <Button
-              onClick={onCartToggle}
-              variant={isInCart ? "default" : "outline"}
-              className="flex-1"
-            >
-              <ShoppingCart className="mr-2 h-4 w-4" />
-              {isInCart ? 'In Cart' : 'Add to Cart'}
-            </Button>
-          )}
+          <VideoPreview
+            thumbnailUrl={thumbnailUrl}
+            videoUrl={videoUrl}
+            alt={title}
+            className="w-full h-full group-hover:scale-110 transition-transform duration-300"
+          />
           <Button
-            onClick={handleDownload}
-            disabled={isDownloading}
-            className="flex-1"
-            variant="hero"
+            size="icon"
+            variant={isFavorite ? "default" : "secondary"}
+            className="absolute top-2 right-2 rounded-full z-10"
+            onClick={(e) => {
+              e.stopPropagation();
+              onFavoriteToggle();
+            }}
           >
-            {isDownloading ? (
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-            ) : (
-              <Download className="mr-2 h-4 w-4" />
-            )}
-            {isDownloading ? t('animation.downloading') : t('animation.download')}
+            <Heart className={`h-4 w-4 ${isFavorite ? 'fill-current' : ''}`} />
           </Button>
         </div>
-      </CardContent>
-    </Card>
+        <CardHeader>
+          <div className="flex items-start justify-between gap-2">
+            <div className="flex-1">
+              <CardTitle className="text-lg">{title}</CardTitle>
+              <CardDescription className="mt-1">{description}</CardDescription>
+            </div>
+            <Badge variant="secondary">{category}</Badge>
+          </div>
+        </CardHeader>
+        <CardContent>
+          <div className="flex flex-wrap gap-2 mb-4">
+            {tags.map((tag) => (
+              <Badge key={tag} variant="outline" className="text-xs">
+                {tag}
+              </Badge>
+            ))}
+          </div>
+          <div className="flex flex-col gap-2">
+            <div className="flex gap-2">
+              {onCartToggle && (
+                <Button
+                  onClick={onCartToggle}
+                  variant={isInCart ? "default" : "outline"}
+                  className="flex-1"
+                >
+                  <ShoppingCart className="mr-2 h-4 w-4" />
+                  {isInCart ? 'In Cart' : 'Add to Cart'}
+                </Button>
+              )}
+              <Button
+                onClick={handleDownload}
+                disabled={isDownloading}
+                className="flex-1"
+                variant="hero"
+              >
+                {isDownloading ? (
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                ) : (
+                  <Download className="mr-2 h-4 w-4" />
+                )}
+                {isDownloading ? t('animation.downloading') : t('animation.download')}
+              </Button>
+            </div>
+            <Button
+              onClick={() => setShowEditShare(true)}
+              variant="outline"
+              className="w-full border-primary/30 hover:bg-primary/10"
+            >
+              <Sparkles className="mr-2 h-4 w-4" />
+              {t('editShare.editAndShare')}
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+      
+      <EditShareModal
+        open={showEditShare}
+        onOpenChange={setShowEditShare}
+        animation={{
+          id,
+          title,
+          file_url: videoUrl || thumbnailUrl,
+          thumbnail_url: thumbnailUrl,
+        }}
+      />
+    </>
   );
 }

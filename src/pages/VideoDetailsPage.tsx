@@ -5,12 +5,13 @@ import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { ArrowLeft, Heart, Download, ShoppingCart, Loader2, LogOut } from 'lucide-react';
+import { ArrowLeft, Heart, Download, ShoppingCart, Loader2, LogOut, Sparkles } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from '@/hooks/use-toast';
 import VideoPreview from '@/components/ui/VideoPreview';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { LanguageSelector } from '@/components/LanguageSelector';
+import EditShareModal from '@/components/dashboard/EditShareModal';
 
 interface Animation {
   id: string;
@@ -35,6 +36,7 @@ export default function VideoDetailsPage() {
   const [isInCart, setIsInCart] = useState(false);
   const [isDownloading, setIsDownloading] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [showEditShare, setShowEditShare] = useState(false);
 
   useEffect(() => {
     if (id && user) {
@@ -320,6 +322,16 @@ export default function VideoDetailsPage() {
                   {isDownloading ? t('animation.downloading') : t('animation.download')}
                 </Button>
 
+                <Button
+                  onClick={() => setShowEditShare(true)}
+                  variant="outline"
+                  size="lg"
+                  className="w-full border-primary/30 hover:bg-primary/10"
+                >
+                  <Sparkles className="mr-2 h-5 w-5" />
+                  {t('editShare.editAndShare')}
+                </Button>
+
                 <div className="grid grid-cols-2 gap-3">
                   <Button
                     onClick={toggleFavorite}
@@ -346,6 +358,17 @@ export default function VideoDetailsPage() {
           </div>
         </div>
       </main>
+      
+      <EditShareModal
+        open={showEditShare}
+        onOpenChange={setShowEditShare}
+        animation={{
+          id: animation.id,
+          title: animation.title,
+          file_url: animation.file_url,
+          thumbnail_url: animation.thumbnail_url,
+        }}
+      />
     </div>
   );
 }
