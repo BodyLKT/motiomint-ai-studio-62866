@@ -431,7 +431,12 @@ const MotionMintLanding = () => {
                     </Badge>
                   </div>
                   <p className="text-muted-foreground mb-4">{category.description}</p>
-                  <Button variant="outline" size="sm" className="w-full">
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
+                    className="w-full"
+                    onClick={() => user ? navigate(`/category/${encodeURIComponent(category.title)}`) : setShowSignUpModal(true)}
+                  >
                     View Collection
                     <ArrowRight className="w-4 h-4 ml-2" />
                   </Button>

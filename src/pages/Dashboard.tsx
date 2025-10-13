@@ -4,11 +4,12 @@ import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Loader2, LogOut, Library, Heart, Download as DownloadIcon } from 'lucide-react';
+import { Loader2, LogOut, Library, Heart, Download as DownloadIcon, Grid3x3 } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from '@/hooks/use-toast';
 import AnimationCard from '@/components/dashboard/AnimationCard';
 import CategoryFilter from '@/components/dashboard/CategoryFilter';
+import CategoryGrid from '@/components/dashboard/CategoryGrid';
 import SearchBar from '@/components/dashboard/SearchBar';
 import { ThemeToggle } from '@/components/ThemeToggle';
 
@@ -259,6 +260,10 @@ export default function Dashboard() {
                 <Library className="h-4 w-4" />
                 Library
               </TabsTrigger>
+              <TabsTrigger value="categories" className="gap-2">
+                <Grid3x3 className="h-4 w-4" />
+                Categories
+              </TabsTrigger>
               <TabsTrigger value="favorites" className="gap-2">
                 <Heart className="h-4 w-4" />
                 Favorites
@@ -304,6 +309,18 @@ export default function Dashboard() {
                   ))}
                 </div>
               )}
+            </TabsContent>
+
+            <TabsContent value="categories">
+              <div className="space-y-6">
+                <div className="text-center mb-8">
+                  <h2 className="text-3xl font-bold mb-3">Browse by Category</h2>
+                  <p className="text-muted-foreground">
+                    Explore our curated collections of animations organized by theme
+                  </p>
+                </div>
+                <CategoryGrid categories={categories} />
+              </div>
             </TabsContent>
 
             <TabsContent value="favorites">
