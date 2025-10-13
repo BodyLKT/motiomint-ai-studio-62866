@@ -19,6 +19,7 @@ interface Animation {
   category: string;
   file_url: string;
   thumbnail_url: string;
+  preview_url?: string;
   tags: string[];
 }
 
@@ -295,6 +296,7 @@ export default function Dashboard() {
                       description={animation.description || ''}
                       category={animation.category}
                       thumbnailUrl={animation.thumbnail_url}
+                      videoUrl={animation.preview_url || animation.file_url}
                       tags={animation.tags}
                       isFavorite={favorites.has(animation.id)}
                       onFavoriteToggle={() => toggleFavorite(animation.id)}
@@ -323,6 +325,7 @@ export default function Dashboard() {
                       description={animation.description || ''}
                       category={animation.category}
                       thumbnailUrl={animation.thumbnail_url}
+                      videoUrl={animation.preview_url || animation.file_url}
                       tags={animation.tags}
                       isFavorite={true}
                       onFavoriteToggle={() => toggleFavorite(animation.id)}

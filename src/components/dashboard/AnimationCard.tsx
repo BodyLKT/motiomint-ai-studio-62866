@@ -2,9 +2,10 @@ import { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Heart, Download, Play } from 'lucide-react';
+import { Heart, Download } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from '@/hooks/use-toast';
+import VideoPreview from '@/components/ui/VideoPreview';
 
 interface AnimationCardProps {
   id: string;
@@ -12,6 +13,7 @@ interface AnimationCardProps {
   description: string;
   category: string;
   thumbnailUrl: string;
+  videoUrl?: string;
   tags: string[];
   isFavorite: boolean;
   onFavoriteToggle: () => void;
@@ -23,6 +25,7 @@ export default function AnimationCard({
   description,
   category,
   thumbnailUrl,
+  videoUrl,
   tags,
   isFavorite,
   onFavoriteToggle,
@@ -79,20 +82,16 @@ export default function AnimationCard({
   return (
     <Card className="group overflow-hidden hover:shadow-xl transition-all duration-300 bg-card/50 backdrop-blur-sm border-primary/20">
       <div className="relative aspect-video overflow-hidden bg-muted">
-        <img
-          src={thumbnailUrl}
+        <VideoPreview
+          thumbnailUrl={thumbnailUrl}
+          videoUrl={videoUrl}
           alt={title}
-          className="object-cover w-full h-full group-hover:scale-110 transition-transform duration-300"
+          className="w-full h-full group-hover:scale-110 transition-transform duration-300"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-          <Button size="icon" variant="secondary" className="rounded-full">
-            <Play className="h-5 w-5" />
-          </Button>
-        </div>
         <Button
           size="icon"
           variant={isFavorite ? "default" : "secondary"}
-          className="absolute top-2 right-2 rounded-full"
+          className="absolute top-2 right-2 rounded-full z-10"
           onClick={onFavoriteToggle}
         >
           <Heart className={`h-4 w-4 ${isFavorite ? 'fill-current' : ''}`} />

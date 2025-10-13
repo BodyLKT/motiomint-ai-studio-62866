@@ -26,6 +26,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { LoginModal } from '@/components/auth/LoginModal';
 import { SignUpModal } from '@/components/auth/SignUpModal';
 import { ThemeToggle } from '@/components/ThemeToggle';
+import VideoPreview from '@/components/ui/VideoPreview';
 import heroImage from '@/assets/hero-bg.jpg';
 import phoneMockup from '@/assets/phone-mockup.jpg';
 import techAnimation from '@/assets/tech-animation.jpg';
@@ -52,36 +53,42 @@ const MotionMintLanding = () => {
       title: 'Tech & Futuristic',
       description: 'Holographic interfaces, circuit patterns, AI visuals',
       image: techAnimation,
+      video: techAnimation, // Will be replaced with actual video URLs when available
       count: '120+ animations'
     },
     {
       title: 'Fitness & Lifestyle',
       description: 'Workout graphics, health metrics, energy flows',
       image: fitnessAnimation,
+      video: fitnessAnimation,
       count: '85+ animations'
     },
     {
       title: 'Business & Finance',
       description: 'Charts, graphs, corporate motion graphics',
       image: techAnimation,
+      video: techAnimation,
       count: '95+ animations'
     },
     {
       title: 'Travel & Nature',
       description: 'Landscapes, travel routes, nature elements',
       image: fitnessAnimation,
+      video: fitnessAnimation,
       count: '110+ animations'
     },
     {
       title: 'Abstract Backgrounds',
       description: 'Flowing shapes, particles, gradient motions',
       image: techAnimation,
+      video: techAnimation,
       count: '200+ animations'
     },
     {
       title: 'Social Media Hooks',
       description: 'Attention-grabbing intros and transitions',
       image: fitnessAnimation,
+      video: fitnessAnimation,
       count: '150+ animations'
     }
   ];
@@ -408,11 +415,12 @@ const MotionMintLanding = () => {
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {categories.map((category, index) => (
               <Card key={index} className="glass grid-item border-border/50 overflow-hidden group">
-                <div className="video-mockup h-64">
-                  <img 
-                    src={category.image} 
+                <div className="video-mockup h-64 relative">
+                  <VideoPreview
+                    thumbnailUrl={category.image}
+                    videoUrl={category.video}
                     alt={category.title}
-                    className="w-full h-full object-cover transition-transform group-hover:scale-110"
+                    className="w-full h-full transition-transform group-hover:scale-110"
                   />
                 </div>
                 <CardContent className="p-6">
