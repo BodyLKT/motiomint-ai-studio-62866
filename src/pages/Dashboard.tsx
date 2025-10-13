@@ -17,6 +17,7 @@ import AccountSettings from '@/components/dashboard/AccountSettings';
 import DownloadHistory from '@/components/dashboard/DownloadHistory';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { LanguageSelector } from '@/components/LanguageSelector';
+import { CartButton } from '@/components/CartButton';
 
 interface Animation {
   id: string;
@@ -186,6 +187,8 @@ export default function Dashboard() {
         toast({
           title: t('animation.removedFromCart'),
         });
+        
+        window.dispatchEvent(new Event('cart-updated'));
       } else {
         await supabase.from('user_cart').insert({
           user_id: user.id,
@@ -197,6 +200,8 @@ export default function Dashboard() {
         toast({
           title: t('animation.addedToCart'),
         });
+        
+        window.dispatchEvent(new Event('cart-updated'));
       }
     } catch (error: any) {
       toast({
@@ -260,6 +265,7 @@ export default function Dashboard() {
             motiomint
           </button>
           <div className="flex items-center gap-2">
+            <CartButton />
             <LanguageSelector />
             <ThemeToggle />
             <Button

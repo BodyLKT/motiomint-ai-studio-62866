@@ -12,6 +12,7 @@ import Dashboard from "./pages/Dashboard";
 import CategoryPage from "./pages/CategoryPage";
 import PricingPage from "./pages/PricingPage";
 import VideoDetailsPage from "./pages/VideoDetailsPage";
+import CartPage from "./pages/CartPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -48,6 +49,14 @@ const App = () => (
                 element={
                   <ProtectedRoute>
                     <VideoDetailsPage />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/cart" 
+                element={
+                  <ProtectedRoute>
+                    <CartPage />
                   </ProtectedRoute>
                 } 
               />
