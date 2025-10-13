@@ -23,7 +23,6 @@ interface DownloadHistoryItem {
     category: string;
     file_url: string;
     thumbnail_url: string;
-    preview_url?: string;
     tags: string[];
     format?: string;
     resolution?: string;
@@ -69,7 +68,6 @@ export default function DownloadHistory() {
             category,
             file_url,
             thumbnail_url,
-            preview_url,
             tags,
             format,
             resolution
@@ -330,7 +328,7 @@ export default function DownloadHistory() {
               <div className="relative aspect-video overflow-hidden bg-muted">
                 <VideoPreview
                   thumbnailUrl={item.animation.thumbnail_url}
-                  videoUrl={item.animation.preview_url || item.animation.file_url}
+                  videoUrl={item.animation.file_url}
                   alt={item.animation.title}
                   className="w-full h-full group-hover:scale-110 transition-transform duration-300"
                 />
