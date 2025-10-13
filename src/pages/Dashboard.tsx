@@ -5,13 +5,15 @@ import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Loader2, LogOut, Library, Heart, Download as DownloadIcon, Grid3x3 } from 'lucide-react';
+import { Loader2, LogOut, Library, Heart, Download as DownloadIcon, Grid3x3, User } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from '@/hooks/use-toast';
 import AnimationCard from '@/components/dashboard/AnimationCard';
 import CategoryFilter from '@/components/dashboard/CategoryFilter';
 import CategoryGrid from '@/components/dashboard/CategoryGrid';
 import SearchBar from '@/components/dashboard/SearchBar';
+import SubscriptionStatus from '@/components/dashboard/SubscriptionStatus';
+import AccountSettings from '@/components/dashboard/AccountSettings';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { LanguageSelector } from '@/components/LanguageSelector';
 
@@ -287,6 +289,11 @@ export default function Dashboard() {
             </p>
           </div>
 
+          {/* Subscription Status */}
+          <div className="mb-8">
+            <SubscriptionStatus />
+          </div>
+
           {/* Quick Stats */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
             <Card className="p-6 bg-card/50 backdrop-blur-sm border-primary/20">
@@ -326,6 +333,10 @@ export default function Dashboard() {
               <TabsTrigger value="favorites" className="gap-2">
                 <Heart className="h-4 w-4" />
                 {t('dashboard.favorites')}
+              </TabsTrigger>
+              <TabsTrigger value="settings" className="gap-2">
+                <User className="h-4 w-4" />
+                {t('dashboard.accountSettings')}
               </TabsTrigger>
             </TabsList>
 
@@ -454,6 +465,10 @@ export default function Dashboard() {
                   ))}
                 </div>
               )}
+            </TabsContent>
+
+            <TabsContent value="settings">
+              <AccountSettings />
             </TabsContent>
           </Tabs>
         </div>
