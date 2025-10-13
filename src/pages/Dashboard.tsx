@@ -278,7 +278,7 @@ export default function Dashboard() {
       <main className="container mx-auto px-4 py-12">
         <div className="max-w-6xl mx-auto">
           {/* Welcome Section */}
-          <div className="mb-12">
+          <div className="mb-8">
             <h1 className="text-4xl md:text-5xl font-bold mb-4">
               {user.user_metadata?.full_name 
                 ? t('dashboard.welcome', { name: user.user_metadata.full_name })
@@ -289,58 +289,72 @@ export default function Dashboard() {
             </p>
           </div>
 
-          {/* Subscription Status */}
-          <div className="mb-8">
-            <SubscriptionStatus />
-          </div>
-
-          {/* Quick Stats */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-            <Card className="p-6 bg-card/50 backdrop-blur-sm border-primary/20">
-              <div className="flex items-center gap-3 mb-2">
-                <Library className="h-5 w-5 text-primary" />
-                <h3 className="text-sm text-muted-foreground">{t('dashboard.totalAnimations')}</h3>
-              </div>
-              <p className="text-3xl font-bold">{animations.length}</p>
-            </Card>
-            <Card className="p-6 bg-card/50 backdrop-blur-sm border-primary/20">
-              <div className="flex items-center gap-3 mb-2">
-                <Heart className="h-5 w-5 text-primary" />
-                <h3 className="text-sm text-muted-foreground">{t('dashboard.favorites')}</h3>
-              </div>
-              <p className="text-3xl font-bold">{favorites.size}</p>
-            </Card>
-            <Card className="p-6 bg-card/50 backdrop-blur-sm border-primary/20">
-              <div className="flex items-center gap-3 mb-2">
-                <DownloadIcon className="h-5 w-5 text-primary" />
-                <h3 className="text-sm text-muted-foreground">{t('dashboard.downloads')}</h3>
-              </div>
-              <p className="text-3xl font-bold">{downloads}</p>
-            </Card>
-          </div>
-
-          {/* Animation Library */}
+          {/* Enhanced Navigation Tabs - Moved to Prominent Position */}
           <Tabs defaultValue="library" className="w-full">
-            <TabsList className="mb-6">
-              <TabsTrigger value="library" className="gap-2">
-                <Library className="h-4 w-4" />
-                {t('dashboard.library')}
-              </TabsTrigger>
-              <TabsTrigger value="categories" className="gap-2">
-                <Grid3x3 className="h-4 w-4" />
-                {t('dashboard.categories')}
-              </TabsTrigger>
-              <TabsTrigger value="favorites" className="gap-2">
-                <Heart className="h-4 w-4" />
-                {t('dashboard.favorites')}
-              </TabsTrigger>
-              <TabsTrigger value="settings" className="gap-2">
-                <User className="h-4 w-4" />
-                {t('dashboard.accountSettings')}
-              </TabsTrigger>
-            </TabsList>
+            <div className="sticky top-[73px] z-40 bg-background/95 backdrop-blur-lg border-b border-primary/10 -mx-4 px-4 mb-8">
+              <TabsList className="w-full md:w-auto h-auto p-1 bg-card/50 border border-primary/20 shadow-lg">
+                <TabsTrigger 
+                  value="library" 
+                  className="gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-glow font-medium px-6 py-3"
+                >
+                  <Library className="h-4 w-4" />
+                  <span className="hidden sm:inline">{t('dashboard.library')}</span>
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="categories" 
+                  className="gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-glow font-medium px-6 py-3"
+                >
+                  <Grid3x3 className="h-4 w-4" />
+                  <span className="hidden sm:inline">{t('dashboard.categories')}</span>
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="favorites" 
+                  className="gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-glow font-medium px-6 py-3"
+                >
+                  <Heart className="h-4 w-4" />
+                  <span className="hidden sm:inline">{t('dashboard.favorites')}</span>
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="settings" 
+                  className="gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-glow font-medium px-6 py-3"
+                >
+                  <User className="h-4 w-4" />
+                  <span className="hidden sm:inline">{t('dashboard.accountSettings')}</span>
+                </TabsTrigger>
+              </TabsList>
+            </div>
 
-            <TabsContent value="library" className="space-y-6">
+            {/* Subscription Status - Shown only on Library and Settings tabs */}
+            <TabsContent value="library" className="mt-0">
+              <div className="mb-8">
+                <SubscriptionStatus />
+              </div>
+
+              {/* Quick Stats */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <Card className="p-6 bg-card/50 backdrop-blur-sm border-primary/20">
+                  <div className="flex items-center gap-3 mb-2">
+                    <Library className="h-5 w-5 text-primary" />
+                    <h3 className="text-sm text-muted-foreground">{t('dashboard.totalAnimations')}</h3>
+                  </div>
+                  <p className="text-3xl font-bold">{animations.length}</p>
+                </Card>
+                <Card className="p-6 bg-card/50 backdrop-blur-sm border-primary/20">
+                  <div className="flex items-center gap-3 mb-2">
+                    <Heart className="h-5 w-5 text-primary" />
+                    <h3 className="text-sm text-muted-foreground">{t('dashboard.favorites')}</h3>
+                  </div>
+                  <p className="text-3xl font-bold">{favorites.size}</p>
+                </Card>
+                <Card className="p-6 bg-card/50 backdrop-blur-sm border-primary/20">
+                  <div className="flex items-center gap-3 mb-2">
+                    <DownloadIcon className="h-5 w-5 text-primary" />
+                    <h3 className="text-sm text-muted-foreground">{t('dashboard.downloads')}</h3>
+                  </div>
+                  <p className="text-3xl font-bold">{downloads}</p>
+                </Card>
+              </div>
+
               <div className="flex flex-col md:flex-row gap-4">
                 <div className="flex-1">
                   <SearchBar value={searchQuery} onChange={setSearchQuery} />
@@ -468,6 +482,9 @@ export default function Dashboard() {
             </TabsContent>
 
             <TabsContent value="settings">
+              <div className="mb-8">
+                <SubscriptionStatus />
+              </div>
               <AccountSettings />
             </TabsContent>
           </Tabs>
