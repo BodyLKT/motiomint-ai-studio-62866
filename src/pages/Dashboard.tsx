@@ -138,7 +138,7 @@ export default function Dashboard() {
         });
 
         toast({
-          title: 'Removed from favorites',
+          title: t('animation.removedFromFavorites'),
         });
       } else {
         await supabase.from('user_favorites').insert({
@@ -149,12 +149,12 @@ export default function Dashboard() {
         setFavorites((prev) => new Set(prev).add(animationId));
 
         toast({
-          title: 'Added to favorites',
+          title: t('animation.addedToFavorites'),
         });
       }
     } catch (error: any) {
       toast({
-        title: 'Error',
+        title: t('animation.error'),
         description: error.message,
         variant: 'destructive',
       });
@@ -181,7 +181,7 @@ export default function Dashboard() {
         });
 
         toast({
-          title: 'Removed from cart',
+          title: t('animation.removedFromCart'),
         });
       } else {
         await supabase.from('user_cart').insert({
@@ -192,12 +192,12 @@ export default function Dashboard() {
         setCart((prev) => new Set(prev).add(animationId));
 
         toast({
-          title: 'Added to cart',
+          title: t('animation.addedToCart'),
         });
       }
     } catch (error: any) {
       toast({
-        title: 'Error',
+        title: t('animation.error'),
         description: error.message,
         variant: 'destructive',
       });
@@ -348,7 +348,7 @@ export default function Dashboard() {
                 </div>
               ) : filteredAnimations.length === 0 ? (
                 <Card className="p-12 text-center bg-card/50 backdrop-blur-sm border-primary/20">
-                  <p className="text-muted-foreground">No animations found matching your criteria.</p>
+                  <p className="text-muted-foreground">{t('dashboard.noAnimations')}</p>
                 </Card>
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -375,9 +375,9 @@ export default function Dashboard() {
             <TabsContent value="categories">
               <div className="space-y-6">
                 <div className="text-center mb-8">
-                  <h2 className="text-3xl font-bold mb-3">Browse by Category</h2>
+                  <h2 className="text-3xl font-bold mb-3">{t('dashboard.browseByCategory')}</h2>
                   <p className="text-muted-foreground">
-                    Explore our curated collections of animations organized by theme
+                    {t('dashboard.browseByCategorySubtitle')}
                   </p>
                 </div>
                 <CategoryGrid categories={categories} />
@@ -388,9 +388,9 @@ export default function Dashboard() {
               {favoriteAnimations.length === 0 ? (
                 <Card className="p-12 text-center bg-card/50 backdrop-blur-sm border-primary/20">
                   <Heart className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
-                  <h3 className="text-xl font-semibold mb-2">No favorites yet</h3>
+                  <h3 className="text-xl font-semibold mb-2">{t('dashboard.noFavorites')}</h3>
                   <p className="text-muted-foreground">
-                    Start adding animations to your favorites to see them here!
+                    {t('dashboard.noFavoritesSubtitle')}
                   </p>
                 </Card>
               ) : (

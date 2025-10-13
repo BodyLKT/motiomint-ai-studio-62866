@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -34,6 +35,7 @@ export default function AnimationCard({
   onFavoriteToggle,
   onCartToggle,
 }: AnimationCardProps) {
+  const { t } = useTranslation();
   const [isDownloading, setIsDownloading] = useState(false);
 
   const handleDownload = async () => {
@@ -66,15 +68,15 @@ export default function AnimationCard({
       document.body.removeChild(link);
 
       toast({
-        title: 'Download complete!',
-        description: `${title} has been downloaded.`,
+        title: t('animation.downloadComplete'),
+        description: t('animation.downloadCompleteDesc', { title }),
       });
 
       // Refresh page to update stats
       window.dispatchEvent(new CustomEvent('download-complete'));
     } catch (error: any) {
       toast({
-        title: 'Download failed',
+        title: t('animation.downloadFailed'),
         description: error.message,
         variant: 'destructive',
       });
@@ -140,7 +142,7 @@ export default function AnimationCard({
             ) : (
               <Download className="mr-2 h-4 w-4" />
             )}
-            {isDownloading ? 'Downloading...' : 'Download'}
+            {isDownloading ? t('animation.downloading') : t('animation.download')}
           </Button>
         </div>
       </CardContent>

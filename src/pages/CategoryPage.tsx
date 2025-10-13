@@ -189,7 +189,7 @@ export default function CategoryPage() {
         });
 
         toast({
-          title: 'Removed from favorites',
+          title: t('animation.removedFromFavorites'),
         });
       } else {
         await supabase.from('user_favorites').insert({
@@ -200,12 +200,12 @@ export default function CategoryPage() {
         setFavorites((prev) => new Set(prev).add(animationId));
 
         toast({
-          title: 'Added to favorites',
+          title: t('animation.addedToFavorites'),
         });
       }
     } catch (error: any) {
       toast({
-        title: 'Error',
+        title: t('animation.error'),
         description: error.message,
         variant: 'destructive',
       });
@@ -232,7 +232,7 @@ export default function CategoryPage() {
         });
 
         toast({
-          title: 'Removed from cart',
+          title: t('animation.removedFromCart'),
         });
       } else {
         await supabase.from('user_cart').insert({
@@ -243,12 +243,12 @@ export default function CategoryPage() {
         setCart((prev) => new Set(prev).add(animationId));
 
         toast({
-          title: 'Added to cart',
+          title: t('animation.addedToCart'),
         });
       }
     } catch (error: any) {
       toast({
-        title: 'Error',
+        title: t('animation.error'),
         description: error.message,
         variant: 'destructive',
       });
@@ -339,7 +339,7 @@ export default function CategoryPage() {
             className="mb-6 gap-2"
           >
             <ArrowLeft size={16} />
-            Back to Dashboard
+            {t('nav.backToDashboard')}
           </Button>
 
           {/* Category Header */}
@@ -379,14 +379,14 @@ export default function CategoryPage() {
             <Card className="p-4 bg-card/50 backdrop-blur-sm border-primary/20">
               <div className="flex items-center gap-2 mb-1">
                 <Grid3x3 className="h-4 w-4 text-primary" />
-                <h3 className="text-sm text-muted-foreground">Total</h3>
+                <h3 className="text-sm text-muted-foreground">{t('category.total')}</h3>
               </div>
               <p className="text-2xl font-bold">{animations.length}</p>
             </Card>
             <Card className="p-4 bg-card/50 backdrop-blur-sm border-primary/20">
               <div className="flex items-center gap-2 mb-1">
                 <Star className="h-4 w-4 text-primary" />
-                <h3 className="text-sm text-muted-foreground">Favorites</h3>
+                <h3 className="text-sm text-muted-foreground">{t('dashboard.favorites')}</h3>
               </div>
               <p className="text-2xl font-bold">
                 {filteredAnimations.filter(a => favorites.has(a.id)).length}
@@ -395,7 +395,7 @@ export default function CategoryPage() {
             <Card className="p-4 bg-card/50 backdrop-blur-sm border-primary/20">
               <div className="flex items-center gap-2 mb-1">
                 <Clock className="h-4 w-4 text-primary" />
-                <h3 className="text-sm text-muted-foreground">Recent</h3>
+                <h3 className="text-sm text-muted-foreground">{t('category.recent')}</h3>
               </div>
               <p className="text-2xl font-bold">
                 {animations.filter(a => {
@@ -407,7 +407,7 @@ export default function CategoryPage() {
             <Card className="p-4 bg-card/50 backdrop-blur-sm border-primary/20">
               <div className="flex items-center gap-2 mb-1">
                 <TrendingUp className="h-4 w-4 text-primary" />
-                <h3 className="text-sm text-muted-foreground">Trending</h3>
+                <h3 className="text-sm text-muted-foreground">{t('category.trending')}</h3>
               </div>
               <p className="text-2xl font-bold">{Math.min(animations.length, 12)}</p>
             </Card>
@@ -423,15 +423,15 @@ export default function CategoryPage() {
                 <TabsList>
                   <TabsTrigger value="recent" className="gap-2">
                     <Clock className="h-4 w-4" />
-                    Recent
+                    {t('category.recent')}
                   </TabsTrigger>
                   <TabsTrigger value="popular" className="gap-2">
                     <Star className="h-4 w-4" />
-                    Popular
+                    {t('category.popular')}
                   </TabsTrigger>
                   <TabsTrigger value="trending" className="gap-2">
                     <TrendingUp className="h-4 w-4" />
-                    Trending
+                    {t('category.trending')}
                   </TabsTrigger>
                 </TabsList>
               </Tabs>
@@ -441,12 +441,12 @@ export default function CategoryPage() {
             <div className="flex flex-wrap gap-4">
               <div className="flex items-center gap-2">
                 <FileVideo className="h-4 w-4 text-muted-foreground" />
-                <span className="text-sm text-muted-foreground">Format:</span>
+                <span className="text-sm text-muted-foreground">{t('category.format')}</span>
                 <Tabs value={selectedFormat} onValueChange={setSelectedFormat} className="w-auto">
                   <TabsList>
                     {formats.map((format) => (
                       <TabsTrigger key={format} value={format} className="text-xs capitalize">
-                        {format}
+                        {format === 'all' ? t('category.all') : format}
                       </TabsTrigger>
                     ))}
                   </TabsList>
@@ -455,12 +455,12 @@ export default function CategoryPage() {
 
               <div className="flex items-center gap-2">
                 <Monitor className="h-4 w-4 text-muted-foreground" />
-                <span className="text-sm text-muted-foreground">Resolution:</span>
+                <span className="text-sm text-muted-foreground">{t('category.resolution')}</span>
                 <Tabs value={selectedResolution} onValueChange={setSelectedResolution} className="w-auto">
                   <TabsList>
                     {resolutions.map((res) => (
                       <TabsTrigger key={res} value={res} className="text-xs capitalize">
-                        {res}
+                        {res === 'all' ? t('category.all') : res}
                       </TabsTrigger>
                     ))}
                   </TabsList>
@@ -477,7 +477,7 @@ export default function CategoryPage() {
           ) : filteredAnimations.length === 0 ? (
             <Card className="p-12 text-center bg-card/50 backdrop-blur-sm border-primary/20">
               <p className="text-muted-foreground text-lg">
-                No animations found in this category.
+                {t('category.noAnimations')}
               </p>
             </Card>
           ) : (

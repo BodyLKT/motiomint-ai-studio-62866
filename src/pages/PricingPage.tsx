@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -7,6 +8,7 @@ import { CheckCircle, ArrowRight, ArrowLeft } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 
 const PricingPage = () => {
+  const { t } = useTranslation();
   const [selectedTab, setSelectedTab] = useState<'oneTime' | 'subscription'>('oneTime');
   const navigate = useNavigate();
   const { user } = useAuth();
@@ -82,7 +84,7 @@ const PricingPage = () => {
           <Button variant="outline" asChild>
             <Link to="/">
               <ArrowLeft className="w-4 h-4 mr-2" />
-              Back to Home
+              {t('nav.backToHome')}
             </Link>
           </Button>
         </div>
@@ -93,10 +95,10 @@ const PricingPage = () => {
         <div className="container mx-auto px-4">
           <div className="text-center mb-16 max-w-3xl mx-auto">
             <h1 className="text-5xl lg:text-7xl font-bold mb-6 gradient-text">
-              Choose Your Plan
+              {t('pricing.title')}
             </h1>
             <p className="text-xl text-muted-foreground">
-              Select the perfect plan for your content creation needs. One-time purchases or flexible subscriptions.
+              {t('pricing.subtitle')}
             </p>
           </div>
 
@@ -109,7 +111,7 @@ const PricingPage = () => {
                 onClick={() => setSelectedTab('oneTime')}
                 className={selectedTab === 'oneTime' ? 'btn-glow' : ''}
               >
-                One-time Packs
+                {t('pricing.oneTimePacks')}
               </Button>
               <Button 
                 variant={selectedTab === 'subscription' ? 'default' : 'ghost'} 
@@ -117,7 +119,7 @@ const PricingPage = () => {
                 onClick={() => setSelectedTab('subscription')}
                 className={selectedTab === 'subscription' ? 'btn-glow' : ''}
               >
-                Subscriptions
+                {t('pricing.subscriptions')}
               </Button>
             </div>
           </div>
@@ -134,7 +136,7 @@ const PricingPage = () => {
                 {plan.popular && (
                   <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
                     <Badge className="bg-primary text-primary-foreground px-4 py-1 text-sm font-semibold">
-                      Most Popular
+                      {t('pricing.mostPopular')}
                     </Badge>
                   </div>
                 )}
@@ -160,7 +162,7 @@ const PricingPage = () => {
                     size="lg"
                     onClick={() => handleGetStarted(plan.name)}
                   >
-                    Get Started
+                    {t('pricing.getStarted')}
                     <ArrowRight className="w-4 h-4 ml-2" />
                   </Button>
                 </CardContent>
@@ -171,20 +173,20 @@ const PricingPage = () => {
           {/* Additional Info */}
           <div className="mt-16 text-center">
             <p className="text-muted-foreground mb-4">
-              All plans include commercial license and instant download access
+              {t('pricing.additionalInfo')}
             </p>
             <div className="flex justify-center gap-4 flex-wrap">
               <Badge variant="outline" className="px-4 py-2">
-                ✓ No Hidden Fees
+                {t('pricing.noHiddenFees')}
               </Badge>
               <Badge variant="outline" className="px-4 py-2">
-                ✓ Secure Payment
+                {t('pricing.securePayment')}
               </Badge>
               <Badge variant="outline" className="px-4 py-2">
-                ✓ Instant Access
+                {t('pricing.instantAccess')}
               </Badge>
               <Badge variant="outline" className="px-4 py-2">
-                ✓ Cancel Anytime
+                {t('pricing.cancelAnytime')}
               </Badge>
             </div>
           </div>

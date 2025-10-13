@@ -308,32 +308,32 @@ const MotionMintLanding = () => {
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-4xl lg:text-5xl font-bold mb-6">
-              Why Choose Us?
+              {t('benefits.title')}
             </h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Transform your content strategy with professional AI animations
+              {t('benefits.subtitle')}
             </p>
           </div>
           
           <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
             {[
               {
-                title: 'Save Time',
-                description: 'Ready-to-use animations that work instantly. No design skills needed.',
+                title: t('benefits.saveTime.title'),
+                description: t('benefits.saveTime.description'),
                 icon: <Clock className="w-8 h-8" />,
-                highlight: 'Ready-to-use'
+                highlight: t('benefits.saveTime.highlight')
               },
               {
-                title: 'Go Viral',
-                description: 'Optimized for TikTok, Reels, and Shorts to maximize engagement.',
+                title: t('benefits.goViral.title'),
+                description: t('benefits.goViral.description'),
                 icon: <TrendingUp className="w-8 h-8" />,
-                highlight: 'Viral-ready'
+                highlight: t('benefits.goViral.highlight')
               },
               {
-                title: 'Affordable',
-                description: 'Professional animations starting from just 29€. No monthly designer costs.',
+                title: t('benefits.affordable.title'),
+                description: t('benefits.affordable.description'),
                 icon: <DollarSign className="w-8 h-8" />,
-                highlight: 'From 29€'
+                highlight: t('benefits.affordable.highlight')
               }
             ].map((benefit, index) => (
               <Card key={index} className="glass grid-item border-border/50 hover:border-primary/30 text-center">
@@ -358,10 +358,10 @@ const MotionMintLanding = () => {
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-4xl lg:text-5xl font-bold mb-6">
-              How It Works
+              {t('howItWorks.title')}
             </h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Get professional content in 3 simple steps
+              {t('howItWorks.subtitle')}
             </p>
           </div>
           
@@ -369,20 +369,20 @@ const MotionMintLanding = () => {
             {[
               {
                 step: '01',
-                title: 'Pick an Animation',
-                description: 'Choose from our curated collection of viral-ready animations',
+                title: t('howItWorks.step1.title'),
+                description: t('howItWorks.step1.description'),
                 icon: <Zap className="w-8 h-8" />
               },
               {
                 step: '02',
-                title: 'Add Text/Logo',
-                description: 'Customize in Canva or CapCut with your branding in seconds',
+                title: t('howItWorks.step2.title'),
+                description: t('howItWorks.step2.description'),
                 icon: <Download className="w-8 h-8" />
               },
               {
                 step: '03',
-                title: 'Post Instantly',
-                description: 'Upload to TikTok, Instagram, Facebook and watch engagement soar',
+                title: t('howItWorks.step3.title'),
+                description: t('howItWorks.step3.description'),
                 icon: <Smartphone className="w-8 h-8" />
               }
             ].map((item, index) => (
@@ -408,10 +408,10 @@ const MotionMintLanding = () => {
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-4xl lg:text-5xl font-bold mb-6">
-              Product Preview
+              {t('categories.title')}
             </h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Discover viral-ready animations for every type of content
+              {t('categories.subtitle')}
             </p>
           </div>
           
@@ -440,7 +440,7 @@ const MotionMintLanding = () => {
                     className="w-full"
                     onClick={() => user ? navigate(`/category/${encodeURIComponent(category.title)}`) : setShowSignUpModal(true)}
                   >
-                    View Collection
+                    {t('categories.viewCollection')}
                     <ArrowRight className="w-4 h-4 ml-2" />
                   </Button>
                 </CardContent>
@@ -455,10 +455,10 @@ const MotionMintLanding = () => {
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-4xl lg:text-5xl font-bold mb-6">
-              Choose Your Plan
+              {t('pricing.title')}
             </h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              One-time purchases or flexible subscriptions. Cancel anytime.
+              {t('pricing.subtitle')}
             </p>
           </div>
           
@@ -466,10 +466,10 @@ const MotionMintLanding = () => {
             <div className="flex justify-center mb-8">
               <div className="bg-muted p-1 rounded-lg">
                 <Button variant="default" size="sm" className="mr-2">
-                  One-time Packs
+                  {t('pricing.oneTimePacks')}
                 </Button>
                 <Button variant="ghost" size="sm">
-                  Subscriptions
+                  {t('pricing.subscriptions')}
                 </Button>
               </div>
             </div>
@@ -480,7 +480,7 @@ const MotionMintLanding = () => {
                   {plan.popular && (
                     <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
                       <Badge className="bg-primary text-primary-foreground px-4 py-1">
-                        Most Popular
+                        {t('pricing.mostPopular')}
                       </Badge>
                     </div>
                   )}
@@ -505,7 +505,7 @@ const MotionMintLanding = () => {
                       variant={plan.popular ? 'default' : 'outline'}
                       onClick={() => navigate('/pricing')}
                     >
-                      Get Started
+                      {t('pricing.getStarted')}
                       <ArrowRight className="w-4 h-4 ml-2" />
                     </Button>
                   </CardContent>
