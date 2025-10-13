@@ -39,6 +39,7 @@ const MotionMintLanding = () => {
   const [email, setEmail] = useState('');
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showSignUpModal, setShowSignUpModal] = useState(false);
+  const [selectedPricingTab, setSelectedPricingTab] = useState<'oneTime' | 'subscription'>('oneTime');
   const { user } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
@@ -465,17 +466,27 @@ const MotionMintLanding = () => {
           <div className="mb-12">
             <div className="flex justify-center mb-8">
               <div className="bg-muted p-1 rounded-lg">
-                <Button variant="default" size="sm" className="mr-2">
+                <Button 
+                  variant={selectedPricingTab === 'oneTime' ? 'default' : 'ghost'} 
+                  size="sm" 
+                  className={`mr-2 ${selectedPricingTab === 'oneTime' ? 'btn-glow' : ''}`}
+                  onClick={() => setSelectedPricingTab('oneTime')}
+                >
                   {t('pricing.oneTimePacks')}
                 </Button>
-                <Button variant="ghost" size="sm">
+                <Button 
+                  variant={selectedPricingTab === 'subscription' ? 'default' : 'ghost'} 
+                  size="sm"
+                  className={selectedPricingTab === 'subscription' ? 'btn-glow' : ''}
+                  onClick={() => setSelectedPricingTab('subscription')}
+                >
                   {t('pricing.subscriptions')}
                 </Button>
               </div>
             </div>
             
             <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-              {pricingPlans.oneTime.map((plan, index) => (
+              {pricingPlans[selectedPricingTab].map((plan, index) => (
                 <Card key={index} className={`glass pricing-card border-border/50 relative ${plan.popular ? 'border-primary/50 glow-primary' : ''}`}>
                   {plan.popular && (
                     <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
