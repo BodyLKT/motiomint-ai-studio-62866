@@ -500,6 +500,7 @@ const MotionMintLanding = () => {
                     <Button 
                       className={`w-full ${plan.popular ? 'btn-glow' : ''}`}
                       variant={plan.popular ? 'default' : 'outline'}
+                      onClick={() => navigate('/pricing')}
                     >
                       Get Started
                       <ArrowRight className="w-4 h-4 ml-2" />
