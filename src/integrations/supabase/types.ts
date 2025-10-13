@@ -56,6 +56,38 @@ export type Database = {
         }
         Relationships: []
       }
+      animations_pricing: {
+        Row: {
+          animation_id: string
+          created_at: string
+          id: string
+          price: number
+          pricing_type: string
+        }
+        Insert: {
+          animation_id: string
+          created_at?: string
+          id?: string
+          price?: number
+          pricing_type: string
+        }
+        Update: {
+          animation_id?: string
+          created_at?: string
+          id?: string
+          price?: number
+          pricing_type?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "animations_pricing_animation_id_fkey"
+            columns: ["animation_id"]
+            isOneToOne: false
+            referencedRelation: "animations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           created_at: string
@@ -80,23 +112,68 @@ export type Database = {
         }
         Relationships: []
       }
+      promo_codes: {
+        Row: {
+          active: boolean
+          code: string
+          created_at: string
+          current_uses: number
+          discount_type: string
+          discount_value: number
+          id: string
+          max_uses: number | null
+          valid_from: string
+          valid_until: string | null
+        }
+        Insert: {
+          active?: boolean
+          code: string
+          created_at?: string
+          current_uses?: number
+          discount_type: string
+          discount_value: number
+          id?: string
+          max_uses?: number | null
+          valid_from?: string
+          valid_until?: string | null
+        }
+        Update: {
+          active?: boolean
+          code?: string
+          created_at?: string
+          current_uses?: number
+          discount_type?: string
+          discount_value?: number
+          id?: string
+          max_uses?: number | null
+          valid_from?: string
+          valid_until?: string | null
+        }
+        Relationships: []
+      }
       user_cart: {
         Row: {
           added_at: string
           animation_id: string
           id: string
+          price_at_add: number | null
+          quantity: number
           user_id: string
         }
         Insert: {
           added_at?: string
           animation_id: string
           id?: string
+          price_at_add?: number | null
+          quantity?: number
           user_id: string
         }
         Update: {
           added_at?: string
           animation_id?: string
           id?: string
+          price_at_add?: number | null
+          quantity?: number
           user_id?: string
         }
         Relationships: []
@@ -172,6 +249,39 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      user_subscriptions: {
+        Row: {
+          created_at: string
+          expires_at: string | null
+          id: string
+          started_at: string
+          status: string
+          subscription_tier: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          expires_at?: string | null
+          id?: string
+          started_at?: string
+          status?: string
+          subscription_tier: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          expires_at?: string | null
+          id?: string
+          started_at?: string
+          status?: string
+          subscription_tier?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
       }
     }
     Views: {
