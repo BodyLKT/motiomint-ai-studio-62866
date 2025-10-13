@@ -342,5 +342,18 @@
     "next": "Suivant",
     "submit": "Soumettre",
     "search": "Rechercher"
+  },
+  "cart": {
+    "title": "Mon Panier",
+    "empty": "Votre panier est vide",
+    "emptyTitle": "Panier vide",
+    "emptyDescription": "Ajoutez des animations à votre panier pour les télécharger plus tard",
+    "browseCatalog": "Parcourir le catalogue",
+    "itemCount": "{{count}} élément dans le panier",
+    "itemCount_plural": "{{count}} éléments dans le panier",
+    "clearAll": "Vider le panier",
+    "cleared": "Panier vidé",
+    "remove": "Retirer",
+    "errorLoading": "Erreur lors du chargement du panier"
   }
 }

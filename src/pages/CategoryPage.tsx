@@ -24,6 +24,7 @@ import AnimationCard from '@/components/dashboard/AnimationCard';
 import SearchBar from '@/components/dashboard/SearchBar';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { LanguageSelector } from '@/components/LanguageSelector';
+import { CartButton } from '@/components/CartButton';
 
 interface Animation {
   id: string;
@@ -234,6 +235,8 @@ export default function CategoryPage() {
         toast({
           title: t('animation.removedFromCart'),
         });
+        
+        window.dispatchEvent(new Event('cart-updated'));
       } else {
         await supabase.from('user_cart').insert({
           user_id: user.id,
@@ -245,6 +248,8 @@ export default function CategoryPage() {
         toast({
           title: t('animation.addedToCart'),
         });
+        
+        window.dispatchEvent(new Event('cart-updated'));
       }
     } catch (error: any) {
       toast({
@@ -313,6 +318,7 @@ export default function CategoryPage() {
               <Home size={16} />
               {t('nav.dashboard')}
             </Button>
+            <CartButton />
             <LanguageSelector />
             <ThemeToggle />
             <Button

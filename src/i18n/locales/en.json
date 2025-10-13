@@ -342,5 +342,18 @@
     "next": "Next",
     "submit": "Submit",
     "search": "Search"
+  },
+  "cart": {
+    "title": "My Cart",
+    "empty": "Your cart is empty",
+    "emptyTitle": "Cart is Empty",
+    "emptyDescription": "Add animations to your cart to download them later",
+    "browseCatalog": "Browse Catalog",
+    "itemCount": "{{count}} item in cart",
+    "itemCount_plural": "{{count}} items in cart",
+    "clearAll": "Clear All",
+    "cleared": "Cart Cleared",
+    "remove": "Remove",
+    "errorLoading": "Error Loading Cart"
   }
 }

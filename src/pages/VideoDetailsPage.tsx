@@ -11,6 +11,7 @@ import { toast } from '@/hooks/use-toast';
 import VideoPreview from '@/components/ui/VideoPreview';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { LanguageSelector } from '@/components/LanguageSelector';
+import { CartButton } from '@/components/CartButton';
 import EditShareModal from '@/components/dashboard/EditShareModal';
 
 interface Animation {
@@ -143,6 +144,8 @@ export default function VideoDetailsPage() {
         toast({
           title: t('animation.removedFromCart'),
         });
+        
+        window.dispatchEvent(new Event('cart-updated'));
       } else {
         await supabase.from('user_cart').insert({
           user_id: user.id,
@@ -153,6 +156,8 @@ export default function VideoDetailsPage() {
         toast({
           title: t('animation.addedToCart'),
         });
+        
+        window.dispatchEvent(new Event('cart-updated'));
       }
     } catch (error: any) {
       toast({
@@ -224,6 +229,7 @@ export default function VideoDetailsPage() {
             motiomint
           </button>
           <div className="flex items-center gap-2">
+            <CartButton />
             <LanguageSelector />
             <ThemeToggle />
             <Button
