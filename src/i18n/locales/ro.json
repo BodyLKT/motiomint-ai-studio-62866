@@ -355,5 +355,24 @@
     "cleared": "Coș golit",
     "remove": "Elimină",
     "errorLoading": "Eroare la încărcarea coșului"
+  },
+  "videoConfig": {
+    "platformPresets": "Presetări Platformă",
+    "platformPresetsDesc": "Configurare rapidă pentru platformele populare de social media",
+    "manualConfig": "Configurare Manuală",
+    "manualConfigDesc": "Sau personalizează fiecare setare individual",
+    "videoSize": "Dimensiune / Rezoluție Video",
+    "aspectRatio": "Raport de Aspect",
+    "fileFormat": "Format Fișier",
+    "currentSelection": "Selecția Curentă",
+    "editConfig": "Editează Config",
+    "configureVideo": "Configurează Setările Video",
+    "configureVideoDesc": "Personalizează setările video pentru: {{title}}",
+    "configureBeforeAdd": "Configurează Videoclipul Înainte de Adăugare",
+    "configureBeforeAddDesc": "Selectează setările video preferate. Le poți schimba mai târziu din coș.",
+    "configSaved": "Configurație salvată cu animația",
+    "configUpdated": "Configurație video actualizată",
+    "incompleteWarning": "Te rog configurează setările video înainte de descărcare",
+    "platformOptimized": "Optimizat pentru {{platform}}"
   }
 }

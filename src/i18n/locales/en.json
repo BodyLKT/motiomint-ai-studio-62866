@@ -355,5 +355,24 @@
     "cleared": "Cart Cleared",
     "remove": "Remove",
     "errorLoading": "Error Loading Cart"
+  },
+  "videoConfig": {
+    "platformPresets": "Platform Presets",
+    "platformPresetsDesc": "Quick setup for popular social media platforms",
+    "manualConfig": "Manual Configuration",
+    "manualConfigDesc": "Or customize each setting individually",
+    "videoSize": "Video Size / Resolution",
+    "aspectRatio": "Aspect Ratio",
+    "fileFormat": "File Format",
+    "currentSelection": "Current Selection",
+    "editConfig": "Edit Config",
+    "configureVideo": "Configure Video Settings",
+    "configureVideoDesc": "Customize video settings for: {{title}}",
+    "configureBeforeAdd": "Configure Video Before Adding",
+    "configureBeforeAddDesc": "Select your preferred video settings. You can change these later from the cart.",
+    "configSaved": "Configuration saved with animation",
+    "configUpdated": "Video configuration updated",
+    "incompleteWarning": "Please configure video settings before downloading",
+    "platformOptimized": "Optimized for {{platform}}"
   }
 }

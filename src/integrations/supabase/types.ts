@@ -158,6 +158,10 @@ export type Database = {
           id: string
           price_at_add: number | null
           quantity: number
+          selected_format: string | null
+          selected_platform: string | null
+          selected_ratio: string | null
+          selected_size: string | null
           user_id: string
         }
         Insert: {
@@ -166,6 +170,10 @@ export type Database = {
           id?: string
           price_at_add?: number | null
           quantity?: number
+          selected_format?: string | null
+          selected_platform?: string | null
+          selected_ratio?: string | null
+          selected_size?: string | null
           user_id: string
         }
         Update: {
@@ -174,6 +182,10 @@ export type Database = {
           id?: string
           price_at_add?: number | null
           quantity?: number
+          selected_format?: string | null
+          selected_platform?: string | null
+          selected_ratio?: string | null
+          selected_size?: string | null
           user_id?: string
         }
         Relationships: [

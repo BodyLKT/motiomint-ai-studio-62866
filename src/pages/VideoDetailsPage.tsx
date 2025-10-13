@@ -13,6 +13,14 @@ import { ThemeToggle } from '@/components/ThemeToggle';
 import { LanguageSelector } from '@/components/LanguageSelector';
 import { CartButton } from '@/components/CartButton';
 import EditShareModal from '@/components/dashboard/EditShareModal';
+import VideoConfigSelector, { VideoConfig } from '@/components/dashboard/VideoConfigSelector';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
 
 interface Animation {
   id: string;
@@ -38,6 +46,12 @@ export default function VideoDetailsPage() {
   const [isDownloading, setIsDownloading] = useState(false);
   const [loading, setLoading] = useState(true);
   const [showEditShare, setShowEditShare] = useState(false);
+  const [showConfigDialog, setShowConfigDialog] = useState(false);
+  const [videoConfig, setVideoConfig] = useState<VideoConfig>({
+    size: '1080p',
+    ratio: '16:9',
+    format: 'MP4',
+  });
 
   useEffect(() => {
     if (id && user) {
@@ -147,18 +161,39 @@ export default function VideoDetailsPage() {
         
         window.dispatchEvent(new Event('cart-updated'));
       } else {
-        await supabase.from('user_cart').insert({
-          user_id: user.id,
-          animation_id: id,
-        });
-
-        setIsInCart(true);
-        toast({
-          title: t('animation.addedToCart'),
-        });
-        
-        window.dispatchEvent(new Event('cart-updated'));
+        // Show config dialog before adding to cart
+        setShowConfigDialog(true);
       }
+    } catch (error: any) {
+      toast({
+        title: t('animation.error'),
+        description: error.message,
+        variant: 'destructive',
+      });
+    }
+  };
+
+  const handleAddToCartWithConfig = async () => {
+    if (!user || !id) return;
+
+    try {
+      await supabase.from('user_cart').insert({
+        user_id: user.id,
+        animation_id: id,
+        selected_size: videoConfig.size,
+        selected_ratio: videoConfig.ratio,
+        selected_format: videoConfig.format,
+        selected_platform: videoConfig.platform || null,
+      });
+
+      setIsInCart(true);
+      setShowConfigDialog(false);
+      toast({
+        title: t('animation.addedToCart'),
+        description: t('videoConfig.configSaved'),
+      });
+      
+      window.dispatchEvent(new Event('cart-updated'));
     } catch (error: any) {
       toast({
         title: t('animation.error'),
@@ -375,6 +410,33 @@ export default function VideoDetailsPage() {
           thumbnail_url: animation.thumbnail_url,
         }}
       />
+
+      <Dialog open={showConfigDialog} onOpenChange={setShowConfigDialog}>
+        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>{t('videoConfig.configureBeforeAdd')}</DialogTitle>
+            <DialogDescription>
+              {t('videoConfig.configureBeforeAddDesc')}
+            </DialogDescription>
+          </DialogHeader>
+
+          <VideoConfigSelector
+            value={videoConfig}
+            onChange={setVideoConfig}
+            showPlatformPresets={true}
+          />
+
+          <div className="flex justify-end gap-3 pt-4">
+            <Button variant="outline" onClick={() => setShowConfigDialog(false)}>
+              {t('common.cancel')}
+            </Button>
+            <Button onClick={handleAddToCartWithConfig} className="gap-2">
+              <ShoppingCart className="h-4 w-4" />
+              {t('animation.addToCart')}
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

@@ -355,5 +355,24 @@
     "cleared": "Panier vidé",
     "remove": "Retirer",
     "errorLoading": "Erreur lors du chargement du panier"
+  },
+  "videoConfig": {
+    "platformPresets": "Préréglages de Plateforme",
+    "platformPresetsDesc": "Configuration rapide pour les plateformes de médias sociaux populaires",
+    "manualConfig": "Configuration Manuelle",
+    "manualConfigDesc": "Ou personnalisez chaque paramètre individuellement",
+    "videoSize": "Taille / Résolution Vidéo",
+    "aspectRatio": "Ratio d'Aspect",
+    "fileFormat": "Format de Fichier",
+    "currentSelection": "Sélection Actuelle",
+    "editConfig": "Modifier Config",
+    "configureVideo": "Configurer les Paramètres Vidéo",
+    "configureVideoDesc": "Personnaliser les paramètres vidéo pour : {{title}}",
+    "configureBeforeAdd": "Configurer la Vidéo Avant d'Ajouter",
+    "configureBeforeAddDesc": "Sélectionnez vos paramètres vidéo préférés. Vous pourrez les modifier plus tard depuis le panier.",
+    "configSaved": "Configuration enregistrée avec l'animation",
+    "configUpdated": "Configuration vidéo mise à jour",
+    "incompleteWarning": "Veuillez configurer les paramètres vidéo avant de télécharger",
+    "platformOptimized": "Optimisé pour {{platform}}"
   }
 }
