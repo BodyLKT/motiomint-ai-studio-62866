@@ -191,6 +191,7 @@
   },
   "animation": {
     "addToFavorites": "Adaugă la favorite",
+    "favorited": "Favorit",
     "removeFromFavorites": "Elimină din favorite",
     "addToCart": "Adaugă în Coș",
     "inCart": "În Coș",

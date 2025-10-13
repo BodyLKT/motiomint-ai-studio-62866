@@ -10,6 +10,7 @@ import Index from "./pages/Index";
 import Dashboard from "./pages/Dashboard";
 import CategoryPage from "./pages/CategoryPage";
 import PricingPage from "./pages/PricingPage";
+import VideoDetailsPage from "./pages/VideoDetailsPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -38,6 +39,14 @@ const App = () => (
                 element={
                   <ProtectedRoute>
                     <CategoryPage />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/animation/:id" 
+                element={
+                  <ProtectedRoute>
+                    <VideoDetailsPage />
                   </ProtectedRoute>
                 } 
               />

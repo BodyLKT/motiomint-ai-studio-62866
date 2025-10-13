@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -36,6 +37,7 @@ export default function AnimationCard({
   onCartToggle,
 }: AnimationCardProps) {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const [isDownloading, setIsDownloading] = useState(false);
 
   const handleDownload = async () => {
@@ -87,7 +89,10 @@ export default function AnimationCard({
 
   return (
     <Card className="group overflow-hidden hover:shadow-xl transition-all duration-300 bg-card/50 backdrop-blur-sm border-primary/20">
-      <div className="relative aspect-video overflow-hidden bg-muted">
+      <div 
+        className="relative aspect-video overflow-hidden bg-muted cursor-pointer"
+        onClick={() => navigate(`/animation/${id}`)}
+      >
         <VideoPreview
           thumbnailUrl={thumbnailUrl}
           videoUrl={videoUrl}
@@ -98,7 +103,10 @@ export default function AnimationCard({
           size="icon"
           variant={isFavorite ? "default" : "secondary"}
           className="absolute top-2 right-2 rounded-full z-10"
-          onClick={onFavoriteToggle}
+          onClick={(e) => {
+            e.stopPropagation();
+            onFavoriteToggle();
+          }}
         >
           <Heart className={`h-4 w-4 ${isFavorite ? 'fill-current' : ''}`} />
         </Button>

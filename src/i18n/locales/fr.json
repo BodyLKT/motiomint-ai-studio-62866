@@ -191,6 +191,7 @@
   },
   "animation": {
     "addToFavorites": "Ajouter aux favoris",
+    "favorited": "Favori",
     "removeFromFavorites": "Retirer des favoris",
     "addToCart": "Ajouter au Panier",
     "inCart": "Dans le Panier",
