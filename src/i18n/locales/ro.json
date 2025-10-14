@@ -397,6 +397,8 @@
     "aspectRatio": "Raport de Aspect",
     "fileFormat": "Format Fișier",
     "currentSelection": "Selecția Curentă",
+    "incompleteSelection": "Selecție Incompletă",
+    "incompleteSelectionDesc": "Vă rugăm să selectați dimensiunea, raportul de aspect și formatul înainte de a continua",
     "editConfig": "Editează Config",
     "configureVideo": "Configurează Setările Video",
     "configureVideoDesc": "Personalizează setările video pentru: {{title}}",

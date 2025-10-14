@@ -23,9 +23,14 @@ export default function CartConfigEditor({ config, animationTitle, onSave }: Car
   const [currentConfig, setCurrentConfig] = useState<VideoConfig>(config);
 
   const handleSave = () => {
+    if (!currentConfig.size || !currentConfig.ratio || !currentConfig.format) {
+      return; // Validation handled in the UI
+    }
     onSave(currentConfig);
     setOpen(false);
   };
+
+  const isConfigComplete = currentConfig.size && currentConfig.ratio && currentConfig.format;
 
   return (
     <>
@@ -58,7 +63,7 @@ export default function CartConfigEditor({ config, animationTitle, onSave }: Car
             <Button variant="outline" onClick={() => setOpen(false)}>
               {t('common.cancel')}
             </Button>
-            <Button onClick={handleSave}>
+            <Button onClick={handleSave} disabled={!isConfigComplete}>
               {t('common.save')}
             </Button>
           </div>

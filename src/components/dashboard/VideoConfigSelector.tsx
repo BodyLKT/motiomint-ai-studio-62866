@@ -94,6 +94,8 @@ export default function VideoConfigSelector({ value, onChange, showPlatformPrese
     setSelectedConfig(value);
   }, [value]);
 
+  const isConfigComplete = selectedConfig.size && selectedConfig.ratio && selectedConfig.format;
+
   const handlePlatformSelect = (platform: string) => {
     const preset = platformPresets[platform as keyof typeof platformPresets];
     const newConfig = {
@@ -258,24 +260,40 @@ export default function VideoConfigSelector({ value, onChange, showPlatformPrese
         </div>
       </Card>
 
-      <Card className="p-4 bg-primary/5 backdrop-blur-sm border-primary/20">
-        <div className="flex gap-3">
-          <Info className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
-          <div className="text-sm">
-            <p className="font-semibold text-primary mb-1">{t('videoConfig.currentSelection')}</p>
-            <p className="text-muted-foreground">
-              {selectedConfig.platform && (
-                <span className="font-medium text-foreground">
-                  {platformPresets[selectedConfig.platform as keyof typeof platformPresets]?.name} Preset:{' '}
-                </span>
-              )}
-              <span className="font-medium">
-                {selectedConfig.size} • {selectedConfig.ratio} • {selectedConfig.format}
-              </span>
-            </p>
+      {!isConfigComplete && (
+        <Card className="p-4 bg-destructive/10 backdrop-blur-sm border-destructive/30">
+          <div className="flex gap-3">
+            <Info className="h-5 w-5 text-destructive flex-shrink-0 mt-0.5" />
+            <div className="text-sm">
+              <p className="font-semibold text-destructive mb-1">{t('videoConfig.incompleteSelection')}</p>
+              <p className="text-muted-foreground">
+                {t('videoConfig.incompleteSelectionDesc')}
+              </p>
+            </div>
           </div>
-        </div>
-      </Card>
+        </Card>
+      )}
+
+      {isConfigComplete && (
+        <Card className="p-4 bg-primary/5 backdrop-blur-sm border-primary/20">
+          <div className="flex gap-3">
+            <Info className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
+            <div className="text-sm">
+              <p className="font-semibold text-primary mb-1">{t('videoConfig.currentSelection')}</p>
+              <p className="text-muted-foreground">
+                {selectedConfig.platform && (
+                  <span className="font-medium text-foreground">
+                    {platformPresets[selectedConfig.platform as keyof typeof platformPresets]?.name} Preset:{' '}
+                  </span>
+                )}
+                <span className="font-medium">
+                  {selectedConfig.size} • {selectedConfig.ratio} • {selectedConfig.format}
+                </span>
+              </p>
+            </div>
+          </div>
+        </Card>
+      )}
     </div>
   );
 }

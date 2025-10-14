@@ -397,6 +397,8 @@
     "aspectRatio": "Ratio d'Aspect",
     "fileFormat": "Format de Fichier",
     "currentSelection": "Sélection Actuelle",
+    "incompleteSelection": "Sélection Incomplète",
+    "incompleteSelectionDesc": "Veuillez sélectionner la taille, le rapport d'aspect et le format avant de continuer",
     "editConfig": "Modifier Config",
     "configureVideo": "Configurer les Paramètres Vidéo",
     "configureVideoDesc": "Personnaliser les paramètres vidéo pour : {{title}}",

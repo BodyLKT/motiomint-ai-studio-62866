@@ -398,6 +398,8 @@
     "aspectRatio": "Aspect Ratio",
     "fileFormat": "File Format",
     "currentSelection": "Current Selection",
+    "incompleteSelection": "Incomplete Selection",
+    "incompleteSelectionDesc": "Please select size, aspect ratio, and format before proceeding",
     "editConfig": "Edit Config",
     "configureVideo": "Configure Video Settings",
     "configureVideoDesc": "Customize video settings for: {{title}}",

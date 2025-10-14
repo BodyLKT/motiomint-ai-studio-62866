@@ -191,6 +191,15 @@ export default function VideoDetailsPage() {
   const handleAddToCartWithConfig = async () => {
     if (!user || !id) return;
 
+    if (!videoConfig.size || !videoConfig.ratio || !videoConfig.format) {
+      toast({
+        title: t('videoConfig.incompleteSelection'),
+        description: t('videoConfig.incompleteSelectionDesc'),
+        variant: 'destructive',
+      });
+      return;
+    }
+
     try {
       await supabase.from('user_cart').insert({
         user_id: user.id,
@@ -491,7 +500,11 @@ export default function VideoDetailsPage() {
             <Button variant="outline" onClick={() => setShowConfigDialog(false)}>
               {t('common.cancel')}
             </Button>
-            <Button onClick={handleAddToCartWithConfig} className="gap-2">
+            <Button 
+              onClick={handleAddToCartWithConfig} 
+              className="gap-2"
+              disabled={!videoConfig.size || !videoConfig.ratio || !videoConfig.format}
+            >
               <ShoppingCart className="h-4 w-4" />
               {t('animation.addToCart')}
             </Button>
