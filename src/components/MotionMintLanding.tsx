@@ -29,8 +29,9 @@ import { SignUpModal } from '@/components/auth/SignUpModal';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { LanguageSelector } from '@/components/LanguageSelector';
 import VideoPreview from '@/components/ui/VideoPreview';
+import { ModernVideoPlayer } from '@/components/ui/ModernVideoPlayer';
+import { AnimationCarousel3D } from '@/components/ui/AnimationCarousel3D';
 import heroImage from '@/assets/hero-bg.jpg';
-import phoneMockup from '@/assets/phone-mockup.jpg';
 import techAnimation from '@/assets/tech-animation.jpg';
 import fitnessAnimation from '@/assets/fitness-animation.jpg';
 import GlobalSearchBar from '@/components/GlobalSearchBar';
@@ -40,6 +41,7 @@ const MotionMintLanding = () => {
   const [email, setEmail] = useState('');
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showSignUpModal, setShowSignUpModal] = useState(false);
+  const [showVideoPlayer, setShowVideoPlayer] = useState(false);
   const [selectedPricingTab, setSelectedPricingTab] = useState<'oneTime' | 'subscription'>('oneTime');
   const { user } = useAuth();
   const navigate = useNavigate();
@@ -170,8 +172,15 @@ const MotionMintLanding = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      {/* Global Search Bar - Sticky at Top */}
+      <div className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border/50 py-3">
+        <div className="container mx-auto px-4">
+          <GlobalSearchBar variant="default" autoFocus={false} />
+        </div>
+      </div>
+
       {/* Navigation */}
-      <nav className="fixed top-0 w-full z-50 glass border-b border-border/50">
+      <nav className="fixed top-[64px] w-full z-40 glass border-b border-border/50">
         <div className="container mx-auto px-4 h-16 flex items-center justify-between">
           <button
             onClick={handleLogoClick}
@@ -245,8 +254,16 @@ const MotionMintLanding = () => {
         }}
       />
 
+      {/* Video Player Modal */}
+      <ModernVideoPlayer
+        open={showVideoPlayer}
+        onClose={() => setShowVideoPlayer(false)}
+        videoUrl="https://www.w3schools.com/html/mov_bbb.mp4"
+        title="Motiomint Preview"
+      />
+
       {/* Hero Section */}
-      <section className="relative pt-24 pb-16 overflow-hidden">
+      <section className="relative pt-32 pb-16 overflow-hidden">
         <div 
           className="absolute inset-0 z-0"
           style={{
@@ -276,12 +293,7 @@ const MotionMintLanding = () => {
                 {t('hero.subtitle')}
               </p>
               
-              {/* Hero Search Bar */}
-              <div className="mb-8">
-                <GlobalSearchBar variant="hero" autoFocus={false} />
-              </div>
-              
-              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-8">
                 <Button 
                   size="lg" 
                   className="btn-glow text-lg px-8 py-4"
@@ -290,21 +302,21 @@ const MotionMintLanding = () => {
                   <Gift className="w-5 h-5 mr-2" />
                   {t('hero.ctaFree')}
                 </Button>
-                <Button variant="outline" size="lg" className="text-lg px-8 py-4">
+                <Button 
+                  variant="outline" 
+                  size="lg" 
+                  className="text-lg px-8 py-4"
+                  onClick={() => setShowVideoPlayer(true)}
+                >
                   <Play className="w-5 h-5 mr-2" />
                   {t('hero.ctaPreview')}
                 </Button>
               </div>
             </div>
             
+            {/* 3D Animation Carousel */}
             <div className="relative">
-              <div className="hero-float">
-                <img 
-                  src={phoneMockup} 
-                  alt="motiomint animations on mobile" 
-                  className="w-full max-w-md mx-auto drop-shadow-2xl"
-                />
-              </div>
+              <AnimationCarousel3D />
             </div>
           </div>
         </div>

@@ -149,6 +149,15 @@
 }
 
 @layer components {
+  /* 3D Perspective */
+  .perspective-1000 {
+    perspective: 1000px;
+  }
+
+  .rotate-y-3 {
+    transform: rotateY(3deg);
+  }
+
   /* Glow Effects */
   .glow-primary {
     box-shadow: var(--shadow-glow);
