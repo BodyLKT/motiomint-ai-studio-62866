@@ -407,6 +407,7 @@
     "configSaved": "Configurație salvată cu animația",
     "configUpdated": "Configurație video actualizată",
     "incompleteWarning": "Te rog configurează setările video înainte de descărcare",
-    "platformOptimized": "Optimizat pentru {{platform}}"
+    "platformOptimized": "Optimizat pentru {{platform}}",
+    "selectFormat": "Selectați Formatul și Rezoluția"
   }
 }

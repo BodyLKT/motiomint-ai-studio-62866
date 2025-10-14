@@ -407,6 +407,7 @@
     "configSaved": "Configuration enregistrée avec l'animation",
     "configUpdated": "Configuration vidéo mise à jour",
     "incompleteWarning": "Veuillez configurer les paramètres vidéo avant de télécharger",
-    "platformOptimized": "Optimisé pour {{platform}}"
+    "platformOptimized": "Optimisé pour {{platform}}",
+    "selectFormat": "Sélectionner le Format et la Résolution"
   }
 }

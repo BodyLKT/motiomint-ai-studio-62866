@@ -408,6 +408,7 @@
     "configSaved": "Configuration saved with animation",
     "configUpdated": "Video configuration updated",
     "incompleteWarning": "Please configure video settings before downloading",
-    "platformOptimized": "Optimized for {{platform}}"
+    "platformOptimized": "Optimized for {{platform}}",
+    "selectFormat": "Select Format & Resolution"
   }
 }

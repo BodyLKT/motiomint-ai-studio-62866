@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   Carousel,
@@ -6,6 +6,7 @@ import {
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
+  type CarouselApi,
 } from '@/components/ui/carousel';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -22,10 +23,34 @@ interface Animation {
 
 export const AnimationCarousel3D = () => {
   const [animations, setAnimations] = useState<Animation[]>([]);
+  const [api, setApi] = useState<CarouselApi>();
+  const [isAutoplayActive, setIsAutoplayActive] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
     fetchRandomAnimations();
+  }, []);
+
+  // Autoplay functionality
+  useEffect(() => {
+    if (!api || !isAutoplayActive) return;
+
+    const autoplayInterval = setInterval(() => {
+      if (api.canScrollNext()) {
+        api.scrollNext();
+      } else {
+        api.scrollTo(0);
+      }
+    }, 4000); // Change animation every 4 seconds
+
+    return () => clearInterval(autoplayInterval);
+  }, [api, isAutoplayActive]);
+
+  // Pause autoplay on user interaction
+  const handleUserInteraction = useCallback(() => {
+    setIsAutoplayActive(false);
+    // Resume autoplay after 10 seconds of no interaction
+    setTimeout(() => setIsAutoplayActive(true), 10000);
   }, []);
 
   const fetchRandomAnimations = async () => {
@@ -52,17 +77,21 @@ export const AnimationCarousel3D = () => {
   };
 
   const handleAnimationClick = (id: string) => {
+    handleUserInteraction();
     navigate(`/animation/${id}`);
   };
 
   return (
     <div className="w-full max-w-4xl mx-auto perspective-1000">
       <Carousel
+        setApi={setApi}
         opts={{
           align: 'center',
           loop: true,
         }}
         className="w-full"
+        onMouseEnter={handleUserInteraction}
+        onTouchStart={handleUserInteraction}
       >
         <CarouselContent className="-ml-2 md:-ml-4">
           {animations.map((animation, index) => (

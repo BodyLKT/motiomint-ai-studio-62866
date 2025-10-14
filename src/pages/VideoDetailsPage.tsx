@@ -15,6 +15,7 @@ import { CartButton } from '@/components/CartButton';
 import EditShareModal from '@/components/dashboard/EditShareModal';
 import VideoConfigSelector, { VideoConfig } from '@/components/dashboard/VideoConfigSelector';
 import WatermarkOverlay from '@/components/ui/WatermarkOverlay';
+import DownloadWithOptions from '@/components/dashboard/DownloadWithOptions';
 import { LoginModal } from '@/components/auth/LoginModal';
 import { SignUpModal } from '@/components/auth/SignUpModal';
 import {
@@ -227,7 +228,7 @@ export default function VideoDetailsPage() {
     }
   };
 
-  const handleDownload = async () => {
+  const handleDownload = async (format: string, resolution: string) => {
     if (!user) {
       setShowSignUpModal(true);
       return;
@@ -243,7 +244,8 @@ export default function VideoDetailsPage() {
 
       const link = document.createElement('a');
       link.href = animation.file_url;
-      link.download = `${animation.title.replace(/\s+/g, '-').toLowerCase()}.jpg`;
+      const extension = format.toLowerCase();
+      link.download = `${animation.title.replace(/\s+/g, '-').toLowerCase()}-${resolution}.${extension}`;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -334,47 +336,49 @@ export default function VideoDetailsPage() {
       </header>
 
       {/* Main Content */}
-      <main className="container mx-auto px-4 py-12">
-        <div className="max-w-6xl mx-auto">
+      <main className="container mx-auto px-4 py-8">
+        <div className="max-w-7xl mx-auto">
           <Button
             onClick={() => navigate('/dashboard')}
             variant="ghost"
-            className="mb-6 gap-2"
+            className="mb-4 gap-2 text-sm"
           >
-            <ArrowLeft className="h-4 w-4" />
+            <ArrowLeft className="h-3 w-3" />
             {t('nav.backToDashboard')}
           </Button>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {/* Video Preview */}
-            <Card className="overflow-hidden bg-card/50 backdrop-blur-sm border-primary/20">
-              <div className="relative aspect-video bg-muted">
-                <VideoPreview
-                  thumbnailUrl={animation.thumbnail_url}
-                  videoUrl={animation.preview_url || animation.file_url}
-                  alt={animation.title}
-                  className="w-full h-full"
-                />
-                <WatermarkOverlay show={!user} />
-              </div>
-            </Card>
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            {/* Video Preview - Takes up 2/3 of the space */}
+            <div className="lg:col-span-2">
+              <Card className="overflow-hidden bg-card/50 backdrop-blur-sm border-primary/20">
+                <div className="relative aspect-video bg-muted">
+                  <VideoPreview
+                    thumbnailUrl={animation.thumbnail_url}
+                    videoUrl={animation.preview_url || animation.file_url}
+                    alt={animation.title}
+                    className="w-full h-full"
+                  />
+                  <WatermarkOverlay show={!user} />
+                </div>
+              </Card>
+            </div>
 
-            {/* Video Details */}
-            <div className="space-y-6">
+            {/* Video Details - Takes up 1/3 of the space */}
+            <div className="space-y-4">
               <div>
-                <div className="flex items-start justify-between gap-4 mb-4">
-                  <h1 className="text-4xl font-bold">{animation.title}</h1>
-                  <Badge variant="secondary" className="text-lg px-4 py-2">
+                <div className="flex items-start justify-between gap-2 mb-2">
+                  <h1 className="text-2xl font-bold leading-tight">{animation.title}</h1>
+                  <Badge variant="secondary" className="text-sm px-3 py-1 shrink-0">
                     {animation.category}
                   </Badge>
                 </div>
-                <p className="text-lg text-muted-foreground">{animation.description}</p>
+                <p className="text-sm text-muted-foreground leading-relaxed">{animation.description}</p>
               </div>
 
               {/* Tags */}
-              <div className="flex flex-wrap gap-2">
+              <div className="flex flex-wrap gap-1.5">
                 {animation.tags.map((tag) => (
-                  <Badge key={tag} variant="outline">
+                  <Badge key={tag} variant="outline" className="text-xs">
                     {tag}
                   </Badge>
                 ))}
@@ -382,18 +386,18 @@ export default function VideoDetailsPage() {
 
               {/* Format & Resolution */}
               {(animation.format || animation.resolution) && (
-                <Card className="p-4 bg-card/50 backdrop-blur-sm border-primary/20">
-                  <div className="grid grid-cols-2 gap-4">
+                <Card className="p-3 bg-card/50 backdrop-blur-sm border-primary/20">
+                  <div className="grid grid-cols-2 gap-3">
                     {animation.format && (
                       <div>
-                        <p className="text-sm text-muted-foreground mb-1">Format</p>
-                        <p className="font-semibold">{animation.format}</p>
+                        <p className="text-xs text-muted-foreground mb-0.5">Format</p>
+                        <p className="text-sm font-semibold">{animation.format}</p>
                       </div>
                     )}
                     {animation.resolution && (
                       <div>
-                        <p className="text-sm text-muted-foreground mb-1">Resolution</p>
-                        <p className="font-semibold">{animation.resolution}</p>
+                        <p className="text-xs text-muted-foreground mb-0.5">Resolution</p>
+                        <p className="text-sm font-semibold">{animation.resolution}</p>
                       </div>
                     )}
                   </div>
@@ -401,21 +405,11 @@ export default function VideoDetailsPage() {
               )}
 
               {/* Actions */}
-              <div className="space-y-3">
-                <Button
-                  onClick={handleDownload}
-                  disabled={isDownloading}
-                  className="w-full"
-                  size="lg"
-                  variant="hero"
-                >
-                  {isDownloading ? (
-                    <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                  ) : (
-                    <Download className="mr-2 h-5 w-5" />
-                  )}
-                  {isDownloading ? t('animation.downloading') : t('animation.download')}
-                </Button>
+              <div className="space-y-2.5">
+                <DownloadWithOptions 
+                  onDownload={handleDownload}
+                  isDownloading={isDownloading}
+                />
 
                 <Button
                   onClick={() => {
@@ -426,41 +420,41 @@ export default function VideoDetailsPage() {
                     }
                   }}
                   variant="outline"
-                  size="lg"
-                  className="w-full border-primary/30 hover:bg-primary/10"
+                  size="sm"
+                  className="w-full border-primary/30 hover:bg-primary/10 text-sm"
                 >
-                  <Sparkles className="mr-2 h-5 w-5" />
+                  <Sparkles className="mr-2 h-4 w-4" />
                   {t('editShare.editAndShare')}
                 </Button>
 
                 <Button
                   onClick={() => navigate(`/similar/${animation.id}`)}
                   variant="outline"
-                  size="lg"
-                  className="w-full border-primary/30 hover:bg-primary/10"
+                  size="sm"
+                  className="w-full border-primary/30 hover:bg-primary/10 text-sm"
                 >
-                  <Sparkles className="mr-2 h-5 w-5" />
+                  <Sparkles className="mr-2 h-4 w-4" />
                   {t('similar.discoverSimilar')}
                 </Button>
 
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-2 gap-2">
                   <Button
                     onClick={toggleFavorite}
                     variant={isFavorite ? "default" : "outline"}
-                    size="lg"
-                    className="gap-2"
+                    size="sm"
+                    className="gap-1.5 text-xs"
                   >
-                    <Heart className={`h-5 w-5 ${isFavorite ? 'fill-current' : ''}`} />
+                    <Heart className={`h-3.5 w-3.5 ${isFavorite ? 'fill-current' : ''}`} />
                     {isFavorite ? t('animation.favorited') : t('animation.addToFavorites')}
                   </Button>
 
                   <Button
                     onClick={toggleCart}
                     variant={isInCart ? "default" : "outline"}
-                    size="lg"
-                    className="gap-2"
+                    size="sm"
+                    className="gap-1.5 text-xs"
                   >
-                    <ShoppingCart className="h-5 w-5" />
+                    <ShoppingCart className="h-3.5 w-3.5" />
                     {isInCart ? 'In Cart' : 'Add to Cart'}
                   </Button>
                 </div>
