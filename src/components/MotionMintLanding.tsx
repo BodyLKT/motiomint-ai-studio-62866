@@ -381,14 +381,14 @@ const MotionMintLanding = () => {
         </div>
       </section>
 
-      {/* Product Preview Section (Catalog Grid) */}
-      <section id="categories" className="py-20">
+      {/* Explore Animation Categories Section */}
+      <section id="categories" className="py-16">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl lg:text-5xl font-bold mb-6">
-              {t('categories.title')}
+          <div className="text-center mb-10">
+            <h2 className="text-3xl lg:text-4xl font-bold mb-4">
+              {t('categories.mainTitle')}
             </h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
               {t('categories.subtitle')}
             </p>
           </div>
@@ -444,13 +444,13 @@ const MotionMintLanding = () => {
       </section>
 
       {/* Benefits Section */}
-      <section id="benefits" className="py-20 bg-background-alt">
+      <section id="benefits" className="py-16 bg-background-alt">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl lg:text-5xl font-bold mb-6">
+          <div className="text-center mb-10">
+            <h2 className="text-3xl lg:text-4xl font-bold mb-4">
               {t('benefits.title')}
             </h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
               {t('benefits.subtitle')}
             </p>
           </div>
@@ -544,13 +544,13 @@ const MotionMintLanding = () => {
       </section>
 
       {/* Pricing Section */}
-      <section id="pricing" className="py-20">
+      <section id="pricing" className="py-16">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl lg:text-5xl font-bold mb-6">
+          <div className="text-center mb-10">
+            <h2 className="text-3xl lg:text-4xl font-bold mb-4">
               {t('pricing.title')}
             </h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
               {t('pricing.subtitle')}
             </p>
           </div>
@@ -620,16 +620,16 @@ const MotionMintLanding = () => {
       </section>
 
       {/* Lead Magnet Section */}
-      <section className="py-20 bg-gradient-primary relative overflow-hidden">
+      <section className="py-16 bg-gradient-primary relative overflow-hidden">
         <div className="absolute inset-0 bg-background/90" />
         <div className="container mx-auto px-4 relative z-10">
           <div className="max-w-4xl mx-auto text-center">
-            <div className="mb-8">
-              <Gift className="w-16 h-16 text-primary mx-auto mb-6" />
-              <h2 className="text-4xl lg:text-5xl font-bold mb-6">
+            <div className="mb-6">
+              <Gift className="w-14 h-14 text-primary mx-auto mb-4" />
+              <h2 className="text-3xl lg:text-4xl font-bold mb-4">
                 {t('leadMagnet.title')}
               </h2>
-              <p className="text-xl text-muted-foreground mb-8">
+              <p className="text-lg text-muted-foreground mb-6">
                 {t('leadMagnet.subtitle')}
               </p>
             </div>
@@ -658,18 +658,18 @@ const MotionMintLanding = () => {
       </section>
 
       {/* Testimonials */}
-      <section id="testimonials" className="py-20">
+      <section id="testimonials" className="py-16">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl lg:text-5xl font-bold mb-6">
+          <div className="text-center mb-10">
+            <h2 className="text-3xl lg:text-4xl font-bold mb-4">
               {t('testimonials.title')}
             </h2>
-            <div className="flex justify-center items-center gap-2 mb-8">
+            <div className="flex justify-center items-center gap-2 mb-6">
               {[...Array(5)].map((_, i) => (
-                <Star key={i} className="w-6 h-6 fill-primary text-primary" />
+                <Star key={i} className="w-5 h-5 fill-primary text-primary" />
               ))}
-              <span className="text-xl font-semibold ml-2">{t('testimonials.rating')}</span>
-              <span className="text-muted-foreground ml-1">{t('testimonials.reviewCount')}</span>
+              <span className="text-lg font-semibold ml-2">{t('testimonials.rating')}</span>
+              <span className="text-muted-foreground ml-1 text-sm">{t('testimonials.reviewCount')}</span>
             </div>
           </div>
           
@@ -696,13 +696,13 @@ const MotionMintLanding = () => {
       </section>
 
       {/* Footer CTA */}
-      <footer className="py-20 bg-background-alt border-t border-border/50">
+      <footer className="py-16 bg-background-alt border-t border-border/50">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl lg:text-5xl font-bold mb-6">
+          <div className="text-center mb-10">
+            <h2 className="text-3xl lg:text-4xl font-bold mb-4">
               {t('footerCTA.title')}
             </h2>
-            <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
+            <p className="text-lg text-muted-foreground mb-6 max-w-2xl mx-auto">
               {t('footerCTA.subtitle')}
             </p>
             

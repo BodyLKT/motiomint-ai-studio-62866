@@ -444,16 +444,11 @@ export default function CategoryPage() {
           </Button>
 
           {/* Category Header */}
-          <div className="mb-12 text-center">
-            <div className="inline-block mb-4">
-              <Badge className="text-4xl px-4 py-2 bg-primary/20 border-primary/30">
-                {categoryInfo.icon}
-              </Badge>
-            </div>
-            <h1 className="text-5xl md:text-6xl font-black mb-4 gradient-text">
+          <div className="mb-8 text-center">
+            <h1 className="text-3xl md:text-4xl font-bold mb-3 gradient-text">
               {category}
             </h1>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+            <p className="text-base text-muted-foreground max-w-3xl mx-auto">
               {categoryInfo.description}
             </p>
           </div>

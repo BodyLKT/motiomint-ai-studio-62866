@@ -1,13 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-  type CarouselApi,
-} from '@/components/ui/carousel';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Play } from 'lucide-react';
@@ -23,7 +15,7 @@ interface Animation {
 
 export const AnimationCarousel3D = () => {
   const [animations, setAnimations] = useState<Animation[]>([]);
-  const [api, setApi] = useState<CarouselApi>();
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoplayActive, setIsAutoplayActive] = useState(true);
   const navigate = useNavigate();
 
@@ -33,18 +25,14 @@ export const AnimationCarousel3D = () => {
 
   // Autoplay functionality
   useEffect(() => {
-    if (!api || !isAutoplayActive) return;
+    if (!isAutoplayActive || animations.length === 0) return;
 
     const autoplayInterval = setInterval(() => {
-      if (api.canScrollNext()) {
-        api.scrollNext();
-      } else {
-        api.scrollTo(0);
-      }
-    }, 4000); // Change animation every 4 seconds
+      setCurrentIndex((prev) => (prev + 1) % Math.ceil(animations.length / 6));
+    }, 4000); // Change every 4 seconds
 
     return () => clearInterval(autoplayInterval);
-  }, [api, isAutoplayActive]);
+  }, [isAutoplayActive, animations.length]);
 
   // Pause autoplay on user interaction
   const handleUserInteraction = useCallback(() => {
@@ -55,11 +43,11 @@ export const AnimationCarousel3D = () => {
 
   const fetchRandomAnimations = async () => {
     try {
-      // Fetch 10 random animations from the database
+      // Fetch 18 random animations for 3 sets of 6
       const { data, error } = await supabase
         .from('animations')
         .select('id, title, thumbnail_url, file_url, category')
-        .limit(10);
+        .limit(18);
 
       if (error) throw error;
 
@@ -81,78 +69,70 @@ export const AnimationCarousel3D = () => {
     navigate(`/animation/${id}`);
   };
 
-  return (
-    <div className="w-full max-w-4xl mx-auto perspective-1000">
-      <Carousel
-        setApi={setApi}
-        opts={{
-          align: 'center',
-          loop: true,
-        }}
-        className="w-full"
-        onMouseEnter={handleUserInteraction}
-        onTouchStart={handleUserInteraction}
-      >
-        <CarouselContent className="-ml-2 md:-ml-4">
-          {animations.map((animation, index) => (
-            <CarouselItem key={animation.id} className="pl-2 md:pl-4 basis-4/5 md:basis-1/2 lg:basis-2/5">
-              <div className="p-1">
-                <Card 
-                  className="group relative overflow-hidden rounded-2xl cursor-pointer transform transition-all duration-500 hover:scale-105 hover:rotate-y-3 glass border-primary/30 glow-primary"
-                  onClick={() => handleAnimationClick(animation.id)}
-                  style={{
-                    transformStyle: 'preserve-3d',
-                  }}
-                >
-                  <div className="relative aspect-[9/16] overflow-hidden">
-                    {/* Video Preview */}
-                    <video
-                      src={animation.video_url}
-                      poster={animation.thumbnail_url}
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                      muted
-                      loop
-                      playsInline
-                      onMouseEnter={(e) => e.currentTarget.play()}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.pause();
-                        e.currentTarget.currentTime = 0;
-                      }}
-                    />
-                    
-                    {/* Gradient Overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-                    
-                    {/* Category Badge */}
-                    <Badge className="absolute top-3 right-3 bg-primary/90 backdrop-blur-sm text-white border-0 shadow-lg">
-                      {animation.category}
-                    </Badge>
-                    
-                    {/* Play Icon Overlay */}
-                    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      <div className="w-16 h-16 rounded-full bg-primary/90 backdrop-blur-sm flex items-center justify-center shadow-2xl animate-pulse">
-                        <Play className="w-8 h-8 text-white ml-1" />
-                      </div>
-                    </div>
-                    
-                    {/* Title */}
-                    <div className="absolute bottom-0 left-0 right-0 p-4">
-                      <h3 className="text-white font-bold text-lg line-clamp-2 drop-shadow-lg">
-                        {animation.title}
-                      </h3>
-                    </div>
+  // Get current 6 animations to display
+  const displayedAnimations = animations.slice(currentIndex * 6, (currentIndex * 6) + 6);
 
-                    {/* Glow Effect */}
-                    <div className="absolute inset-0 bg-gradient-to-r from-primary/20 via-secondary/20 to-accent/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-pulse" />
-                  </div>
-                </Card>
+  return (
+    <div 
+      className="w-full h-full min-h-[600px] lg:min-h-[700px] flex items-center perspective-1000"
+      onMouseEnter={handleUserInteraction}
+      onTouchStart={handleUserInteraction}
+    >
+      <div className="w-full grid grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4 auto-rows-fr">
+        {displayedAnimations.map((animation, index) => (
+          <Card 
+            key={animation.id}
+            className="group relative overflow-hidden rounded-2xl cursor-pointer transform transition-all duration-500 hover:scale-105 hover:z-10 glass border-primary/30 glow-primary animate-fade-in aspect-[9/16]"
+            onClick={() => handleAnimationClick(animation.id)}
+            style={{
+              transformStyle: 'preserve-3d',
+              animationDelay: `${index * 100}ms`,
+            }}
+          >
+            <div className="relative w-full h-full overflow-hidden">
+              {/* Video Preview */}
+              <video
+                src={animation.video_url}
+                poster={animation.thumbnail_url}
+                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                muted
+                loop
+                playsInline
+                onMouseEnter={(e) => e.currentTarget.play()}
+                onMouseLeave={(e) => {
+                  e.currentTarget.pause();
+                  e.currentTarget.currentTime = 0;
+                }}
+              />
+              
+              {/* Gradient Overlay */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+              
+              {/* Category Badge */}
+              <Badge className="absolute top-2 right-2 bg-primary/90 backdrop-blur-sm text-white border-0 shadow-lg text-xs">
+                {animation.category}
+              </Badge>
+              
+              {/* Play Icon Overlay */}
+              <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <div className="w-12 h-12 rounded-full bg-primary/90 backdrop-blur-sm flex items-center justify-center shadow-2xl animate-pulse">
+                  <Play className="w-6 h-6 text-white ml-0.5" />
+                </div>
               </div>
-            </CarouselItem>
-          ))}
-        </CarouselContent>
-        <CarouselPrevious className="left-0 -translate-x-1/2 bg-background/80 backdrop-blur-sm border-primary/30" />
-        <CarouselNext className="right-0 translate-x-1/2 bg-background/80 backdrop-blur-sm border-primary/30" />
-      </Carousel>
+              
+              {/* Title */}
+              <div className="absolute bottom-0 left-0 right-0 p-3">
+                <h3 className="text-white font-bold text-sm line-clamp-2 drop-shadow-lg">
+                  {animation.title}
+                </h3>
+              </div>
+
+              {/* Glow Effect */}
+              <div className="absolute inset-0 bg-gradient-to-r from-primary/20 via-secondary/20 to-accent/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            </div>
+          </Card>
+        ))}
+      </div>
     </div>
   );
 };

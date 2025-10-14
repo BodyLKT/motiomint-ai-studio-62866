@@ -423,10 +423,6 @@ export default function Dashboard() {
                 </Card>
               </div>
 
-              <div className="mb-6">
-                <GlobalSearchBar />
-              </div>
-
               <CategoryFilter
                 categories={categories}
                 selectedCategory={selectedCategory}
@@ -470,11 +466,6 @@ export default function Dashboard() {
                   <p className="text-muted-foreground">
                     {t('dashboard.browseByCategorySubtitle')}
                   </p>
-                </div>
-
-                {/* Search Bar */}
-                <div className="max-w-3xl mx-auto mb-8">
-                  <GlobalSearchBar />
                 </div>
 
                 {/* Category Filters */}
