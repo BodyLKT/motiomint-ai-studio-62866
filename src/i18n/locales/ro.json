@@ -161,6 +161,11 @@
     "passwordsMismatch": "Parolele nu se potrivesc",
     "acceptTerms": "Te rugăm să accepți termenii și condițiile"
   },
+  "guest": {
+    "watermark": "Înregistrează-te pentru a descărca",
+    "loginRequired": "Vă rugăm să vă autentificați pentru a continua",
+    "signUpRequired": "Înregistrează-te pentru a accesa această funcție"
+  },
   "dashboard": {
     "welcome": "Salut {{name}}, bine ai revenit 👋",
     "welcomeDefault": "Salut, bine ai revenit 👋",

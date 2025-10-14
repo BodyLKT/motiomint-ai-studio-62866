@@ -14,6 +14,9 @@ import { LanguageSelector } from '@/components/LanguageSelector';
 import { CartButton } from '@/components/CartButton';
 import EditShareModal from '@/components/dashboard/EditShareModal';
 import VideoConfigSelector, { VideoConfig } from '@/components/dashboard/VideoConfigSelector';
+import WatermarkOverlay from '@/components/ui/WatermarkOverlay';
+import { LoginModal } from '@/components/auth/LoginModal';
+import { SignUpModal } from '@/components/auth/SignUpModal';
 import {
   Dialog,
   DialogContent,
@@ -52,11 +55,15 @@ export default function VideoDetailsPage() {
     ratio: '16:9',
     format: 'MP4',
   });
+  const [showLoginModal, setShowLoginModal] = useState(false);
+  const [showSignUpModal, setShowSignUpModal] = useState(false);
 
   useEffect(() => {
-    if (id && user) {
+    if (id) {
       fetchAnimationDetails();
-      fetchUserData();
+      if (user) {
+        fetchUserData();
+      }
     }
   }, [id, user]);
 
@@ -109,7 +116,11 @@ export default function VideoDetailsPage() {
   };
 
   const toggleFavorite = async () => {
-    if (!user || !id) return;
+    if (!user) {
+      setShowSignUpModal(true);
+      return;
+    }
+    if (!id) return;
 
     try {
       if (isFavorite) {
@@ -144,7 +155,11 @@ export default function VideoDetailsPage() {
   };
 
   const toggleCart = async () => {
-    if (!user || !id) return;
+    if (!user) {
+      setShowSignUpModal(true);
+      return;
+    }
+    if (!id) return;
 
     try {
       if (isInCart) {
@@ -204,7 +219,11 @@ export default function VideoDetailsPage() {
   };
 
   const handleDownload = async () => {
-    if (!animation || !user) return;
+    if (!user) {
+      setShowSignUpModal(true);
+      return;
+    }
+    if (!animation) return;
 
     setIsDownloading(true);
     try {
@@ -264,18 +283,43 @@ export default function VideoDetailsPage() {
             motiomint
           </button>
           <div className="flex items-center gap-2">
-            <CartButton />
-            <LanguageSelector />
-            <ThemeToggle />
-            <Button
-              onClick={handleSignOut}
-              variant="outline"
-              size="sm"
-              className="gap-2"
-            >
-              <LogOut size={16} />
-              {t('nav.logout')}
-            </Button>
+            {user ? (
+              <>
+                <CartButton />
+                <LanguageSelector />
+                <ThemeToggle />
+                <Button
+                  onClick={handleSignOut}
+                  variant="outline"
+                  size="sm"
+                  className="gap-2"
+                >
+                  <LogOut size={16} />
+                  {t('nav.logout')}
+                </Button>
+              </>
+            ) : (
+              <>
+                <LanguageSelector />
+                <ThemeToggle />
+                <Button
+                  onClick={() => setShowLoginModal(true)}
+                  variant="outline"
+                  size="sm"
+                  className="gap-2"
+                >
+                  {t('nav.login')}
+                </Button>
+                <Button
+                  onClick={() => setShowSignUpModal(true)}
+                  variant="default"
+                  size="sm"
+                  className="gap-2 btn-glow"
+                >
+                  {t('nav.signUp')}
+                </Button>
+              </>
+            )}
           </div>
         </div>
       </header>
@@ -302,6 +346,7 @@ export default function VideoDetailsPage() {
                   alt={animation.title}
                   className="w-full h-full"
                 />
+                <WatermarkOverlay show={!user} />
               </div>
             </Card>
 
@@ -364,7 +409,13 @@ export default function VideoDetailsPage() {
                 </Button>
 
                 <Button
-                  onClick={() => setShowEditShare(true)}
+                  onClick={() => {
+                    if (!user) {
+                      setShowSignUpModal(true);
+                    } else {
+                      setShowEditShare(true);
+                    }
+                  }}
                   variant="outline"
                   size="lg"
                   className="w-full border-primary/30 hover:bg-primary/10"
@@ -437,6 +488,24 @@ export default function VideoDetailsPage() {
           </div>
         </DialogContent>
       </Dialog>
+
+      {/* Auth Modals */}
+      <LoginModal
+        open={showLoginModal}
+        onClose={() => setShowLoginModal(false)}
+        onSwitchToSignUp={() => {
+          setShowLoginModal(false);
+          setShowSignUpModal(true);
+        }}
+      />
+      <SignUpModal
+        open={showSignUpModal}
+        onClose={() => setShowSignUpModal(false)}
+        onSwitchToLogin={() => {
+          setShowSignUpModal(false);
+          setShowLoginModal(true);
+        }}
+      />
     </div>
   );
 }

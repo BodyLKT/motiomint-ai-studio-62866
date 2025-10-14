@@ -161,6 +161,11 @@
     "passwordsMismatch": "Les mots de passe ne correspondent pas",
     "acceptTerms": "Veuillez accepter les termes et conditions"
   },
+  "guest": {
+    "watermark": "Inscrivez-vous pour télécharger",
+    "loginRequired": "Veuillez vous connecter pour continuer",
+    "signUpRequired": "Inscrivez-vous pour accéder à cette fonctionnalité"
+  },
   "dashboard": {
     "welcome": "Salut {{name}}, bon retour 👋",
     "welcomeDefault": "Salut, bon retour 👋",

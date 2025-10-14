@@ -25,6 +25,8 @@ import SearchBar from '@/components/dashboard/SearchBar';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { LanguageSelector } from '@/components/LanguageSelector';
 import { CartButton } from '@/components/CartButton';
+import { LoginModal } from '@/components/auth/LoginModal';
+import { SignUpModal } from '@/components/auth/SignUpModal';
 
 interface Animation {
   id: string;
@@ -86,18 +88,17 @@ export default function CategoryPage() {
   const [selectedFormat, setSelectedFormat] = useState<string>('all');
   const [selectedResolution, setSelectedResolution] = useState<string>('all');
   const [loadingData, setLoadingData] = useState(true);
+  const [showLoginModal, setShowLoginModal] = useState(false);
+  const [showSignUpModal, setShowSignUpModal] = useState(false);
 
+  // Allow guest access - no redirect required
   useEffect(() => {
-    if (!loading && !session) {
-      navigate('/');
-    }
-  }, [session, loading, navigate]);
-
-  useEffect(() => {
-    if (user && category) {
+    if (category) {
       fetchAnimations();
-      fetchUserFavorites();
-      fetchUserCart();
+      if (user) {
+        fetchUserFavorites();
+        fetchUserCart();
+      }
     }
   }, [user, category, sortBy]);
 
@@ -277,7 +278,7 @@ export default function CategoryPage() {
     );
   }
 
-  if (!user || !categoryInfo) {
+  if (!categoryInfo) {
     return null;
   }
 
@@ -309,27 +310,52 @@ export default function CategoryPage() {
             motiomint
           </button>
           <div className="flex items-center gap-2">
-            <Button
-              onClick={() => navigate('/dashboard')}
-              variant="ghost"
-              size="sm"
-              className="gap-2"
-            >
-              <Home size={16} />
-              {t('nav.dashboard')}
-            </Button>
-            <CartButton />
-            <LanguageSelector />
-            <ThemeToggle />
-            <Button
-              onClick={handleSignOut}
-              variant="outline"
-              size="sm"
-              className="gap-2"
-            >
-              <LogOut size={16} />
-              {t('nav.logout')}
-            </Button>
+            {user ? (
+              <>
+                <Button
+                  onClick={() => navigate('/dashboard')}
+                  variant="ghost"
+                  size="sm"
+                  className="gap-2"
+                >
+                  <Home size={16} />
+                  {t('nav.dashboard')}
+                </Button>
+                <CartButton />
+                <LanguageSelector />
+                <ThemeToggle />
+                <Button
+                  onClick={handleSignOut}
+                  variant="outline"
+                  size="sm"
+                  className="gap-2"
+                >
+                  <LogOut size={16} />
+                  {t('nav.logout')}
+                </Button>
+              </>
+            ) : (
+              <>
+                <LanguageSelector />
+                <ThemeToggle />
+                <Button
+                  onClick={() => setShowLoginModal(true)}
+                  variant="outline"
+                  size="sm"
+                  className="gap-2"
+                >
+                  {t('nav.login')}
+                </Button>
+                <Button
+                  onClick={() => setShowSignUpModal(true)}
+                  variant="default"
+                  size="sm"
+                  className="gap-2 btn-glow"
+                >
+                  {t('nav.signUp')}
+                </Button>
+              </>
+            )}
           </div>
         </div>
       </header>
@@ -488,7 +514,7 @@ export default function CategoryPage() {
             </Card>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredAnimations.map((animation) => (
+               {filteredAnimations.map((animation) => (
                 <AnimationCard
                   key={animation.id}
                   id={animation.id}
@@ -502,12 +528,32 @@ export default function CategoryPage() {
                   isInCart={cart.has(animation.id)}
                   onFavoriteToggle={() => toggleFavorite(animation.id)}
                   onCartToggle={() => toggleCart(animation.id)}
+                  isGuest={!user}
+                  onAuthRequired={() => setShowSignUpModal(true)}
                 />
               ))}
             </div>
           )}
         </div>
       </main>
+
+      {/* Auth Modals */}
+      <LoginModal
+        open={showLoginModal}
+        onClose={() => setShowLoginModal(false)}
+        onSwitchToSignUp={() => {
+          setShowLoginModal(false);
+          setShowSignUpModal(true);
+        }}
+      />
+      <SignUpModal
+        open={showSignUpModal}
+        onClose={() => setShowSignUpModal(false)}
+        onSwitchToLogin={() => {
+          setShowSignUpModal(false);
+          setShowLoginModal(true);
+        }}
+      />
     </div>
   );
 }

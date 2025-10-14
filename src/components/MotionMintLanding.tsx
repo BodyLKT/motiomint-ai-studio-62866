@@ -321,7 +321,7 @@ const MotionMintLanding = () => {
               <div
                 key={index}
                 className="group relative overflow-hidden rounded-3xl cursor-pointer transform transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl"
-                onClick={() => user ? navigate(`/category/${encodeURIComponent(category.title)}`) : setShowSignUpModal(true)}
+                onClick={() => navigate(`/category/${encodeURIComponent(category.title)}`)}
               >
                 {/* Image Container with Overlay */}
                 <div className="relative aspect-[4/5] overflow-hidden">

@@ -161,6 +161,11 @@
     "passwordsMismatch": "Passwords do not match",
     "acceptTerms": "Please accept the terms and conditions"
   },
+  "guest": {
+    "watermark": "Sign up to download",
+    "loginRequired": "Please log in to continue",
+    "signUpRequired": "Sign up to access this feature"
+  },
   "dashboard": {
     "welcome": "Hi {{name}}, welcome back 👋",
     "welcomeDefault": "Hi there, welcome back 👋",

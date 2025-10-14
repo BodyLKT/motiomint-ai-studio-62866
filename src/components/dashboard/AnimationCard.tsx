@@ -22,6 +22,8 @@ interface AnimationCardProps {
   isInCart?: boolean;
   onFavoriteToggle: () => void;
   onCartToggle?: () => void;
+  isGuest?: boolean;
+  onAuthRequired?: () => void;
 }
 
 export default function AnimationCard({
@@ -36,6 +38,8 @@ export default function AnimationCard({
   isInCart = false,
   onFavoriteToggle,
   onCartToggle,
+  isGuest = false,
+  onAuthRequired,
 }: AnimationCardProps) {
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -43,6 +47,11 @@ export default function AnimationCard({
   const [showEditShare, setShowEditShare] = useState(false);
 
   const handleDownload = async () => {
+    if (isGuest && onAuthRequired) {
+      onAuthRequired();
+      return;
+    }
+    
     setIsDownloading(true);
     try {
       const { data: { user } } = await supabase.auth.getUser();
@@ -108,7 +117,11 @@ export default function AnimationCard({
             className="absolute top-2 right-2 rounded-full z-10"
             onClick={(e) => {
               e.stopPropagation();
-              onFavoriteToggle();
+              if (isGuest && onAuthRequired) {
+                onAuthRequired();
+              } else {
+                onFavoriteToggle();
+              }
             }}
           >
             <Heart className={`h-4 w-4 ${isFavorite ? 'fill-current' : ''}`} />
@@ -135,7 +148,13 @@ export default function AnimationCard({
             <div className="flex gap-2">
               {onCartToggle && (
                 <Button
-                  onClick={onCartToggle}
+                  onClick={() => {
+                    if (isGuest && onAuthRequired) {
+                      onAuthRequired();
+                    } else {
+                      onCartToggle();
+                    }
+                  }}
                   variant={isInCart ? "default" : "outline"}
                   className="flex-1"
                 >
@@ -158,7 +177,13 @@ export default function AnimationCard({
               </Button>
             </div>
             <Button
-              onClick={() => setShowEditShare(true)}
+              onClick={() => {
+                if (isGuest && onAuthRequired) {
+                  onAuthRequired();
+                } else {
+                  setShowEditShare(true);
+                }
+              }}
               variant="outline"
               className="w-full border-primary/30 hover:bg-primary/10"
             >
