@@ -304,8 +304,70 @@ const MotionMintLanding = () => {
         </div>
       </section>
 
+      {/* Product Preview Section (Catalog Grid) */}
+      <section id="categories" className="py-20">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl lg:text-5xl font-bold mb-6">
+              {t('categories.title')}
+            </h2>
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+              {t('categories.subtitle')}
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
+            {categories.map((category, index) => (
+              <div
+                key={index}
+                className="group relative overflow-hidden rounded-3xl cursor-pointer transform transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl"
+                onClick={() => user ? navigate(`/category/${encodeURIComponent(category.title)}`) : setShowSignUpModal(true)}
+              >
+                {/* Image Container with Overlay */}
+                <div className="relative aspect-[4/5] overflow-hidden">
+                  <VideoPreview
+                    thumbnailUrl={category.image}
+                    videoUrl={category.video}
+                    alt={category.title}
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  />
+                  {/* Gradient Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+                  
+                  {/* Content Overlay */}
+                  <div className="absolute inset-0 flex flex-col justify-end p-6">
+                    {/* Count Badge */}
+                    <Badge 
+                      className="absolute top-4 right-4 bg-background/90 backdrop-blur-sm text-foreground border-border/50 shadow-lg"
+                    >
+                      {category.count}
+                    </Badge>
+                    
+                    {/* Category Info */}
+                    <div className="space-y-2">
+                      <h3 className="text-2xl font-bold text-white group-hover:text-primary transition-colors">
+                        {category.title}
+                      </h3>
+                      <p className="text-sm text-white/90 line-clamp-2">
+                        {category.description}
+                      </p>
+                      
+                      {/* Hover Button */}
+                      <div className="flex items-center gap-2 text-white/90 group-hover:text-primary transition-colors pt-2">
+                        <span className="text-sm font-semibold">{t('categories.viewCollection')}</span>
+                        <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Benefits Section */}
-      <section id="benefits" className="py-20">
+      <section id="benefits" className="py-20 bg-background-alt">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-4xl lg:text-5xl font-bold mb-6">
@@ -355,7 +417,7 @@ const MotionMintLanding = () => {
       </section>
 
       {/* How It Works */}
-      <section id="how-it-works" className="py-20 bg-background-alt">
+      <section id="how-it-works" className="py-20">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-4xl lg:text-5xl font-bold mb-6">
@@ -397,53 +459,6 @@ const MotionMintLanding = () => {
                   </div>
                   <h3 className="text-2xl font-bold mb-4">{item.title}</h3>
                   <p className="text-muted-foreground">{item.description}</p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Product Preview Section (Catalog Grid) */}
-      <section id="categories" className="py-20">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl lg:text-5xl font-bold mb-6">
-              {t('categories.title')}
-            </h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              {t('categories.subtitle')}
-            </p>
-          </div>
-          
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {categories.map((category, index) => (
-              <Card key={index} className="glass grid-item border-border/50 overflow-hidden group">
-                <div className="video-mockup h-64 relative">
-                  <VideoPreview
-                    thumbnailUrl={category.image}
-                    videoUrl={category.video}
-                    alt={category.title}
-                    className="w-full h-full transition-transform group-hover:scale-110"
-                  />
-                </div>
-                <CardContent className="p-6">
-                  <div className="flex justify-between items-start mb-3">
-                    <h3 className="text-xl font-bold">{category.title}</h3>
-                    <Badge variant="secondary" className="text-xs">
-                      {category.count}
-                    </Badge>
-                  </div>
-                  <p className="text-muted-foreground mb-4">{category.description}</p>
-                  <Button 
-                    variant="outline" 
-                    size="sm" 
-                    className="w-full"
-                    onClick={() => user ? navigate(`/category/${encodeURIComponent(category.title)}`) : setShowSignUpModal(true)}
-                  >
-                    {t('categories.viewCollection')}
-                    <ArrowRight className="w-4 h-4 ml-2" />
-                  </Button>
                 </CardContent>
               </Card>
             ))}
