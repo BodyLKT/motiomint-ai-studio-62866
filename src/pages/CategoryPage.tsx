@@ -448,7 +448,7 @@ export default function CategoryPage() {
             <h1 className="text-3xl md:text-4xl font-bold mb-3 gradient-text">
               {category}
             </h1>
-            <p className="text-base text-muted-foreground max-w-3xl mx-auto">
+            <p className="text-base md:text-lg text-foreground/80 max-w-3xl mx-auto">
               {categoryInfo.description}
             </p>
           </div>
@@ -475,25 +475,25 @@ export default function CategoryPage() {
             <Card className="p-4 bg-card/50 backdrop-blur-sm border-primary/20">
               <div className="flex items-center gap-2 mb-1">
                 <Grid3x3 className="h-4 w-4 text-primary" />
-                <h3 className="text-sm text-muted-foreground">{t('category.total')}</h3>
+                <h3 className="text-sm font-medium text-foreground/80">{t('category.total')}</h3>
               </div>
-              <p className="text-2xl font-bold">{animations.length}</p>
+              <p className="text-2xl font-bold text-foreground">{animations.length}</p>
             </Card>
             <Card className="p-4 bg-card/50 backdrop-blur-sm border-primary/20">
               <div className="flex items-center gap-2 mb-1">
                 <Star className="h-4 w-4 text-primary" />
-                <h3 className="text-sm text-muted-foreground">{t('dashboard.favorites')}</h3>
+                <h3 className="text-sm font-medium text-foreground/80">{t('dashboard.favorites')}</h3>
               </div>
-              <p className="text-2xl font-bold">
+              <p className="text-2xl font-bold text-foreground">
                 {filteredAnimations.filter(a => favorites.has(a.id)).length}
               </p>
             </Card>
             <Card className="p-4 bg-card/50 backdrop-blur-sm border-primary/20">
               <div className="flex items-center gap-2 mb-1">
                 <Clock className="h-4 w-4 text-primary" />
-                <h3 className="text-sm text-muted-foreground">{t('category.recent')}</h3>
+                <h3 className="text-sm font-medium text-foreground/80">{t('category.recent')}</h3>
               </div>
-              <p className="text-2xl font-bold">
+              <p className="text-2xl font-bold text-foreground">
                 {animations.filter(a => {
                   const daysOld = (Date.now() - new Date(a.created_at).getTime()) / (1000 * 60 * 60 * 24);
                   return daysOld < 7;
@@ -503,18 +503,15 @@ export default function CategoryPage() {
             <Card className="p-4 bg-card/50 backdrop-blur-sm border-primary/20">
               <div className="flex items-center gap-2 mb-1">
                 <TrendingUp className="h-4 w-4 text-primary" />
-                <h3 className="text-sm text-muted-foreground">{t('category.trending')}</h3>
+                <h3 className="text-sm font-medium text-foreground/80">{t('category.trending')}</h3>
               </div>
-              <p className="text-2xl font-bold">{Math.min(animations.length, 12)}</p>
+              <p className="text-2xl font-bold text-foreground">{Math.min(animations.length, 12)}</p>
             </Card>
           </div>
 
-          {/* Search & Filters */}
+          {/* Filters */}
           <div className="mb-6 space-y-4">
             <div className="flex flex-col gap-4">
-              <div className="max-w-3xl mx-auto w-full">
-                <GlobalSearchBar />
-              </div>
               <Tabs value={sortBy} onValueChange={(v) => setSortBy(v as any)} className="w-full md:w-auto">
                 <TabsList>
                   <TabsTrigger value="recent" className="gap-2">
@@ -536,8 +533,8 @@ export default function CategoryPage() {
             {/* Format & Resolution Filters */}
             <div className="flex flex-wrap gap-4">
               <div className="flex items-center gap-2">
-                <FileVideo className="h-4 w-4 text-muted-foreground" />
-                <span className="text-sm text-muted-foreground">{t('category.format')}</span>
+                <FileVideo className="h-4 w-4 text-foreground/70" />
+                <span className="text-sm font-medium text-foreground/80">{t('category.format')}</span>
                 <Tabs value={selectedFormat} onValueChange={setSelectedFormat} className="w-auto">
                   <TabsList>
                     {formats.map((format) => (
@@ -550,8 +547,8 @@ export default function CategoryPage() {
               </div>
 
               <div className="flex items-center gap-2">
-                <Monitor className="h-4 w-4 text-muted-foreground" />
-                <span className="text-sm text-muted-foreground">{t('category.resolution')}</span>
+                <Monitor className="h-4 w-4 text-foreground/70" />
+                <span className="text-sm font-medium text-foreground/80">{t('category.resolution')}</span>
                 <Tabs value={selectedResolution} onValueChange={setSelectedResolution} className="w-auto">
                   <TabsList>
                     {resolutions.map((res) => (
@@ -572,7 +569,7 @@ export default function CategoryPage() {
             </div>
           ) : filteredAnimations.length === 0 ? (
             <Card className="p-12 text-center bg-card/50 backdrop-blur-sm border-primary/20">
-              <p className="text-muted-foreground text-lg">
+              <p className="text-foreground/70 text-lg">
                 {t('category.noAnimations')}
               </p>
             </Card>
