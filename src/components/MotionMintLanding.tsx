@@ -33,6 +33,7 @@ import heroImage from '@/assets/hero-bg.jpg';
 import phoneMockup from '@/assets/phone-mockup.jpg';
 import techAnimation from '@/assets/tech-animation.jpg';
 import fitnessAnimation from '@/assets/fitness-animation.jpg';
+import GlobalSearchBar from '@/components/GlobalSearchBar';
 
 const MotionMintLanding = () => {
   const { t } = useTranslation();
@@ -274,6 +275,11 @@ const MotionMintLanding = () => {
               <p className="text-xl lg:text-2xl text-muted-foreground mb-8 max-w-2xl">
                 {t('hero.subtitle')}
               </p>
+              
+              {/* Hero Search Bar */}
+              <div className="mb-8">
+                <GlobalSearchBar variant="hero" autoFocus={false} />
+              </div>
               
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                 <Button 

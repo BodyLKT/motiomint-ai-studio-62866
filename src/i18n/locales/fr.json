@@ -166,6 +166,24 @@
     "loginRequired": "Veuillez vous connecter pour continuer",
     "signUpRequired": "Inscrivez-vous pour accéder à cette fonctionnalité"
   },
+  "search": {
+    "placeholder": "Rechercher des animations, catégories, tags...",
+    "filters": "Filtres",
+    "filterBy": "Filtrer par",
+    "allResults": "Tous les résultats",
+    "categories": "Catégories",
+    "platforms": "Plateformes",
+    "category": "Catégorie",
+    "recent": "Récent",
+    "search": "Rechercher",
+    "resultsFor": "Résultats de recherche pour",
+    "filteredBy": "Filtré par",
+    "result": "résultat",
+    "results": "résultats",
+    "noResults": "Aucun résultat trouvé",
+    "noResultsDesc": "Essayez d'ajuster votre recherche ou parcourez toutes les animations",
+    "browseAll": "Parcourir toutes les animations"
+  },
   "dashboard": {
     "welcome": "Salut {{name}}, bon retour 👋",
     "welcomeDefault": "Salut, bon retour 👋",

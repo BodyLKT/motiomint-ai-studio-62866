@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
@@ -11,13 +11,13 @@ import { toast } from '@/hooks/use-toast';
 import AnimationCard from '@/components/dashboard/AnimationCard';
 import CategoryFilter from '@/components/dashboard/CategoryFilter';
 import CategoryGrid from '@/components/dashboard/CategoryGrid';
-import SearchBar from '@/components/dashboard/SearchBar';
 import SubscriptionStatus from '@/components/dashboard/SubscriptionStatus';
 import AccountSettings from '@/components/dashboard/AccountSettings';
 import DownloadHistory from '@/components/dashboard/DownloadHistory';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { LanguageSelector } from '@/components/LanguageSelector';
 import { CartButton } from '@/components/CartButton';
+import GlobalSearchBar from '@/components/GlobalSearchBar';
 
 interface Animation {
   id: string;
@@ -37,6 +37,7 @@ export default function Dashboard() {
   const { user, session, loading, signOut } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
+  const [searchParams] = useSearchParams();
   
   const [animations, setAnimations] = useState<Animation[]>([]);
   const [favorites, setFavorites] = useState<Set<string>>(new Set());
@@ -45,6 +46,18 @@ export default function Dashboard() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [loadingData, setLoadingData] = useState(true);
+
+  // Get search query from URL params
+  useEffect(() => {
+    const q = searchParams.get('q');
+    const filter = searchParams.get('filter');
+    if (q) {
+      setSearchQuery(q);
+    }
+    if (filter && filter !== 'all') {
+      setSelectedCategory(filter);
+    }
+  }, [searchParams]);
 
   useEffect(() => {
     if (!loading && !session) {
@@ -369,10 +382,8 @@ export default function Dashboard() {
                 </Card>
               </div>
 
-              <div className="flex flex-col md:flex-row gap-4">
-                <div className="flex-1">
-                  <SearchBar value={searchQuery} onChange={setSearchQuery} />
-                </div>
+              <div className="mb-6">
+                <GlobalSearchBar />
               </div>
 
               <CategoryFilter
@@ -421,8 +432,8 @@ export default function Dashboard() {
                 </div>
 
                 {/* Search Bar */}
-                <div className="max-w-2xl mx-auto">
-                  <SearchBar value={searchQuery} onChange={setSearchQuery} />
+                <div className="max-w-3xl mx-auto mb-8">
+                  <GlobalSearchBar />
                 </div>
 
                 {/* Category Filters */}

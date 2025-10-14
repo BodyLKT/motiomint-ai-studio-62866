@@ -166,6 +166,24 @@
     "loginRequired": "Vă rugăm să vă autentificați pentru a continua",
     "signUpRequired": "Înregistrează-te pentru a accesa această funcție"
   },
+  "search": {
+    "placeholder": "Caută animații, categorii, tag-uri...",
+    "filters": "Filtre",
+    "filterBy": "Filtrează după",
+    "allResults": "Toate rezultatele",
+    "categories": "Categorii",
+    "platforms": "Platforme",
+    "category": "Categorie",
+    "recent": "Recent",
+    "search": "Caută",
+    "resultsFor": "Rezultate căutare pentru",
+    "filteredBy": "Filtrat după",
+    "result": "rezultat",
+    "results": "rezultate",
+    "noResults": "Nu s-au găsit rezultate",
+    "noResultsDesc": "Încearcă să ajustezi căutarea sau navighează toate animațiile",
+    "browseAll": "Vezi toate animațiile"
+  },
   "dashboard": {
     "welcome": "Salut {{name}}, bine ai revenit 👋",
     "welcomeDefault": "Salut, bine ai revenit 👋",

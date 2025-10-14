@@ -166,6 +166,24 @@
     "loginRequired": "Please log in to continue",
     "signUpRequired": "Sign up to access this feature"
   },
+  "search": {
+    "placeholder": "Search animations, categories, tags...",
+    "filters": "Filters",
+    "filterBy": "Filter By",
+    "allResults": "All Results",
+    "categories": "Categories",
+    "platforms": "Platforms",
+    "category": "Category",
+    "recent": "Recent",
+    "search": "Search",
+    "resultsFor": "Search results for",
+    "filteredBy": "Filtered by",
+    "result": "result",
+    "results": "results",
+    "noResults": "No results found",
+    "noResultsDesc": "Try adjusting your search or browse all animations",
+    "browseAll": "Browse All Animations"
+  },
   "dashboard": {
     "welcome": "Hi {{name}}, welcome back 👋",
     "welcomeDefault": "Hi there, welcome back 👋",

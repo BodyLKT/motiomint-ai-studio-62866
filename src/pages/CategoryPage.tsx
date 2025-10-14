@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useNavigate, useParams, Link } from 'react-router-dom';
+import { useNavigate, useParams, Link, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
@@ -21,12 +21,13 @@ import {
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from '@/hooks/use-toast';
 import AnimationCard from '@/components/dashboard/AnimationCard';
-import SearchBar from '@/components/dashboard/SearchBar';
+import CategoryFilter from '@/components/dashboard/CategoryFilter';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { LanguageSelector } from '@/components/LanguageSelector';
 import { CartButton } from '@/components/CartButton';
 import { LoginModal } from '@/components/auth/LoginModal';
 import { SignUpModal } from '@/components/auth/SignUpModal';
+import GlobalSearchBar from '@/components/GlobalSearchBar';
 
 interface Animation {
   id: string;
@@ -92,6 +93,17 @@ export default function CategoryPage() {
   const [showSignUpModal, setShowSignUpModal] = useState(false);
 
   // Allow guest access - no redirect required
+  // Get search query from URL params
+  const [searchParams] = useSearchParams();
+  
+  useEffect(() => {
+    const q = searchParams.get('q');
+    const filter = searchParams.get('filter');
+    if (q) {
+      setSearchQuery(q);
+    }
+  }, [searchParams]);
+
   useEffect(() => {
     if (category) {
       fetchAnimations();
@@ -447,9 +459,9 @@ export default function CategoryPage() {
 
           {/* Search & Filters */}
           <div className="mb-6 space-y-4">
-            <div className="flex flex-col md:flex-row gap-4">
-              <div className="flex-1">
-                <SearchBar value={searchQuery} onChange={setSearchQuery} />
+            <div className="flex flex-col gap-4">
+              <div className="max-w-3xl mx-auto w-full">
+                <GlobalSearchBar />
               </div>
               <Tabs value={sortBy} onValueChange={(v) => setSortBy(v as any)} className="w-full md:w-auto">
                 <TabsList>
