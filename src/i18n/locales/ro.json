@@ -184,6 +184,15 @@
     "noResultsDesc": "Încearcă să ajustezi căutarea sau navighează toate animațiile",
     "browseAll": "Vezi toate animațiile"
   },
+  "similar": {
+    "title": "Animații similare",
+    "discoverSimilar": "Descoperă similare",
+    "basedOn": "Bazat pe",
+    "found": "animații similare găsite",
+    "noSimilar": "Nu s-au găsit animații similare",
+    "noSimilarDesc": "Încearcă să navighezi toate animațiile în schimb",
+    "browseAll": "Vezi toate animațiile"
+  },
   "dashboard": {
     "welcome": "Salut {{name}}, bine ai revenit 👋",
     "welcomeDefault": "Salut, bine ai revenit 👋",

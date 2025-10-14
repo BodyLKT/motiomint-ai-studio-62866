@@ -184,6 +184,15 @@
     "noResultsDesc": "Essayez d'ajuster votre recherche ou parcourez toutes les animations",
     "browseAll": "Parcourir toutes les animations"
   },
+  "similar": {
+    "title": "Animations similaires",
+    "discoverSimilar": "Découvrir similaires",
+    "basedOn": "Basé sur",
+    "found": "animations similaires trouvées",
+    "noSimilar": "Aucune animation similaire trouvée",
+    "noSimilarDesc": "Essayez de parcourir toutes les animations à la place",
+    "browseAll": "Parcourir toutes les animations"
+  },
   "dashboard": {
     "welcome": "Salut {{name}}, bon retour 👋",
     "welcomeDefault": "Salut, bon retour 👋",

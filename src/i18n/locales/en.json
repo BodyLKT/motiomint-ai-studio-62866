@@ -8,7 +8,8 @@
     "dashboard": "Dashboard",
     "logout": "Logout",
     "backToHome": "Back to Home",
-    "backToDashboard": "Back to Dashboard"
+    "backToDashboard": "Back to Dashboard",
+    "back": "Back"
   },
   "hero": {
     "badge": "✨ AI-Powered Animations",
@@ -182,6 +183,15 @@
     "results": "results",
     "noResults": "No results found",
     "noResultsDesc": "Try adjusting your search or browse all animations",
+    "browseAll": "Browse All Animations"
+  },
+  "similar": {
+    "title": "Similar Animations",
+    "discoverSimilar": "Discover Similar",
+    "basedOn": "Based on",
+    "found": "similar animations found",
+    "noSimilar": "No similar animations found",
+    "noSimilarDesc": "Try browsing all animations instead",
     "browseAll": "Browse All Animations"
   },
   "dashboard": {

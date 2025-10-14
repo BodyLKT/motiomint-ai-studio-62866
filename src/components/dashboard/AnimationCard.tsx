@@ -190,6 +190,14 @@ export default function AnimationCard({
               <Sparkles className="mr-2 h-4 w-4" />
               {t('editShare.editAndShare')}
             </Button>
+            <Button
+              onClick={() => navigate(`/similar/${id}`)}
+              variant="outline"
+              className="w-full border-primary/30 hover:bg-primary/10"
+            >
+              <Sparkles className="mr-2 h-4 w-4" />
+              {t('similar.discoverSimilar')}
+            </Button>
           </div>
         </CardContent>
       </Card>

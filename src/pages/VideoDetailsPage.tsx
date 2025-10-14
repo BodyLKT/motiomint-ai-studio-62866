@@ -424,6 +424,16 @@ export default function VideoDetailsPage() {
                   {t('editShare.editAndShare')}
                 </Button>
 
+                <Button
+                  onClick={() => navigate(`/similar/${animation.id}`)}
+                  variant="outline"
+                  size="lg"
+                  className="w-full border-primary/30 hover:bg-primary/10"
+                >
+                  <Sparkles className="mr-2 h-5 w-5" />
+                  {t('similar.discoverSimilar')}
+                </Button>
+
                 <div className="grid grid-cols-2 gap-3">
                   <Button
                     onClick={toggleFavorite}

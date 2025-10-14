@@ -13,6 +13,8 @@ import CategoryPage from "./pages/CategoryPage";
 import PricingPage from "./pages/PricingPage";
 import VideoDetailsPage from "./pages/VideoDetailsPage";
 import CartPage from "./pages/CartPage";
+import SimilarAnimations from "./pages/SimilarAnimations";
+import SearchResults from "./pages/SearchResults";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -36,22 +38,10 @@ const App = () => (
                   </ProtectedRoute>
                 } 
               />
-              <Route 
-                path="/category/:category" 
-                element={
-                  <ProtectedRoute>
-                    <CategoryPage />
-                  </ProtectedRoute>
-                } 
-              />
-              <Route 
-                path="/animation/:id" 
-                element={
-                  <ProtectedRoute>
-                    <VideoDetailsPage />
-                  </ProtectedRoute>
-                } 
-              />
+              <Route path="/category/:category" element={<CategoryPage />} />
+              <Route path="/animation/:id" element={<VideoDetailsPage />} />
+              <Route path="/similar/:id" element={<SimilarAnimations />} />
+              <Route path="/search" element={<SearchResults />} />
               <Route 
                 path="/cart" 
                 element={

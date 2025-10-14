@@ -167,7 +167,7 @@ export default function GlobalSearchBar({
     if (selectedFilter !== 'all') {
       params.set('filter', selectedFilter);
     }
-    navigate(`/dashboard?${params.toString()}`);
+    navigate(`/search?${params.toString()}`);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
