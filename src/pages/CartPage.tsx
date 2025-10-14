@@ -13,6 +13,7 @@ import { LanguageSelector } from '@/components/LanguageSelector';
 import VideoPreview from '@/components/ui/VideoPreview';
 import CartConfigEditor from '@/components/dashboard/CartConfigEditor';
 import { VideoConfig } from '@/components/dashboard/VideoConfigSelector';
+import GlobalSearchBar from '@/components/GlobalSearchBar';
 
 interface CartItem {
   id: string;
@@ -268,36 +269,83 @@ export default function CartPage() {
 
   return (
     <div className="min-h-screen bg-gradient-dark">
-      {/* Header */}
+      {/* Header with Integrated Search */}
       <header className="border-b border-primary/20 bg-background/50 backdrop-blur-lg sticky top-0 z-50">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <button
-            onClick={handleLogoClick}
-            className="text-2xl font-bold bg-gradient-primary bg-clip-text text-transparent hover:opacity-80 transition-opacity"
-          >
-            motiomint
-          </button>
-          <div className="flex items-center gap-2">
-            <Button
-              onClick={() => navigate('/dashboard')}
-              variant="ghost"
-              size="sm"
-              className="gap-2"
+        <div className="container mx-auto px-4 py-3">
+          {/* Desktop Layout */}
+          <div className="hidden lg:grid lg:grid-cols-[200px_1fr_auto] gap-4 items-center">
+            {/* Logo - Left */}
+            <button
+              onClick={handleLogoClick}
+              className="text-2xl font-bold bg-gradient-primary bg-clip-text text-transparent hover:opacity-80 transition-opacity whitespace-nowrap"
             >
-              <ArrowLeft size={16} />
-              {t('nav.backToDashboard')}
-            </Button>
-            <LanguageSelector />
-            <ThemeToggle />
-            <Button
-              onClick={handleSignOut}
-              variant="outline"
-              size="sm"
-              className="gap-2"
-            >
-              <LogOut size={16} />
-              {t('nav.logout')}
-            </Button>
+              motiomint
+            </button>
+            
+            {/* Search Bar - Center */}
+            <div className="max-w-2xl mx-auto w-full">
+              <GlobalSearchBar autoFocus={false} />
+            </div>
+            
+            {/* Actions - Right */}
+            <div className="flex items-center gap-2 whitespace-nowrap">
+              <Button
+                onClick={() => navigate('/dashboard')}
+                variant="ghost"
+                size="sm"
+                className="gap-2"
+              >
+                <ArrowLeft size={16} />
+                {t('nav.backToDashboard')}
+              </Button>
+              <LanguageSelector />
+              <ThemeToggle />
+              <Button
+                onClick={handleSignOut}
+                variant="outline"
+                size="sm"
+                className="gap-2"
+              >
+                <LogOut size={16} />
+                {t('nav.logout')}
+              </Button>
+            </div>
+          </div>
+
+          {/* Mobile/Tablet Layout */}
+          <div className="lg:hidden space-y-3">
+            {/* Top Row: Logo and Actions */}
+            <div className="flex items-center justify-between">
+              <button
+                onClick={handleLogoClick}
+                className="text-xl font-bold bg-gradient-primary bg-clip-text text-transparent hover:opacity-80 transition-opacity"
+              >
+                motiomint
+              </button>
+              <div className="flex items-center gap-2">
+                <Button
+                  onClick={() => navigate('/dashboard')}
+                  variant="ghost"
+                  size="sm"
+                >
+                  <ArrowLeft size={16} />
+                </Button>
+                <LanguageSelector />
+                <ThemeToggle />
+                <Button
+                  onClick={handleSignOut}
+                  variant="outline"
+                  size="sm"
+                >
+                  <LogOut size={16} />
+                </Button>
+              </div>
+            </div>
+            
+            {/* Bottom Row: Search Bar */}
+            <div className="w-full">
+              <GlobalSearchBar autoFocus={false} />
+            </div>
           </div>
         </div>
       </header>

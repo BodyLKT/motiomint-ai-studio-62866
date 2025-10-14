@@ -215,17 +215,26 @@ export default function SearchResults() {
 
   return (
     <div className="min-h-screen bg-gradient-dark">
-      {/* Header */}
+      {/* Header with Integrated Search */}
       <header className="border-b border-primary/20 bg-background/50 backdrop-blur-lg sticky top-0 z-50">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between mb-4">
+        <div className="container mx-auto px-4 py-3">
+          {/* Desktop Layout */}
+          <div className="hidden lg:grid lg:grid-cols-[200px_1fr_auto] gap-4 items-center">
+            {/* Logo - Left */}
             <button
               onClick={() => navigate('/')}
-              className="text-2xl font-bold bg-gradient-primary bg-clip-text text-transparent hover:opacity-80 transition-opacity"
+              className="text-2xl font-bold bg-gradient-primary bg-clip-text text-transparent hover:opacity-80 transition-opacity whitespace-nowrap"
             >
               motiomint
             </button>
-            <div className="flex items-center gap-2">
+            
+            {/* Search Bar - Center */}
+            <div className="max-w-2xl mx-auto w-full">
+              <GlobalSearchBar autoFocus={false} />
+            </div>
+            
+            {/* Actions - Right */}
+            <div className="flex items-center gap-2 whitespace-nowrap">
               {user ? (
                 <>
                   <CartButton />
@@ -265,10 +274,44 @@ export default function SearchResults() {
               )}
             </div>
           </div>
-          
-          {/* Search Bar */}
-          <div className="max-w-4xl mx-auto">
-            <GlobalSearchBar autoFocus />
+
+          {/* Mobile/Tablet Layout */}
+          <div className="lg:hidden space-y-3">
+            {/* Top Row: Logo and Actions */}
+            <div className="flex items-center justify-between">
+              <button
+                onClick={() => navigate('/')}
+                className="text-xl font-bold bg-gradient-primary bg-clip-text text-transparent hover:opacity-80 transition-opacity"
+              >
+                motiomint
+              </button>
+              <div className="flex items-center gap-2">
+                {user ? (
+                  <>
+                    <CartButton />
+                    <LanguageSelector />
+                    <ThemeToggle />
+                    <Button
+                      onClick={handleSignOut}
+                      variant="outline"
+                      size="sm"
+                    >
+                      <LogOut size={16} />
+                    </Button>
+                  </>
+                ) : (
+                  <>
+                    <LanguageSelector />
+                    <ThemeToggle />
+                  </>
+                )}
+              </div>
+            </div>
+            
+            {/* Bottom Row: Search Bar */}
+            <div className="w-full">
+              <GlobalSearchBar autoFocus={false} />
+            </div>
           </div>
         </div>
       </header>

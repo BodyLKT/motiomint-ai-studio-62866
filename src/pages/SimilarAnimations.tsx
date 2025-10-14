@@ -265,28 +265,24 @@ export default function SimilarAnimations() {
 
   return (
     <div className="min-h-screen bg-gradient-dark">
-      {/* Header */}
+      {/* Header with Integrated Search */}
       <header className="border-b border-primary/20 bg-background/50 backdrop-blur-lg sticky top-0 z-50">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between mb-4">
-            <button
-              onClick={() => navigate('/')}
-              className="text-2xl font-bold bg-gradient-primary bg-clip-text text-transparent hover:opacity-80 transition-opacity"
-            >
+        <div className="container mx-auto px-4 py-3">
+          {/* Desktop Layout */}
+          <div className="hidden lg:grid lg:grid-cols-[200px_1fr_auto] gap-4 items-center">
+            <button onClick={() => navigate('/')} className="text-2xl font-bold bg-gradient-primary bg-clip-text text-transparent hover:opacity-80 transition-opacity whitespace-nowrap">
               motiomint
             </button>
-            <div className="flex items-center gap-2">
+            <div className="max-w-2xl mx-auto w-full">
+              <GlobalSearchBar autoFocus={false} />
+            </div>
+            <div className="flex items-center gap-2 whitespace-nowrap">
               {user ? (
                 <>
                   <CartButton />
                   <LanguageSelector />
                   <ThemeToggle />
-                  <Button
-                    onClick={handleSignOut}
-                    variant="outline"
-                    size="sm"
-                    className="gap-2"
-                  >
+                  <Button onClick={handleSignOut} variant="outline" size="sm" className="gap-2">
                     <LogOut size={16} />
                     {t('nav.logout')}
                   </Button>
@@ -295,30 +291,27 @@ export default function SimilarAnimations() {
                 <>
                   <LanguageSelector />
                   <ThemeToggle />
-                  <Button
-                    onClick={() => setShowLoginModal(true)}
-                    variant="outline"
-                    size="sm"
-                    className="gap-2"
-                  >
+                  <Button onClick={() => setShowLoginModal(true)} variant="outline" size="sm" className="gap-2">
                     {t('nav.login')}
                   </Button>
-                  <Button
-                    onClick={() => setShowSignUpModal(true)}
-                    variant="default"
-                    size="sm"
-                    className="gap-2 btn-glow"
-                  >
+                  <Button onClick={() => setShowSignUpModal(true)} variant="default" size="sm" className="gap-2 btn-glow">
                     {t('nav.signUp')}
                   </Button>
                 </>
               )}
             </div>
           </div>
-          
-          {/* Search Bar */}
-          <div className="max-w-4xl mx-auto">
-            <GlobalSearchBar />
+          {/* Mobile Layout */}
+          <div className="lg:hidden space-y-3">
+            <div className="flex items-center justify-between">
+              <button onClick={() => navigate('/')} className="text-xl font-bold bg-gradient-primary bg-clip-text text-transparent hover:opacity-80 transition-opacity">motiomint</button>
+              <div className="flex items-center gap-2">
+                {user ? <><CartButton /><LanguageSelector /><ThemeToggle /><Button onClick={handleSignOut} variant="outline" size="sm"><LogOut size={16} /></Button></> : <><LanguageSelector /><ThemeToggle /></>}
+              </div>
+            </div>
+            <div className="w-full">
+              <GlobalSearchBar autoFocus={false} />
+            </div>
           </div>
         </div>
       </header>
