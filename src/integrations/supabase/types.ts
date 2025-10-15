@@ -14,7 +14,238 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      animations: {
+        Row: {
+          category: string
+          created_at: string
+          description: string | null
+          file_url: string
+          format: string | null
+          id: string
+          resolution: string | null
+          tags: string[] | null
+          thumbnail_url: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          category: string
+          created_at?: string
+          description?: string | null
+          file_url: string
+          format?: string | null
+          id?: string
+          resolution?: string | null
+          tags?: string[] | null
+          thumbnail_url: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          description?: string | null
+          file_url?: string
+          format?: string | null
+          id?: string
+          resolution?: string | null
+          tags?: string[] | null
+          thumbnail_url?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          email: string | null
+          full_name: string | null
+          id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          email?: string | null
+          full_name?: string | null
+          id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          email?: string | null
+          full_name?: string | null
+          id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      user_cart: {
+        Row: {
+          added_at: string
+          animation_id: string
+          id: string
+          selected_format: string | null
+          selected_platform: string | null
+          selected_ratio: string | null
+          selected_size: string | null
+          user_id: string
+        }
+        Insert: {
+          added_at?: string
+          animation_id: string
+          id?: string
+          selected_format?: string | null
+          selected_platform?: string | null
+          selected_ratio?: string | null
+          selected_size?: string | null
+          user_id: string
+        }
+        Update: {
+          added_at?: string
+          animation_id?: string
+          id?: string
+          selected_format?: string | null
+          selected_platform?: string | null
+          selected_ratio?: string | null
+          selected_size?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fk_user_cart_animation"
+            columns: ["animation_id"]
+            isOneToOne: false
+            referencedRelation: "animations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_downloads: {
+        Row: {
+          animation_id: string
+          downloaded_at: string
+          id: string
+          user_id: string
+        }
+        Insert: {
+          animation_id: string
+          downloaded_at?: string
+          id?: string
+          user_id: string
+        }
+        Update: {
+          animation_id?: string
+          downloaded_at?: string
+          id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fk_user_downloads_animation"
+            columns: ["animation_id"]
+            isOneToOne: false
+            referencedRelation: "animations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_downloads_animation_id_fkey"
+            columns: ["animation_id"]
+            isOneToOne: false
+            referencedRelation: "animations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_downloads_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_favorites: {
+        Row: {
+          animation_id: string
+          created_at: string
+          id: string
+          user_id: string
+        }
+        Insert: {
+          animation_id: string
+          created_at?: string
+          id?: string
+          user_id: string
+        }
+        Update: {
+          animation_id?: string
+          created_at?: string
+          id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fk_user_favorites_animation"
+            columns: ["animation_id"]
+            isOneToOne: false
+            referencedRelation: "animations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_favorites_animation_id_fkey"
+            columns: ["animation_id"]
+            isOneToOne: false
+            referencedRelation: "animations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_favorites_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_subscriptions: {
+        Row: {
+          created_at: string
+          download_limit: number | null
+          downloads_used: number | null
+          end_date: string | null
+          id: string
+          plan_name: string
+          start_date: string
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          download_limit?: number | null
+          downloads_used?: number | null
+          end_date?: string | null
+          id?: string
+          plan_name: string
+          start_date?: string
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          download_limit?: number | null
+          downloads_used?: number | null
+          end_date?: string | null
+          id?: string
+          plan_name?: string
+          start_date?: string
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

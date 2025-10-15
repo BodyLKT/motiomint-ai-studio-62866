@@ -11,9 +11,16 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from '@/hooks/use-toast';
 
 interface Subscription {
-  subscription_tier: string;
+  id: string;
+  user_id: string;
+  plan_name: string;
   status: string;
-  expires_at: string | null;
+  download_limit: number;
+  downloads_used: number;
+  start_date: string;
+  end_date: string | null;
+  created_at: string;
+  updated_at: string;
 }
 
 const PLAN_LIMITS = {
@@ -81,10 +88,11 @@ export default function SubscriptionStatus() {
     }
   };
 
-  const currentPlan = subscription?.subscription_tier || 'free';
+  const currentPlan = subscription?.plan_name || 'free';
   const planInfo = PLAN_LIMITS[currentPlan as keyof typeof PLAN_LIMITS] || PLAN_LIMITS.free;
-  const downloadsRemaining = Math.max(0, planInfo.downloads - downloadsThisMonth);
-  const usagePercentage = Math.min(100, (downloadsThisMonth / planInfo.downloads) * 100);
+  const downloadLimit = subscription?.download_limit || planInfo.downloads;
+  const downloadsRemaining = Math.max(0, downloadLimit - downloadsThisMonth);
+  const usagePercentage = Math.min(100, (downloadsThisMonth / downloadLimit) * 100);
   const isMaxTier = currentPlan === 'agency';
 
   const getStatusColor = () => {
@@ -94,13 +102,13 @@ export default function SubscriptionStatus() {
   };
 
   const formatRenewalDate = () => {
-    if (!subscription?.expires_at) {
+    if (!subscription?.end_date) {
       const nextMonth = new Date();
       nextMonth.setMonth(nextMonth.getMonth() + 1);
       nextMonth.setDate(1);
       return nextMonth.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
     }
-    return new Date(subscription.expires_at).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+    return new Date(subscription.end_date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
   };
 
   if (loading) {
