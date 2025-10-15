@@ -1,33 +1,28 @@
 import { useEffect, useState } from 'react';
-import { useNavigate, useParams, Link, useSearchParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { 
-  Loader2, 
-  LogOut, 
-  Home, 
+  Loader2,
   ArrowLeft,
-  TrendingUp,
-  Star,
-  Clock,
   Grid3x3,
-  FileVideo,
-  Monitor
+  LayoutGrid,
+  SlidersHorizontal,
+  Search
 } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from '@/hooks/use-toast';
-import AnimationCard from '@/components/dashboard/AnimationCard';
-import CategoryFilter from '@/components/dashboard/CategoryFilter';
-import { ThemeToggle } from '@/components/ThemeToggle';
-import { LanguageSelector } from '@/components/LanguageSelector';
-import { CartButton } from '@/components/CartButton';
+import MainNavigation from '@/components/navigation/MainNavigation';
+import EnhancedAnimationCard from '@/components/category/EnhancedAnimationCard';
+import FilterPanel from '@/components/category/FilterPanel';
+import SortDropdown, { SortOption } from '@/components/category/SortDropdown';
 import { LoginModal } from '@/components/auth/LoginModal';
 import { SignUpModal } from '@/components/auth/SignUpModal';
-import GlobalSearchBar from '@/components/GlobalSearchBar';
+import { Input } from '@/components/ui/input';
 
 interface Animation {
   id: string;
@@ -70,12 +65,12 @@ const CATEGORY_INFO: Record<string, { description: string; icon: string }> = {
   }
 };
 
-const ALL_CATEGORIES = Object.keys(CATEGORY_INFO);
+type GridView = 'comfortable' | 'compact';
 
 export default function CategoryPage() {
   const { category: categoryParam } = useParams<{ category: string }>();
   const { t } = useTranslation();
-  const { user, session, loading, signOut } = useAuth();
+  const { user } = useAuth();
   const navigate = useNavigate();
   
   const category = decodeURIComponent(categoryParam || '');
@@ -85,54 +80,29 @@ export default function CategoryPage() {
   const [favorites, setFavorites] = useState<Set<string>>(new Set());
   const [cart, setCart] = useState<Set<string>>(new Set());
   const [searchQuery, setSearchQuery] = useState('');
-  const [sortBy, setSortBy] = useState<'recent' | 'popular' | 'trending'>('recent');
-  const [selectedFormat, setSelectedFormat] = useState<string>('all');
-  const [selectedResolution, setSelectedResolution] = useState<string>('all');
+  const [sortBy, setSortBy] = useState<SortOption>('newest');
+  const [selectedFormats, setSelectedFormats] = useState<string[]>([]);
+  const [selectedResolutions, setSelectedResolutions] = useState<string[]>([]);
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
+  const [gridView, setGridView] = useState<GridView>('comfortable');
   const [loadingData, setLoadingData] = useState(true);
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showSignUpModal, setShowSignUpModal] = useState(false);
 
-  // Allow guest access - no redirect required
-  // Get search query from URL params
-  const [searchParams] = useSearchParams();
-  
   useEffect(() => {
-    const q = searchParams.get('q');
-    const filter = searchParams.get('filter');
-    if (q) {
-      setSearchQuery(q);
+    fetchAnimations();
+    if (user) {
+      fetchUserData();
     }
-  }, [searchParams]);
-
-  useEffect(() => {
-    if (category) {
-      fetchAnimations();
-      if (user) {
-        fetchUserFavorites();
-        fetchUserCart();
-      }
-    }
-  }, [user, category, sortBy]);
+  }, [category, user]);
 
   const fetchAnimations = async () => {
     try {
-      let query = supabase
+      const { data, error } = await supabase
         .from('animations')
         .select('*')
-        .eq('category', category);
-
-      // Apply sorting
-      if (sortBy === 'recent') {
-        query = query.order('created_at', { ascending: false });
-      } else if (sortBy === 'popular') {
-        // For now, use created_at as proxy for popularity
-        query = query.order('created_at', { ascending: false });
-      } else if (sortBy === 'trending') {
-        // For now, use created_at as proxy for trending
-        query = query.order('created_at', { ascending: false });
-      }
-
-      const { data, error } = await query;
+        .eq('category', category)
+        .order('created_at', { ascending: false });
 
       if (error) throw error;
       setAnimations(data || []);
@@ -147,39 +117,29 @@ export default function CategoryPage() {
     }
   };
 
-  const fetchUserFavorites = async () => {
+  const fetchUserData = async () => {
     if (!user) return;
 
     try {
-      const { data, error } = await supabase
-        .from('user_favorites')
-        .select('animation_id')
-        .eq('user_id', user.id);
+      const [favoritesRes, cartRes] = await Promise.all([
+        supabase
+          .from('user_favorites')
+          .select('animation_id')
+          .eq('user_id', user.id),
+        supabase
+          .from('user_cart')
+          .select('animation_id')
+          .eq('user_id', user.id),
+      ]);
 
-      if (error) throw error;
-      if (data) {
-        setFavorites(new Set(data.map((f: any) => f.animation_id)));
+      if (favoritesRes.data) {
+        setFavorites(new Set(favoritesRes.data.map((f: any) => f.animation_id)));
+      }
+      if (cartRes.data) {
+        setCart(new Set(cartRes.data.map((c: any) => c.animation_id)));
       }
     } catch (error: any) {
-      console.error('Error fetching favorites:', error);
-    }
-  };
-
-  const fetchUserCart = async () => {
-    if (!user) return;
-
-    try {
-      const { data, error } = await supabase
-        .from('user_cart')
-        .select('animation_id')
-        .eq('user_id', user.id);
-
-      if (error) throw error;
-      if (data) {
-        setCart(new Set(data.map((c: any) => c.animation_id)));
-      }
-    } catch (error: any) {
-      console.error('Error fetching cart:', error);
+      console.error('Error fetching user data:', error);
     }
   };
 
@@ -273,330 +233,84 @@ export default function CategoryPage() {
     }
   };
 
-  const handleLogoClick = () => {
-    navigate('/');
+  // Extract unique values for filters
+  const allFormats = Array.from(new Set(animations.map(a => a.format).filter(Boolean))) as string[];
+  const allResolutions = Array.from(new Set(animations.map(a => a.resolution).filter(Boolean))) as string[];
+  const allTags = Array.from(new Set(animations.flatMap(a => a.tags)));
+
+  // Apply filters and sorting
+  const filteredAndSortedAnimations = animations
+    .filter((animation) => {
+      const matchesSearch =
+        searchQuery === '' ||
+        animation.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        animation.description?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        animation.tags.some((tag) => tag.toLowerCase().includes(searchQuery.toLowerCase()));
+
+      const matchesFormat = selectedFormats.length === 0 || 
+        (animation.format && selectedFormats.includes(animation.format));
+
+      const matchesResolution = selectedResolutions.length === 0 || 
+        (animation.resolution && selectedResolutions.includes(animation.resolution));
+
+      const matchesTags = selectedTags.length === 0 || 
+        selectedTags.some(tag => animation.tags.includes(tag));
+
+      return matchesSearch && matchesFormat && matchesResolution && matchesTags;
+    })
+    .sort((a, b) => {
+      switch (sortBy) {
+        case 'newest':
+          return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
+        case 'oldest':
+          return new Date(a.created_at).getTime() - new Date(b.created_at).getTime();
+        case 'title-asc':
+          return a.title.localeCompare(b.title);
+        case 'title-desc':
+          return b.title.localeCompare(a.title);
+        case 'popular':
+        case 'trending':
+          // For now, use created_at as a proxy
+          return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
+        default:
+          return 0;
+      }
+    });
+
+  const clearAllFilters = () => {
+    setSelectedFormats([]);
+    setSelectedResolutions([]);
+    setSelectedTags([]);
   };
 
-  const handleSignOut = async () => {
-    await signOut();
-    navigate('/');
+  const handleAuthRequired = () => {
+    setShowLoginModal(true);
   };
 
-  if (loading) {
+  if (!categoryInfo) {
     return (
       <div className="min-h-screen bg-gradient-dark flex items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        <Card className="p-8 text-center">
+          <h2 className="text-2xl font-bold mb-4">Category Not Found</h2>
+          <p className="text-muted-foreground mb-6">
+            The category you're looking for doesn't exist.
+          </p>
+          <Button onClick={() => navigate('/')}>
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            Back to Home
+          </Button>
+        </Card>
       </div>
     );
   }
 
-  if (!categoryInfo) {
-    return null;
-  }
-
-  const filteredAnimations = animations.filter((animation) => {
-    const matchesSearch =
-      searchQuery === '' ||
-      animation.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      animation.description?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      animation.tags.some((tag) => tag.toLowerCase().includes(searchQuery.toLowerCase()));
-
-    const matchesFormat = selectedFormat === 'all' || animation.format === selectedFormat;
-    const matchesResolution = selectedResolution === 'all' || animation.resolution === selectedResolution;
-    
-    return matchesSearch && matchesFormat && matchesResolution;
-  });
-
-  const formats = ['all', ...Array.from(new Set(animations.map(a => a.format).filter(Boolean)))];
-  const resolutions = ['all', ...Array.from(new Set(animations.map(a => a.resolution).filter(Boolean)))];
-
   return (
     <div className="min-h-screen bg-gradient-dark">
-      {/* Header with Integrated Search */}
-      <header className="border-b border-primary/20 bg-background/50 backdrop-blur-lg sticky top-0 z-50">
-        <div className="container mx-auto px-4 py-3">
-          {/* Desktop Layout */}
-          <div className="hidden lg:grid lg:grid-cols-[200px_1fr_auto] gap-4 items-center">
-            {/* Logo - Left */}
-            <button
-              onClick={handleLogoClick}
-              className="text-2xl font-bold bg-gradient-primary bg-clip-text text-transparent hover:opacity-80 transition-opacity whitespace-nowrap"
-            >
-              motiomint
-            </button>
-            
-            {/* Search Bar - Center */}
-            <div className="max-w-2xl mx-auto w-full">
-              <GlobalSearchBar autoFocus={false} />
-            </div>
-            
-            {/* Actions - Right */}
-            <div className="flex items-center gap-2 whitespace-nowrap">
-              {user ? (
-                <>
-                  <Button
-                    onClick={() => navigate('/dashboard')}
-                    variant="ghost"
-                    size="sm"
-                    className="gap-2"
-                  >
-                    <Home size={16} />
-                    {t('nav.dashboard')}
-                  </Button>
-                  <CartButton />
-                  <LanguageSelector />
-                  <ThemeToggle />
-                  <Button
-                    onClick={handleSignOut}
-                    variant="outline"
-                    size="sm"
-                    className="gap-2"
-                  >
-                    <LogOut size={16} />
-                    {t('nav.logout')}
-                  </Button>
-                </>
-              ) : (
-                <>
-                  <LanguageSelector />
-                  <ThemeToggle />
-                  <Button
-                    onClick={() => setShowLoginModal(true)}
-                    variant="outline"
-                    size="sm"
-                    className="gap-2"
-                  >
-                    {t('nav.login')}
-                  </Button>
-                  <Button
-                    onClick={() => setShowSignUpModal(true)}
-                    variant="default"
-                    size="sm"
-                    className="gap-2 btn-glow"
-                  >
-                    {t('nav.signUp')}
-                  </Button>
-                </>
-              )}
-            </div>
-          </div>
-
-          {/* Mobile/Tablet Layout */}
-          <div className="lg:hidden space-y-3">
-            {/* Top Row: Logo and Actions */}
-            <div className="flex items-center justify-between">
-              <button
-                onClick={handleLogoClick}
-                className="text-xl font-bold bg-gradient-primary bg-clip-text text-transparent hover:opacity-80 transition-opacity"
-              >
-                motiomint
-              </button>
-              <div className="flex items-center gap-2">
-                {user ? (
-                  <>
-                    <Button
-                      onClick={() => navigate('/dashboard')}
-                      variant="ghost"
-                      size="sm"
-                    >
-                      <Home size={16} />
-                    </Button>
-                    <CartButton />
-                    <LanguageSelector />
-                    <ThemeToggle />
-                    <Button
-                      onClick={handleSignOut}
-                      variant="outline"
-                      size="sm"
-                    >
-                      <LogOut size={16} />
-                    </Button>
-                  </>
-                ) : (
-                  <>
-                    <LanguageSelector />
-                    <ThemeToggle />
-                  </>
-                )}
-              </div>
-            </div>
-            
-            {/* Bottom Row: Search Bar */}
-            <div className="w-full">
-              <GlobalSearchBar autoFocus={false} />
-            </div>
-          </div>
-        </div>
-      </header>
-
-      {/* Main Content */}
-      <main className="container mx-auto px-4 py-12">
-        <div className="max-w-7xl mx-auto">
-          {/* Back Button */}
-          <Button
-            onClick={() => navigate('/dashboard')}
-            variant="ghost"
-            size="sm"
-            className="mb-6 gap-2"
-          >
-            <ArrowLeft size={16} />
-            {t('nav.backToDashboard')}
-          </Button>
-
-          {/* Category Header */}
-          <div className="mb-8 text-center">
-            <h1 className="text-3xl md:text-4xl font-bold mb-3 gradient-text">
-              {category}
-            </h1>
-            <p className="text-base md:text-lg text-foreground/80 max-w-3xl mx-auto">
-              {categoryInfo.description}
-            </p>
-          </div>
-
-          {/* Category Navigation */}
-          <div className="mb-8 overflow-x-auto pb-2">
-            <div className="flex gap-2 min-w-max">
-              {ALL_CATEGORIES.map((cat) => (
-                <Link key={cat} to={`/category/${encodeURIComponent(cat)}`}>
-                  <Button
-                    variant={cat === category ? "default" : "outline"}
-                    size="sm"
-                    className="gap-2"
-                  >
-                    {CATEGORY_INFO[cat].icon} {cat}
-                  </Button>
-                </Link>
-              ))}
-            </div>
-          </div>
-
-          {/* Stats */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-            <Card className="p-4 bg-card/50 backdrop-blur-sm border-primary/20">
-              <div className="flex items-center gap-2 mb-1">
-                <Grid3x3 className="h-4 w-4 text-primary" />
-                <h3 className="text-sm font-medium text-foreground/80">{t('category.total')}</h3>
-              </div>
-              <p className="text-2xl font-bold text-foreground">{animations.length}</p>
-            </Card>
-            <Card className="p-4 bg-card/50 backdrop-blur-sm border-primary/20">
-              <div className="flex items-center gap-2 mb-1">
-                <Star className="h-4 w-4 text-primary" />
-                <h3 className="text-sm font-medium text-foreground/80">{t('dashboard.favorites')}</h3>
-              </div>
-              <p className="text-2xl font-bold text-foreground">
-                {filteredAnimations.filter(a => favorites.has(a.id)).length}
-              </p>
-            </Card>
-            <Card className="p-4 bg-card/50 backdrop-blur-sm border-primary/20">
-              <div className="flex items-center gap-2 mb-1">
-                <Clock className="h-4 w-4 text-primary" />
-                <h3 className="text-sm font-medium text-foreground/80">{t('category.recent')}</h3>
-              </div>
-              <p className="text-2xl font-bold text-foreground">
-                {animations.filter(a => {
-                  const daysOld = (Date.now() - new Date(a.created_at).getTime()) / (1000 * 60 * 60 * 24);
-                  return daysOld < 7;
-                }).length}
-              </p>
-            </Card>
-            <Card className="p-4 bg-card/50 backdrop-blur-sm border-primary/20">
-              <div className="flex items-center gap-2 mb-1">
-                <TrendingUp className="h-4 w-4 text-primary" />
-                <h3 className="text-sm font-medium text-foreground/80">{t('category.trending')}</h3>
-              </div>
-              <p className="text-2xl font-bold text-foreground">{Math.min(animations.length, 12)}</p>
-            </Card>
-          </div>
-
-          {/* Filters */}
-          <div className="mb-6 space-y-4">
-            <div className="flex flex-col gap-4">
-              <Tabs value={sortBy} onValueChange={(v) => setSortBy(v as any)} className="w-full md:w-auto">
-                <TabsList>
-                  <TabsTrigger value="recent" className="gap-2">
-                    <Clock className="h-4 w-4" />
-                    {t('category.recent')}
-                  </TabsTrigger>
-                  <TabsTrigger value="popular" className="gap-2">
-                    <Star className="h-4 w-4" />
-                    {t('category.popular')}
-                  </TabsTrigger>
-                  <TabsTrigger value="trending" className="gap-2">
-                    <TrendingUp className="h-4 w-4" />
-                    {t('category.trending')}
-                  </TabsTrigger>
-                </TabsList>
-              </Tabs>
-            </div>
-
-            {/* Format & Resolution Filters */}
-            <div className="flex flex-wrap gap-4">
-              <div className="flex items-center gap-2">
-                <FileVideo className="h-4 w-4 text-foreground/70" />
-                <span className="text-sm font-medium text-foreground/80">{t('category.format')}</span>
-                <Tabs value={selectedFormat} onValueChange={setSelectedFormat} className="w-auto">
-                  <TabsList>
-                    {formats.map((format) => (
-                      <TabsTrigger key={format} value={format} className="text-xs capitalize">
-                        {format === 'all' ? t('category.all') : format}
-                      </TabsTrigger>
-                    ))}
-                  </TabsList>
-                </Tabs>
-              </div>
-
-              <div className="flex items-center gap-2">
-                <Monitor className="h-4 w-4 text-foreground/70" />
-                <span className="text-sm font-medium text-foreground/80">{t('category.resolution')}</span>
-                <Tabs value={selectedResolution} onValueChange={setSelectedResolution} className="w-auto">
-                  <TabsList>
-                    {resolutions.map((res) => (
-                      <TabsTrigger key={res} value={res} className="text-xs capitalize">
-                        {res === 'all' ? t('category.all') : res}
-                      </TabsTrigger>
-                    ))}
-                  </TabsList>
-                </Tabs>
-              </div>
-            </div>
-          </div>
-
-          {/* Animations Grid */}
-          {loadingData ? (
-            <div className="flex items-center justify-center py-12">
-              <Loader2 className="h-8 w-8 animate-spin text-primary" />
-            </div>
-          ) : filteredAnimations.length === 0 ? (
-            <Card className="p-12 text-center bg-card/50 backdrop-blur-sm border-primary/20">
-              <p className="text-foreground/70 text-lg">
-                {t('category.noAnimations')}
-              </p>
-            </Card>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-               {filteredAnimations.map((animation) => (
-                <AnimationCard
-                  key={animation.id}
-                  id={animation.id}
-                  title={animation.title}
-                  description={animation.description || ''}
-                  category={animation.category}
-                  thumbnailUrl={animation.thumbnail_url}
-                  videoUrl={animation.preview_url || animation.file_url}
-                  tags={animation.tags}
-                  isFavorite={favorites.has(animation.id)}
-                  isInCart={cart.has(animation.id)}
-                  onFavoriteToggle={() => toggleFavorite(animation.id)}
-                  onCartToggle={() => toggleCart(animation.id)}
-                  isGuest={!user}
-                  onAuthRequired={() => setShowSignUpModal(true)}
-                />
-              ))}
-            </div>
-          )}
-        </div>
-      </main>
+      {/* Main Navigation */}
+      <MainNavigation 
+        onLoginClick={() => setShowLoginModal(true)}
+        onSignUpClick={() => setShowSignUpModal(true)}
+      />
 
       {/* Auth Modals */}
       <LoginModal
@@ -615,6 +329,188 @@ export default function CategoryPage() {
           setShowLoginModal(true);
         }}
       />
+
+      {/* Main Content */}
+      <main className="container mx-auto px-4 pt-32 pb-16">
+        {/* Category Header */}
+        <div className="mb-8">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => navigate('/')}
+            className="mb-4"
+          >
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            Back to Categories
+          </Button>
+
+          <div className="flex items-start gap-4 mb-4">
+            <div className="text-5xl">{categoryInfo.icon}</div>
+            <div className="flex-1">
+              <h1 className="text-4xl font-bold mb-2">{category}</h1>
+              <p className="text-lg text-muted-foreground max-w-3xl">
+                {categoryInfo.description}
+              </p>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+            <Badge variant="outline">
+              {filteredAndSortedAnimations.length} {filteredAndSortedAnimations.length === 1 ? 'animation' : 'animations'}
+            </Badge>
+          </div>
+        </div>
+
+        {/* Filters & Controls Bar */}
+        <div className="mb-6 space-y-4">
+          {/* Mobile Filter & Sort */}
+          <div className="lg:hidden flex gap-2">
+            <Sheet>
+              <SheetTrigger asChild>
+                <Button variant="outline" className="flex-1">
+                  <SlidersHorizontal className="w-4 h-4 mr-2" />
+                  Filters
+                  {(selectedFormats.length + selectedResolutions.length + selectedTags.length) > 0 && (
+                    <Badge variant="secondary" className="ml-2">
+                      {selectedFormats.length + selectedResolutions.length + selectedTags.length}
+                    </Badge>
+                  )}
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="left" className="w-80 overflow-y-auto">
+                <SheetHeader>
+                  <SheetTitle>Filters</SheetTitle>
+                </SheetHeader>
+                <div className="mt-6">
+                  <FilterPanel
+                    formats={allFormats}
+                    resolutions={allResolutions}
+                    tags={allTags}
+                    selectedFormats={selectedFormats}
+                    selectedResolutions={selectedResolutions}
+                    selectedTags={selectedTags}
+                    onFormatChange={setSelectedFormats}
+                    onResolutionChange={setSelectedResolutions}
+                    onTagChange={setSelectedTags}
+                    onClearAll={clearAllFilters}
+                  />
+                </div>
+              </SheetContent>
+            </Sheet>
+            <SortDropdown value={sortBy} onChange={setSortBy} />
+          </div>
+
+          {/* Desktop Controls */}
+          <div className="hidden lg:flex items-center justify-between gap-4">
+            <div className="flex-1 max-w-md">
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                <Input
+                  type="text"
+                  placeholder="Search in this category..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="pl-10 bg-card/50 backdrop-blur-sm border-border/50"
+                />
+              </div>
+            </div>
+
+            <div className="flex items-center gap-3">
+              <SortDropdown value={sortBy} onChange={setSortBy} />
+              
+              <div className="flex items-center gap-1 border rounded-lg p-1 bg-card/50">
+                <Button
+                  variant={gridView === 'comfortable' ? 'default' : 'ghost'}
+                  size="sm"
+                  onClick={() => setGridView('comfortable')}
+                  className="h-8 px-3"
+                >
+                  <Grid3x3 className="w-4 h-4" />
+                </Button>
+                <Button
+                  variant={gridView === 'compact' ? 'default' : 'ghost'}
+                  size="sm"
+                  onClick={() => setGridView('compact')}
+                  className="h-8 px-3"
+                >
+                  <LayoutGrid className="w-4 h-4" />
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Main Layout */}
+        <div className="flex gap-6">
+          {/* Desktop Sidebar Filters */}
+          <aside className="hidden lg:block w-64 flex-shrink-0">
+            <div className="sticky top-32">
+              <Card className="p-6 bg-card/50 backdrop-blur-sm border-border/50">
+                <FilterPanel
+                  formats={allFormats}
+                  resolutions={allResolutions}
+                  tags={allTags}
+                  selectedFormats={selectedFormats}
+                  selectedResolutions={selectedResolutions}
+                  selectedTags={selectedTags}
+                  onFormatChange={setSelectedFormats}
+                  onResolutionChange={setSelectedResolutions}
+                  onTagChange={setSelectedTags}
+                  onClearAll={clearAllFilters}
+                />
+              </Card>
+            </div>
+          </aside>
+
+          {/* Animation Grid */}
+          <div className="flex-1">
+            {loadingData ? (
+              <div className="flex items-center justify-center py-20">
+                <Loader2 className="h-8 w-8 animate-spin text-primary" />
+              </div>
+            ) : filteredAndSortedAnimations.length === 0 ? (
+              <Card className="p-12 text-center bg-card/50 backdrop-blur-sm border-border/50">
+                <p className="text-muted-foreground text-lg mb-4">No animations found</p>
+                <p className="text-sm text-muted-foreground mb-6">
+                  Try adjusting your filters or search query
+                </p>
+                {(selectedFormats.length > 0 || selectedResolutions.length > 0 || selectedTags.length > 0) && (
+                  <Button variant="outline" onClick={clearAllFilters}>
+                    Clear All Filters
+                  </Button>
+                )}
+              </Card>
+            ) : (
+              <div className={
+                gridView === 'comfortable'
+                  ? 'grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6'
+                  : 'grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4'
+              }>
+                {filteredAndSortedAnimations.map((animation) => (
+                  <EnhancedAnimationCard
+                    key={animation.id}
+                    id={animation.id}
+                    title={animation.title}
+                    description={animation.description || ''}
+                    category={animation.category}
+                    thumbnailUrl={animation.thumbnail_url}
+                    videoUrl={animation.preview_url || animation.file_url}
+                    tags={animation.tags}
+                    format={animation.format}
+                    resolution={animation.resolution}
+                    isFavorite={favorites.has(animation.id)}
+                    isInCart={cart.has(animation.id)}
+                    onFavoriteToggle={() => toggleFavorite(animation.id)}
+                    onCartToggle={() => toggleCart(animation.id)}
+                    isGuest={!user}
+                    onAuthRequired={handleAuthRequired}
+                  />
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+      </main>
     </div>
   );
 }

@@ -196,7 +196,12 @@
     "results": "results",
     "noResults": "No results found",
     "noResultsDesc": "Try adjusting your search or browse all animations",
-    "browseAll": "Browse All Animations"
+    "browseAll": "Browse All Animations",
+    "sortBy": "Sort by",
+    "newest": "Newest First",
+    "oldest": "Oldest First",
+    "popular": "Most Popular",
+    "trending": "Trending"
   },
   "similar": {
     "title": "Similar Animations",
