@@ -3,29 +3,43 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { ArrowLeft, Heart, Download, ShoppingCart, Loader2, LogOut, Sparkles } from 'lucide-react';
+import { Separator } from '@/components/ui/separator';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
+import { 
+  ArrowLeft, 
+  Heart, 
+  Download, 
+  ShoppingCart, 
+  Loader2, 
+  Share2,
+  Info,
+  Eye,
+  Sparkles,
+  CheckCircle2,
+  Calendar,
+  Tag
+} from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from '@/hooks/use-toast';
-import VideoPreview from '@/components/ui/VideoPreview';
-import { ThemeToggle } from '@/components/ThemeToggle';
-import { LanguageSelector } from '@/components/LanguageSelector';
-import { CartButton } from '@/components/CartButton';
+import MainNavigation from '@/components/navigation/MainNavigation';
+import { ModernVideoPlayer } from '@/components/ui/ModernVideoPlayer';
+import DownloadOptions from '@/components/details/DownloadOptions';
+import RelatedAnimations from '@/components/details/RelatedAnimations';
+import ShareModal from '@/components/details/ShareModal';
 import EditShareModal from '@/components/dashboard/EditShareModal';
-import VideoConfigSelector, { VideoConfig } from '@/components/dashboard/VideoConfigSelector';
-import WatermarkOverlay from '@/components/ui/WatermarkOverlay';
-import DownloadWithOptions from '@/components/dashboard/DownloadWithOptions';
 import { LoginModal } from '@/components/auth/LoginModal';
 import { SignUpModal } from '@/components/auth/SignUpModal';
-import GlobalSearchBar from '@/components/GlobalSearchBar';
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog';
+import { cn } from '@/lib/utils';
 
 interface Animation {
   id: string;
@@ -38,27 +52,34 @@ interface Animation {
   tags: string[];
   format?: string;
   resolution?: string;
+  created_at: string;
+}
+
+interface DownloadConfig {
+  format: string;
+  resolution: string;
+  aspectRatio: string;
+  platform?: string;
 }
 
 export default function VideoDetailsPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { t } = useTranslation();
-  const { user, signOut } = useAuth();
+  const { user } = useAuth();
+  
   const [animation, setAnimation] = useState<Animation | null>(null);
   const [isFavorite, setIsFavorite] = useState(false);
   const [isInCart, setIsInCart] = useState(false);
   const [isDownloading, setIsDownloading] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [showVideoPlayer, setShowVideoPlayer] = useState(false);
+  const [showShareModal, setShowShareModal] = useState(false);
   const [showEditShare, setShowEditShare] = useState(false);
-  const [showConfigDialog, setShowConfigDialog] = useState(false);
-  const [videoConfig, setVideoConfig] = useState<VideoConfig>({
-    size: '1080p',
-    ratio: '16:9',
-    format: 'MP4',
-  });
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showSignUpModal, setShowSignUpModal] = useState(false);
+  const [favorites, setFavorites] = useState<Set<string>>(new Set());
+  const [cart, setCart] = useState<Set<string>>(new Set());
 
   useEffect(() => {
     if (id) {
@@ -81,11 +102,11 @@ export default function VideoDetailsPage() {
       setAnimation(data);
     } catch (error: any) {
       toast({
-        title: t('animation.error'),
+        title: 'Error loading animation',
         description: error.message,
         variant: 'destructive',
       });
-      navigate('/dashboard');
+      navigate('/');
     } finally {
       setLoading(false);
     }
@@ -99,30 +120,33 @@ export default function VideoDetailsPage() {
         supabase
           .from('user_favorites')
           .select('animation_id')
-          .eq('user_id', user.id)
-          .eq('animation_id', id)
-          .single(),
+          .eq('user_id', user.id),
         supabase
           .from('user_cart')
           .select('animation_id')
-          .eq('user_id', user.id)
-          .eq('animation_id', id)
-          .single(),
+          .eq('user_id', user.id),
       ]);
 
-      setIsFavorite(!!favoritesRes.data);
-      setIsInCart(!!cartRes.data);
+      if (favoritesRes.data) {
+        const favSet = new Set(favoritesRes.data.map((f: any) => f.animation_id));
+        setFavorites(favSet);
+        setIsFavorite(favSet.has(id));
+      }
+      if (cartRes.data) {
+        const cartSet = new Set(cartRes.data.map((c: any) => c.animation_id));
+        setCart(cartSet);
+        setIsInCart(cartSet.has(id));
+      }
     } catch (error: any) {
       console.error('Error fetching user data:', error);
     }
   };
 
   const toggleFavorite = async () => {
-    if (!user) {
-      setShowSignUpModal(true);
+    if (!user || !id) {
+      setShowLoginModal(true);
       return;
     }
-    if (!id) return;
 
     try {
       if (isFavorite) {
@@ -133,6 +157,12 @@ export default function VideoDetailsPage() {
           .eq('animation_id', id);
 
         setIsFavorite(false);
+        setFavorites(prev => {
+          const newSet = new Set(prev);
+          newSet.delete(id);
+          return newSet;
+        });
+
         toast({
           title: t('animation.removedFromFavorites'),
         });
@@ -143,6 +173,8 @@ export default function VideoDetailsPage() {
         });
 
         setIsFavorite(true);
+        setFavorites(prev => new Set(prev).add(id));
+
         toast({
           title: t('animation.addedToFavorites'),
         });
@@ -157,11 +189,10 @@ export default function VideoDetailsPage() {
   };
 
   const toggleCart = async () => {
-    if (!user) {
-      setShowSignUpModal(true);
+    if (!user || !id) {
+      setShowLoginModal(true);
       return;
     }
-    if (!id) return;
 
     try {
       if (isInCart) {
@@ -172,14 +203,31 @@ export default function VideoDetailsPage() {
           .eq('animation_id', id);
 
         setIsInCart(false);
+        setCart(prev => {
+          const newSet = new Set(prev);
+          newSet.delete(id);
+          return newSet;
+        });
+
         toast({
           title: t('animation.removedFromCart'),
         });
         
         window.dispatchEvent(new Event('cart-updated'));
       } else {
-        // Show config dialog before adding to cart
-        setShowConfigDialog(true);
+        await supabase.from('user_cart').insert({
+          user_id: user.id,
+          animation_id: id,
+        });
+
+        setIsInCart(true);
+        setCart(prev => new Set(prev).add(id));
+
+        toast({
+          title: t('animation.addedToCart'),
+        });
+        
+        window.dispatchEvent(new Event('cart-updated'));
       }
     } catch (error: any) {
       toast({
@@ -190,36 +238,42 @@ export default function VideoDetailsPage() {
     }
   };
 
-  const handleAddToCartWithConfig = async () => {
-    if (!user || !id) return;
-
-    if (!videoConfig.size || !videoConfig.ratio || !videoConfig.format) {
-      toast({
-        title: t('videoConfig.incompleteSelection'),
-        description: t('videoConfig.incompleteSelectionDesc'),
-        variant: 'destructive',
-      });
+  const handleRelatedFavoriteToggle = async (animationId: string) => {
+    if (!user) {
+      setShowLoginModal(true);
       return;
     }
 
+    const isFav = favorites.has(animationId);
     try {
-      await supabase.from('user_cart').insert({
-        user_id: user.id,
-        animation_id: id,
-        selected_size: videoConfig.size,
-        selected_ratio: videoConfig.ratio,
-        selected_format: videoConfig.format,
-        selected_platform: videoConfig.platform || null,
-      });
+      if (isFav) {
+        await supabase
+          .from('user_favorites')
+          .delete()
+          .eq('user_id', user.id)
+          .eq('animation_id', animationId);
 
-      setIsInCart(true);
-      setShowConfigDialog(false);
-      toast({
-        title: t('animation.addedToCart'),
-        description: t('videoConfig.configSaved'),
-      });
-      
-      window.dispatchEvent(new Event('cart-updated'));
+        setFavorites(prev => {
+          const newSet = new Set(prev);
+          newSet.delete(animationId);
+          return newSet;
+        });
+
+        toast({
+          title: t('animation.removedFromFavorites'),
+        });
+      } else {
+        await supabase.from('user_favorites').insert({
+          user_id: user.id,
+          animation_id: animationId,
+        });
+
+        setFavorites(prev => new Set(prev).add(animationId));
+
+        toast({
+          title: t('animation.addedToFavorites'),
+        });
+      }
     } catch (error: any) {
       toast({
         title: t('animation.error'),
@@ -229,32 +283,85 @@ export default function VideoDetailsPage() {
     }
   };
 
-  const handleDownload = async (format: string, resolution: string) => {
+  const handleRelatedCartToggle = async (animationId: string) => {
     if (!user) {
-      setShowSignUpModal(true);
+      setShowLoginModal(true);
       return;
     }
+
+    const inCart = cart.has(animationId);
+    try {
+      if (inCart) {
+        await supabase
+          .from('user_cart')
+          .delete()
+          .eq('user_id', user.id)
+          .eq('animation_id', animationId);
+
+        setCart(prev => {
+          const newSet = new Set(prev);
+          newSet.delete(animationId);
+          return newSet;
+        });
+
+        toast({
+          title: t('animation.removedFromCart'),
+        });
+        
+        window.dispatchEvent(new Event('cart-updated'));
+      } else {
+        await supabase.from('user_cart').insert({
+          user_id: user.id,
+          animation_id: animationId,
+        });
+
+        setCart(prev => new Set(prev).add(animationId));
+
+        toast({
+          title: t('animation.addedToCart'),
+        });
+        
+        window.dispatchEvent(new Event('cart-updated'));
+      }
+    } catch (error: any) {
+      toast({
+        title: t('animation.error'),
+        description: error.message,
+        variant: 'destructive',
+      });
+    }
+  };
+
+  const handleDownload = async (config: DownloadConfig) => {
+    if (!user) {
+      setShowLoginModal(true);
+      return;
+    }
+
     if (!animation) return;
 
     setIsDownloading(true);
     try {
+      // Track download in database
       await supabase.from('user_downloads').insert({
         user_id: user.id,
         animation_id: animation.id,
       });
 
+      // Trigger file download
       const link = document.createElement('a');
       link.href = animation.file_url;
-      const extension = format.toLowerCase();
-      link.download = `${animation.title.replace(/\s+/g, '-').toLowerCase()}-${resolution}.${extension}`;
+      link.download = `${animation.title.replace(/\s+/g, '-').toLowerCase()}-${config.resolution}.${config.format}`;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
 
       toast({
         title: t('animation.downloadComplete'),
-        description: t('animation.downloadCompleteDesc', { title: animation.title }),
+        description: `Downloaded as ${config.format.toUpperCase()} (${config.resolution})`,
       });
+
+      window.dispatchEvent(new Event('download-complete'));
     } catch (error: any) {
       toast({
         title: t('animation.downloadFailed'),
@@ -264,11 +371,6 @@ export default function VideoDetailsPage() {
     } finally {
       setIsDownloading(false);
     }
-  };
-
-  const handleSignOut = async () => {
-    await signOut();
-    navigate('/');
   };
 
   if (loading) {
@@ -285,277 +387,11 @@ export default function VideoDetailsPage() {
 
   return (
     <div className="min-h-screen bg-gradient-dark">
-      {/* Header with Integrated Search */}
-      <header className="border-b border-primary/20 bg-background/50 backdrop-blur-lg sticky top-0 z-50">
-        <div className="container mx-auto px-4 py-3">
-          {/* Desktop Layout */}
-          <div className="hidden lg:grid lg:grid-cols-[200px_1fr_auto] gap-4 items-center">
-            {/* Logo - Left */}
-            <button
-              onClick={() => navigate('/dashboard')}
-              className="text-2xl font-bold bg-gradient-primary bg-clip-text text-transparent hover:opacity-80 transition-opacity whitespace-nowrap"
-            >
-              motiomint
-            </button>
-            
-            {/* Search Bar - Center */}
-            <div className="max-w-2xl mx-auto w-full">
-              <GlobalSearchBar autoFocus={false} />
-            </div>
-            
-            {/* Actions - Right */}
-            <div className="flex items-center gap-2 whitespace-nowrap">
-              {user ? (
-                <>
-                  <CartButton />
-                  <LanguageSelector />
-                  <ThemeToggle />
-                  <Button
-                    onClick={handleSignOut}
-                    variant="outline"
-                    size="sm"
-                    className="gap-2"
-                  >
-                    <LogOut size={16} />
-                    {t('nav.logout')}
-                  </Button>
-                </>
-              ) : (
-                <>
-                  <LanguageSelector />
-                  <ThemeToggle />
-                  <Button
-                    onClick={() => setShowLoginModal(true)}
-                    variant="outline"
-                    size="sm"
-                    className="gap-2"
-                  >
-                    {t('nav.login')}
-                  </Button>
-                  <Button
-                    onClick={() => setShowSignUpModal(true)}
-                    variant="default"
-                    size="sm"
-                    className="gap-2 btn-glow"
-                  >
-                    {t('nav.signUp')}
-                  </Button>
-                </>
-              )}
-            </div>
-          </div>
-
-          {/* Mobile/Tablet Layout */}
-          <div className="lg:hidden space-y-3">
-            {/* Top Row: Logo and Actions */}
-            <div className="flex items-center justify-between">
-              <button
-                onClick={() => navigate('/dashboard')}
-                className="text-xl font-bold bg-gradient-primary bg-clip-text text-transparent hover:opacity-80 transition-opacity"
-              >
-                motiomint
-              </button>
-              <div className="flex items-center gap-2">
-                {user ? (
-                  <>
-                    <CartButton />
-                    <LanguageSelector />
-                    <ThemeToggle />
-                    <Button
-                      onClick={handleSignOut}
-                      variant="outline"
-                      size="sm"
-                    >
-                      <LogOut size={16} />
-                    </Button>
-                  </>
-                ) : (
-                  <>
-                    <LanguageSelector />
-                    <ThemeToggle />
-                  </>
-                )}
-              </div>
-            </div>
-            
-            {/* Bottom Row: Search Bar */}
-            <div className="w-full">
-              <GlobalSearchBar autoFocus={false} />
-            </div>
-          </div>
-        </div>
-      </header>
-
-      {/* Main Content */}
-      <main className="container mx-auto px-4 py-8">
-        <div className="max-w-7xl mx-auto">
-          <Button
-            onClick={() => navigate('/dashboard')}
-            variant="ghost"
-            className="mb-4 gap-2 text-sm"
-          >
-            <ArrowLeft className="h-3 w-3" />
-            {t('nav.backToDashboard')}
-          </Button>
-
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            {/* Video Preview - Takes up 2/3 of the space */}
-            <div className="lg:col-span-2">
-              <Card className="overflow-hidden bg-card/50 backdrop-blur-sm border-primary/20">
-                <div className="relative aspect-video bg-muted">
-                  <VideoPreview
-                    thumbnailUrl={animation.thumbnail_url}
-                    videoUrl={animation.preview_url || animation.file_url}
-                    alt={animation.title}
-                    className="w-full h-full"
-                  />
-                  <WatermarkOverlay show={!user} />
-                </div>
-              </Card>
-            </div>
-
-            {/* Video Details - Takes up 1/3 of the space */}
-            <div className="space-y-4">
-              <div>
-                <div className="flex items-start justify-between gap-2 mb-2">
-                  <h1 className="text-2xl font-bold leading-tight">{animation.title}</h1>
-                  <Badge variant="secondary" className="text-sm px-3 py-1 shrink-0">
-                    {animation.category}
-                  </Badge>
-                </div>
-                <p className="text-sm text-muted-foreground leading-relaxed">{animation.description}</p>
-              </div>
-
-              {/* Tags */}
-              <div className="flex flex-wrap gap-1.5">
-                {animation.tags.map((tag) => (
-                  <Badge key={tag} variant="outline" className="text-xs">
-                    {tag}
-                  </Badge>
-                ))}
-              </div>
-
-              {/* Format & Resolution */}
-              {(animation.format || animation.resolution) && (
-                <Card className="p-3 bg-card/50 backdrop-blur-sm border-primary/20">
-                  <div className="grid grid-cols-2 gap-3">
-                    {animation.format && (
-                      <div>
-                        <p className="text-xs text-muted-foreground mb-0.5">Format</p>
-                        <p className="text-sm font-semibold">{animation.format}</p>
-                      </div>
-                    )}
-                    {animation.resolution && (
-                      <div>
-                        <p className="text-xs text-muted-foreground mb-0.5">Resolution</p>
-                        <p className="text-sm font-semibold">{animation.resolution}</p>
-                      </div>
-                    )}
-                  </div>
-                </Card>
-              )}
-
-              {/* Actions */}
-              <div className="space-y-2.5">
-                <DownloadWithOptions 
-                  onDownload={handleDownload}
-                  isDownloading={isDownloading}
-                />
-
-                <Button
-                  onClick={() => {
-                    if (!user) {
-                      setShowSignUpModal(true);
-                    } else {
-                      setShowEditShare(true);
-                    }
-                  }}
-                  variant="outline"
-                  size="sm"
-                  className="w-full border-primary/30 hover:bg-primary/10 text-sm"
-                >
-                  <Sparkles className="mr-2 h-4 w-4" />
-                  {t('editShare.editAndShare')}
-                </Button>
-
-                <Button
-                  onClick={() => navigate(`/similar/${animation.id}`)}
-                  variant="outline"
-                  size="sm"
-                  className="w-full border-primary/30 hover:bg-primary/10 text-sm"
-                >
-                  <Sparkles className="mr-2 h-4 w-4" />
-                  {t('similar.discoverSimilar')}
-                </Button>
-
-                <div className="grid grid-cols-2 gap-2">
-                  <Button
-                    onClick={toggleFavorite}
-                    variant={isFavorite ? "default" : "outline"}
-                    size="sm"
-                    className="gap-1.5 text-xs"
-                  >
-                    <Heart className={`h-3.5 w-3.5 ${isFavorite ? 'fill-current' : ''}`} />
-                    {isFavorite ? t('animation.favorited') : t('animation.addToFavorites')}
-                  </Button>
-
-                  <Button
-                    onClick={toggleCart}
-                    variant={isInCart ? "default" : "outline"}
-                    size="sm"
-                    className="gap-1.5 text-xs"
-                  >
-                    <ShoppingCart className="h-3.5 w-3.5" />
-                    {isInCart ? 'In Cart' : 'Add to Cart'}
-                  </Button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </main>
-      
-      <EditShareModal
-        open={showEditShare}
-        onOpenChange={setShowEditShare}
-        animation={{
-          id: animation.id,
-          title: animation.title,
-          file_url: animation.file_url,
-          thumbnail_url: animation.thumbnail_url,
-        }}
+      {/* Main Navigation */}
+      <MainNavigation 
+        onLoginClick={() => setShowLoginModal(true)}
+        onSignUpClick={() => setShowSignUpModal(true)}
       />
-
-      <Dialog open={showConfigDialog} onOpenChange={setShowConfigDialog}>
-        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
-          <DialogHeader>
-            <DialogTitle>{t('videoConfig.configureBeforeAdd')}</DialogTitle>
-            <DialogDescription>
-              {t('videoConfig.configureBeforeAddDesc')}
-            </DialogDescription>
-          </DialogHeader>
-
-          <VideoConfigSelector
-            value={videoConfig}
-            onChange={setVideoConfig}
-            showPlatformPresets={true}
-          />
-
-          <div className="flex justify-end gap-3 pt-4">
-            <Button variant="outline" onClick={() => setShowConfigDialog(false)}>
-              {t('common.cancel')}
-            </Button>
-            <Button 
-              onClick={handleAddToCartWithConfig} 
-              className="gap-2"
-              disabled={!videoConfig.size || !videoConfig.ratio || !videoConfig.format}
-            >
-              <ShoppingCart className="h-4 w-4" />
-              {t('animation.addToCart')}
-            </Button>
-          </div>
-        </DialogContent>
-      </Dialog>
 
       {/* Auth Modals */}
       <LoginModal
@@ -574,6 +410,296 @@ export default function VideoDetailsPage() {
           setShowLoginModal(true);
         }}
       />
+
+      {/* Video Player Modal */}
+      <ModernVideoPlayer
+        open={showVideoPlayer}
+        onClose={() => setShowVideoPlayer(false)}
+        videoUrl={animation.preview_url || animation.file_url}
+        title={animation.title}
+      />
+
+      {/* Share Modal */}
+      <ShareModal
+        open={showShareModal}
+        onClose={() => setShowShareModal(false)}
+        title={animation.title}
+        animationId={animation.id}
+      />
+
+      {/* Edit & Share Modal */}
+      <EditShareModal
+        open={showEditShare}
+        onOpenChange={setShowEditShare}
+        animation={{
+          id: animation.id,
+          title: animation.title,
+          file_url: animation.file_url,
+          thumbnail_url: animation.thumbnail_url,
+        }}
+      />
+
+      {/* Main Content */}
+      <main className="container mx-auto px-4 pt-32 pb-16">
+        {/* Breadcrumbs */}
+        <Breadcrumb className="mb-6">
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink onClick={() => navigate('/')} className="cursor-pointer">
+                Home
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbLink 
+                onClick={() => navigate(`/category/${encodeURIComponent(animation.category)}`)}
+                className="cursor-pointer"
+              >
+                {animation.category}
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbPage>{animation.title}</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+
+        {/* Main Layout */}
+        <div className="grid lg:grid-cols-[1fr_400px] gap-8 mb-12">
+          {/* Left Column - Preview & Info */}
+          <div className="space-y-6">
+            {/* Video Preview */}
+            <Card className="overflow-hidden bg-card/50 backdrop-blur-sm border-border/50 group">
+              <div 
+                className="relative aspect-video bg-muted cursor-pointer"
+                onClick={() => setShowVideoPlayer(true)}
+              >
+                <img
+                  src={animation.thumbnail_url}
+                  alt={animation.title}
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                  <div className="bg-primary/90 rounded-full p-4">
+                    <Eye className="w-8 h-8 text-primary-foreground" />
+                  </div>
+                </div>
+                <div className="absolute top-4 right-4 flex gap-2">
+                  {animation.format && (
+                    <Badge className="bg-background/90 backdrop-blur-sm text-foreground">
+                      {animation.format}
+                    </Badge>
+                  )}
+                  {animation.resolution && (
+                    <Badge className="bg-background/90 backdrop-blur-sm text-foreground">
+                      {animation.resolution}
+                    </Badge>
+                  )}
+                </div>
+              </div>
+            </Card>
+
+            {/* Title & Actions */}
+            <div className="space-y-4">
+              <div>
+                <h1 className="text-3xl font-bold mb-2">{animation.title}</h1>
+                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                  <Badge variant="outline">{animation.category}</Badge>
+                  <span>•</span>
+                  <Calendar className="w-4 h-4" />
+                  <span>{new Date(animation.created_at).toLocaleDateString()}</span>
+                </div>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="flex flex-wrap gap-3">
+                <Button
+                  variant={isFavorite ? "default" : "outline"}
+                  size="lg"
+                  onClick={toggleFavorite}
+                  className={cn(
+                    "gap-2",
+                    isFavorite && "bg-primary/20 border-primary text-primary hover:bg-primary/30"
+                  )}
+                >
+                  <Heart className={cn("w-5 h-5", isFavorite && "fill-current")} />
+                  {isFavorite ? 'Favorited' : 'Add to Favorites'}
+                </Button>
+
+                <Button
+                  variant={isInCart ? "default" : "outline"}
+                  size="lg"
+                  onClick={toggleCart}
+                  className={cn(
+                    "gap-2",
+                    isInCart && "bg-primary/20 border-primary text-primary hover:bg-primary/30"
+                  )}
+                >
+                  <ShoppingCart className="w-5 h-5" />
+                  {isInCart ? 'In Cart' : 'Add to Cart'}
+                </Button>
+
+                <Button
+                  variant="outline"
+                  size="lg"
+                  onClick={() => setShowShareModal(true)}
+                  className="gap-2"
+                >
+                  <Share2 className="w-5 h-5" />
+                  Share
+                </Button>
+
+                <Button
+                  variant="outline"
+                  size="lg"
+                  onClick={() => setShowEditShare(true)}
+                  className="gap-2"
+                >
+                  <Sparkles className="w-5 h-5" />
+                  Edit & Share
+                </Button>
+              </div>
+            </div>
+
+            {/* Tabs - Description & Details */}
+            <Tabs defaultValue="description" className="w-full">
+              <TabsList className="w-full">
+                <TabsTrigger value="description" className="flex-1">
+                  <Info className="w-4 h-4 mr-2" />
+                  Description
+                </TabsTrigger>
+                <TabsTrigger value="details" className="flex-1">
+                  <CheckCircle2 className="w-4 h-4 mr-2" />
+                  Details
+                </TabsTrigger>
+                <TabsTrigger value="license" className="flex-1">
+                  <Tag className="w-4 h-4 mr-2" />
+                  License
+                </TabsTrigger>
+              </TabsList>
+
+              <TabsContent value="description" className="mt-4">
+                <Card className="p-6 bg-card/50 backdrop-blur-sm border-border/50">
+                  <p className="text-muted-foreground leading-relaxed">
+                    {animation.description || 'No description available for this animation.'}
+                  </p>
+                  {animation.tags.length > 0 && (
+                    <>
+                      <Separator className="my-4" />
+                      <div>
+                        <p className="text-sm font-medium mb-2">Tags</p>
+                        <div className="flex flex-wrap gap-2">
+                          {animation.tags.map((tag) => (
+                            <Badge key={tag} variant="secondary">
+                              {tag}
+                            </Badge>
+                          ))}
+                        </div>
+                      </div>
+                    </>
+                  )}
+                </Card>
+              </TabsContent>
+
+              <TabsContent value="details" className="mt-4">
+                <Card className="p-6 bg-card/50 backdrop-blur-sm border-border/50">
+                  <dl className="space-y-4">
+                    <div>
+                      <dt className="text-sm font-medium text-muted-foreground">Category</dt>
+                      <dd className="text-base mt-1">{animation.category}</dd>
+                    </div>
+                    {animation.format && (
+                      <div>
+                        <dt className="text-sm font-medium text-muted-foreground">Format</dt>
+                        <dd className="text-base mt-1">{animation.format}</dd>
+                      </div>
+                    )}
+                    {animation.resolution && (
+                      <div>
+                        <dt className="text-sm font-medium text-muted-foreground">Resolution</dt>
+                        <dd className="text-base mt-1">{animation.resolution}</dd>
+                      </div>
+                    )}
+                    <div>
+                      <dt className="text-sm font-medium text-muted-foreground">Created</dt>
+                      <dd className="text-base mt-1">
+                        {new Date(animation.created_at).toLocaleDateString('en-US', {
+                          year: 'numeric',
+                          month: 'long',
+                          day: 'numeric',
+                        })}
+                      </dd>
+                    </div>
+                  </dl>
+                </Card>
+              </TabsContent>
+
+              <TabsContent value="license" className="mt-4">
+                <Card className="p-6 bg-card/50 backdrop-blur-sm border-border/50 space-y-4">
+                  <div className="flex items-start gap-3">
+                    <CheckCircle2 className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
+                    <div>
+                      <p className="font-medium">Commercial Use</p>
+                      <p className="text-sm text-muted-foreground">
+                        Use in commercial projects without attribution
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <CheckCircle2 className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
+                    <div>
+                      <p className="font-medium">Social Media</p>
+                      <p className="text-sm text-muted-foreground">
+                        Share on all social platforms
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <CheckCircle2 className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
+                    <div>
+                      <p className="font-medium">Client Projects</p>
+                      <p className="text-sm text-muted-foreground">
+                        Use for client work and presentations
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <CheckCircle2 className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
+                    <div>
+                      <p className="font-medium">Unlimited Downloads</p>
+                      <p className="text-sm text-muted-foreground">
+                        Download as many times as you need
+                      </p>
+                    </div>
+                  </div>
+                </Card>
+              </TabsContent>
+            </Tabs>
+          </div>
+
+          {/* Right Column - Download Options */}
+          <div className="lg:sticky lg:top-32 h-fit">
+            <DownloadOptions 
+              onDownload={handleDownload}
+              isDownloading={isDownloading}
+            />
+          </div>
+        </div>
+
+        {/* Related Animations */}
+        <RelatedAnimations
+          currentAnimationId={animation.id}
+          category={animation.category}
+          tags={animation.tags}
+          onFavoriteToggle={handleRelatedFavoriteToggle}
+          onCartToggle={handleRelatedCartToggle}
+          favorites={favorites}
+          cart={cart}
+          isGuest={!user}
+          onAuthRequired={() => setShowLoginModal(true)}
+        />
+      </main>
     </div>
   );
 }
