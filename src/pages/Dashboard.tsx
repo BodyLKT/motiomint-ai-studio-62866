@@ -5,7 +5,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Loader2, LogOut, Library, Heart, Download as DownloadIcon, Grid3x3, User, History } from 'lucide-react';
+import { Loader2, Library, Heart, Download as DownloadIcon, Grid3x3, User, History } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from '@/hooks/use-toast';
 import AnimationCard from '@/components/dashboard/AnimationCard';
@@ -14,10 +14,8 @@ import CategoryGrid from '@/components/dashboard/CategoryGrid';
 import SubscriptionStatus from '@/components/dashboard/SubscriptionStatus';
 import AccountSettings from '@/components/dashboard/AccountSettings';
 import DownloadHistory from '@/components/dashboard/DownloadHistory';
-import { ThemeToggle } from '@/components/ThemeToggle';
-import { LanguageSelector } from '@/components/LanguageSelector';
+import MainNavigation from '@/components/navigation/MainNavigation';
 import { CartButton } from '@/components/CartButton';
-import GlobalSearchBar from '@/components/GlobalSearchBar';
 
 interface Animation {
   id: string;
@@ -233,11 +231,6 @@ export default function Dashboard() {
     }
   };
 
-  const handleSignOut = async () => {
-    await signOut();
-    navigate('/');
-  };
-
   if (loading) {
     return (
       <div className="min-h-screen bg-gradient-dark flex items-center justify-center">
@@ -268,72 +261,8 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen bg-gradient-dark">
-      {/* Header with Integrated Search */}
-      <header className="border-b border-primary/20 bg-background/50 backdrop-blur-lg sticky top-0 z-50">
-        <div className="container mx-auto px-4 py-3">
-          {/* Desktop Layout */}
-          <div className="hidden lg:grid lg:grid-cols-[200px_1fr_auto] gap-4 items-center">
-            {/* Logo - Left */}
-            <button
-              onClick={handleLogoClick}
-              className="text-2xl font-bold bg-gradient-primary bg-clip-text text-transparent hover:opacity-80 transition-opacity whitespace-nowrap"
-            >
-              motiomint
-            </button>
-            
-            {/* Search Bar - Center */}
-            <div className="max-w-2xl mx-auto w-full">
-              <GlobalSearchBar autoFocus={false} />
-            </div>
-            
-            {/* Actions - Right */}
-            <div className="flex items-center gap-2 whitespace-nowrap">
-              <CartButton />
-              <LanguageSelector />
-              <ThemeToggle />
-              <Button
-                onClick={handleSignOut}
-                variant="outline"
-                size="sm"
-                className="gap-2"
-              >
-                <LogOut size={16} />
-                {t('nav.logout')}
-              </Button>
-            </div>
-          </div>
-
-          {/* Mobile/Tablet Layout */}
-          <div className="lg:hidden space-y-3">
-            {/* Top Row: Logo and Actions */}
-            <div className="flex items-center justify-between">
-              <button
-                onClick={handleLogoClick}
-                className="text-xl font-bold bg-gradient-primary bg-clip-text text-transparent hover:opacity-80 transition-opacity"
-              >
-                motiomint
-              </button>
-              <div className="flex items-center gap-2">
-                <CartButton />
-                <LanguageSelector />
-                <ThemeToggle />
-                <Button
-                  onClick={handleSignOut}
-                  variant="outline"
-                  size="sm"
-                >
-                  <LogOut size={16} />
-                </Button>
-              </div>
-            </div>
-            
-            {/* Bottom Row: Search Bar */}
-            <div className="w-full">
-              <GlobalSearchBar autoFocus={false} />
-            </div>
-          </div>
-        </div>
-      </header>
+      {/* Main Navigation */}
+      <MainNavigation />
 
       {/* Main Content */}
       <main className="container mx-auto px-4 py-12">

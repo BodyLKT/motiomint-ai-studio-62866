@@ -3,13 +3,25 @@
     "benefits": "Benefits",
     "howItWorks": "How It Works",
     "pricing": "Pricing",
-    "login": "Login",
+    "login": "Log In",
     "signUp": "Sign Up",
     "dashboard": "Dashboard",
-    "logout": "Logout",
+    "logout": "Log Out",
+    "categories": "Categories",
+    "tools": "Tools",
+    "exploreCategories": "Explore Animation Categories",
+    "exploreCategoriesDesc": "Browse our collection of premium AI-generated animations",
+    "platformTools": "Platform Tools",
+    "platformToolsDesc": "Everything you need to create amazing content",
+    "quickLinks": "Quick Links",
     "backToHome": "Back to Home",
     "backToDashboard": "Back to Dashboard",
     "back": "Back"
+  },
+  "tools": {
+    "library": "Animation Library",
+    "editShare": "Edit & Share",
+    "cart": "Shopping Cart"
   },
   "hero": {
     "badge": "✨ AI-Powered Animations",

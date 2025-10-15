@@ -19,22 +19,18 @@ import {
   Clock,
   TrendingUp,
   DollarSign,
-  User,
-  LogIn,
-  LayoutDashboard
+  LogIn
 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { LoginModal } from '@/components/auth/LoginModal';
 import { SignUpModal } from '@/components/auth/SignUpModal';
-import { ThemeToggle } from '@/components/ThemeToggle';
-import { LanguageSelector } from '@/components/LanguageSelector';
-import VideoPreview from '@/components/ui/VideoPreview';
 import { ModernVideoPlayer } from '@/components/ui/ModernVideoPlayer';
 import { AnimationCarousel3D } from '@/components/ui/AnimationCarousel3D';
+import MainNavigation from '@/components/navigation/MainNavigation';
+import VideoPreview from '@/components/ui/VideoPreview';
 import heroImage from '@/assets/hero-bg.jpg';
 import techAnimation from '@/assets/tech-animation.jpg';
 import fitnessAnimation from '@/assets/fitness-animation.jpg';
-import GlobalSearchBar from '@/components/GlobalSearchBar';
 
 const MotionMintLanding = () => {
   const { t } = useTranslation();
@@ -47,13 +43,6 @@ const MotionMintLanding = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const handleLogoClick = () => {
-    if (location.pathname === '/') {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    } else {
-      navigate('/');
-    }
-  };
 
   const categories = [
     {
@@ -172,128 +161,11 @@ const MotionMintLanding = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Navigation with Integrated Search */}
-      <nav className="fixed top-0 w-full z-50 glass border-b border-border/50">
-        <div className="container mx-auto px-4 py-3">
-          {/* Desktop Layout */}
-          <div className="hidden lg:grid lg:grid-cols-[200px_1fr_auto] gap-4 items-center">
-            {/* Logo - Left */}
-            <button
-              onClick={handleLogoClick}
-              className="font-bold text-2xl gradient-text hover:opacity-80 transition-opacity whitespace-nowrap"
-            >
-              motiomint
-            </button>
-            
-            {/* Search Bar - Center */}
-            <div className="max-w-2xl mx-auto w-full">
-              <GlobalSearchBar variant="default" autoFocus={false} />
-            </div>
-            
-            {/* Actions - Right */}
-            <div className="flex items-center space-x-3 whitespace-nowrap">
-              <LanguageSelector />
-              <ThemeToggle />
-              {user ? (
-                <Button 
-                  variant="hero" 
-                  size="sm"
-                  onClick={() => navigate('/dashboard')}
-                >
-                  <LayoutDashboard className="w-4 h-4 mr-2" />
-                  {t('nav.dashboard')}
-                </Button>
-              ) : (
-                <>
-                  <Button 
-                    variant="ghost" 
-                    size="sm"
-                    onClick={() => setShowLoginModal(true)}
-                  >
-                    <LogIn className="w-4 h-4 mr-2" />
-                    {t('nav.login')}
-                  </Button>
-                  <Button 
-                    variant="default" 
-                    size="sm" 
-                    className="btn-glow"
-                    onClick={() => setShowSignUpModal(true)}
-                  >
-                    <User className="w-4 h-4 mr-2" />
-                    {t('nav.signUp')}
-                  </Button>
-                </>
-              )}
-            </div>
-          </div>
-
-          {/* Mobile/Tablet Layout */}
-          <div className="lg:hidden space-y-3">
-            {/* Top Row: Logo and Actions */}
-            <div className="flex items-center justify-between">
-              <button
-                onClick={handleLogoClick}
-                className="font-bold text-xl gradient-text hover:opacity-80 transition-opacity"
-              >
-                motiomint
-              </button>
-              <div className="flex items-center space-x-2">
-                <LanguageSelector />
-                <ThemeToggle />
-                {user ? (
-                  <Button 
-                    variant="hero" 
-                    size="sm"
-                    onClick={() => navigate('/dashboard')}
-                  >
-                    <LayoutDashboard className="w-4 h-4" />
-                  </Button>
-                ) : (
-                  <>
-                    <Button 
-                      variant="ghost" 
-                      size="sm"
-                      onClick={() => setShowLoginModal(true)}
-                    >
-                      <LogIn className="w-4 h-4" />
-                    </Button>
-                    <Button 
-                      variant="default" 
-                      size="sm" 
-                      className="btn-glow"
-                      onClick={() => setShowSignUpModal(true)}
-                    >
-                      <User className="w-4 h-4" />
-                    </Button>
-                  </>
-                )}
-              </div>
-            </div>
-            
-            {/* Bottom Row: Search Bar */}
-            <div className="w-full">
-              <GlobalSearchBar variant="default" autoFocus={false} />
-            </div>
-          </div>
-        </div>
-
-        {/* Secondary Nav Links (Desktop only) */}
-        <div className="hidden md:block border-t border-border/30">
-          <div className="container mx-auto px-4 py-2">
-            <div className="flex items-center justify-center space-x-8">
-              <a href="#benefits" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                {t('nav.benefits')}
-              </a>
-              <a href="#how-it-works" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                {t('nav.howItWorks')}
-              </a>
-              <a href="#pricing" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                {t('nav.pricing')}
-              </a>
-            </div>
-          </div>
-        </div>
-      </nav>
+      {/* Main Navigation */}
+      <MainNavigation 
+        onLoginClick={() => setShowLoginModal(true)}
+        onSignUpClick={() => setShowSignUpModal(true)}
+      />
 
       {/* Auth Modals */}
       <LoginModal

@@ -7,8 +7,21 @@
     "signUp": "Înregistrare",
     "dashboard": "Tablou de Bord",
     "logout": "Deconectare",
+    "categories": "Categorii",
+    "tools": "Instrumente",
+    "exploreCategories": "Explorează Categoriile de Animații",
+    "exploreCategoriesDesc": "Răsfoiește colecția noastră de animații premium generate de AI",
+    "platformTools": "Instrumente de Platformă",
+    "platformToolsDesc": "Tot ce ai nevoie pentru a crea conținut uimitor",
+    "quickLinks": "Linkuri Rapide",
     "backToHome": "Înapoi la Pagina Principală",
-    "backToDashboard": "Înapoi la Tabloul de Bord"
+    "backToDashboard": "Înapoi la Tabloul de Bord",
+    "back": "Înapoi"
+  },
+  "tools": {
+    "library": "Biblioteca de Animații",
+    "editShare": "Editează și Distribuie",
+    "cart": "Coș de Cumpărături"
   },
   "hero": {
     "badge": "✨ Animații Cu Inteligență Artificială",

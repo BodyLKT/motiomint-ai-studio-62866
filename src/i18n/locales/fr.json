@@ -7,8 +7,21 @@
     "signUp": "Inscription",
     "dashboard": "Tableau de Bord",
     "logout": "Déconnexion",
+    "categories": "Catégories",
+    "tools": "Outils",
+    "exploreCategories": "Explorer les Catégories d'Animations",
+    "exploreCategoriesDesc": "Parcourez notre collection d'animations premium générées par IA",
+    "platformTools": "Outils de la Plateforme",
+    "platformToolsDesc": "Tout ce dont vous avez besoin pour créer un contenu incroyable",
+    "quickLinks": "Liens Rapides",
     "backToHome": "Retour à l'Accueil",
-    "backToDashboard": "Retour au Tableau de Bord"
+    "backToDashboard": "Retour au Tableau de Bord",
+    "back": "Retour"
+  },
+  "tools": {
+    "library": "Bibliothèque d'Animations",
+    "editShare": "Éditer & Partager",
+    "cart": "Panier"
   },
   "hero": {
     "badge": "✨ Animations Propulsées par IA",
