@@ -5,7 +5,9 @@ import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Loader2, LogOut, ShoppingCart, Trash2, Download, ArrowLeft, Monitor, Layers, Film } from 'lucide-react';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Separator } from '@/components/ui/separator';
+import { Loader2, LogOut, ShoppingCart, Trash2, Download, ArrowLeft, Monitor, Layers, Film, Package, CheckCircle2 } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from '@/hooks/use-toast';
 import { ThemeToggle } from '@/components/ThemeToggle';
@@ -42,6 +44,8 @@ export default function CartPage() {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [loadingData, setLoadingData] = useState(true);
   const [downloadingId, setDownloadingId] = useState<string | null>(null);
+  const [selectedItems, setSelectedItems] = useState<Set<string>>(new Set());
+  const [isDownloadingAll, setIsDownloadingAll] = useState(false);
 
   useEffect(() => {
     if (!loading && !session) {
@@ -229,6 +233,7 @@ export default function CartPage() {
       if (error) throw error;
 
       setCartItems([]);
+      setSelectedItems(new Set());
 
       toast({
         title: t('cart.cleared'),
@@ -239,6 +244,94 @@ export default function CartPage() {
         description: error.message,
         variant: 'destructive',
       });
+    }
+  };
+
+  const toggleSelectAll = () => {
+    if (selectedItems.size === cartItems.length) {
+      setSelectedItems(new Set());
+    } else {
+      setSelectedItems(new Set(cartItems.map(item => item.id)));
+    }
+  };
+
+  const toggleSelectItem = (itemId: string) => {
+    const newSelected = new Set(selectedItems);
+    if (newSelected.has(itemId)) {
+      newSelected.delete(itemId);
+    } else {
+      newSelected.add(itemId);
+    }
+    setSelectedItems(newSelected);
+  };
+
+  const removeSelectedItems = async () => {
+    if (!user || selectedItems.size === 0) return;
+
+    try {
+      const { error } = await supabase
+        .from('user_cart')
+        .delete()
+        .in('id', Array.from(selectedItems));
+
+      if (error) throw error;
+
+      setCartItems((prev) => prev.filter((item) => !selectedItems.has(item.id)));
+      setSelectedItems(new Set());
+
+      toast({
+        title: t('cart.itemsRemoved'),
+        description: t('cart.itemsRemovedCount', { count: selectedItems.size }),
+      });
+    } catch (error: any) {
+      toast({
+        title: t('animation.error'),
+        description: error.message,
+        variant: 'destructive',
+      });
+    }
+  };
+
+  const downloadAllSelected = async () => {
+    if (!user || selectedItems.size === 0) return;
+
+    try {
+      setIsDownloadingAll(true);
+      const itemsToDownload = cartItems.filter(item => selectedItems.has(item.id));
+
+      for (const item of itemsToDownload) {
+        // Track download
+        await supabase.from('user_downloads').insert({
+          user_id: user.id,
+          animation_id: item.animation.id,
+        });
+
+        // Trigger download
+        const link = document.createElement('a');
+        link.href = item.animation.file_url;
+        link.download = `${item.animation.title}.mp4`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+
+        // Small delay between downloads
+        await new Promise(resolve => setTimeout(resolve, 500));
+      }
+
+      toast({
+        title: t('cart.downloadsStarted'),
+        description: t('cart.downloadsCount', { count: selectedItems.size }),
+      });
+
+      window.dispatchEvent(new Event('download-complete'));
+    } catch (error: any) {
+      toast({
+        title: t('animation.downloadError'),
+        description: error.message,
+        variant: 'destructive',
+      });
+    } finally {
+      setIsDownloadingAll(false);
     }
   };
 
@@ -351,163 +444,340 @@ export default function CartPage() {
       </header>
 
       {/* Main Content */}
-      <main className="container mx-auto px-4 py-12">
-        <div className="max-w-6xl mx-auto">
-          {/* Header Section */}
-          <div className="mb-8">
-            <div className="flex items-center justify-between mb-4">
-              <div>
-                <h1 className="text-4xl md:text-5xl font-bold mb-2">
-                  <ShoppingCart className="inline-block mr-3 mb-1" />
-                  {t('cart.title')}
-                </h1>
-                <p className="text-muted-foreground text-lg">
-                  {cartItems.length === 0 
-                    ? t('cart.empty')
-                    : t('cart.itemCount', { count: cartItems.length })}
-                </p>
-              </div>
-              {cartItems.length > 0 && (
-                <Button
-                  onClick={clearCart}
-                  variant="outline"
-                  className="gap-2"
-                >
-                  <Trash2 size={16} />
-                  {t('cart.clearAll')}
-                </Button>
-              )}
-            </div>
+      <main className="container mx-auto px-4 py-8">
+        {loadingData ? (
+          <div className="flex items-center justify-center py-20">
+            <Loader2 className="h-12 w-12 animate-spin text-primary" />
           </div>
-
-          {/* Cart Items */}
-          {loadingData ? (
-            <div className="flex items-center justify-center py-12">
-              <Loader2 className="h-8 w-8 animate-spin text-primary" />
-            </div>
-          ) : cartItems.length === 0 ? (
-            <Card className="p-12 text-center bg-card/50 backdrop-blur-sm border-primary/20">
-              <ShoppingCart className="h-16 w-16 mx-auto mb-4 text-muted-foreground" />
-              <h3 className="text-xl font-semibold mb-2">{t('cart.emptyTitle')}</h3>
-              <p className="text-muted-foreground mb-6">
+        ) : cartItems.length === 0 ? (
+          <div className="max-w-2xl mx-auto">
+            <Card className="p-16 text-center bg-card/50 backdrop-blur-sm border-primary/20">
+              <div className="relative mb-6">
+                <div className="absolute inset-0 bg-primary/5 blur-3xl rounded-full" />
+                <ShoppingCart className="h-24 w-24 mx-auto text-muted-foreground relative" />
+              </div>
+              <h2 className="text-3xl font-bold mb-3">{t('cart.emptyTitle')}</h2>
+              <p className="text-muted-foreground text-lg mb-8">
                 {t('cart.emptyDescription')}
               </p>
-              <Button onClick={() => navigate('/dashboard')} variant="default">
+              <Button onClick={() => navigate('/dashboard')} size="lg" className="gap-2">
+                <Package className="h-5 w-5" />
                 {t('cart.browseCatalog')}
               </Button>
             </Card>
-          ) : (
-            <div className="space-y-4">
-              {cartItems.map((item) => (
-                <Card
-                  key={item.id}
-                  className="overflow-hidden bg-card/50 backdrop-blur-sm border-primary/20 hover:border-primary/40 transition-all"
-                >
-                  <div className="p-6">
-                    <div className="grid md:grid-cols-[200px_1fr_auto] gap-6 items-center">
-                      {/* Thumbnail */}
-                      <div className="relative aspect-video overflow-hidden rounded-lg bg-muted">
-                        <VideoPreview
-                          thumbnailUrl={item.animation.thumbnail_url}
-                          videoUrl={item.animation.file_url}
-                          alt={item.animation.title}
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
+          </div>
+        ) : (
+          <div className="grid lg:grid-cols-[1fr_380px] gap-8 max-w-7xl mx-auto">
+            {/* Cart Items - Left Column */}
+            <div className="space-y-6">
+              {/* Header */}
+              <div>
+                <h1 className="text-3xl md:text-4xl font-bold mb-2 flex items-center gap-3">
+                  <ShoppingCart className="h-8 w-8" />
+                  {t('cart.title')}
+                </h1>
+                <p className="text-muted-foreground">
+                  {t('cart.itemCount', { count: cartItems.length })}
+                </p>
+              </div>
 
-                      {/* Details */}
-                      <div className="flex-1 space-y-3">
-                        <div>
-                          <h3 className="text-xl font-bold mb-2">
-                            {item.animation.title}
-                          </h3>
-                          <p className="text-muted-foreground mb-3 line-clamp-2">
-                            {item.animation.description}
-                          </p>
+              {/* Bulk Actions Bar */}
+              <Card className="p-4 bg-card/50 backdrop-blur-sm border-primary/20">
+                <div className="flex flex-wrap items-center justify-between gap-4">
+                  <div className="flex items-center gap-3">
+                    <Checkbox
+                      checked={selectedItems.size === cartItems.length}
+                      onCheckedChange={toggleSelectAll}
+                      id="select-all"
+                    />
+                    <label
+                      htmlFor="select-all"
+                      className="text-sm font-medium cursor-pointer"
+                    >
+                      {selectedItems.size === cartItems.length
+                        ? t('cart.deselectAll')
+                        : t('cart.selectAll')}
+                    </label>
+                    {selectedItems.size > 0 && (
+                      <Badge variant="secondary" className="ml-2">
+                        {selectedItems.size} {t('cart.selected')}
+                      </Badge>
+                    )}
+                  </div>
+                  {selectedItems.size > 0 && (
+                    <div className="flex gap-2">
+                      <Button
+                        onClick={downloadAllSelected}
+                        disabled={isDownloadingAll}
+                        size="sm"
+                        className="gap-2"
+                      >
+                        {isDownloadingAll ? (
+                          <>
+                            <Loader2 className="h-4 w-4 animate-spin" />
+                            {t('cart.downloading')}
+                          </>
+                        ) : (
+                          <>
+                            <Download className="h-4 w-4" />
+                            {t('cart.downloadSelected')}
+                          </>
+                        )}
+                      </Button>
+                      <Button
+                        onClick={removeSelectedItems}
+                        variant="outline"
+                        size="sm"
+                        className="gap-2"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                        {t('cart.removeSelected')}
+                      </Button>
+                    </div>
+                  )}
+                </div>
+              </Card>
+
+              {/* Cart Items List */}
+              <div className="space-y-4">
+                {cartItems.map((item) => (
+                  <Card
+                    key={item.id}
+                    className={`overflow-hidden bg-card/50 backdrop-blur-sm border-primary/20 transition-all ${
+                      selectedItems.has(item.id)
+                        ? 'ring-2 ring-primary border-primary'
+                        : 'hover:border-primary/40'
+                    }`}
+                  >
+                    <div className="p-5">
+                      <div className="flex gap-4">
+                        {/* Checkbox */}
+                        <div className="flex items-start pt-1">
+                          <Checkbox
+                            checked={selectedItems.has(item.id)}
+                            onCheckedChange={() => toggleSelectItem(item.id)}
+                            id={`item-${item.id}`}
+                          />
                         </div>
 
-                        {/* Video Configuration Display */}
-                        <div className="flex flex-wrap gap-2 items-center p-3 bg-primary/5 rounded-lg border border-primary/10">
-                          <Badge variant="secondary" className="gap-1.5">
-                            <Monitor className="h-3 w-3" />
-                            {item.selected_size}
-                          </Badge>
-                          <Badge variant="secondary" className="gap-1.5">
-                            <Layers className="h-3 w-3" />
-                            {item.selected_ratio}
-                          </Badge>
-                          <Badge variant="secondary" className="gap-1.5">
-                            <Film className="h-3 w-3" />
-                            {item.selected_format}
-                          </Badge>
-                          {item.selected_platform && (
-                            <Badge variant="default" className="gap-1.5">
-                              📱 {item.selected_platform}
+                        {/* Thumbnail */}
+                        <div className="relative w-32 md:w-48 aspect-video overflow-hidden rounded-lg bg-muted flex-shrink-0">
+                          <VideoPreview
+                            thumbnailUrl={item.animation.thumbnail_url}
+                            videoUrl={item.animation.file_url}
+                            alt={item.animation.title}
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+
+                        {/* Details */}
+                        <div className="flex-1 min-w-0 space-y-3">
+                          <div>
+                            <h3 className="text-lg font-bold mb-1 truncate">
+                              {item.animation.title}
+                            </h3>
+                            <p className="text-sm text-muted-foreground line-clamp-2">
+                              {item.animation.description}
+                            </p>
+                          </div>
+
+                          {/* Configuration */}
+                          <div className="flex flex-wrap gap-2">
+                            <Badge variant="secondary" className="gap-1">
+                              <Monitor className="h-3 w-3" />
+                              {item.selected_size}
                             </Badge>
-                          )}
-                        </div>
+                            <Badge variant="secondary" className="gap-1">
+                              <Layers className="h-3 w-3" />
+                              {item.selected_ratio}
+                            </Badge>
+                            <Badge variant="secondary" className="gap-1">
+                              <Film className="h-3 w-3" />
+                              {item.selected_format}
+                            </Badge>
+                          </div>
 
-                        <div className="flex flex-wrap gap-2">
-                          <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-primary/10 text-primary border border-primary/20">
-                            {item.animation.category}
-                          </span>
-                          {item.animation.tags.slice(0, 2).map((tag, idx) => (
-                            <span
-                              key={idx}
-                              className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-secondary/50 text-secondary-foreground"
+                          {/* Actions - Mobile */}
+                          <div className="flex flex-wrap gap-2 lg:hidden">
+                            <CartConfigEditor
+                              config={{
+                                size: item.selected_size,
+                                ratio: item.selected_ratio,
+                                format: item.selected_format,
+                                platform: item.selected_platform || undefined,
+                              }}
+                              animationTitle={item.animation.title}
+                              onSave={(config) => handleConfigUpdate(item.id, config)}
+                            />
+                            <Button
+                              onClick={() => handleDownload(item.animation)}
+                              disabled={downloadingId === item.animation.id}
+                              size="sm"
+                              className="gap-2"
                             >
-                              {tag}
-                            </span>
-                          ))}
+                              {downloadingId === item.animation.id ? (
+                                <Loader2 className="h-4 w-4 animate-spin" />
+                              ) : (
+                                <Download className="h-4 w-4" />
+                              )}
+                            </Button>
+                            <Button
+                              onClick={() => removeFromCart(item.id, item.animation.title)}
+                              variant="outline"
+                              size="sm"
+                            >
+                              <Trash2 className="h-4 w-4" />
+                            </Button>
+                          </div>
                         </div>
-                      </div>
 
-                      {/* Actions */}
-                      <div className="flex flex-col gap-2">
-                        <CartConfigEditor
-                          config={{
-                            size: item.selected_size,
-                            ratio: item.selected_ratio,
-                            format: item.selected_format,
-                            platform: item.selected_platform || undefined,
-                          }}
-                          animationTitle={item.animation.title}
-                          onSave={(config) => handleConfigUpdate(item.id, config)}
-                        />
-                        <Button
-                          onClick={() => handleDownload(item.animation)}
-                          disabled={downloadingId === item.animation.id}
-                          variant="default"
-                          className="gap-2"
-                        >
-                          {downloadingId === item.animation.id ? (
-                            <>
-                              <Loader2 className="h-4 w-4 animate-spin" />
-                              {t('animation.downloading')}
-                            </>
-                          ) : (
-                            <>
-                              <Download className="h-4 w-4" />
-                              {t('animation.download')}
-                            </>
-                          )}
-                        </Button>
-                        <Button
-                          onClick={() => removeFromCart(item.id, item.animation.title)}
-                          variant="outline"
-                          className="gap-2"
-                        >
-                          <Trash2 className="h-4 w-4" />
-                          {t('cart.remove')}
-                        </Button>
+                        {/* Actions - Desktop */}
+                        <div className="hidden lg:flex flex-col gap-2 flex-shrink-0">
+                          <CartConfigEditor
+                            config={{
+                              size: item.selected_size,
+                              ratio: item.selected_ratio,
+                              format: item.selected_format,
+                              platform: item.selected_platform || undefined,
+                            }}
+                            animationTitle={item.animation.title}
+                            onSave={(config) => handleConfigUpdate(item.id, config)}
+                          />
+                          <Button
+                            onClick={() => handleDownload(item.animation)}
+                            disabled={downloadingId === item.animation.id}
+                            size="sm"
+                            className="gap-2 w-full"
+                          >
+                            {downloadingId === item.animation.id ? (
+                              <>
+                                <Loader2 className="h-4 w-4 animate-spin" />
+                                {t('animation.downloading')}
+                              </>
+                            ) : (
+                              <>
+                                <Download className="h-4 w-4" />
+                                {t('animation.download')}
+                              </>
+                            )}
+                          </Button>
+                          <Button
+                            onClick={() => removeFromCart(item.id, item.animation.title)}
+                            variant="outline"
+                            size="sm"
+                            className="gap-2 w-full"
+                          >
+                            <Trash2 className="h-4 w-4" />
+                            {t('cart.remove')}
+                          </Button>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </Card>
-              ))}
+                  </Card>
+                ))}
+              </div>
             </div>
-          )}
-        </div>
+
+            {/* Summary Sidebar - Right Column */}
+            <div className="lg:sticky lg:top-24 h-fit space-y-4">
+              <Card className="p-6 bg-card/50 backdrop-blur-sm border-primary/20">
+                <h2 className="text-xl font-bold mb-4">{t('cart.summary')}</h2>
+                
+                <div className="space-y-3 mb-6">
+                  <div className="flex justify-between text-sm">
+                    <span className="text-muted-foreground">{t('cart.totalItems')}</span>
+                    <span className="font-medium">{cartItems.length}</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-muted-foreground">{t('cart.selected')}</span>
+                    <span className="font-medium">{selectedItems.size}</span>
+                  </div>
+                  <Separator />
+                  <div className="flex items-center gap-2 p-3 bg-primary/5 rounded-lg">
+                    <CheckCircle2 className="h-5 w-5 text-primary" />
+                    <span className="text-sm font-medium">{t('cart.freeDownload')}</span>
+                  </div>
+                </div>
+
+                <div className="space-y-3">
+                  {selectedItems.size > 0 ? (
+                    <>
+                      <Button
+                        onClick={downloadAllSelected}
+                        disabled={isDownloadingAll}
+                        size="lg"
+                        className="w-full gap-2"
+                      >
+                        {isDownloadingAll ? (
+                          <>
+                            <Loader2 className="h-5 w-5 animate-spin" />
+                            {t('cart.downloading')}
+                          </>
+                        ) : (
+                          <>
+                            <Download className="h-5 w-5" />
+                            {t('cart.downloadSelected')} ({selectedItems.size})
+                          </>
+                        )}
+                      </Button>
+                      <Button
+                        onClick={removeSelectedItems}
+                        variant="outline"
+                        size="lg"
+                        className="w-full gap-2"
+                      >
+                        <Trash2 className="h-5 w-5" />
+                        {t('cart.removeSelected')}
+                      </Button>
+                    </>
+                  ) : (
+                    <div className="text-center py-4">
+                      <p className="text-sm text-muted-foreground">
+                        {t('cart.selectItemsPrompt')}
+                      </p>
+                    </div>
+                  )}
+                </div>
+              </Card>
+
+              {/* Quick Actions */}
+              <Card className="p-6 bg-card/50 backdrop-blur-sm border-primary/20">
+                <h3 className="font-semibold mb-3">{t('cart.quickActions')}</h3>
+                <div className="space-y-2">
+                  <Button
+                    onClick={toggleSelectAll}
+                    variant="outline"
+                    size="sm"
+                    className="w-full justify-start gap-2"
+                  >
+                    <CheckCircle2 className="h-4 w-4" />
+                    {selectedItems.size === cartItems.length
+                      ? t('cart.deselectAll')
+                      : t('cart.selectAll')}
+                  </Button>
+                  <Button
+                    onClick={clearCart}
+                    variant="outline"
+                    size="sm"
+                    className="w-full justify-start gap-2 text-destructive hover:text-destructive"
+                  >
+                    <Trash2 className="h-4 w-4" />
+                    {t('cart.clearAll')}
+                  </Button>
+                  <Button
+                    onClick={() => navigate('/dashboard')}
+                    variant="ghost"
+                    size="sm"
+                    className="w-full justify-start gap-2"
+                  >
+                    <Package className="h-4 w-4" />
+                    {t('cart.continueBrowsing')}
+                  </Button>
+                </div>
+              </Card>
+            </div>
+          </div>
+        )}
       </main>
     </div>
   );
