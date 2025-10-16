@@ -11,7 +11,6 @@ import { toast } from '@/hooks/use-toast';
 import AnimationCard from '@/components/dashboard/AnimationCard';
 import GlobalSearchBar from '@/components/GlobalSearchBar';
 import { ThemeToggle } from '@/components/ThemeToggle';
-import { LanguageSelector } from '@/components/LanguageSelector';
 import { CartButton } from '@/components/CartButton';
 import { LoginModal } from '@/components/auth/LoginModal';
 import { SignUpModal } from '@/components/auth/SignUpModal';
@@ -238,7 +237,6 @@ export default function SearchResults() {
               {user ? (
                 <>
                   <CartButton />
-                  <LanguageSelector />
                   <ThemeToggle />
                   <Button
                     onClick={handleSignOut}
@@ -252,7 +250,6 @@ export default function SearchResults() {
                 </>
               ) : (
                 <>
-                  <LanguageSelector />
                   <ThemeToggle />
                   <Button
                     onClick={() => setShowLoginModal(true)}
@@ -289,7 +286,6 @@ export default function SearchResults() {
                 {user ? (
                   <>
                     <CartButton />
-                    <LanguageSelector />
                     <ThemeToggle />
                     <Button
                       onClick={handleSignOut}
@@ -301,7 +297,6 @@ export default function SearchResults() {
                   </>
                 ) : (
                   <>
-                    <LanguageSelector />
                     <ThemeToggle />
                   </>
                 )}

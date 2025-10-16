@@ -11,7 +11,6 @@ import { toast } from '@/hooks/use-toast';
 import AnimationCard from '@/components/dashboard/AnimationCard';
 import GlobalSearchBar from '@/components/GlobalSearchBar';
 import { ThemeToggle } from '@/components/ThemeToggle';
-import { LanguageSelector } from '@/components/LanguageSelector';
 import { CartButton } from '@/components/CartButton';
 import { LoginModal } from '@/components/auth/LoginModal';
 import { SignUpModal } from '@/components/auth/SignUpModal';
@@ -280,7 +279,6 @@ export default function SimilarAnimations() {
               {user ? (
                 <>
                   <CartButton />
-                  <LanguageSelector />
                   <ThemeToggle />
                   <Button onClick={handleSignOut} variant="outline" size="sm" className="gap-2">
                     <LogOut size={16} />
@@ -289,7 +287,6 @@ export default function SimilarAnimations() {
                 </>
               ) : (
                 <>
-                  <LanguageSelector />
                   <ThemeToggle />
                   <Button onClick={() => setShowLoginModal(true)} variant="outline" size="sm" className="gap-2">
                     {t('nav.login')}
@@ -306,7 +303,7 @@ export default function SimilarAnimations() {
             <div className="flex items-center justify-between">
               <button onClick={() => navigate('/')} className="text-xl font-bold bg-gradient-primary bg-clip-text text-transparent hover:opacity-80 transition-opacity">motiomint</button>
               <div className="flex items-center gap-2">
-                {user ? <><CartButton /><LanguageSelector /><ThemeToggle /><Button onClick={handleSignOut} variant="outline" size="sm"><LogOut size={16} /></Button></> : <><LanguageSelector /><ThemeToggle /></>}
+                {user ? <><CartButton /><ThemeToggle /><Button onClick={handleSignOut} variant="outline" size="sm"><LogOut size={16} /></Button></> : <><ThemeToggle /></>}
               </div>
             </div>
             <div className="w-full">

@@ -24,7 +24,6 @@ import {
   Settings
 } from 'lucide-react';
 import { ThemeToggle } from '@/components/ThemeToggle';
-import { LanguageSelector } from '@/components/LanguageSelector';
 import { CartButton } from '@/components/CartButton';
 import GlobalSearchBar from '@/components/GlobalSearchBar';
 import {
@@ -196,7 +195,6 @@ export default function MainNavigation({ onLoginClick, onSignUpClick }: MainNavi
 
             {/* Actions - Right */}
             <div className="flex items-center gap-3 flex-shrink-0">
-              <LanguageSelector />
               <ThemeToggle />
               {user ? (
                 <>
@@ -255,7 +253,6 @@ export default function MainNavigation({ onLoginClick, onSignUpClick }: MainNavi
               
               <div className="flex items-center gap-2">
                 {user && <CartButton />}
-                <LanguageSelector />
                 <ThemeToggle />
                 <Button
                   variant="ghost"

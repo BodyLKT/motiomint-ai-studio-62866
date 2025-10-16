@@ -11,7 +11,6 @@ import { Loader2, LogOut, ShoppingCart, Trash2, Download, ArrowLeft, Monitor, La
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from '@/hooks/use-toast';
 import { ThemeToggle } from '@/components/ThemeToggle';
-import { LanguageSelector } from '@/components/LanguageSelector';
 import VideoPreview from '@/components/ui/VideoPreview';
 import CartConfigEditor from '@/components/dashboard/CartConfigEditor';
 import { VideoConfig } from '@/components/dashboard/VideoConfigSelector';
@@ -391,7 +390,6 @@ export default function CartPage() {
                 <ArrowLeft size={16} />
                 {t('nav.backToDashboard')}
               </Button>
-              <LanguageSelector />
               <ThemeToggle />
               <Button
                 onClick={handleSignOut}
@@ -423,7 +421,6 @@ export default function CartPage() {
                 >
                   <ArrowLeft size={16} />
                 </Button>
-                <LanguageSelector />
                 <ThemeToggle />
                 <Button
                   onClick={handleSignOut}
