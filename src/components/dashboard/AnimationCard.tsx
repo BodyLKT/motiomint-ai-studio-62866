@@ -117,7 +117,7 @@ export default function AnimationCard({
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
           
           {/* Category Badge - Top Left */}
-          <Badge variant="secondary" className="absolute top-3 left-3 text-xs bg-background/90 backdrop-blur-sm">
+          <Badge variant="secondary" className="absolute top-3 left-3 text-xs bg-background backdrop-blur-md border border-border/50 shadow-lg font-semibold">
             {category}
           </Badge>
           
@@ -125,7 +125,7 @@ export default function AnimationCard({
           <Button
             size="icon"
             variant={isFavorite ? "default" : "secondary"}
-            className="absolute top-3 right-3 rounded-full z-10 h-8 w-8"
+            className="absolute top-3 right-3 rounded-full z-10 h-8 w-8 bg-background backdrop-blur-md border border-border/50 shadow-lg hover:bg-background/90"
             onClick={(e) => {
               e.stopPropagation();
               if (isGuest && onAuthRequired) {
@@ -140,12 +140,12 @@ export default function AnimationCard({
           
           {/* Title & Tags - Bottom Overlay */}
           <div className="absolute bottom-0 left-0 right-0 p-4 space-y-2">
-            <h3 className="text-white font-bold text-base line-clamp-1 drop-shadow-lg">
+            <h3 className="text-white font-bold text-base line-clamp-1 drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]">
               {title}
             </h3>
             <div className="flex flex-wrap gap-1.5">
               {tags.slice(0, 3).map((tag) => (
-                <Badge key={tag} variant="outline" className="text-xs bg-black/50 text-white border-white/20 backdrop-blur-sm">
+                <Badge key={tag} variant="outline" className="text-xs bg-black/80 text-white border-white/30 backdrop-blur-sm shadow-md font-medium">
                   {tag}
                 </Badge>
               ))}

@@ -163,12 +163,12 @@ export default function EnhancedAnimationCard({
         {/* Top Right Badges */}
         <div className="absolute top-2 right-2 flex gap-2">
           {format && (
-            <Badge className="bg-background/90 backdrop-blur-sm text-foreground border-border/50">
+            <Badge className="bg-background backdrop-blur-md text-foreground border border-border/50 shadow-lg font-semibold">
               {format}
             </Badge>
           )}
           {resolution && (
-            <Badge className="bg-background/90 backdrop-blur-sm text-foreground border-border/50">
+            <Badge className="bg-background backdrop-blur-md text-foreground border border-border/50 shadow-lg font-semibold">
               {resolution}
             </Badge>
           )}
@@ -179,10 +179,10 @@ export default function EnhancedAnimationCard({
           size="icon"
           variant="ghost"
           className={cn(
-            "absolute top-2 left-2 backdrop-blur-sm transition-all",
+            "absolute top-2 left-2 backdrop-blur-md transition-all shadow-lg border border-border/50",
             isFavorite 
-              ? "bg-primary/20 hover:bg-primary/30 text-primary" 
-              : "bg-background/50 hover:bg-background/80"
+              ? "bg-primary/90 hover:bg-primary text-primary-foreground" 
+              : "bg-background hover:bg-background/90"
           )}
           onClick={(e) => {
             e.stopPropagation();
