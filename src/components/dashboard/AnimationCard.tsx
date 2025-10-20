@@ -117,7 +117,7 @@ export default function AnimationCard({
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
           
           {/* Category Badge - Top Left */}
-          <Badge variant="secondary" className="absolute top-3 left-3 text-xs bg-background backdrop-blur-md border border-border/50 shadow-lg font-semibold">
+          <Badge variant="secondary" className="absolute top-3 left-3 text-xs bg-card/95 backdrop-blur-md border-2 border-primary/40 shadow-[0_4px_12px_rgba(0,0,0,0.5)] font-bold text-foreground px-3 py-1">
             {category}
           </Badge>
           
@@ -125,7 +125,7 @@ export default function AnimationCard({
           <Button
             size="icon"
             variant={isFavorite ? "default" : "secondary"}
-            className="absolute top-3 right-3 rounded-full z-10 h-8 w-8 bg-background backdrop-blur-md border border-border/50 shadow-lg hover:bg-background/90"
+            className="absolute top-3 right-3 rounded-full z-10 h-9 w-9 bg-card/95 backdrop-blur-md border-2 border-primary/40 shadow-[0_4px_12px_rgba(0,0,0,0.5)] hover:scale-110 transition-transform"
             onClick={(e) => {
               e.stopPropagation();
               if (isGuest && onAuthRequired) {
@@ -135,17 +135,17 @@ export default function AnimationCard({
               }
             }}
           >
-            <Heart className={`h-3 w-3 ${isFavorite ? 'fill-current' : ''}`} />
+            <Heart className={`h-4 w-4 ${isFavorite ? 'fill-current' : ''}`} />
           </Button>
           
           {/* Title & Tags - Bottom Overlay */}
-          <div className="absolute bottom-0 left-0 right-0 p-4 space-y-2">
-            <h3 className="text-white font-bold text-base line-clamp-1 drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]">
+          <div className="absolute bottom-0 left-0 right-0 p-4 space-y-2 bg-gradient-to-t from-black/90 via-black/60 to-transparent">
+            <h3 className="text-white font-bold text-base line-clamp-1 drop-shadow-[0_3px_10px_rgba(0,0,0,0.9)]">
               {title}
             </h3>
             <div className="flex flex-wrap gap-1.5">
               {tags.slice(0, 3).map((tag) => (
-                <Badge key={tag} variant="outline" className="text-xs bg-black/80 text-white border-white/30 backdrop-blur-sm shadow-md font-medium">
+                <Badge key={tag} variant="outline" className="text-xs bg-black/90 text-white border-white/40 backdrop-blur-sm shadow-lg font-semibold px-2.5 py-0.5">
                   {tag}
                 </Badge>
               ))}
