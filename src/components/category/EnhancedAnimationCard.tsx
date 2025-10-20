@@ -141,8 +141,8 @@ export default function EnhancedAnimationCard({
           <div className="flex gap-2">
             <Button
               size="sm"
-              variant="secondary"
-              className="backdrop-blur-sm bg-background/90 hover:bg-background"
+              variant="default"
+              className="backdrop-blur-md bg-background text-foreground border border-border hover:bg-primary hover:text-primary-foreground shadow-lg"
               onClick={handleViewDetails}
             >
               <Eye className="w-4 h-4 mr-1" />
@@ -150,8 +150,8 @@ export default function EnhancedAnimationCard({
             </Button>
             <Button
               size="sm"
-              variant="secondary"
-              className="backdrop-blur-sm bg-background/90 hover:bg-background"
+              variant="default"
+              className="backdrop-blur-md bg-background text-foreground border border-border hover:bg-primary hover:text-primary-foreground shadow-lg"
               onClick={handleDiscoverSimilar}
             >
               <Sparkles className="w-4 h-4 mr-1" />

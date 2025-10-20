@@ -322,7 +322,7 @@ export default function GlobalSearchBar({
       {/* Suggestions Dropdown */}
       {isOpen && suggestions.length > 0 && (
         <Card className={cn(
-          'absolute top-full mt-2 w-full bg-background border-border shadow-2xl overflow-hidden z-[100]',
+          'absolute top-full mt-2 w-full bg-background/95 backdrop-blur-xl border-border/50 shadow-2xl overflow-hidden z-[100]',
           isHero ? 'max-w-3xl mx-auto left-0 right-0' : 'max-w-2xl'
         )}>
           <div className="max-h-96 overflow-y-auto">
