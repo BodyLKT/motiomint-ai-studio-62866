@@ -314,7 +314,7 @@ export default function SimilarAnimations() {
       </header>
 
       {/* Main Content */}
-      <main className="container mx-auto px-4 py-12">
+      <main className="container mx-auto px-4 pt-24 pb-12">
         <div className="max-w-7xl mx-auto">
           <Button
             onClick={() => navigate(-1)}

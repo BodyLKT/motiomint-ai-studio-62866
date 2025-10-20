@@ -265,7 +265,7 @@ export default function Dashboard() {
       <MainNavigation />
 
       {/* Main Content */}
-      <main className="container mx-auto px-4 py-12">
+      <main className="container mx-auto px-4 pt-32 pb-12">
         <div className="max-w-6xl mx-auto">
           {/* Welcome Section */}
           <div className="mb-8">
@@ -281,7 +281,7 @@ export default function Dashboard() {
 
           {/* Enhanced Navigation Tabs - Moved to Prominent Position */}
           <Tabs defaultValue="library" className="w-full">
-            <div className="sticky top-[73px] z-40 bg-background/95 backdrop-blur-lg border-b border-primary/10 -mx-4 px-4 mb-8">
+            <div className="sticky top-[120px] z-40 bg-background/95 backdrop-blur-lg border-b border-primary/10 -mx-4 px-4 mb-8">
               <TabsList className="w-full md:w-auto h-auto p-1 bg-card/50 border border-primary/20 shadow-lg overflow-x-auto">
                 <TabsTrigger 
                   value="library" 
