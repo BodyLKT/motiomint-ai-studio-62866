@@ -163,12 +163,12 @@ export default function EnhancedAnimationCard({
         {/* Top Right Badges */}
         <div className="absolute top-2 right-2 flex gap-2">
           {format && (
-            <Badge className="bg-card/95 backdrop-blur-md text-foreground border-2 border-primary/40 shadow-[0_4px_12px_rgba(0,0,0,0.5)] font-bold px-3 py-1">
+            <Badge className="bg-foreground/80 text-background backdrop-blur-md border border-foreground/40 shadow-[0_4px_12px_rgba(0,0,0,0.5)] font-semibold px-3 py-1">
               {format}
             </Badge>
           )}
           {resolution && (
-            <Badge className="bg-card/95 backdrop-blur-md text-foreground border-2 border-primary/40 shadow-[0_4px_12px_rgba(0,0,0,0.5)] font-bold px-3 py-1">
+            <Badge className="bg-foreground/80 text-background backdrop-blur-md border border-foreground/40 shadow-[0_4px_12px_rgba(0,0,0,0.5)] font-semibold px-3 py-1">
               {resolution}
             </Badge>
           )}
@@ -179,10 +179,10 @@ export default function EnhancedAnimationCard({
           size="icon"
           variant="ghost"
           className={cn(
-            "absolute top-2 left-2 backdrop-blur-md transition-all shadow-[0_4px_12px_rgba(0,0,0,0.5)] border-2 h-9 w-9 hover:scale-110",
+            "absolute top-2 left-2 backdrop-blur-md transition-all shadow-[0_4px_12px_rgba(0,0,0,0.5)] border h-9 w-9 hover:scale-110",
             isFavorite 
-              ? "bg-primary/95 hover:bg-primary text-primary-foreground border-primary" 
-              : "bg-card/95 hover:bg-card border-primary/40"
+              ? "bg-primary text-primary-foreground border-primary" 
+              : "bg-foreground/80 text-background border-foreground/40"
           )}
           onClick={(e) => {
             e.stopPropagation();

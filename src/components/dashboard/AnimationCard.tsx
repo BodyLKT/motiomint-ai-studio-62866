@@ -117,7 +117,7 @@ export default function AnimationCard({
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
           
           {/* Category Badge - Top Left */}
-          <Badge variant="secondary" className="absolute top-3 left-3 text-xs bg-card/95 backdrop-blur-md border-2 border-primary/40 shadow-[0_4px_12px_rgba(0,0,0,0.5)] font-bold text-foreground px-3 py-1">
+          <Badge variant="secondary" className="absolute top-3 left-3 text-xs bg-foreground/80 text-background backdrop-blur-md border border-foreground/40 shadow-[0_4px_12px_rgba(0,0,0,0.5)] font-semibold px-3 py-1">
             {category}
           </Badge>
           
@@ -125,7 +125,9 @@ export default function AnimationCard({
           <Button
             size="icon"
             variant={isFavorite ? "default" : "secondary"}
-            className="absolute top-3 right-3 rounded-full z-10 h-9 w-9 bg-card/95 backdrop-blur-md border-2 border-primary/40 shadow-[0_4px_12px_rgba(0,0,0,0.5)] hover:scale-110 transition-transform"
+            className={`absolute top-3 right-3 rounded-full z-10 h-9 w-9 backdrop-blur-md shadow-[0_4px_12px_rgba(0,0,0,0.5)] hover:scale-110 transition-transform border ${
+              isFavorite ? 'bg-primary text-primary-foreground border-primary' : 'bg-foreground/80 text-background border-foreground/40'
+            }`}
             onClick={(e) => {
               e.stopPropagation();
               if (isGuest && onAuthRequired) {

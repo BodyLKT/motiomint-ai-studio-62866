@@ -130,9 +130,9 @@ export default function VideoPreview({
 
       {/* Play icon overlay (only show when not playing) */}
       {showPlayIcon && videoUrl && !showVideo && (
-        <div className="absolute inset-0 flex items-center justify-center bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-          <div className="bg-white/90 rounded-full p-3">
-            <Play className="h-6 w-6 text-foreground" />
+        <div className="absolute inset-0 flex items-center justify-center bg-background/10 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+          <div className="rounded-full p-3 bg-foreground/90 text-background shadow-[0_4px_12px_rgba(0,0,0,0.5)] ring-1 ring-foreground/40">
+            <Play className="h-6 w-6 text-background" />
           </div>
         </div>
       )}
