@@ -23,7 +23,13 @@ import {
   Wand2,
   Settings,
   CreditCard,
-  UserCircle2
+  UserCircle2,
+  Heart,
+  Download,
+  Package,
+  BookOpen,
+  HelpCircle,
+  ExternalLink
 } from 'lucide-react';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { CartButton } from '@/components/CartButton';
@@ -238,42 +244,109 @@ export default function MainNavigation({ onLoginClick, onSignUpClick }: MainNavi
                   <DropdownMenuTrigger asChild>
                     <Button 
                       variant="ghost" 
-                      className="relative h-9 w-9 rounded-full"
+                      className="relative h-9 w-9 rounded-full hover:ring-2 hover:ring-primary/20 transition-all"
                     >
                       <Avatar className="h-9 w-9">
                         <AvatarImage src="" alt={user.email || "User"} />
-                        <AvatarFallback className="bg-primary text-primary-foreground">
+                        <AvatarFallback className="bg-primary text-primary-foreground font-semibold">
                           {user.email?.charAt(0).toUpperCase() || 'U'}
                         </AvatarFallback>
                       </Avatar>
                     </Button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent className="w-56" align="end" forceMount>
-                    <div className="flex items-center justify-start gap-2 p-2">
-                      <div className="flex flex-col space-y-1">
-                        <p className="text-sm font-medium leading-none">{user.email}</p>
-                        <p className="text-xs leading-none text-muted-foreground">
+                  <DropdownMenuContent 
+                    className="w-64 p-2" 
+                    align="end" 
+                    forceMount
+                    sideOffset={8}
+                  >
+                    {/* User Info Header */}
+                    <div className="flex items-center gap-3 px-2 py-3 mb-1">
+                      <Avatar className="h-10 w-10">
+                        <AvatarImage src="" alt={user.email || "User"} />
+                        <AvatarFallback className="bg-primary text-primary-foreground font-semibold">
+                          {user.email?.charAt(0).toUpperCase() || 'U'}
+                        </AvatarFallback>
+                      </Avatar>
+                      <div className="flex flex-col space-y-0.5 flex-1 min-w-0">
+                        <p className="text-sm font-semibold leading-none truncate">
+                          {user.email?.split('@')[0] || 'User'}
+                        </p>
+                        <p className="text-xs text-muted-foreground truncate">
                           {user.email}
                         </p>
                       </div>
                     </div>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem onClick={() => navigate('/dashboard')}>
-                      <LayoutDashboard className="mr-2 h-4 w-4" />
-                      <span>Dashboard</span>
+                    
+                    <DropdownMenuSeparator className="my-2" />
+                    
+                    {/* My Account */}
+                    <DropdownMenuItem 
+                      onClick={() => navigate('/dashboard')}
+                      className="cursor-pointer py-2.5 px-2"
+                    >
+                      <UserCircle2 className="mr-3 h-4 w-4" />
+                      <span className="font-medium">My Account</span>
                     </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => navigate('/dashboard')}>
-                      <Settings className="mr-2 h-4 w-4" />
-                      <span>Settings</span>
+
+                    {/* My Collections */}
+                    <DropdownMenuItem 
+                      onClick={() => navigate('/dashboard')}
+                      className="cursor-pointer py-2.5 px-2"
+                    >
+                      <Heart className="mr-3 h-4 w-4" />
+                      <span className="font-medium">My Collections</span>
                     </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => navigate('/pricing')}>
-                      <CreditCard className="mr-2 h-4 w-4" />
-                      <span>Subscription</span>
+
+                    {/* My Downloads */}
+                    <DropdownMenuItem 
+                      onClick={() => navigate('/dashboard')}
+                      className="cursor-pointer py-2.5 px-2"
+                    >
+                      <Download className="mr-3 h-4 w-4" />
+                      <span className="font-medium">My Downloads</span>
                     </DropdownMenuItem>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem onClick={handleSignOut}>
-                      <LogOut className="mr-2 h-4 w-4" />
-                      <span>Log out</span>
+
+                    {/* Subscription */}
+                    <DropdownMenuItem 
+                      onClick={() => navigate('/pricing')}
+                      className="cursor-pointer py-2.5 px-2"
+                    >
+                      <Package className="mr-3 h-4 w-4" />
+                      <span className="font-medium">Subscription</span>
+                    </DropdownMenuItem>
+
+                    <DropdownMenuSeparator className="my-2" />
+
+                    {/* Blog - External Link */}
+                    <DropdownMenuItem 
+                      onClick={() => window.open('https://blog.motiomint.com', '_blank')}
+                      className="cursor-pointer py-2.5 px-2"
+                    >
+                      <BookOpen className="mr-3 h-4 w-4" />
+                      <span className="font-medium">Blog</span>
+                      <ExternalLink className="ml-auto h-3.5 w-3.5 text-muted-foreground" />
+                    </DropdownMenuItem>
+
+                    {/* Help Center - External Link */}
+                    <DropdownMenuItem 
+                      onClick={() => window.open('https://help.motiomint.com', '_blank')}
+                      className="cursor-pointer py-2.5 px-2"
+                    >
+                      <HelpCircle className="mr-3 h-4 w-4" />
+                      <span className="font-medium">Help Center</span>
+                      <ExternalLink className="ml-auto h-3.5 w-3.5 text-muted-foreground" />
+                    </DropdownMenuItem>
+
+                    <DropdownMenuSeparator className="my-2" />
+
+                    {/* Log Out */}
+                    <DropdownMenuItem 
+                      onClick={handleSignOut}
+                      className="cursor-pointer py-2.5 px-2 text-destructive focus:text-destructive focus:bg-destructive/10"
+                    >
+                      <LogOut className="mr-3 h-4 w-4" />
+                      <span className="font-medium">Log Out</span>
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
