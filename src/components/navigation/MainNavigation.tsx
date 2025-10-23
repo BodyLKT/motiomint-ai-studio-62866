@@ -21,7 +21,9 @@ import {
   Zap,
   Film,
   Wand2,
-  Settings
+  Settings,
+  CreditCard,
+  UserCircle2
 } from 'lucide-react';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { CartButton } from '@/components/CartButton';
@@ -33,6 +35,14 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { cn } from '@/lib/utils';
 
 interface MainNavigationProps {
@@ -107,8 +117,8 @@ export default function MainNavigation({ onLoginClick, onSignUpClick }: MainNavi
               motiomint
             </button>
 
-            {/* Desktop Menu - Center */}
-            <div className="flex items-center gap-6 flex-1 justify-center">
+            {/* Desktop Menu - Center/Left */}
+            <div className="flex items-center gap-6">
               <NavigationMenu>
                 <NavigationMenuList>
                   {/* Categories Dropdown */}
@@ -183,60 +193,107 @@ export default function MainNavigation({ onLoginClick, onSignUpClick }: MainNavi
                   </NavigationMenuItem>
                 </NavigationMenuList>
               </NavigationMenu>
+            </div>
 
-              {/* Direct Links */}
-              <a 
-                href="#pricing" 
+            {/* Spacer */}
+            <div className="flex-1" />
+
+            {/* Right Side Actions */}
+            <div className="flex items-center gap-4 flex-shrink-0">
+              {/* Business Link */}
+              <button
+                onClick={() => navigate('/dashboard')}
+                className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+              >
+                Business
+              </button>
+
+              {/* Pricing Link */}
+              <button
+                onClick={() => navigate('/pricing')}
                 className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
               >
                 {t('nav.pricing')}
-              </a>
-            </div>
+              </button>
 
-            {/* Actions - Right */}
-            <div className="flex items-center gap-3 flex-shrink-0">
+              {/* Subscribe Now Button */}
+              <Button 
+                variant="default" 
+                size="sm" 
+                className="btn-glow font-semibold px-6"
+                onClick={() => navigate('/pricing')}
+              >
+                Subscribe Now
+              </Button>
+
+              {/* Theme Toggle */}
               <ThemeToggle />
+
+              {/* Cart Button (only when logged in) */}
+              {user && <CartButton />}
+
+              {/* User Account Dropdown or Login/SignUp */}
               {user ? (
-                <>
-                  <CartButton />
-                  <Button 
-                    variant="default" 
-                    size="sm"
-                    onClick={() => navigate('/dashboard')}
-                    className="gap-2"
-                  >
-                    <LayoutDashboard className="w-4 h-4" />
-                    {t('nav.dashboard')}
-                  </Button>
-                  <Button 
-                    variant="ghost" 
-                    size="sm"
-                    onClick={handleSignOut}
-                  >
-                    <LogOut className="w-4 h-4" />
-                  </Button>
-                </>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button 
+                      variant="ghost" 
+                      className="relative h-9 w-9 rounded-full"
+                    >
+                      <Avatar className="h-9 w-9">
+                        <AvatarImage src="" alt={user.email || "User"} />
+                        <AvatarFallback className="bg-primary text-primary-foreground">
+                          {user.email?.charAt(0).toUpperCase() || 'U'}
+                        </AvatarFallback>
+                      </Avatar>
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent className="w-56" align="end" forceMount>
+                    <div className="flex items-center justify-start gap-2 p-2">
+                      <div className="flex flex-col space-y-1">
+                        <p className="text-sm font-medium leading-none">{user.email}</p>
+                        <p className="text-xs leading-none text-muted-foreground">
+                          {user.email}
+                        </p>
+                      </div>
+                    </div>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem onClick={() => navigate('/dashboard')}>
+                      <LayoutDashboard className="mr-2 h-4 w-4" />
+                      <span>Dashboard</span>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => navigate('/dashboard')}>
+                      <Settings className="mr-2 h-4 w-4" />
+                      <span>Settings</span>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => navigate('/pricing')}>
+                      <CreditCard className="mr-2 h-4 w-4" />
+                      <span>Subscription</span>
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem onClick={handleSignOut}>
+                      <LogOut className="mr-2 h-4 w-4" />
+                      <span>Log out</span>
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
               ) : (
-                <>
+                <div className="flex items-center gap-2">
                   <Button 
                     variant="ghost" 
                     size="sm"
                     onClick={onLoginClick}
-                    className="gap-2"
                   >
-                    <LogIn className="w-4 h-4" />
                     {t('nav.login')}
                   </Button>
                   <Button 
-                    variant="default" 
-                    size="sm" 
-                    className="btn-glow gap-2"
+                    variant="outline" 
+                    size="sm"
                     onClick={onSignUpClick}
                   >
-                    <User className="w-4 h-4" />
                     {t('nav.signUp')}
                   </Button>
-                </>
+                </div>
               )}
             </div>
           </div>
