@@ -77,6 +77,18 @@ export default function MainNavigation({ onLoginClick, onSignUpClick }: MainNavi
     setMobileMenuOpen(false);
   }, [location.pathname]);
 
+  // Prevent body scroll when mobile menu is open
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [mobileMenuOpen]);
+
   const handleLogoClick = () => {
     if (location.pathname === '/') {
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -382,12 +394,14 @@ export default function MainNavigation({ onLoginClick, onSignUpClick }: MainNavi
               </button>
               
               <div className="flex items-center gap-2">
-                {user && <CartButton />}
                 <ThemeToggle />
+                {user && <CartButton />}
                 <Button
                   variant="ghost"
-                  size="sm"
+                  size="icon"
+                  className="h-9 w-9"
                   onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                  aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
                 >
                   {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
                 </Button>
@@ -408,26 +422,73 @@ export default function MainNavigation({ onLoginClick, onSignUpClick }: MainNavi
 
       {/* Mobile Menu Overlay */}
       {mobileMenuOpen && (
-        <div className="lg:hidden fixed inset-0 z-40 bg-background/95 backdrop-blur-lg pt-20 overflow-y-auto">
-          <div className="container mx-auto px-4 py-6 space-y-6">
+        <div className="lg:hidden fixed inset-0 z-40 bg-background/98 backdrop-blur-xl pt-16 overflow-y-auto animate-in slide-in-from-right duration-300">
+          <div className="container mx-auto px-4 py-6 space-y-6 max-w-md">
             {/* Mobile Search */}
             <div className="mb-6">
               <GlobalSearchBar variant="default" autoFocus={false} />
             </div>
 
+            {/* User Profile Section (if logged in) */}
+            {user && (
+              <div className="mb-6 p-4 rounded-lg bg-accent/50 border border-border">
+                <div className="flex items-center gap-3 mb-4">
+                  <Avatar className="h-12 w-12">
+                    <AvatarImage src="" alt={user.email || "User"} />
+                    <AvatarFallback className="bg-primary text-primary-foreground font-semibold text-lg">
+                      {user.email?.charAt(0).toUpperCase() || 'U'}
+                    </AvatarFallback>
+                  </Avatar>
+                  <div className="flex flex-col flex-1 min-w-0">
+                    <p className="text-sm font-semibold truncate">
+                      {user.email?.split('@')[0] || 'User'}
+                    </p>
+                    <p className="text-xs text-muted-foreground truncate">
+                      {user.email}
+                    </p>
+                  </div>
+                </div>
+                
+                {/* User Quick Actions */}
+                <div className="space-y-2">
+                  <button
+                    onClick={() => navigate('/dashboard')}
+                    className="flex items-center gap-3 p-2.5 rounded-md hover:bg-accent transition-colors text-left w-full text-sm"
+                  >
+                    <UserCircle2 className="w-4 h-4 text-primary" />
+                    <span className="font-medium">My Account</span>
+                  </button>
+                  <button
+                    onClick={() => navigate('/dashboard')}
+                    className="flex items-center gap-3 p-2.5 rounded-md hover:bg-accent transition-colors text-left w-full text-sm"
+                  >
+                    <Heart className="w-4 h-4 text-primary" />
+                    <span className="font-medium">My Collections</span>
+                  </button>
+                  <button
+                    onClick={() => navigate('/dashboard')}
+                    className="flex items-center gap-3 p-2.5 rounded-md hover:bg-accent transition-colors text-left w-full text-sm"
+                  >
+                    <Download className="w-4 h-4 text-primary" />
+                    <span className="font-medium">My Downloads</span>
+                  </button>
+                </div>
+              </div>
+            )}
+
             {/* Categories Section */}
             <div>
-              <h3 className="text-sm font-semibold text-muted-foreground mb-3 uppercase tracking-wide">
+              <h3 className="text-xs font-bold text-muted-foreground mb-3 uppercase tracking-wider px-2">
                 {t('nav.categories')}
               </h3>
-              <div className="space-y-2">
+              <div className="space-y-1">
                 {animationCategories.map((category) => (
                   <button
                     key={category.name}
                     onClick={() => navigate(category.path)}
-                    className="flex items-center gap-3 p-3 rounded-lg hover:bg-accent transition-colors text-left w-full"
+                    className="flex items-center gap-3 p-3 rounded-lg hover:bg-accent/80 transition-colors text-left w-full group"
                   >
-                    <category.icon className="w-5 h-5 text-primary" />
+                    <category.icon className="w-5 h-5 text-primary group-hover:scale-110 transition-transform" />
                     <span className="text-sm font-medium">{category.name}</span>
                   </button>
                 ))}
@@ -436,17 +497,17 @@ export default function MainNavigation({ onLoginClick, onSignUpClick }: MainNavi
 
             {/* Tools Section */}
             <div>
-              <h3 className="text-sm font-semibold text-muted-foreground mb-3 uppercase tracking-wide">
+              <h3 className="text-xs font-bold text-muted-foreground mb-3 uppercase tracking-wider px-2">
                 {t('nav.tools')}
               </h3>
-              <div className="space-y-2">
+              <div className="space-y-1">
                 {toolsItems.map((tool) => (
                   <button
                     key={tool.name}
                     onClick={() => navigate(tool.path)}
-                    className="flex items-start gap-3 p-3 rounded-lg hover:bg-accent transition-colors text-left w-full"
+                    className="flex items-start gap-3 p-3 rounded-lg hover:bg-accent/80 transition-colors text-left w-full group"
                   >
-                    <tool.icon className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
+                    <tool.icon className="w-5 h-5 text-primary flex-shrink-0 mt-0.5 group-hover:scale-110 transition-transform" />
                     <div>
                       <div className="text-sm font-medium">{tool.name}</div>
                       <div className="text-xs text-muted-foreground mt-0.5">{tool.description}</div>
@@ -458,66 +519,104 @@ export default function MainNavigation({ onLoginClick, onSignUpClick }: MainNavi
 
             {/* Quick Links */}
             <div>
-              <h3 className="text-sm font-semibold text-muted-foreground mb-3 uppercase tracking-wide">
-                {t('nav.quickLinks')}
+              <h3 className="text-xs font-bold text-muted-foreground mb-3 uppercase tracking-wider px-2">
+                Quick Links
               </h3>
-              <div className="space-y-2">
+              <div className="space-y-1">
                 <button
-                  onClick={() => {
-                    const pricingSection = document.getElementById('pricing');
-                    if (pricingSection) {
-                      pricingSection.scrollIntoView({ behavior: 'smooth' });
-                    }
-                  }}
-                  className="flex items-center p-3 rounded-lg hover:bg-accent transition-colors text-left w-full text-sm font-medium"
+                  onClick={() => navigate('/dashboard')}
+                  className="flex items-center gap-3 p-3 rounded-lg hover:bg-accent/80 transition-colors text-left w-full"
                 >
-                  {t('nav.pricing')}
+                  <Briefcase className="w-5 h-5 text-primary" />
+                  <span className="text-sm font-medium">Business</span>
+                </button>
+                <button
+                  onClick={() => navigate('/pricing')}
+                  className="flex items-center gap-3 p-3 rounded-lg hover:bg-accent/80 transition-colors text-left w-full"
+                >
+                  <CreditCard className="w-5 h-5 text-primary" />
+                  <span className="text-sm font-medium">{t('nav.pricing')}</span>
+                </button>
+                <button
+                  onClick={() => window.open('https://blog.motiomint.com', '_blank')}
+                  className="flex items-center gap-3 p-3 rounded-lg hover:bg-accent/80 transition-colors text-left w-full"
+                >
+                  <BookOpen className="w-5 h-5 text-primary" />
+                  <span className="text-sm font-medium">Blog</span>
+                  <ExternalLink className="ml-auto h-3.5 w-3.5 text-muted-foreground" />
+                </button>
+                <button
+                  onClick={() => window.open('https://help.motiomint.com', '_blank')}
+                  className="flex items-center gap-3 p-3 rounded-lg hover:bg-accent/80 transition-colors text-left w-full"
+                >
+                  <HelpCircle className="w-5 h-5 text-primary" />
+                  <span className="text-sm font-medium">Help Center</span>
+                  <ExternalLink className="ml-auto h-3.5 w-3.5 text-muted-foreground" />
                 </button>
               </div>
             </div>
 
-            {/* User Actions */}
-            <div className="pt-4 border-t border-border">
+            {/* Call to Action & Auth Section */}
+            <div className="pt-4 border-t border-border space-y-3">
               {user ? (
-                <div className="space-y-2">
+                <>
+                  {/* Subscribe Button for logged in users */}
                   <Button 
                     variant="default" 
-                    className="w-full justify-start gap-3"
-                    onClick={() => navigate('/dashboard')}
+                    className="w-full justify-center gap-2 btn-glow h-12 text-base font-semibold"
+                    onClick={() => navigate('/pricing')}
                   >
-                    <LayoutDashboard className="w-5 h-5" />
-                    {t('nav.dashboard')}
+                    <Package className="w-5 h-5" />
+                    Subscribe Now
                   </Button>
+                  
+                  {/* Logout Button */}
                   <Button 
                     variant="outline" 
-                    className="w-full justify-start gap-3"
+                    className="w-full justify-center gap-2 h-11"
                     onClick={handleSignOut}
                   >
                     <LogOut className="w-5 h-5" />
-                    {t('nav.logout')}
+                    Log Out
                   </Button>
-                </div>
+                </>
               ) : (
-                <div className="space-y-2">
+                <>
+                  {/* Subscribe Button for guests */}
                   <Button 
                     variant="default" 
-                    className="w-full justify-start gap-3 btn-glow"
+                    className="w-full justify-center gap-2 btn-glow h-12 text-base font-semibold"
+                    onClick={() => navigate('/pricing')}
+                  >
+                    <Package className="w-5 h-5" />
+                    Subscribe Now
+                  </Button>
+                  
+                  {/* Sign Up Button */}
+                  <Button 
+                    variant="default" 
+                    className="w-full justify-center gap-2 h-11"
                     onClick={onSignUpClick}
                   >
                     <User className="w-5 h-5" />
                     {t('nav.signUp')}
                   </Button>
+                  
+                  {/* Login Button */}
                   <Button 
                     variant="outline" 
-                    className="w-full justify-start gap-3"
+                    className="w-full justify-center gap-2 h-11"
                     onClick={onLoginClick}
                   >
                     <LogIn className="w-5 h-5" />
                     {t('nav.login')}
                   </Button>
-                </div>
+                </>
               )}
             </div>
+
+            {/* Bottom Spacing for Mobile Safari */}
+            <div className="h-8" />
           </div>
         </div>
       )}
