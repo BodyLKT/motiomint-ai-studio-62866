@@ -378,7 +378,8 @@ export default function SimilarAnimations() {
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {similarAnimations.map((animation) => (
-                <AnimationCard
+                <div key={animation.id} className="h-[400px]">
+                  <AnimationCard
                   key={animation.id}
                   id={animation.id}
                   title={animation.title}
@@ -394,6 +395,7 @@ export default function SimilarAnimations() {
                   isGuest={!user}
                   onAuthRequired={() => setShowSignUpModal(true)}
                 />
+                </div>
               ))}
             </div>
           )}

@@ -101,31 +101,27 @@ export default function AnimationCard({
   return (
     <>
       <Card className="group overflow-hidden hover:shadow-xl transition-all duration-300 bg-card/50 backdrop-blur-sm border-primary/20 hover:border-primary/40 rounded-lg h-full">
-        {/* Full-size preview with overlaid elements */}
+        {/* Full-size edge-to-edge preview with overlaid elements */}
         <div 
-          className="relative aspect-video overflow-hidden bg-muted cursor-pointer"
+          className="relative w-full h-full overflow-hidden bg-muted cursor-pointer"
           onClick={() => navigate(`/animation/${id}`)}
         >
           <VideoPreview
             thumbnailUrl={thumbnailUrl}
             videoUrl={videoUrl}
             alt={title}
-            className="w-full h-full group-hover:scale-110 transition-transform duration-300"
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+            showPlayIcon={false}
           />
           
-          {/* Gradient overlay for readability */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+          {/* Gradient overlay for readability - visible only on hover */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
           
-          {/* Category Badge - Top Left */}
-          <Badge variant="secondary" className="absolute top-3 left-3 text-xs bg-foreground/80 text-background backdrop-blur-md border border-foreground/40 shadow-[0_4px_12px_rgba(0,0,0,0.5)] font-semibold px-3 py-1">
-            {category}
-          </Badge>
-          
-          {/* Favorite Button - Top Right */}
+          {/* Favorite Button - Top Right - visible only on hover */}
           <Button
             size="icon"
             variant={isFavorite ? "default" : "secondary"}
-            className={`absolute top-3 right-3 rounded-full z-10 h-9 w-9 backdrop-blur-md shadow-[0_4px_12px_rgba(0,0,0,0.5)] hover:scale-110 transition-transform border ${
+            className={`absolute top-3 right-3 rounded-full z-10 h-9 w-9 backdrop-blur-md shadow-[0_4px_12px_rgba(0,0,0,0.5)] hover:scale-110 transition-all duration-300 border opacity-0 group-hover:opacity-100 ${
               isFavorite ? 'bg-primary text-primary-foreground border-primary' : 'bg-foreground/80 text-background border-foreground/40'
             }`}
             onClick={(e) => {
@@ -140,8 +136,8 @@ export default function AnimationCard({
             <Heart className={`h-4 w-4 ${isFavorite ? 'fill-current' : ''}`} />
           </Button>
           
-          {/* Title & Tags - Bottom Overlay */}
-          <div className="absolute bottom-0 left-0 right-0 p-4 space-y-2 bg-gradient-to-t from-black/90 via-black/60 to-transparent">
+          {/* Title & Tags - Bottom Overlay - visible only on hover */}
+          <div className="absolute bottom-0 left-0 right-0 p-4 space-y-2 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
             <h3 className="text-white font-bold text-base line-clamp-1 drop-shadow-[0_3px_10px_rgba(0,0,0,0.9)]">
               {title}
             </h3>
@@ -153,73 +149,81 @@ export default function AnimationCard({
               ))}
             </div>
           </div>
-        </div>
-        
-        {/* Action Buttons - Compact Layout */}
-        <CardContent className="p-3 space-y-2">
-          {/* Primary Actions Row */}
-          <div className="flex gap-2">
-            {onCartToggle && (
+          
+          {/* Action Buttons - Overlaid on preview - visible only on hover */}
+          <div className="absolute inset-x-0 bottom-[72px] px-4 space-y-2 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+            {/* Primary Actions Row */}
+            <div className="flex gap-2">
+              {onCartToggle && (
+                <Button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    if (isGuest && onAuthRequired) {
+                      onAuthRequired();
+                    } else {
+                      onCartToggle();
+                    }
+                  }}
+                  variant={isInCart ? "default" : "outline"}
+                  size="sm"
+                  className="flex-1 h-9 backdrop-blur-md bg-background/90 hover:bg-background"
+                >
+                  <ShoppingCart className="mr-1.5 h-3.5 w-3.5" />
+                  <span className="text-xs">{isInCart ? 'In Cart' : 'Add'}</span>
+                </Button>
+              )}
               <Button
-                onClick={() => {
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleDownload();
+                }}
+                disabled={isDownloading}
+                size="sm"
+                className="flex-1 h-9 backdrop-blur-md"
+                variant="default"
+              >
+                {isDownloading ? (
+                  <Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />
+                ) : (
+                  <Download className="mr-1.5 h-3.5 w-3.5" />
+                )}
+                <span className="text-xs">{isDownloading ? t('animation.downloading') : t('animation.download')}</span>
+              </Button>
+            </div>
+            
+            {/* Secondary Actions Row */}
+            <div className="flex gap-2">
+              <Button
+                onClick={(e) => {
+                  e.stopPropagation();
                   if (isGuest && onAuthRequired) {
                     onAuthRequired();
                   } else {
-                    onCartToggle();
+                    setShowEditShare(true);
                   }
                 }}
-                variant={isInCart ? "default" : "outline"}
+                variant="outline"
                 size="sm"
-                className="flex-1 h-9"
+                className="flex-1 h-9 backdrop-blur-md bg-background/90 hover:bg-background border-primary/30 hover:bg-primary/10 text-xs"
               >
-                <ShoppingCart className="mr-1.5 h-3.5 w-3.5" />
-                <span className="text-xs">{isInCart ? 'In Cart' : 'Add'}</span>
+                <Sparkles className="mr-1.5 h-3.5 w-3.5" />
+                {t('editShare.editAndShare')}
               </Button>
-            )}
-            <Button
-              onClick={handleDownload}
-              disabled={isDownloading}
-              size="sm"
-              className="flex-1 h-9"
-              variant="hero"
-            >
-              {isDownloading ? (
-                <Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />
-              ) : (
-                <Download className="mr-1.5 h-3.5 w-3.5" />
-              )}
-              <span className="text-xs">{isDownloading ? t('animation.downloading') : t('animation.download')}</span>
-            </Button>
+              <Button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  navigate(`/similar/${id}`);
+                }}
+                variant="outline"
+                size="sm"
+                className="flex-1 h-9 backdrop-blur-md bg-background/90 hover:bg-background border-primary/30 hover:bg-primary/10 text-xs"
+              >
+                <Sparkles className="mr-1.5 h-3.5 w-3.5" />
+                {t('similar.discoverSimilar')}
+              </Button>
+            </div>
           </div>
-          
-          {/* Secondary Actions Row */}
-          <div className="flex gap-2">
-            <Button
-              onClick={() => {
-                if (isGuest && onAuthRequired) {
-                  onAuthRequired();
-                } else {
-                  setShowEditShare(true);
-                }
-              }}
-              variant="outline"
-              size="sm"
-              className="flex-1 h-9 border-primary/30 hover:bg-primary/10 text-xs"
-            >
-              <Sparkles className="mr-1.5 h-3.5 w-3.5" />
-              {t('editShare.editAndShare')}
-            </Button>
-            <Button
-              onClick={() => navigate(`/similar/${id}`)}
-              variant="outline"
-              size="sm"
-              className="flex-1 h-9 border-primary/30 hover:bg-primary/10 text-xs"
-            >
-              <Sparkles className="mr-1.5 h-3.5 w-3.5" />
-              {t('similar.discoverSimilar')}
-            </Button>
-          </div>
-        </CardContent>
+        </div>
       </Card>
       
       <EditShareModal

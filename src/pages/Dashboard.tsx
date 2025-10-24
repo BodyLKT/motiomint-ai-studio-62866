@@ -337,9 +337,10 @@ export default function Dashboard() {
                   <p className="text-muted-foreground">{t('dashboard.noAnimations')}</p>
                 </Card>
               ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {filteredAnimations.map((animation) => (
-                    <AnimationCard
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {filteredAnimations.map((animation) => (
+                      <div key={animation.id} className="h-[400px]">
+                        <AnimationCard
                       key={animation.id}
                       id={animation.id}
                       title={animation.title}
@@ -353,8 +354,9 @@ export default function Dashboard() {
                       onFavoriteToggle={() => toggleFavorite(animation.id)}
                       onCartToggle={() => toggleCart(animation.id)}
                     />
-                  ))}
-                </div>
+                  </div>
+                ))}
+              </div>
               )}
             </TabsContent>
 
@@ -384,8 +386,9 @@ export default function Dashboard() {
                     <p className="text-muted-foreground">{t('dashboard.noAnimations')}</p>
                   </Card>
                 ) : (
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {filteredAnimations.map((animation) => (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {filteredAnimations.map((animation) => (
+                    <div key={animation.id} className="h-[400px]">
                       <AnimationCard
                         key={animation.id}
                         id={animation.id}
@@ -400,8 +403,9 @@ export default function Dashboard() {
                         onFavoriteToggle={() => toggleFavorite(animation.id)}
                         onCartToggle={() => toggleCart(animation.id)}
                       />
-                    ))}
-                  </div>
+                    </div>
+                  ))}
+                </div>
                 )}
               </div>
             </TabsContent>
@@ -418,7 +422,8 @@ export default function Dashboard() {
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {favoriteAnimations.map((animation) => (
-                    <AnimationCard
+                    <div key={animation.id} className="h-[400px]">
+                      <AnimationCard
                       key={animation.id}
                       id={animation.id}
                       title={animation.title}
@@ -429,9 +434,10 @@ export default function Dashboard() {
                       tags={animation.tags}
                       isFavorite={true}
                       isInCart={cart.has(animation.id)}
-                      onFavoriteToggle={() => toggleFavorite(animation.id)}
-                      onCartToggle={() => toggleCart(animation.id)}
-                    />
+                        onFavoriteToggle={() => toggleFavorite(animation.id)}
+                        onCartToggle={() => toggleCart(animation.id)}
+                      />
+                    </div>
                   ))}
                 </div>
               )}
