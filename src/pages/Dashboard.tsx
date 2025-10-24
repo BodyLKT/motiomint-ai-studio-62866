@@ -321,37 +321,7 @@ export default function Dashboard() {
               </TabsList>
             </div>
 
-            {/* Subscription Status - Shown only on Library and Settings tabs */}
             <TabsContent value="library" className="mt-0">
-              <div className="mb-8">
-                <SubscriptionStatus />
-              </div>
-
-              {/* Quick Stats */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                <Card className="p-6 bg-card/50 backdrop-blur-sm border-primary/20">
-                  <div className="flex items-center gap-3 mb-2">
-                    <Library className="h-5 w-5 text-primary" />
-                    <h3 className="text-sm text-muted-foreground">{t('dashboard.totalAnimations')}</h3>
-                  </div>
-                  <p className="text-3xl font-bold">{animations.length}</p>
-                </Card>
-                <Card className="p-6 bg-card/50 backdrop-blur-sm border-primary/20">
-                  <div className="flex items-center gap-3 mb-2">
-                    <Heart className="h-5 w-5 text-primary" />
-                    <h3 className="text-sm text-muted-foreground">{t('dashboard.favorites')}</h3>
-                  </div>
-                  <p className="text-3xl font-bold">{favorites.size}</p>
-                </Card>
-                <Card className="p-6 bg-card/50 backdrop-blur-sm border-primary/20">
-                  <div className="flex items-center gap-3 mb-2">
-                    <DownloadIcon className="h-5 w-5 text-primary" />
-                    <h3 className="text-sm text-muted-foreground">{t('dashboard.downloads')}</h3>
-                  </div>
-                  <p className="text-3xl font-bold">{downloads}</p>
-                </Card>
-              </div>
-
               <CategoryFilter
                 categories={categories}
                 selectedCategory={selectedCategory}
@@ -468,6 +438,9 @@ export default function Dashboard() {
             </TabsContent>
 
             <TabsContent value="history">
+              <div className="mb-8">
+                <SubscriptionStatus />
+              </div>
               <DownloadHistory />
             </TabsContent>
 
