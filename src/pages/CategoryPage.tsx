@@ -487,7 +487,8 @@ export default function CategoryPage() {
                   : 'grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4'
               }>
                 {filteredAndSortedAnimations.map((animation) => (
-                  <EnhancedAnimationCard
+                  <div key={animation.id} className="h-[400px]">
+                    <EnhancedAnimationCard
                     key={animation.id}
                     id={animation.id}
                     title={animation.title}
@@ -505,6 +506,7 @@ export default function CategoryPage() {
                     isGuest={!user}
                     onAuthRequired={handleAuthRequired}
                   />
+                  </div>
                 ))}
               </div>
             )}

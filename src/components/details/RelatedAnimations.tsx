@@ -119,7 +119,8 @@ export default function RelatedAnimations({
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {relatedAnimations.map((animation) => (
-          <EnhancedAnimationCard
+          <div key={animation.id} className="h-[400px]">
+            <EnhancedAnimationCard
             key={animation.id}
             id={animation.id}
             title={animation.title}
@@ -137,6 +138,7 @@ export default function RelatedAnimations({
             isGuest={isGuest}
             onAuthRequired={onAuthRequired}
           />
+          </div>
         ))}
       </div>
     </div>
