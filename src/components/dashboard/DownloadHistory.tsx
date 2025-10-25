@@ -61,7 +61,7 @@ export default function DownloadHistory() {
           id,
           downloaded_at,
           animation_id,
-          animations (
+          animations!user_downloads_animation_id_fkey (
             id,
             title,
             description,
@@ -78,14 +78,18 @@ export default function DownloadHistory() {
 
       if (error) throw error;
 
-      const formattedData = data.map((item: any) => ({
-        id: item.id,
-        downloaded_at: item.downloaded_at,
-        animation: item.animations,
-      }));
+      // Filter out any downloads where animation was deleted
+      const formattedData = (data || [])
+        .filter((item: any) => item.animations)
+        .map((item: any) => ({
+          id: item.id,
+          downloaded_at: item.downloaded_at,
+          animation: item.animations,
+        }));
 
       setDownloads(formattedData);
     } catch (error: any) {
+      console.error('Download history error:', error);
       toast({
         title: t('downloadHistory.errorLoading'),
         description: error.message,

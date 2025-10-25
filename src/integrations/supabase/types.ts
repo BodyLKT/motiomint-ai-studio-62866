@@ -142,13 +142,6 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "fk_user_downloads_animation"
-            columns: ["animation_id"]
-            isOneToOne: false
-            referencedRelation: "animations"
-            referencedColumns: ["id"]
-          },
-          {
             foreignKeyName: "user_downloads_animation_id_fkey"
             columns: ["animation_id"]
             isOneToOne: false
