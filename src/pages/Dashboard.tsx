@@ -44,16 +44,22 @@ export default function Dashboard() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [loadingData, setLoadingData] = useState(true);
+  const [activeTab, setActiveTab] = useState('library');
 
-  // Get search query from URL params
+  // Get search query and tab from URL params
   useEffect(() => {
     const q = searchParams.get('q');
     const filter = searchParams.get('filter');
+    const tab = searchParams.get('tab');
+    
     if (q) {
       setSearchQuery(q);
     }
     if (filter && filter !== 'all') {
       setSelectedCategory(filter);
+    }
+    if (tab) {
+      setActiveTab(tab);
     }
   }, [searchParams]);
 
@@ -280,7 +286,7 @@ export default function Dashboard() {
           </div>
 
           {/* Enhanced Navigation Tabs - Moved to Prominent Position */}
-          <Tabs defaultValue="library" className="w-full">
+          <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
             <div className="sticky top-[120px] z-40 bg-background/95 backdrop-blur-lg border-b border-primary/10 -mx-4 px-4 mb-8">
               <TabsList className="w-full md:w-auto h-auto p-1 bg-card/50 border border-primary/20 shadow-lg overflow-x-auto">
                 <TabsTrigger 

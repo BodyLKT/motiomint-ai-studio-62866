@@ -218,14 +218,6 @@ export default function MainNavigation({ onLoginClick, onSignUpClick }: MainNavi
 
             {/* Right Side Actions */}
             <div className="flex items-center gap-4 flex-shrink-0">
-              {/* Business Link */}
-              <button
-                onClick={() => navigate('/dashboard')}
-                className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
-              >
-                Business
-              </button>
-
               {/* Pricing Link */}
               <button
                 onClick={() => navigate('/pricing')}
@@ -312,7 +304,7 @@ export default function MainNavigation({ onLoginClick, onSignUpClick }: MainNavi
 
                     {/* My Downloads */}
                     <DropdownMenuItem 
-                      onClick={() => navigate('/dashboard')}
+                      onClick={() => navigate('/dashboard?tab=history')}
                       className="cursor-pointer py-2.5 px-2"
                     >
                       <Download className="mr-3 h-4 w-4" />
@@ -466,7 +458,7 @@ export default function MainNavigation({ onLoginClick, onSignUpClick }: MainNavi
                     <span className="font-medium">My Collections</span>
                   </button>
                   <button
-                    onClick={() => navigate('/dashboard')}
+                    onClick={() => navigate('/dashboard?tab=history')}
                     className="flex items-center gap-3 p-2.5 rounded-md hover:bg-accent transition-colors text-left w-full text-sm"
                   >
                     <Download className="w-4 h-4 text-primary" />
@@ -523,13 +515,6 @@ export default function MainNavigation({ onLoginClick, onSignUpClick }: MainNavi
                 Quick Links
               </h3>
               <div className="space-y-1">
-                <button
-                  onClick={() => navigate('/dashboard')}
-                  className="flex items-center gap-3 p-3 rounded-lg hover:bg-accent/80 transition-colors text-left w-full"
-                >
-                  <Briefcase className="w-5 h-5 text-primary" />
-                  <span className="text-sm font-medium">Business</span>
-                </button>
                 <button
                   onClick={() => navigate('/pricing')}
                   className="flex items-center gap-3 p-3 rounded-lg hover:bg-accent/80 transition-colors text-left w-full"
