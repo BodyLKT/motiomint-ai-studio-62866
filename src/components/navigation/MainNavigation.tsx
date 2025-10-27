@@ -29,11 +29,14 @@ import {
   Package,
   BookOpen,
   HelpCircle,
-  ExternalLink
+  ExternalLink,
+  Monitor,
+  Moon,
+  Sun
 } from 'lucide-react';
-import { ThemeToggle } from '@/components/ThemeToggle';
 import { CartButton } from '@/components/CartButton';
 import GlobalSearchBar from '@/components/GlobalSearchBar';
+import { useTheme } from 'next-themes';
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -63,6 +66,7 @@ export default function MainNavigation({ onLoginClick, onSignUpClick }: MainNavi
   const location = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const { theme, setTheme } = useTheme();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -236,9 +240,6 @@ export default function MainNavigation({ onLoginClick, onSignUpClick }: MainNavi
                 Subscribe Now
               </Button>
 
-              {/* Theme Toggle */}
-              <ThemeToggle />
-
               {/* Cart Button (only when logged in) */}
               {user && <CartButton />}
 
@@ -344,6 +345,36 @@ export default function MainNavigation({ onLoginClick, onSignUpClick }: MainNavi
 
                     <DropdownMenuSeparator className="my-2" />
 
+                    {/* Theme Selection */}
+                    <div className="px-2 py-2">
+                      <p className="text-xs font-semibold text-muted-foreground mb-2 px-2">Appearance</p>
+                      <div className="space-y-1">
+                        <DropdownMenuItem
+                          onClick={() => setTheme('light')}
+                          className={`cursor-pointer py-2 px-2 ${theme === 'light' ? 'bg-accent' : ''}`}
+                        >
+                          <Sun className="mr-3 h-4 w-4" />
+                          <span className="font-medium">Light</span>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem
+                          onClick={() => setTheme('dark')}
+                          className={`cursor-pointer py-2 px-2 ${theme === 'dark' ? 'bg-accent' : ''}`}
+                        >
+                          <Moon className="mr-3 h-4 w-4" />
+                          <span className="font-medium">Dark</span>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem
+                          onClick={() => setTheme('system')}
+                          className={`cursor-pointer py-2 px-2 ${theme === 'system' ? 'bg-accent' : ''}`}
+                        >
+                          <Monitor className="mr-3 h-4 w-4" />
+                          <span className="font-medium">System</span>
+                        </DropdownMenuItem>
+                      </div>
+                    </div>
+
+                    <DropdownMenuSeparator className="my-2" />
+
                     {/* Log Out */}
                     <DropdownMenuItem 
                       onClick={handleSignOut}
@@ -386,7 +417,6 @@ export default function MainNavigation({ onLoginClick, onSignUpClick }: MainNavi
               </button>
               
               <div className="flex items-center gap-2">
-                <ThemeToggle />
                 {user && <CartButton />}
                 <Button
                   variant="ghost"
@@ -537,6 +567,42 @@ export default function MainNavigation({ onLoginClick, onSignUpClick }: MainNavi
                   <HelpCircle className="w-5 h-5 text-primary" />
                   <span className="text-sm font-medium">Help Center</span>
                   <ExternalLink className="ml-auto h-3.5 w-3.5 text-muted-foreground" />
+                </button>
+              </div>
+            </div>
+
+            {/* Appearance Settings */}
+            <div>
+              <h3 className="text-xs font-bold text-muted-foreground mb-3 uppercase tracking-wider px-2">
+                Appearance
+              </h3>
+              <div className="grid grid-cols-3 gap-2">
+                <button
+                  onClick={() => setTheme('light')}
+                  className={`flex flex-col items-center gap-2 p-3 rounded-lg transition-colors ${
+                    theme === 'light' ? 'bg-accent/80 ring-2 ring-primary' : 'hover:bg-accent/50'
+                  }`}
+                >
+                  <Sun className="w-5 h-5 text-primary" />
+                  <span className="text-xs font-medium">Light</span>
+                </button>
+                <button
+                  onClick={() => setTheme('dark')}
+                  className={`flex flex-col items-center gap-2 p-3 rounded-lg transition-colors ${
+                    theme === 'dark' ? 'bg-accent/80 ring-2 ring-primary' : 'hover:bg-accent/50'
+                  }`}
+                >
+                  <Moon className="w-5 h-5 text-primary" />
+                  <span className="text-xs font-medium">Dark</span>
+                </button>
+                <button
+                  onClick={() => setTheme('system')}
+                  className={`flex flex-col items-center gap-2 p-3 rounded-lg transition-colors ${
+                    theme === 'system' ? 'bg-accent/80 ring-2 ring-primary' : 'hover:bg-accent/50'
+                  }`}
+                >
+                  <Monitor className="w-5 h-5 text-primary" />
+                  <span className="text-xs font-medium">System</span>
                 </button>
               </div>
             </div>
