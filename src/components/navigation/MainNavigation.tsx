@@ -296,7 +296,7 @@ export default function MainNavigation({ onLoginClick, onSignUpClick }: MainNavi
 
                     {/* My Collections */}
                     <DropdownMenuItem 
-                      onClick={() => navigate('/dashboard')}
+                      onClick={() => navigate('/dashboard?tab=favorites')}
                       className="cursor-pointer py-2.5 px-2"
                     >
                       <Heart className="mr-3 h-4 w-4" />

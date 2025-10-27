@@ -5,7 +5,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Loader2, Library, Heart, Download as DownloadIcon, Grid3x3, User, History } from 'lucide-react';
+import { Loader2, Heart, Download as DownloadIcon, Grid3x3, User, History } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from '@/hooks/use-toast';
 import AnimationCard from '@/components/dashboard/AnimationCard';
@@ -44,7 +44,7 @@ export default function Dashboard() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [loadingData, setLoadingData] = useState(true);
-  const [activeTab, setActiveTab] = useState('library');
+  const [activeTab, setActiveTab] = useState('categories');
 
   // Get search query and tab from URL params
   useEffect(() => {
@@ -290,13 +290,6 @@ export default function Dashboard() {
             <div className="sticky top-[120px] z-40 bg-background/95 backdrop-blur-lg border-b border-primary/10 -mx-4 px-4 mb-8">
               <TabsList className="w-full md:w-auto h-auto p-1 bg-card/50 border border-primary/20 shadow-lg overflow-x-auto">
                 <TabsTrigger 
-                  value="library" 
-                  className="gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-glow font-medium px-4 md:px-6 py-3"
-                >
-                  <Library className="h-4 w-4" />
-                  <span className="hidden sm:inline">{t('dashboard.library')}</span>
-                </TabsTrigger>
-                <TabsTrigger 
                   value="categories" 
                   className="gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-glow font-medium px-4 md:px-6 py-3"
                 >
@@ -308,7 +301,7 @@ export default function Dashboard() {
                   className="gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-glow font-medium px-4 md:px-6 py-3"
                 >
                   <Heart className="h-4 w-4" />
-                  <span className="hidden sm:inline">{t('dashboard.favorites')}</span>
+                  <span className="hidden sm:inline">{t('dashboard.myCollections')}</span>
                 </TabsTrigger>
                 <TabsTrigger 
                   value="history" 
@@ -327,44 +320,6 @@ export default function Dashboard() {
               </TabsList>
             </div>
 
-            <TabsContent value="library" className="mt-0">
-              <CategoryFilter
-                categories={categories}
-                selectedCategory={selectedCategory}
-                onSelectCategory={setSelectedCategory}
-              />
-
-              {loadingData ? (
-                <div className="flex items-center justify-center py-12">
-                  <Loader2 className="h-8 w-8 animate-spin text-primary" />
-                </div>
-              ) : filteredAnimations.length === 0 ? (
-                <Card className="p-12 text-center bg-card/50 backdrop-blur-sm border-primary/20">
-                  <p className="text-muted-foreground">{t('dashboard.noAnimations')}</p>
-                </Card>
-              ) : (
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {filteredAnimations.map((animation) => (
-                      <div key={animation.id} className="h-[400px]">
-                        <AnimationCard
-                      key={animation.id}
-                      id={animation.id}
-                      title={animation.title}
-                      description={animation.description || ''}
-                      category={animation.category}
-                      thumbnailUrl={animation.thumbnail_url}
-                      videoUrl={animation.preview_url || animation.file_url}
-                      tags={animation.tags}
-                      isFavorite={favorites.has(animation.id)}
-                      isInCart={cart.has(animation.id)}
-                      onFavoriteToggle={() => toggleFavorite(animation.id)}
-                      onCartToggle={() => toggleCart(animation.id)}
-                    />
-                  </div>
-                ))}
-              </div>
-              )}
-            </TabsContent>
 
             <TabsContent value="categories">
               <div className="space-y-6">
@@ -420,9 +375,9 @@ export default function Dashboard() {
               {favoriteAnimations.length === 0 ? (
                 <Card className="p-12 text-center bg-card/50 backdrop-blur-sm border-primary/20">
                   <Heart className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
-                  <h3 className="text-xl font-semibold mb-2">{t('dashboard.noFavorites')}</h3>
+                  <h3 className="text-xl font-semibold mb-2">{t('dashboard.noCollections')}</h3>
                   <p className="text-muted-foreground">
-                    {t('dashboard.noFavoritesSubtitle')}
+                    {t('dashboard.noCollectionsSubtitle')}
                   </p>
                 </Card>
               ) : (
