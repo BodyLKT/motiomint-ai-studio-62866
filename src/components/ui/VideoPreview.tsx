@@ -1,12 +1,10 @@
 import { useRef, useState, useEffect } from 'react';
-import { Play } from 'lucide-react';
 
 interface VideoPreviewProps {
   thumbnailUrl: string;
   videoUrl?: string;
   alt: string;
   className?: string;
-  showPlayIcon?: boolean;
 }
 
 export default function VideoPreview({
@@ -14,7 +12,6 @@ export default function VideoPreview({
   videoUrl,
   alt,
   className = '',
-  showPlayIcon = true,
 }: VideoPreviewProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -126,15 +123,6 @@ export default function VideoPreview({
             showVideo ? 'opacity-100' : 'opacity-0'
           }`}
         />
-      )}
-
-      {/* Play icon overlay (only show when not playing) */}
-      {showPlayIcon && videoUrl && !showVideo && (
-        <div className="absolute inset-0 flex items-center justify-center bg-background/10 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-          <div className="rounded-full p-3 bg-foreground/90 text-background shadow-[0_4px_12px_rgba(0,0,0,0.5)] ring-1 ring-foreground/40">
-            <Play className="h-6 w-6 text-background" />
-          </div>
-        </div>
       )}
 
       {/* Watermark */}

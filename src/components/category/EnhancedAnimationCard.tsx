@@ -9,9 +9,7 @@ import {
   Download, 
   ShoppingCart, 
   Eye, 
-  Sparkles,
-  Play,
-  ExternalLink
+  Sparkles
 } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from '@/hooks/use-toast';
@@ -134,7 +132,6 @@ export default function EnhancedAnimationCard({
           videoUrl={videoUrl || thumbnailUrl}
           alt={title}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-          showPlayIcon={false}
         />
         
         {/* Gradient overlay - visible only on hover */}
