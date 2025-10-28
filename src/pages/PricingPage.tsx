@@ -1,11 +1,12 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { CheckCircle, ArrowRight, ArrowLeft } from 'lucide-react';
+import { CheckCircle, ArrowRight } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
+import MainNavigation from '@/components/navigation/MainNavigation';
 
 const PricingPage = () => {
   const { t } = useTranslation();
@@ -75,23 +76,10 @@ const PricingPage = () => {
   return (
     <div className="min-h-screen bg-background">
       {/* Navigation */}
-      <nav className="fixed top-0 w-full z-50 glass border-b border-border/50">
-        <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-2 text-2xl font-bold gradient-text">
-            <span className="text-3xl">🎬</span>
-            <span>MotionMint</span>
-          </Link>
-          <Button variant="outline" asChild>
-            <Link to="/">
-              <ArrowLeft className="w-4 h-4 mr-2" />
-              {t('nav.backToHome')}
-            </Link>
-          </Button>
-        </div>
-      </nav>
+      <MainNavigation />
 
       {/* Hero Section */}
-      <section className="pt-32 pb-20">
+      <section className="pt-40 pb-20">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16 max-w-3xl mx-auto">
             <h1 className="text-5xl lg:text-7xl font-bold mb-6 gradient-text">

@@ -50,6 +50,9 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { cn } from '@/lib/utils';
@@ -287,7 +290,7 @@ export default function MainNavigation({ onLoginClick, onSignUpClick }: MainNavi
                     
                     {/* My Account */}
                     <DropdownMenuItem 
-                      onClick={() => navigate('/dashboard')}
+                      onClick={() => navigate('/dashboard?tab=settings')}
                       className="cursor-pointer py-2.5 px-2"
                     >
                       <UserCircle2 className="mr-3 h-4 w-4" />
@@ -345,10 +348,13 @@ export default function MainNavigation({ onLoginClick, onSignUpClick }: MainNavi
 
                     <DropdownMenuSeparator className="my-2" />
 
-                    {/* Theme Selection */}
-                    <div className="px-2 py-2">
-                      <p className="text-xs font-semibold text-muted-foreground mb-2 px-2">Appearance</p>
-                      <div className="space-y-1">
+                    {/* Theme Submenu */}
+                    <DropdownMenuSub>
+                      <DropdownMenuSubTrigger className="cursor-pointer py-2.5 px-2">
+                        <Monitor className="mr-3 h-4 w-4" />
+                        <span className="font-medium">Theme</span>
+                      </DropdownMenuSubTrigger>
+                      <DropdownMenuSubContent className="min-w-[160px]">
                         <DropdownMenuItem
                           onClick={() => setTheme('light')}
                           className={`cursor-pointer py-2 px-2 ${theme === 'light' ? 'bg-accent' : ''}`}
@@ -370,8 +376,8 @@ export default function MainNavigation({ onLoginClick, onSignUpClick }: MainNavi
                           <Monitor className="mr-3 h-4 w-4" />
                           <span className="font-medium">System</span>
                         </DropdownMenuItem>
-                      </div>
-                    </div>
+                      </DropdownMenuSubContent>
+                    </DropdownMenuSub>
 
                     <DropdownMenuSeparator className="my-2" />
 
