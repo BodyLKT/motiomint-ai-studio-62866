@@ -136,7 +136,7 @@ export default function AnimationCard({
           </Button>
           
           {/* Title & Tags - Bottom Overlay - visible only on hover */}
-          <div className="absolute bottom-0 left-0 right-0 p-4 space-y-2 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+          <div className="absolute bottom-0 left-0 right-0 p-4 space-y-2 translate-y-full group-hover:translate-y-0 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-all duration-300">
             <h3 className="text-white font-bold text-base line-clamp-1 drop-shadow-[0_3px_10px_rgba(0,0,0,0.9)]">
               {title}
             </h3>
@@ -150,7 +150,7 @@ export default function AnimationCard({
           </div>
           
           {/* Action Buttons - Overlaid on preview - visible only on hover */}
-          <div className="absolute inset-x-0 bottom-[72px] px-4 space-y-2 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+          <div className="absolute inset-x-0 bottom-[72px] px-4 space-y-2 translate-y-full group-hover:translate-y-0 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-all duration-300">
             {/* Primary Actions Row */}
             <div className="flex gap-2">
               {onCartToggle && (

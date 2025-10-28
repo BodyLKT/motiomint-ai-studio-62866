@@ -354,7 +354,9 @@ export default function MainNavigation({ onLoginClick, onSignUpClick }: MainNavi
                         <Monitor className="mr-3 h-4 w-4" />
                         <span className="font-medium">Theme</span>
                       </DropdownMenuSubTrigger>
-                      <DropdownMenuSubContent className="min-w-[160px]">
+                      <DropdownMenuSubContent 
+                        className="z-[1000] min-w-[180px] bg-popover border border-border/50 shadow-elevated"
+                      >
                         <DropdownMenuItem
                           onClick={() => setTheme('light')}
                           className={`cursor-pointer py-2 px-2 ${theme === 'light' ? 'bg-accent' : ''}`}
