@@ -214,7 +214,7 @@ export default function GlobalSearchBar({
           isHero && 'shadow-2xl'
         )}>
           <Search className={cn(
-            'absolute left-4 top-1/2 -translate-y-1/2 transition-colors z-10',
+            'absolute left-4 top-1/2 -translate-y-1/2 transition-colors z-[1]',
             isOpen ? 'text-primary' : 'text-muted-foreground',
             isHero ? 'w-6 h-6' : 'w-5 h-5'
           )} />
@@ -247,7 +247,7 @@ export default function GlobalSearchBar({
               size="icon"
               onClick={clearSearch}
               className={cn(
-                'absolute right-2 top-1/2 -translate-y-1/2 rounded-full hover:bg-muted z-10',
+                'absolute right-2 top-1/2 -translate-y-1/2 rounded-full hover:bg-muted z-[1]',
                 isHero ? 'h-10 w-10' : 'h-8 w-8'
               )}
             >
