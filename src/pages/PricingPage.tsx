@@ -64,11 +64,8 @@ const PricingPage = () => {
   };
 
   const handleGetStarted = (planName: string) => {
-    if (!user) {
-      navigate('/?signup=true');
-    } else {
-      navigate('/dashboard');
-    }
+    // Redirect to checkout with plan details
+    navigate(`/checkout?type=${selectedTab}&plan=${planName}`);
   };
 
   const currentPlans = pricingPlans[selectedTab];

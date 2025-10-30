@@ -287,37 +287,39 @@ export default function Dashboard() {
 
           {/* Enhanced Navigation Tabs - Moved to Prominent Position */}
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-            <div className="sticky top-[120px] z-40 bg-background/95 backdrop-blur-lg border-b border-primary/10 -mx-4 px-4 mb-8">
-              <TabsList className="w-full md:w-auto h-auto p-1 bg-card/50 border border-primary/20 shadow-lg overflow-x-auto">
-                <TabsTrigger 
-                  value="categories" 
-                  className="gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-glow font-medium px-4 md:px-6 py-3"
-                >
-                  <Grid3x3 className="h-4 w-4" />
-                  <span className="hidden sm:inline">{t('dashboard.categories')}</span>
-                </TabsTrigger>
-                <TabsTrigger 
-                  value="favorites" 
-                  className="gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-glow font-medium px-4 md:px-6 py-3"
-                >
-                  <Heart className="h-4 w-4" />
-                  <span className="hidden sm:inline">{t('dashboard.myCollections')}</span>
-                </TabsTrigger>
-                <TabsTrigger 
-                  value="history" 
-                  className="gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-glow font-medium px-4 md:px-6 py-3"
-                >
-                  <History className="h-4 w-4" />
-                  <span className="hidden sm:inline">{t('dashboard.downloadHistory')}</span>
-                </TabsTrigger>
-                <TabsTrigger 
-                  value="settings" 
-                  className="gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-glow font-medium px-4 md:px-6 py-3"
-                >
-                  <User className="h-4 w-4" />
-                  <span className="hidden sm:inline">{t('dashboard.accountSettings')}</span>
-                </TabsTrigger>
-              </TabsList>
+            <div className="sticky top-[120px] z-40 bg-background/95 backdrop-blur-lg border-b border-primary/10 mb-8">
+              <div className="overflow-x-auto">
+                <TabsList className="inline-flex h-auto p-1 bg-card/50 border border-primary/20 shadow-lg">
+                  <TabsTrigger 
+                    value="categories" 
+                    className="gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-glow font-medium px-4 md:px-6 py-3"
+                  >
+                    <Grid3x3 className="h-4 w-4" />
+                    <span className="hidden sm:inline">{t('dashboard.categories')}</span>
+                  </TabsTrigger>
+                  <TabsTrigger 
+                    value="favorites" 
+                    className="gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-glow font-medium px-4 md:px-6 py-3"
+                  >
+                    <Heart className="h-4 w-4" />
+                    <span className="hidden sm:inline">{t('dashboard.myCollections')}</span>
+                  </TabsTrigger>
+                  <TabsTrigger 
+                    value="history" 
+                    className="gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-glow font-medium px-4 md:px-6 py-3"
+                  >
+                    <History className="h-4 w-4" />
+                    <span className="hidden sm:inline">{t('dashboard.downloadHistory')}</span>
+                  </TabsTrigger>
+                  <TabsTrigger 
+                    value="settings" 
+                    className="gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-glow font-medium px-4 md:px-6 py-3"
+                  >
+                    <User className="h-4 w-4" />
+                    <span className="hidden sm:inline">{t('dashboard.accountSettings')}</span>
+                  </TabsTrigger>
+                </TabsList>
+              </div>
             </div>
 
 

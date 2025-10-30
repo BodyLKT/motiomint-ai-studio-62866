@@ -233,16 +233,6 @@ export default function MainNavigation({ onLoginClick, onSignUpClick }: MainNavi
                 {t('nav.pricing')}
               </button>
 
-              {/* Subscribe Now Button */}
-              <Button 
-                variant="default" 
-                size="sm" 
-                className="btn-glow font-semibold px-6"
-                onClick={() => navigate('/pricing')}
-              >
-                Subscribe Now
-              </Button>
-
               {/* Cart Button (only when logged in) */}
               {user && <CartButton />}
 

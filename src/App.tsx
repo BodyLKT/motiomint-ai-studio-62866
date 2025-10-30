@@ -11,6 +11,7 @@ import Index from "./pages/Index";
 import Dashboard from "./pages/Dashboard";
 import CategoryPage from "./pages/CategoryPage";
 import PricingPage from "./pages/PricingPage";
+import CheckoutPage from "./pages/CheckoutPage";
 import VideoDetailsPage from "./pages/VideoDetailsPage";
 import CartPage from "./pages/CartPage";
 import SimilarAnimations from "./pages/SimilarAnimations";
@@ -30,6 +31,7 @@ const App = () => (
             <Routes>
               <Route path="/" element={<Index />} />
               <Route path="/pricing" element={<PricingPage />} />
+              <Route path="/checkout" element={<CheckoutPage />} />
               <Route 
                 path="/dashboard" 
                 element={
