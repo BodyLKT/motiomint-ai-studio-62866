@@ -27,7 +27,8 @@ const PLAN_LIMITS = {
   free: { downloads: 5, name: 'Free' },
   starter: { downloads: 20, name: 'Starter Pack' },
   pro: { downloads: 100, name: 'Pro Pack' },
-  agency: { downloads: 999, name: 'Agency Pack' }
+  mega: { downloads: 50, name: 'Mega Pack' },
+  basic: { downloads: 20, name: 'Basic Plan' }
 };
 
 export default function SubscriptionStatus() {
@@ -93,7 +94,7 @@ export default function SubscriptionStatus() {
   const downloadLimit = subscription?.download_limit || planInfo.downloads;
   const downloadsRemaining = Math.max(0, downloadLimit - downloadsThisMonth);
   const usagePercentage = Math.min(100, (downloadsThisMonth / downloadLimit) * 100);
-  const isMaxTier = currentPlan === 'agency';
+  const isMaxTier = currentPlan === 'pro';
 
   const getStatusColor = () => {
     if (usagePercentage >= 90) return 'text-destructive';

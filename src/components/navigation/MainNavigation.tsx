@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/contexts/AuthContext';
+import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { 
@@ -70,7 +71,35 @@ export default function MainNavigation({ onLoginClick, onSignUpClick }: MainNavi
   const location = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [userPlan, setUserPlan] = useState<string>('Free');
   const { theme, setTheme } = useTheme();
+
+  // Fetch user subscription plan
+  useEffect(() => {
+    const fetchUserPlan = async () => {
+      if (!user) {
+        setUserPlan('Free');
+        return;
+      }
+
+      const { data, error } = await supabase
+        .from('user_subscriptions')
+        .select('plan_name, status')
+        .eq('user_id', user.id)
+        .eq('status', 'active')
+        .order('created_at', { ascending: false })
+        .limit(1)
+        .single();
+
+      if (data && !error) {
+        setUserPlan(data.plan_name);
+      } else {
+        setUserPlan('Free');
+      }
+    };
+
+    fetchUserPlan();
+  }, [user]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -317,7 +346,7 @@ export default function MainNavigation({ onLoginClick, onSignUpClick }: MainNavi
                           <span className="font-medium">Subscription</span>
                         </div>
                         <Badge variant="default" className="ml-3 text-xs px-2 py-0.5">
-                          Premium
+                          {userPlan}
                         </Badge>
                       </div>
                     </DropdownMenuItem>

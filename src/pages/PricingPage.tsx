@@ -29,13 +29,6 @@ const PricingPage = () => {
         description: '50 animations - most popular',
         features: ['50 Premium Animations', '4K Quality Downloads', 'Extended Commercial License', 'Priority Support', 'Bonus Content'],
         popular: true
-      },
-      {
-        name: 'Agency',
-        price: '129€',
-        description: '100 animations for teams',
-        features: ['100 Premium Animations', '4K Quality Downloads', 'Team License (5 users)', 'Priority Support', 'Custom Requests'],
-        popular: false
       }
     ],
     subscription: [
@@ -52,13 +45,6 @@ const PricingPage = () => {
         description: 'Power user plan',
         features: ['50 New Animations/Month', '4K Downloads', 'Priority Access', 'Custom Requests', 'Analytics Dashboard'],
         popular: true
-      },
-      {
-        name: 'Agency',
-        price: '49€/mo',
-        description: 'Unlimited + 4K + white-label',
-        features: ['Unlimited Downloads', 'Team Management', 'White Label License', 'API Access', 'Dedicated Support'],
-        popular: false
       }
     ]
   };

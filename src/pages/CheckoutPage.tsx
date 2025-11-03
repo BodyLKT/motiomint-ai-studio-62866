@@ -27,13 +27,11 @@ const CheckoutPage = () => {
   const planDetails = {
     oneTime: {
       Starter: { price: '29', animations: 20, features: ['HD Quality', 'Commercial License'] },
-      Mega: { price: '79', animations: 50, features: ['4K Quality', 'Extended License', 'Priority Support'] },
-      Agency: { price: '129', animations: 100, features: ['4K Quality', 'Team License', 'Custom Requests'] }
+      Mega: { price: '79', animations: 50, features: ['4K Quality', 'Extended License', 'Priority Support'] }
     },
     subscription: {
       Basic: { price: '9', period: '/mo', animations: 20, features: ['HD Downloads', 'Cancel Anytime'] },
-      Pro: { price: '19', period: '/mo', animations: 50, features: ['4K Downloads', 'Priority Access'] },
-      Agency: { price: '49', period: '/mo', animations: 'Unlimited', features: ['White Label', 'API Access'] }
+      Pro: { price: '19', period: '/mo', animations: 50, features: ['4K Downloads', 'Priority Access'] }
     }
   };
   
