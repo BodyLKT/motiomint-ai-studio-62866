@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 import { 
   Menu, 
   X, 
@@ -310,30 +311,26 @@ export default function MainNavigation({ onLoginClick, onSignUpClick }: MainNavi
                       onClick={() => navigate('/pricing')}
                       className="cursor-pointer py-2.5 px-2"
                     >
-                      <Package className="mr-3 h-4 w-4" />
-                      <span className="font-medium">Subscription</span>
+                      <div className="flex items-center justify-between w-full">
+                        <div className="flex items-center">
+                          <Package className="mr-3 h-4 w-4" />
+                          <span className="font-medium">Subscription</span>
+                        </div>
+                        <Badge variant="default" className="ml-3 text-xs px-2 py-0.5">
+                          Premium
+                        </Badge>
+                      </div>
                     </DropdownMenuItem>
 
                     <DropdownMenuSeparator className="my-2" />
 
-                    {/* Blog - External Link */}
+                    {/* Help Center - Internal Link */}
                     <DropdownMenuItem 
-                      onClick={() => window.open('https://blog.motiomint.com', '_blank')}
-                      className="cursor-pointer py-2.5 px-2"
-                    >
-                      <BookOpen className="mr-3 h-4 w-4" />
-                      <span className="font-medium">Blog</span>
-                      <ExternalLink className="ml-auto h-3.5 w-3.5 text-muted-foreground" />
-                    </DropdownMenuItem>
-
-                    {/* Help Center - External Link */}
-                    <DropdownMenuItem 
-                      onClick={() => window.open('https://help.motiomint.com', '_blank')}
+                      onClick={() => navigate('/help')}
                       className="cursor-pointer py-2.5 px-2"
                     >
                       <HelpCircle className="mr-3 h-4 w-4" />
                       <span className="font-medium">Help Center</span>
-                      <ExternalLink className="ml-auto h-3.5 w-3.5 text-muted-foreground" />
                     </DropdownMenuItem>
 
                     <DropdownMenuSeparator className="my-2" />
@@ -547,24 +544,22 @@ export default function MainNavigation({ onLoginClick, onSignUpClick }: MainNavi
                   onClick={() => navigate('/pricing')}
                   className="flex items-center gap-3 p-3 rounded-lg hover:bg-accent/80 transition-colors text-left w-full"
                 >
-                  <CreditCard className="w-5 h-5 text-primary" />
-                  <span className="text-sm font-medium">{t('nav.pricing')}</span>
+                  <div className="flex items-center justify-between w-full">
+                    <div className="flex items-center gap-3">
+                      <CreditCard className="w-5 h-5 text-primary" />
+                      <span className="text-sm font-medium">{t('nav.pricing')}</span>
+                    </div>
+                    <Badge variant="default" className="text-xs px-2 py-0.5">
+                      Premium
+                    </Badge>
+                  </div>
                 </button>
                 <button
-                  onClick={() => window.open('https://blog.motiomint.com', '_blank')}
-                  className="flex items-center gap-3 p-3 rounded-lg hover:bg-accent/80 transition-colors text-left w-full"
-                >
-                  <BookOpen className="w-5 h-5 text-primary" />
-                  <span className="text-sm font-medium">Blog</span>
-                  <ExternalLink className="ml-auto h-3.5 w-3.5 text-muted-foreground" />
-                </button>
-                <button
-                  onClick={() => window.open('https://help.motiomint.com', '_blank')}
+                  onClick={() => navigate('/help')}
                   className="flex items-center gap-3 p-3 rounded-lg hover:bg-accent/80 transition-colors text-left w-full"
                 >
                   <HelpCircle className="w-5 h-5 text-primary" />
                   <span className="text-sm font-medium">Help Center</span>
-                  <ExternalLink className="ml-auto h-3.5 w-3.5 text-muted-foreground" />
                 </button>
               </div>
             </div>

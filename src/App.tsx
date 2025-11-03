@@ -16,6 +16,7 @@ import VideoDetailsPage from "./pages/VideoDetailsPage";
 import CartPage from "./pages/CartPage";
 import SimilarAnimations from "./pages/SimilarAnimations";
 import SearchResults from "./pages/SearchResults";
+import HelpCenter from "./pages/HelpCenter";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -32,6 +33,7 @@ const App = () => (
               <Route path="/" element={<Index />} />
               <Route path="/pricing" element={<PricingPage />} />
               <Route path="/checkout" element={<CheckoutPage />} />
+              <Route path="/help" element={<HelpCenter />} />
               <Route 
                 path="/dashboard" 
                 element={

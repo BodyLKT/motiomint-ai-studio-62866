@@ -1,20 +1,32 @@
 import { useEffect, useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/contexts/AuthContext';
+import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Separator } from '@/components/ui/separator';
-import { Loader2, LogOut, ShoppingCart, Trash2, Download, ArrowLeft, Monitor, Layers, Film, Package, CheckCircle2 } from 'lucide-react';
-import { supabase } from '@/integrations/supabase/client';
 import { toast } from '@/hooks/use-toast';
-import { ThemeToggle } from '@/components/ThemeToggle';
-import VideoPreview from '@/components/ui/VideoPreview';
+import { 
+  ShoppingCart, 
+  Trash2, 
+  Download, 
+  Settings, 
+  CheckCircle2,
+  ArrowLeft,
+  Sparkles,
+  Loader2,
+  Package,
+  Monitor,
+  Layers,
+  Film
+} from 'lucide-react';
+import MainNavigation from '@/components/navigation/MainNavigation';
 import CartConfigEditor from '@/components/dashboard/CartConfigEditor';
 import { VideoConfig } from '@/components/dashboard/VideoConfigSelector';
-import GlobalSearchBar from '@/components/GlobalSearchBar';
+import VideoPreview from '@/components/ui/VideoPreview';
 
 interface CartItem {
   id: string;
@@ -36,9 +48,8 @@ interface CartItem {
 
 export default function CartPage() {
   const { t } = useTranslation();
-  const { user, session, loading, signOut } = useAuth();
+  const { user, session, loading } = useAuth();
   const navigate = useNavigate();
-  const location = useLocation();
   
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [loadingData, setLoadingData] = useState(true);
@@ -334,19 +345,6 @@ export default function CartPage() {
     }
   };
 
-  const handleLogoClick = () => {
-    if (location.pathname === '/') {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    } else {
-      navigate('/');
-    }
-  };
-
-  const handleSignOut = async () => {
-    await signOut();
-    navigate('/');
-  };
-
   if (loading) {
     return (
       <div className="min-h-screen bg-gradient-dark flex items-center justify-center">
@@ -360,88 +358,12 @@ export default function CartPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-dark">
-      {/* Header with Integrated Search */}
-      <header className="border-b border-primary/20 bg-background/50 backdrop-blur-lg sticky top-0 z-50">
-        <div className="container mx-auto px-4 py-3">
-          {/* Desktop Layout */}
-          <div className="hidden lg:grid lg:grid-cols-[200px_1fr_auto] gap-4 items-center">
-            {/* Logo - Left */}
-            <button
-              onClick={handleLogoClick}
-              className="text-2xl font-bold bg-gradient-primary bg-clip-text text-transparent hover:opacity-80 transition-opacity whitespace-nowrap"
-            >
-              motiomint
-            </button>
-            
-            {/* Search Bar - Center */}
-            <div className="max-w-2xl mx-auto w-full">
-              <GlobalSearchBar autoFocus={false} />
-            </div>
-            
-            {/* Actions - Right */}
-            <div className="flex items-center gap-2 whitespace-nowrap">
-              <Button
-                onClick={() => navigate('/dashboard')}
-                variant="ghost"
-                size="sm"
-                className="gap-2"
-              >
-                <ArrowLeft size={16} />
-                {t('nav.backToDashboard')}
-              </Button>
-              <ThemeToggle />
-              <Button
-                onClick={handleSignOut}
-                variant="outline"
-                size="sm"
-                className="gap-2"
-              >
-                <LogOut size={16} />
-                {t('nav.logout')}
-              </Button>
-            </div>
-          </div>
-
-          {/* Mobile/Tablet Layout */}
-          <div className="lg:hidden space-y-3">
-            {/* Top Row: Logo and Actions */}
-            <div className="flex items-center justify-between">
-              <button
-                onClick={handleLogoClick}
-                className="text-xl font-bold bg-gradient-primary bg-clip-text text-transparent hover:opacity-80 transition-opacity"
-              >
-                motiomint
-              </button>
-              <div className="flex items-center gap-2">
-                <Button
-                  onClick={() => navigate('/dashboard')}
-                  variant="ghost"
-                  size="sm"
-                >
-                  <ArrowLeft size={16} />
-                </Button>
-                <ThemeToggle />
-                <Button
-                  onClick={handleSignOut}
-                  variant="outline"
-                  size="sm"
-                >
-                  <LogOut size={16} />
-                </Button>
-              </div>
-            </div>
-            
-            {/* Bottom Row: Search Bar */}
-            <div className="w-full">
-              <GlobalSearchBar autoFocus={false} />
-            </div>
-          </div>
-        </div>
-      </header>
+    <div className="min-h-screen bg-background">
+      {/* Use Main Navigation */}
+      <MainNavigation />
 
       {/* Main Content */}
-      <main className="container mx-auto px-4 pt-24 pb-8">
+      <main className="container mx-auto px-4 pt-8 pb-8">
         {loadingData ? (
           <div className="flex items-center justify-center py-20">
             <Loader2 className="h-12 w-12 animate-spin text-primary" />
