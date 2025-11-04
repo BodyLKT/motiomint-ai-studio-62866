@@ -31,7 +31,8 @@ export default function HelpCenter() {
         'How to upgrade or downgrade',
         'Billing cycle and invoices',
         'Refund policy'
-      ]
+      ],
+      slugs: ['subscription-plans', 'upgrade-downgrade', null, null]
     },
     {
       icon: Shield,
@@ -164,14 +165,23 @@ export default function HelpCenter() {
                     <CardContent>
                       <ul className="space-y-2">
                         {category.articles.map((article, idx) => {
-                          const slugs = ['create-account', 'browsing-animations', 'understanding-categories', 'first-download'];
-                          const articleSlug = category.title === 'Getting Started' ? slugs[idx] : null;
+                          let articleSlug = null;
+                          let basePath = '/help';
+                          
+                          if (category.title === 'Getting Started') {
+                            const slugs = ['create-account', 'browsing-animations', 'understanding-categories', 'first-download'];
+                            articleSlug = slugs[idx];
+                            basePath = '/help/getting-started';
+                          } else if (category.title === 'Subscription & Billing' && category.slugs) {
+                            articleSlug = category.slugs[idx];
+                            basePath = '/help/subscription-billing';
+                          }
                           
                           return (
                             <li key={article}>
                               {articleSlug ? (
                                 <Link 
-                                  to={`/help/getting-started/${articleSlug}`}
+                                  to={`${basePath}/${articleSlug}`}
                                   className="flex items-center justify-between w-full text-left py-2 px-3 rounded-md hover:bg-accent/50 transition-colors group/item"
                                 >
                                   <span className="text-sm text-muted-foreground group-hover/item:text-foreground">
