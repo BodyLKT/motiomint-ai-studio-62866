@@ -17,6 +17,7 @@ import CartPage from "./pages/CartPage";
 import SimilarAnimations from "./pages/SimilarAnimations";
 import SearchResults from "./pages/SearchResults";
 import HelpCenter from "./pages/HelpCenter";
+import GettingStartedArticle from "./pages/help/GettingStartedArticle";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -33,7 +34,8 @@ const App = () => (
               <Route path="/" element={<Index />} />
               <Route path="/pricing" element={<PricingPage />} />
               <Route path="/checkout" element={<CheckoutPage />} />
-              <Route path="/help" element={<HelpCenter />} />
+          <Route path="/help" element={<HelpCenter />} />
+          <Route path="/help/getting-started/:slug" element={<GettingStartedArticle />} />
               <Route 
                 path="/dashboard" 
                 element={

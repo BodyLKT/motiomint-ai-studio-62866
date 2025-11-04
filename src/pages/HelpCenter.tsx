@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import MainNavigation from '@/components/navigation/MainNavigation';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 export default function HelpCenter() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -163,21 +163,47 @@ export default function HelpCenter() {
                     </CardHeader>
                     <CardContent>
                       <ul className="space-y-2">
-                        {category.articles.map((article) => (
-                          <li key={article}>
-                            <button className="flex items-center justify-between w-full text-left py-2 px-3 rounded-md hover:bg-accent/50 transition-colors group/item">
-                              <span className="text-sm text-muted-foreground group-hover/item:text-foreground">
-                                {article}
-                              </span>
-                              <ChevronRight className="w-4 h-4 text-muted-foreground group-hover/item:text-primary opacity-0 group-hover/item:opacity-100 transition-all" />
-                            </button>
-                          </li>
-                        ))}
+                        {category.articles.map((article, idx) => {
+                          const slugs = ['create-account', 'browsing-animations', 'understanding-categories', 'first-download'];
+                          const articleSlug = category.title === 'Getting Started' ? slugs[idx] : null;
+                          
+                          return (
+                            <li key={article}>
+                              {articleSlug ? (
+                                <Link 
+                                  to={`/help/getting-started/${articleSlug}`}
+                                  className="flex items-center justify-between w-full text-left py-2 px-3 rounded-md hover:bg-accent/50 transition-colors group/item"
+                                >
+                                  <span className="text-sm text-muted-foreground group-hover/item:text-foreground">
+                                    {article}
+                                  </span>
+                                  <ChevronRight className="w-4 h-4 text-muted-foreground group-hover/item:text-primary opacity-0 group-hover/item:opacity-100 transition-all" />
+                                </Link>
+                              ) : (
+                                <button className="flex items-center justify-between w-full text-left py-2 px-3 rounded-md hover:bg-accent/50 transition-colors group/item">
+                                  <span className="text-sm text-muted-foreground group-hover/item:text-foreground">
+                                    {article}
+                                  </span>
+                                  <ChevronRight className="w-4 h-4 text-muted-foreground group-hover/item:text-primary opacity-0 group-hover/item:opacity-100 transition-all" />
+                                </button>
+                              )}
+                            </li>
+                          );
+                        })}
                       </ul>
-                      <Button variant="ghost" className="w-full mt-4 group-hover:text-primary">
-                        Show All
-                        <ChevronRight className="ml-2 w-4 h-4" />
-                      </Button>
+                      {category.title === 'Getting Started' && (
+                        <Button 
+                          variant="ghost" 
+                          className="w-full mt-4 group-hover:text-primary"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            // All articles are already visible
+                          }}
+                        >
+                          All Articles Shown
+                          <ChevronRight className="ml-2 w-4 h-4" />
+                        </Button>
+                      )}
                     </CardContent>
                   </Card>
                 );
