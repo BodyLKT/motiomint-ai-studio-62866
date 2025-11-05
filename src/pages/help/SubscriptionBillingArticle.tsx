@@ -1,5 +1,5 @@
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, Check, AlertCircle, CreditCard, RefreshCw, Zap, XCircle, DollarSign, Clock } from 'lucide-react';
+import { ArrowLeft, Check, AlertCircle, CreditCard, RefreshCw, Zap, XCircle, DollarSign, Clock, FileText, Shield, Download } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
@@ -978,6 +978,635 @@ export default function SubscriptionBillingArticle() {
             <AlertCircle className="h-4 w-4" />
             <AlertDescription>
               <strong>Questions about cancellation or refunds?</strong> Contact our support team at support@motiomint.com or through the Help Center for personalized assistance.
+            </AlertDescription>
+          </Alert>
+        </div>
+      )
+    },
+    'billing-payment': {
+      title: 'Billing & Payment Methods',
+      description: 'How billing works, accepted payment methods, and payment security',
+      content: (
+        <div className="space-y-8">
+          {/* Overview */}
+          <section>
+            <h2 className="text-2xl font-bold mb-4">Overview</h2>
+            <p className="text-muted-foreground mb-4">
+              Motiomint uses secure, transparent billing practices. This guide explains how billing works, accepted payment methods, and how we protect your payment information.
+            </p>
+            <Alert>
+              <Shield className="h-4 w-4" />
+              <AlertDescription>
+                All payments are processed through industry-leading secure payment providers. We never store your full credit card details on our servers.
+              </AlertDescription>
+            </Alert>
+          </section>
+
+          {/* How Billing Works */}
+          <section>
+            <h2 className="text-2xl font-bold mb-6">How Billing Works on Motiomint</h2>
+            
+            <div className="space-y-6">
+              {/* Billing Cycles */}
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Clock className="w-5 h-5 text-primary" />
+                    Billing Cycles
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div>
+                    <h3 className="font-semibold mb-2">Monthly Subscriptions</h3>
+                    <ul className="space-y-2 text-sm text-muted-foreground">
+                      <li>• <strong>Billing Date:</strong> Charged on the same day each month (the day you initially subscribed)</li>
+                      <li>• <strong>Renewal:</strong> Automatic renewal unless you cancel before the next billing date</li>
+                      <li>• <strong>Prorated Charges:</strong> If you upgrade mid-cycle, you'll be charged a prorated amount for the remaining days</li>
+                      <li>• <strong>Download Reset:</strong> Monthly download limits reset on your billing date</li>
+                    </ul>
+                  </div>
+
+                  <div className="border-t pt-4">
+                    <h3 className="font-semibold mb-2">One-Time Packs</h3>
+                    <ul className="space-y-2 text-sm text-muted-foreground">
+                      <li>• <strong>Single Payment:</strong> One-time charge, no recurring billing</li>
+                      <li>• <strong>Validity Period:</strong> Downloads available for 6-24 months depending on pack size</li>
+                      <li>• <strong>No Automatic Renewal:</strong> Packs expire after validity period with no further charges</li>
+                    </ul>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Invoice Generation */}
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <FileText className="w-5 h-5 text-primary" />
+                    When Invoices Are Generated
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    <p className="text-sm text-muted-foreground">
+                      Invoices are automatically generated and emailed to you in the following situations:
+                    </p>
+                    
+                    <div className="bg-muted/50 p-4 rounded-lg border border-border space-y-3">
+                      <div className="flex items-start gap-3">
+                        <Check className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
+                        <div>
+                          <p className="font-semibold text-sm">Initial Purchase</p>
+                          <p className="text-xs text-muted-foreground">When you first subscribe or buy a one-time pack</p>
+                        </div>
+                      </div>
+                      
+                      <div className="flex items-start gap-3">
+                        <Check className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
+                        <div>
+                          <p className="font-semibold text-sm">Monthly Renewal</p>
+                          <p className="text-xs text-muted-foreground">On your billing date each month for active subscriptions</p>
+                        </div>
+                      </div>
+                      
+                      <div className="flex items-start gap-3">
+                        <Check className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
+                        <div>
+                          <p className="font-semibold text-sm">Plan Changes</p>
+                          <p className="text-xs text-muted-foreground">When you upgrade or downgrade (prorated invoice issued)</p>
+                        </div>
+                      </div>
+                      
+                      <div className="flex items-start gap-3">
+                        <Check className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
+                        <div>
+                          <p className="font-semibold text-sm">Refunds Processed</p>
+                          <p className="text-xs text-muted-foreground">Credit note issued when refund is approved</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Accessing Invoices */}
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Download className="w-5 h-5 text-primary" />
+                    Where to Access Your Invoices
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    <p className="text-sm text-muted-foreground mb-4">
+                      You can access all your invoices anytime through your account dashboard:
+                    </p>
+                    
+                    <div className="bg-muted/50 p-6 rounded-lg border border-border">
+                      <ol className="space-y-3 text-sm">
+                        <li className="flex items-start gap-3">
+                          <span className="flex items-center justify-center w-6 h-6 rounded-full bg-primary text-primary-foreground text-xs font-bold flex-shrink-0">1</span>
+                          <div>
+                            <p className="font-semibold">Log in to your account</p>
+                            <p className="text-muted-foreground text-xs">Click "Sign In" at the top right corner</p>
+                          </div>
+                        </li>
+                        
+                        <li className="flex items-start gap-3">
+                          <span className="flex items-center justify-center w-6 h-6 rounded-full bg-primary text-primary-foreground text-xs font-bold flex-shrink-0">2</span>
+                          <div>
+                            <p className="font-semibold">Navigate to Dashboard</p>
+                            <p className="text-muted-foreground text-xs">Click your profile icon → Select "Dashboard"</p>
+                          </div>
+                        </li>
+                        
+                        <li className="flex items-start gap-3">
+                          <span className="flex items-center justify-center w-6 h-6 rounded-full bg-primary text-primary-foreground text-xs font-bold flex-shrink-0">3</span>
+                          <div>
+                            <p className="font-semibold">Open Account Settings</p>
+                            <p className="text-muted-foreground text-xs">Click the "Account Settings" tab</p>
+                          </div>
+                        </li>
+                        
+                        <li className="flex items-start gap-3">
+                          <span className="flex items-center justify-center w-6 h-6 rounded-full bg-primary text-primary-foreground text-xs font-bold flex-shrink-0">4</span>
+                          <div>
+                            <p className="font-semibold">View Billing History</p>
+                            <p className="text-muted-foreground text-xs">Scroll to "Billing History" section to see all invoices</p>
+                          </div>
+                        </li>
+                        
+                        <li className="flex items-start gap-3">
+                          <span className="flex items-center justify-center w-6 h-6 rounded-full bg-primary text-primary-foreground text-xs font-bold flex-shrink-0">5</span>
+                          <div>
+                            <p className="font-semibold">Download Invoice</p>
+                            <p className="text-muted-foreground text-xs">Click "Download PDF" next to any invoice to save it</p>
+                          </div>
+                        </li>
+                      </ol>
+                    </div>
+
+                    <Alert>
+                      <FileText className="h-4 w-4" />
+                      <AlertDescription>
+                        Invoices are also automatically emailed to your registered email address within minutes of each transaction.
+                      </AlertDescription>
+                    </Alert>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Invoice Information */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>What's Included on Each Invoice</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid md:grid-cols-2 gap-6">
+                    <div>
+                      <h3 className="font-semibold mb-3 flex items-center gap-2">
+                        <Badge variant="outline">Individual</Badge>
+                        For Personal Accounts
+                      </h3>
+                      <ul className="space-y-2 text-sm text-muted-foreground">
+                        <li>• Invoice number and date</li>
+                        <li>• Your name and email address</li>
+                        <li>• Plan name and billing period</li>
+                        <li>• Subtotal, taxes (if applicable), and total amount</li>
+                        <li>• Payment method used (last 4 digits)</li>
+                        <li>• Transaction ID for reference</li>
+                      </ul>
+                    </div>
+
+                    <div>
+                      <h3 className="font-semibold mb-3 flex items-center gap-2">
+                        <Badge variant="outline">Company</Badge>
+                        For Business Accounts
+                      </h3>
+                      <ul className="space-y-2 text-sm text-muted-foreground">
+                        <li>• All individual invoice details, plus:</li>
+                        <li>• Company name and VAT/Tax ID</li>
+                        <li>• Company billing address</li>
+                        <li>• VAT breakdown (for EU companies)</li>
+                        <li>• Purchase order number (if provided)</li>
+                        <li>• Additional notes or terms</li>
+                      </ul>
+                    </div>
+                  </div>
+
+                  <Alert className="mt-6">
+                    <AlertCircle className="h-4 w-4" />
+                    <AlertDescription>
+                      To add company information to your invoices, update your billing details in Account Settings → Billing Information before your next payment.
+                    </AlertDescription>
+                  </Alert>
+                </CardContent>
+              </Card>
+            </div>
+          </section>
+
+          {/* Payment Methods */}
+          <section>
+            <h2 className="text-2xl font-bold mb-6">Accepted Payment Methods</h2>
+            
+            <Alert className="mb-6">
+              <CreditCard className="h-4 w-4" />
+              <AlertDescription>
+                We accept multiple payment methods to make it convenient for customers worldwide. All payments are processed securely.
+              </AlertDescription>
+            </Alert>
+
+            <div className="grid md:grid-cols-2 gap-6">
+              {/* Credit/Debit Cards */}
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-lg flex items-center gap-2">
+                    <CreditCard className="w-5 h-5 text-primary" />
+                    Credit & Debit Cards
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-sm text-muted-foreground mb-4">
+                    We accept all major credit and debit cards:
+                  </p>
+                  <div className="space-y-2">
+                    <div className="flex items-center gap-2">
+                      <Check className="w-4 h-4 text-primary" />
+                      <span className="text-sm">Visa</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Check className="w-4 h-4 text-primary" />
+                      <span className="text-sm">Mastercard</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Check className="w-4 h-4 text-primary" />
+                      <span className="text-sm">American Express</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Check className="w-4 h-4 text-primary" />
+                      <span className="text-sm">Discover</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Check className="w-4 h-4 text-primary" />
+                      <span className="text-sm">JCB</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Check className="w-4 h-4 text-primary" />
+                      <span className="text-sm">Diners Club</span>
+                    </div>
+                  </div>
+                  <p className="text-xs text-muted-foreground mt-4 italic">
+                    Most popular option for subscriptions and one-time purchases
+                  </p>
+                </CardContent>
+              </Card>
+
+              {/* PayPal */}
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-lg flex items-center gap-2">
+                    <DollarSign className="w-5 h-5 text-primary" />
+                    PayPal
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-sm text-muted-foreground mb-4">
+                    Use your PayPal account for secure payments:
+                  </p>
+                  <div className="space-y-2">
+                    <div className="flex items-center gap-2">
+                      <Check className="w-4 h-4 text-primary" />
+                      <span className="text-sm">PayPal Balance</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Check className="w-4 h-4 text-primary" />
+                      <span className="text-sm">Bank Account (via PayPal)</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Check className="w-4 h-4 text-primary" />
+                      <span className="text-sm">PayPal Credit</span>
+                    </div>
+                  </div>
+                  <p className="text-xs text-muted-foreground mt-4 italic">
+                    Available for both subscriptions and one-time packs
+                  </p>
+                </CardContent>
+              </Card>
+
+              {/* Apple Pay */}
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-lg flex items-center gap-2">
+                    <CreditCard className="w-5 h-5 text-primary" />
+                    Apple Pay
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-sm text-muted-foreground mb-4">
+                    Quick checkout with Apple Pay on supported devices:
+                  </p>
+                  <div className="space-y-2 text-sm text-muted-foreground">
+                    <p>• Available on Safari browser (macOS, iOS, iPadOS)</p>
+                    <p>• One-tap checkout experience</p>
+                    <p>• Uses your saved Apple Pay cards</p>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Google Pay */}
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-lg flex items-center gap-2">
+                    <CreditCard className="w-5 h-5 text-primary" />
+                    Google Pay
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-sm text-muted-foreground mb-4">
+                    Fast payment with Google Pay on Chrome:
+                  </p>
+                  <div className="space-y-2 text-sm text-muted-foreground">
+                    <p>• Available on Chrome browser (all devices)</p>
+                    <p>• Quick and secure checkout</p>
+                    <p>• Uses your Google Pay saved cards</p>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </section>
+
+          {/* How to Make Payment */}
+          <section>
+            <h2 className="text-2xl font-bold mb-6">How to Make a Payment</h2>
+            
+            <div className="space-y-6">
+              {/* For New Subscriptions */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>For New Subscriptions or One-Time Packs</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="bg-muted/50 p-6 rounded-lg border border-border">
+                    <ol className="space-y-4">
+                      <li className="flex items-start gap-3">
+                        <span className="flex items-center justify-center w-6 h-6 rounded-full bg-primary text-primary-foreground text-xs font-bold flex-shrink-0">1</span>
+                        <div>
+                          <p className="font-semibold text-sm">Choose Your Plan</p>
+                          <p className="text-xs text-muted-foreground">Navigate to Pricing page and select your preferred plan or pack</p>
+                        </div>
+                      </li>
+                      
+                      <li className="flex items-start gap-3">
+                        <span className="flex items-center justify-center w-6 h-6 rounded-full bg-primary text-primary-foreground text-xs font-bold flex-shrink-0">2</span>
+                        <div>
+                          <p className="font-semibold text-sm">Click "Subscribe" or "Buy Now"</p>
+                          <p className="text-xs text-muted-foreground">You'll be redirected to the secure checkout page</p>
+                        </div>
+                      </li>
+                      
+                      <li className="flex items-start gap-3">
+                        <span className="flex items-center justify-center w-6 h-6 rounded-full bg-primary text-primary-foreground text-xs font-bold flex-shrink-0">3</span>
+                        <div>
+                          <p className="font-semibold text-sm">Enter Billing Information</p>
+                          <p className="text-xs text-muted-foreground">Provide your name, email, and billing address</p>
+                        </div>
+                      </li>
+                      
+                      <li className="flex items-start gap-3">
+                        <span className="flex items-center justify-center w-6 h-6 rounded-full bg-primary text-primary-foreground text-xs font-bold flex-shrink-0">4</span>
+                        <div>
+                          <p className="font-semibold text-sm">Select Payment Method</p>
+                          <p className="text-xs text-muted-foreground">Choose credit card, PayPal, Apple Pay, or Google Pay</p>
+                        </div>
+                      </li>
+                      
+                      <li className="flex items-start gap-3">
+                        <span className="flex items-center justify-center w-6 h-6 rounded-full bg-primary text-primary-foreground text-xs font-bold flex-shrink-0">5</span>
+                        <div>
+                          <p className="font-semibold text-sm">Enter Payment Details</p>
+                          <p className="text-xs text-muted-foreground">Provide card number, expiry date, and CVV (or authenticate with PayPal/Apple Pay/Google Pay)</p>
+                        </div>
+                      </li>
+                      
+                      <li className="flex items-start gap-3">
+                        <span className="flex items-center justify-center w-6 h-6 rounded-full bg-primary text-primary-foreground text-xs font-bold flex-shrink-0">6</span>
+                        <div>
+                          <p className="font-semibold text-sm">Review and Confirm</p>
+                          <p className="text-xs text-muted-foreground">Double-check your order summary and click "Complete Payment"</p>
+                        </div>
+                      </li>
+                      
+                      <li className="flex items-start gap-3">
+                        <span className="flex items-center justify-center w-6 h-6 rounded-full bg-primary text-primary-foreground text-xs font-bold flex-shrink-0">7</span>
+                        <div>
+                          <p className="font-semibold text-sm">Payment Confirmation</p>
+                          <p className="text-xs text-muted-foreground">You'll see a success message and receive confirmation email with invoice</p>
+                        </div>
+                      </li>
+                    </ol>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Updating Payment Method */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>Updating Payment Method for Existing Subscription</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="bg-muted/50 p-6 rounded-lg border border-border">
+                    <ol className="space-y-3 text-sm">
+                      <li>1. Go to Dashboard → Account Settings</li>
+                      <li>2. Find "Payment Method" section</li>
+                      <li>3. Click "Update Payment Method" button</li>
+                      <li>4. Enter new card details or select different payment method</li>
+                      <li>5. Click "Save" to update</li>
+                      <li>6. Your next billing will use the new payment method</li>
+                    </ol>
+                  </div>
+                  
+                  <Alert className="mt-4">
+                    <AlertCircle className="h-4 w-4" />
+                    <AlertDescription>
+                      Updating your payment method does not trigger a new charge. The new method will be used for your next scheduled billing date.
+                    </AlertDescription>
+                  </Alert>
+                </CardContent>
+              </Card>
+            </div>
+          </section>
+
+          {/* Payment Security */}
+          <section>
+            <h2 className="text-2xl font-bold mb-6">Payment Security Measures</h2>
+            
+            <Alert className="mb-6">
+              <Shield className="h-4 w-4" />
+              <AlertDescription>
+                Your payment security is our top priority. We implement industry-leading security standards to protect your financial information.
+              </AlertDescription>
+            </Alert>
+
+            <div className="grid md:grid-cols-2 gap-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-base flex items-center gap-2">
+                    <Shield className="w-5 h-5 text-primary" />
+                    PCI DSS Compliance
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-sm text-muted-foreground">
+                    We are fully compliant with Payment Card Industry Data Security Standards (PCI DSS Level 1), the highest level of certification in the payments industry.
+                  </p>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-base flex items-center gap-2">
+                    <Shield className="w-5 h-5 text-primary" />
+                    256-Bit SSL Encryption
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-sm text-muted-foreground">
+                    All payment data is transmitted using 256-bit SSL/TLS encryption, the same security level used by major banks and financial institutions.
+                  </p>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-base flex items-center gap-2">
+                    <CreditCard className="w-5 h-5 text-primary" />
+                    Tokenization
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-sm text-muted-foreground">
+                    We never store your full credit card details. Payment information is tokenized and securely stored by our payment processor (Stripe).
+                  </p>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-base flex items-center gap-2">
+                    <Shield className="w-5 h-5 text-primary" />
+                    3D Secure Authentication
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-sm text-muted-foreground">
+                    Additional verification layer for card payments (Visa Secure, Mastercard ID Check) to prevent unauthorized transactions.
+                  </p>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-base flex items-center gap-2">
+                    <AlertCircle className="w-5 h-5 text-primary" />
+                    Fraud Detection
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-sm text-muted-foreground">
+                    Advanced AI-powered fraud detection systems monitor all transactions in real-time to identify and prevent suspicious activity.
+                  </p>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-base flex items-center gap-2">
+                    <Shield className="w-5 h-5 text-primary" />
+                    Regular Security Audits
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-sm text-muted-foreground">
+                    Our payment infrastructure undergoes regular third-party security audits and penetration testing to ensure maximum protection.
+                  </p>
+                </CardContent>
+              </Card>
+            </div>
+
+            <Card className="mt-6 bg-primary/5 border-primary/20">
+              <CardContent className="pt-6">
+                <div className="space-y-3">
+                  <h3 className="font-semibold flex items-center gap-2">
+                    <Shield className="w-5 h-5 text-primary" />
+                    Your Payment Data is Protected
+                  </h3>
+                  <ul className="space-y-2 text-sm text-muted-foreground">
+                    <li>• We NEVER see or store your full card number</li>
+                    <li>• We NEVER have access to your CVV/security code</li>
+                    <li>• All payment processing is handled by certified payment providers</li>
+                    <li>• We comply with GDPR, CCPA, and international data protection laws</li>
+                    <li>• Our team is trained in data security best practices</li>
+                  </ul>
+                </div>
+              </CardContent>
+            </Card>
+          </section>
+
+          {/* Common Questions */}
+          <section>
+            <h2 className="text-2xl font-bold mb-6">Common Questions</h2>
+            
+            <div className="space-y-4">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-base">Why was my payment declined?</CardTitle>
+                </CardHeader>
+                <CardContent className="text-sm text-muted-foreground space-y-2">
+                  <p>Common reasons include:</p>
+                  <ul className="ml-4 space-y-1">
+                    <li>• Insufficient funds in your account</li>
+                    <li>• Incorrect card details (number, expiry, CVV)</li>
+                    <li>• Card blocked by your bank for security reasons</li>
+                    <li>• International transaction restrictions</li>
+                  </ul>
+                  <p className="text-xs italic pt-2">Try contacting your bank or use a different payment method.</p>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-base">Do you charge sales tax or VAT?</CardTitle>
+                </CardHeader>
+                <CardContent className="text-sm text-muted-foreground">
+                  <p>Yes, we charge applicable sales tax, VAT, or GST based on your billing address as required by local tax regulations. Tax amounts are calculated automatically at checkout and shown before you complete payment.</p>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-base">Can I change my billing date?</CardTitle>
+                </CardHeader>
+                <CardContent className="text-sm text-muted-foreground">
+                  <p>Billing dates are set to the day you initially subscribed. To change your billing date, you would need to cancel your current subscription and re-subscribe on your preferred date. Contact support for assistance with this process.</p>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-base">What currency are payments processed in?</CardTitle>
+                </CardHeader>
+                <CardContent className="text-sm text-muted-foreground">
+                  <p>All prices are listed in USD. If you're paying from a different currency region, your bank or payment provider will handle the conversion, and exchange rate fees may apply based on your financial institution's policies.</p>
+                </CardContent>
+              </Card>
+            </div>
+          </section>
+
+          {/* Contact Support */}
+          <Alert>
+            <AlertCircle className="h-4 w-4" />
+            <AlertDescription>
+              <strong>Payment questions or issues?</strong> Our billing support team is ready to help. Contact us at billing@motiomint.com or through the Help Center.
             </AlertDescription>
           </Alert>
         </div>

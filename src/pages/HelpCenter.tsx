@@ -29,10 +29,10 @@ export default function HelpCenter() {
       articles: [
         'Subscription plans explained',
         'How to upgrade or downgrade',
-        'Billing cycle and invoices',
+        'Billing & Payment methods',
         'Cancellation & Refund policy'
       ],
-      slugs: ['subscription-plans', 'upgrade-downgrade', null, 'cancellation-refund']
+      slugs: ['subscription-plans', 'upgrade-downgrade', 'billing-payment', 'cancellation-refund']
     },
     {
       icon: Shield,
