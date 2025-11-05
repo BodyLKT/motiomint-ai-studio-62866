@@ -1,5 +1,5 @@
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, Check, AlertCircle, CreditCard, RefreshCw, Zap } from 'lucide-react';
+import { ArrowLeft, Check, AlertCircle, CreditCard, RefreshCw, Zap, XCircle, DollarSign, Clock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
@@ -618,6 +618,366 @@ export default function SubscriptionBillingArticle() {
             <AlertCircle className="h-4 w-4" />
             <AlertDescription>
               <strong>Need help with your subscription?</strong> Our support team is here to assist you. Contact us through the Help Center or email support@motiomint.com
+            </AlertDescription>
+          </Alert>
+        </div>
+      )
+    },
+    'cancellation-refund': {
+      title: 'Cancellation & Refund Policy',
+      description: 'How to cancel your subscription and request refunds',
+      content: (
+        <div className="space-y-8">
+          {/* Overview */}
+          <section>
+            <h2 className="text-2xl font-bold mb-4">Overview</h2>
+            <p className="text-muted-foreground mb-4">
+              We understand that your needs may change. This guide explains how to cancel your subscription and our transparent refund policy.
+            </p>
+            <Alert>
+              <AlertCircle className="h-4 w-4" />
+              <AlertDescription>
+                All cancellations and refund policies comply with international consumer protection standards and regulations.
+              </AlertDescription>
+            </Alert>
+          </section>
+
+          {/* How to Cancel */}
+          <section>
+            <h2 className="text-2xl font-bold mb-6">How to Cancel Your Subscription</h2>
+            <p className="text-muted-foreground mb-6">
+              You can cancel your subscription at any time. The process is simple and instant.
+            </p>
+
+            <div className="space-y-6">
+              {/* Step 1 */}
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-lg flex items-center gap-2">
+                    <span className="flex items-center justify-center w-8 h-8 rounded-full bg-primary text-primary-foreground text-sm font-bold">1</span>
+                    Log In to Your Account
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                  <p className="text-sm text-muted-foreground">
+                    Sign in to your Motiomint account using your email and password
+                  </p>
+                  <div className="bg-muted/50 p-4 rounded-lg border border-border">
+                    <p className="text-sm font-mono">Navigate to: motiomint.com → Click "Sign In" (top right)</p>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Step 2 */}
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-lg flex items-center gap-2">
+                    <span className="flex items-center justify-center w-8 h-8 rounded-full bg-primary text-primary-foreground text-sm font-bold">2</span>
+                    Open Account Settings
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                  <p className="text-sm text-muted-foreground">
+                    Access your account settings from the navigation menu
+                  </p>
+                  <div className="bg-muted/50 p-4 rounded-lg border border-border space-y-2">
+                    <p className="text-sm font-mono">• Click your profile icon (top right corner)</p>
+                    <p className="text-sm font-mono">• Select "Dashboard" from the dropdown menu</p>
+                    <p className="text-sm font-mono">• Click "Account Settings" tab</p>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Step 3 */}
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-lg flex items-center gap-2">
+                    <span className="flex items-center justify-center w-8 h-8 rounded-full bg-primary text-primary-foreground text-sm font-bold">3</span>
+                    Navigate to Subscription Section
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                  <p className="text-sm text-muted-foreground">
+                    Find your current subscription details
+                  </p>
+                  <div className="bg-muted/50 p-4 rounded-lg border border-border">
+                    <p className="text-sm font-mono">Look for "Subscription Status" card showing your current plan</p>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Step 4 */}
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-lg flex items-center gap-2">
+                    <span className="flex items-center justify-center w-8 h-8 rounded-full bg-primary text-primary-foreground text-sm font-bold">4</span>
+                    Cancel Subscription
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                  <p className="text-sm text-muted-foreground">
+                    Click the "Cancel Subscription" button
+                  </p>
+                  <div className="bg-muted/50 p-4 rounded-lg border border-border space-y-2">
+                    <p className="text-sm font-mono">• Click "Cancel Subscription" button</p>
+                    <p className="text-sm font-mono">• Confirm your cancellation in the dialog</p>
+                    <p className="text-sm font-mono">• You'll receive an email confirmation immediately</p>
+                  </div>
+                  <Alert className="mt-4">
+                    <AlertCircle className="h-4 w-4" />
+                    <AlertDescription>
+                      Your cancellation is effective immediately, but you retain access until the end of your current billing period.
+                    </AlertDescription>
+                  </Alert>
+                </CardContent>
+              </Card>
+            </div>
+          </section>
+
+          {/* What Happens After Cancellation */}
+          <section>
+            <h2 className="text-2xl font-bold mb-6">What Happens After You Cancel?</h2>
+            <Card>
+              <CardContent className="pt-6">
+                <div className="space-y-4">
+                  <div className="flex items-start gap-3">
+                    <Clock className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
+                    <div>
+                      <h3 className="font-semibold mb-1">Immediate Confirmation</h3>
+                      <p className="text-sm text-muted-foreground">
+                        You'll receive an email confirming your cancellation with details about when your access ends.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-3">
+                    <Check className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
+                    <div>
+                      <h3 className="font-semibold mb-1">Continue Using Until Period Ends</h3>
+                      <p className="text-sm text-muted-foreground">
+                        You can still download animations and use all features until the end of your current billing cycle.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-3">
+                    <XCircle className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
+                    <div>
+                      <h3 className="font-semibold mb-1">Access Loss at Period End</h3>
+                      <p className="text-sm text-muted-foreground">
+                        After your billing period expires, premium features will no longer be accessible. Your account will revert to the Free plan automatically.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-3">
+                    <CreditCard className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
+                    <div>
+                      <h3 className="font-semibold mb-1">No Further Charges</h3>
+                      <p className="text-sm text-muted-foreground">
+                        Your payment method will not be charged again. All future billing stops immediately.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </section>
+
+          {/* Refund Policy */}
+          <section>
+            <h2 className="text-2xl font-bold mb-6">Refund Policy</h2>
+            
+            <Alert className="mb-6">
+              <DollarSign className="h-4 w-4" />
+              <AlertDescription>
+                We offer a transparent, fair refund policy that complies with international consumer protection laws.
+              </AlertDescription>
+            </Alert>
+
+            {/* Eligibility */}
+            <Card className="mb-6">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Check className="w-5 h-5 text-primary" />
+                  Refund Eligibility
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div>
+                  <h3 className="font-semibold mb-2 text-sm">✓ You ARE eligible for a refund if:</h3>
+                  <ul className="space-y-2 text-sm text-muted-foreground ml-4">
+                    <li>• You request within 14 days of your initial subscription purchase</li>
+                    <li>• You've downloaded fewer than 5 animations during this period</li>
+                    <li>• You experienced technical issues that prevented service use (documented)</li>
+                    <li>• You were charged incorrectly or twice for the same subscription</li>
+                  </ul>
+                </div>
+
+                <div className="border-t pt-4">
+                  <h3 className="font-semibold mb-2 text-sm">✗ You are NOT eligible for a refund if:</h3>
+                  <ul className="space-y-2 text-sm text-muted-foreground ml-4">
+                    <li>• More than 14 days have passed since your purchase</li>
+                    <li>• You've downloaded 5 or more animations</li>
+                    <li>• You're requesting a refund for renewal payments (monthly recurring)</li>
+                    <li>• You simply changed your mind after using the service extensively</li>
+                  </ul>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Refund Timeline */}
+            <Card className="mb-6">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Clock className="w-5 h-5 text-primary" />
+                  Refund Timeline
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  <div className="flex items-start gap-3">
+                    <div className="flex items-center justify-center w-12 h-12 rounded-full bg-primary/10 text-primary text-sm font-bold flex-shrink-0">
+                      1-2d
+                    </div>
+                    <div>
+                      <h3 className="font-semibold mb-1">Request Review</h3>
+                      <p className="text-sm text-muted-foreground">
+                        Our team reviews your refund request within 1-2 business days
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-3">
+                    <div className="flex items-center justify-center w-12 h-12 rounded-full bg-primary/10 text-primary text-sm font-bold flex-shrink-0">
+                      3-5d
+                    </div>
+                    <div>
+                      <h3 className="font-semibold mb-1">Processing</h3>
+                      <p className="text-sm text-muted-foreground">
+                        Approved refunds are processed within 3-5 business days
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-3">
+                    <div className="flex items-center justify-center w-12 h-12 rounded-full bg-primary/10 text-primary text-sm font-bold flex-shrink-0">
+                      5-10d
+                    </div>
+                    <div>
+                      <h3 className="font-semibold mb-1">Bank Processing</h3>
+                      <p className="text-sm text-muted-foreground">
+                        Your bank may take 5-10 business days to reflect the refund in your account
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* How to Request Refund */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <RefreshCw className="w-5 h-5 text-primary" />
+                  How to Request a Refund
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  <p className="text-sm text-muted-foreground">
+                    Follow these steps to submit your refund request:
+                  </p>
+
+                  <div className="bg-muted/50 p-6 rounded-lg border border-border space-y-4">
+                    <div className="space-y-2">
+                      <p className="font-semibold text-sm">Option 1: Via Dashboard</p>
+                      <ol className="text-sm text-muted-foreground space-y-1 ml-4">
+                        <li>1. Go to Dashboard → Account Settings</li>
+                        <li>2. Find "Subscription Status" section</li>
+                        <li>3. Click "Request Refund" button</li>
+                        <li>4. Fill out the refund request form</li>
+                        <li>5. Submit with reason for refund</li>
+                      </ol>
+                    </div>
+
+                    <div className="border-t pt-4 space-y-2">
+                      <p className="font-semibold text-sm">Option 2: Via Email</p>
+                      <ol className="text-sm text-muted-foreground space-y-1 ml-4">
+                        <li>1. Email: refunds@motiomint.com</li>
+                        <li>2. Subject: "Refund Request - [Your Email]"</li>
+                        <li>3. Include: Account email, reason, and transaction ID</li>
+                        <li>4. Attach any supporting documentation if applicable</li>
+                      </ol>
+                    </div>
+                  </div>
+
+                  <Alert>
+                    <AlertCircle className="h-4 w-4" />
+                    <AlertDescription>
+                      Please include your account email and transaction ID (found in your billing history) to expedite the process.
+                    </AlertDescription>
+                  </Alert>
+                </div>
+              </CardContent>
+            </Card>
+          </section>
+
+          {/* Special Cases */}
+          <section>
+            <h2 className="text-2xl font-bold mb-6">Special Cases & Notes</h2>
+            <div className="grid md:grid-cols-2 gap-4">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-base">One-Time Packs</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-sm text-muted-foreground">
+                    One-time pack purchases are eligible for refunds within 7 days if no downloads have been made. Once you download even one animation, the pack is non-refundable.
+                  </p>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-base">Promotional Discounts</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-sm text-muted-foreground">
+                    If you purchased with a promotional discount or coupon code, refunds are issued for the actual amount paid, not the original price.
+                  </p>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-base">Disputed Charges</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-sm text-muted-foreground">
+                    If you see an unfamiliar charge, please contact us before disputing with your bank. We can resolve most issues quickly and prevent account suspension.
+                  </p>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-base">International Customers</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-sm text-muted-foreground">
+                    All refund policies comply with EU Consumer Rights Directive, UK Consumer Rights Act, and other international regulations. Currency conversions may apply.
+                  </p>
+                </CardContent>
+              </Card>
+            </div>
+          </section>
+
+          {/* Contact Support */}
+          <Alert>
+            <AlertCircle className="h-4 w-4" />
+            <AlertDescription>
+              <strong>Questions about cancellation or refunds?</strong> Contact our support team at support@motiomint.com or through the Help Center for personalized assistance.
             </AlertDescription>
           </Alert>
         </div>

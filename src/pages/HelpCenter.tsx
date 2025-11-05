@@ -30,9 +30,9 @@ export default function HelpCenter() {
         'Subscription plans explained',
         'How to upgrade or downgrade',
         'Billing cycle and invoices',
-        'Refund policy'
+        'Cancellation & Refund policy'
       ],
-      slugs: ['subscription-plans', 'upgrade-downgrade', null, null]
+      slugs: ['subscription-plans', 'upgrade-downgrade', null, 'cancellation-refund']
     },
     {
       icon: Shield,
