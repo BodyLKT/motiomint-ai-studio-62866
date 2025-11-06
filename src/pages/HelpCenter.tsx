@@ -43,7 +43,8 @@ export default function HelpCenter() {
         'Commercial use guidelines',
         'Attribution requirements',
         'Copyright claims'
-      ]
+      ],
+      slugs: ['license-types', 'commercial-use', 'attribution-requirements', 'copyright-claims']
     },
     {
       icon: HelpCircle,
@@ -175,6 +176,9 @@ export default function HelpCenter() {
                           } else if (category.title === 'Subscription & Billing' && category.slugs) {
                             articleSlug = category.slugs[idx];
                             basePath = '/help/subscription-billing';
+                          } else if (category.title === 'License & Usage' && category.slugs) {
+                            articleSlug = category.slugs[idx];
+                            basePath = '/help/license-usage';
                           }
                           
                           return (
