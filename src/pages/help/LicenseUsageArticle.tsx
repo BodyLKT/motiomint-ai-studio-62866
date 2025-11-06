@@ -1,5 +1,5 @@
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, Shield, Check, X, AlertCircle, BookOpen, FileText, Scale } from 'lucide-react';
+import { ArrowLeft, Shield, Check, X, AlertCircle, BookOpen, FileText, Scale, Copy, Edit3, Code, Image } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
@@ -562,6 +562,482 @@ export default function LicenseUsageArticle() {
               <strong>Need something specific?</strong> If your use case doesn't fit standard licensing options, contact our team for custom licensing arrangements at licensing@motiomint.com
             </AlertDescription>
           </Alert>
+        </div>
+      ),
+    },
+    'attribution-requirements': {
+      title: 'Usage Rights & Attribution Requirements',
+      icon: Copy,
+      content: (
+        <div className="space-y-8">
+          {/* Introduction */}
+          <div className="prose prose-slate dark:prose-invert max-w-none">
+            <p className="text-lg text-muted-foreground">
+              Understanding when and how to attribute Motiomint content is crucial for compliance and respecting creator rights. This guide provides clear rules and formatting examples.
+            </p>
+          </div>
+
+          {/* When Attribution is Required */}
+          <Card className="border-2">
+            <CardHeader>
+              <div className="flex items-center gap-3">
+                <div className="p-2 rounded-lg bg-blue-500/10 text-blue-500">
+                  <AlertCircle className="w-6 h-6" />
+                </div>
+                <div>
+                  <CardTitle className="text-2xl">When is Attribution Mandatory?</CardTitle>
+                  <CardDescription>Clear rules based on your license type</CardDescription>
+                </div>
+              </div>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              {/* Free License Attribution */}
+              <div className="bg-blue-500/5 border border-blue-500/20 rounded-lg p-6">
+                <h4 className="font-semibold text-lg mb-3 flex items-center gap-2">
+                  <Shield className="w-5 h-5 text-blue-500" />
+                  Free License Users
+                </h4>
+                <p className="text-muted-foreground mb-4">
+                  <strong className="text-foreground">Attribution is ALWAYS required</strong> when using animations under the Free License. This applies to all public-facing projects, including:
+                </p>
+                <ul className="space-y-2 ml-6">
+                  <li className="flex items-start gap-2">
+                    <Check className="w-4 h-4 text-blue-500 mt-1 flex-shrink-0" />
+                    <span>Personal websites and portfolios</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <Check className="w-4 h-4 text-blue-500 mt-1 flex-shrink-0" />
+                    <span>Educational presentations and projects</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <Check className="w-4 h-4 text-blue-500 mt-1 flex-shrink-0" />
+                    <span>Social media posts (non-commercial)</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <Check className="w-4 h-4 text-blue-500 mt-1 flex-shrink-0" />
+                    <span>Mockups and prototypes</span>
+                  </li>
+                </ul>
+              </div>
+
+              {/* Paid License Attribution */}
+              <div className="bg-green-500/5 border border-green-500/20 rounded-lg p-6">
+                <h4 className="font-semibold text-lg mb-3 flex items-center gap-2">
+                  <Shield className="w-5 h-5 text-green-500" />
+                  Standard & Extended License Users
+                </h4>
+                <p className="text-muted-foreground mb-4">
+                  <strong className="text-foreground">Attribution is optional but appreciated.</strong> While not legally required, giving credit helps support the creator community and is considered good practice.
+                </p>
+                <Alert className="border-green-500/20 bg-green-500/5">
+                  <AlertCircle className="h-4 w-4 text-green-500" />
+                  <AlertDescription>
+                    If you choose to provide attribution with a paid license, it demonstrates professionalism and community support.
+                  </AlertDescription>
+                </Alert>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Correct Attribution Formatting */}
+          <div className="space-y-4">
+            <h3 className="text-xl font-bold">Correct Attribution Formatting</h3>
+            
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Check className="w-5 h-5 text-green-500" />
+                  Correct Attribution Examples
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                {/* Example 1 - Minimal */}
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between">
+                    <h4 className="font-semibold">Minimal Format (Recommended)</h4>
+                    <Badge variant="secondary">Most Common</Badge>
+                  </div>
+                  <div className="bg-muted rounded-lg p-4 font-mono text-sm border border-border">
+                    <p className="text-foreground">Video animation by Motiomint</p>
+                  </div>
+                </div>
+
+                {/* Example 2 - With Link */}
+                <div className="space-y-3">
+                  <h4 className="font-semibold">With Link (Preferred)</h4>
+                  <div className="bg-muted rounded-lg p-4 font-mono text-sm border border-border">
+                    <p className="text-foreground">
+                      Video animation by <a href="https://motiomint.com" className="text-primary underline">Motiomint</a>
+                    </p>
+                  </div>
+                </div>
+
+                {/* Example 3 - Full Format */}
+                <div className="space-y-3">
+                  <h4 className="font-semibold">Full Format (Optional)</h4>
+                  <div className="bg-muted rounded-lg p-4 font-mono text-sm border border-border">
+                    <p className="text-foreground">
+                      Animation: "Fitness Workout Loop" by Motiomint<br />
+                      License: Free License<br />
+                      Source: https://motiomint.com
+                    </p>
+                  </div>
+                </div>
+
+                {/* Example 4 - Video Credits */}
+                <div className="space-y-3">
+                  <h4 className="font-semibold">In Video Credits</h4>
+                  <div className="bg-muted rounded-lg p-4 font-mono text-sm border border-border">
+                    <p className="text-foreground">
+                      CREDITS<br />
+                      Animations: Motiomint (motiomint.com)
+                    </p>
+                  </div>
+                </div>
+
+                {/* HTML Example */}
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between">
+                    <h4 className="font-semibold">HTML Attribution Example</h4>
+                    <Badge variant="outline" className="gap-1">
+                      <Code className="w-3 h-3" />
+                      Code
+                    </Badge>
+                  </div>
+                  <div className="bg-slate-900 text-slate-100 rounded-lg p-4 font-mono text-xs border border-slate-700 overflow-x-auto">
+                    <code>
+                      {'<footer>\n'}
+                      {'  <p>Video animations by \n'}
+                      {'    <a href="https://motiomint.com" \n'}
+                      {'       target="_blank" \n'}
+                      {'       rel="noopener">Motiomint</a>\n'}
+                      {'  </p>\n'}
+                      {'</footer>'}
+                    </code>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Incorrect Examples */}
+            <Card className="border-red-500/20">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2 text-red-600 dark:text-red-400">
+                  <X className="w-5 h-5" />
+                  Incorrect Attribution Examples
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="space-y-3">
+                  <div className="bg-red-500/5 border border-red-500/20 rounded-lg p-4">
+                    <div className="flex items-start gap-2 mb-2">
+                      <X className="w-4 h-4 text-red-500 mt-1 flex-shrink-0" />
+                      <div className="flex-1">
+                        <p className="font-semibold mb-1">Missing Creator Name</p>
+                        <p className="font-mono text-sm text-muted-foreground line-through">
+                          Video animations from stock library
+                        </p>
+                        <p className="text-sm text-red-600 dark:text-red-400 mt-2">
+                          ✗ Does not credit Motiomint specifically
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-red-500/5 border border-red-500/20 rounded-lg p-4">
+                    <div className="flex items-start gap-2 mb-2">
+                      <X className="w-4 h-4 text-red-500 mt-1 flex-shrink-0" />
+                      <div className="flex-1">
+                        <p className="font-semibold mb-1">Claiming Authorship</p>
+                        <p className="font-mono text-sm text-muted-foreground line-through">
+                          All animations created by [Your Company]
+                        </p>
+                        <p className="text-sm text-red-600 dark:text-red-400 mt-2">
+                          ✗ Falsely claims ownership of animations
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-red-500/5 border border-red-500/20 rounded-lg p-4">
+                    <div className="flex items-start gap-2 mb-2">
+                      <X className="w-4 h-4 text-red-500 mt-1 flex-shrink-0" />
+                      <div className="flex-1">
+                        <p className="font-semibold mb-1">Buried in Legal Text</p>
+                        <p className="font-mono text-xs text-muted-foreground line-through">
+                          [Hidden in 5pt font at bottom of page or in unreadable color]
+                        </p>
+                        <p className="text-sm text-red-600 dark:text-red-400 mt-2">
+                          ✗ Attribution must be clearly visible and readable
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Modification Guidelines */}
+          <Card>
+            <CardHeader>
+              <div className="flex items-center gap-3">
+                <div className="p-2 rounded-lg bg-purple-500/10 text-purple-500">
+                  <Edit3 className="w-6 h-6" />
+                </div>
+                <div>
+                  <CardTitle className="text-xl">Modifying, Remixing & Embedding Guidelines</CardTitle>
+                  <CardDescription>What you can and cannot do with animations</CardDescription>
+                </div>
+              </div>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              {/* Allowed Modifications */}
+              <div>
+                <h4 className="font-semibold mb-3 flex items-center gap-2">
+                  <Check className="w-5 h-5 text-green-500" />
+                  Allowed Modifications
+                </h4>
+                <ul className="space-y-3 ml-6">
+                  <li className="flex items-start gap-2">
+                    <Check className="w-4 h-4 text-green-500 mt-1 flex-shrink-0" />
+                    <div>
+                      <strong>Color Adjustments:</strong> Change colors to match your brand palette
+                    </div>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <Check className="w-4 h-4 text-green-500 mt-1 flex-shrink-0" />
+                    <div>
+                      <strong>Resizing & Cropping:</strong> Adjust dimensions and aspect ratios
+                    </div>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <Check className="w-4 h-4 text-green-500 mt-1 flex-shrink-0" />
+                    <div>
+                      <strong>Speed Changes:</strong> Slow down or speed up animation playback
+                    </div>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <Check className="w-4 h-4 text-green-500 mt-1 flex-shrink-0" />
+                    <div>
+                      <strong>Layering:</strong> Combine with other assets in your project
+                    </div>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <Check className="w-4 h-4 text-green-500 mt-1 flex-shrink-0" />
+                    <div>
+                      <strong>Trimming:</strong> Use portions of longer animations
+                    </div>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <Check className="w-4 h-4 text-green-500 mt-1 flex-shrink-0" />
+                    <div>
+                      <strong>Format Conversion:</strong> Convert between video formats (MP4, WebM, GIF, etc.)
+                    </div>
+                  </li>
+                </ul>
+              </div>
+
+              {/* Embedding Rules */}
+              <div className="bg-blue-500/5 border border-blue-500/20 rounded-lg p-6">
+                <h4 className="font-semibold text-lg mb-3 flex items-center gap-2">
+                  <Code className="w-5 h-5 text-blue-500" />
+                  Embedding in Websites & Apps
+                </h4>
+                <p className="text-muted-foreground mb-4">
+                  You may embed animations in websites, apps, and software according to your license terms:
+                </p>
+                <ul className="space-y-2 ml-6">
+                  <li className="flex items-start gap-2">
+                    <Check className="w-4 h-4 text-blue-500 mt-1 flex-shrink-0" />
+                    <span><strong>HTML5 Video:</strong> Use {'<video>'} tags for playback</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <Check className="w-4 h-4 text-blue-500 mt-1 flex-shrink-0" />
+                    <span><strong>CSS Backgrounds:</strong> Set as background-image or background-video</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <Check className="w-4 h-4 text-blue-500 mt-1 flex-shrink-0" />
+                    <span><strong>Canvas/WebGL:</strong> Integrate into interactive experiences</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <Check className="w-4 h-4 text-blue-500 mt-1 flex-shrink-0" />
+                    <span><strong>Mobile Apps:</strong> Include in iOS/Android applications</span>
+                  </li>
+                </ul>
+                <Alert className="mt-4 border-blue-500/20">
+                  <AlertCircle className="h-4 w-4 text-blue-500" />
+                  <AlertDescription>
+                    <strong>Important:</strong> Ensure files are not easily downloadable by end users. Use appropriate streaming methods and access controls.
+                  </AlertDescription>
+                </Alert>
+              </div>
+
+              {/* Restricted Modifications */}
+              <div>
+                <h4 className="font-semibold mb-3 flex items-center gap-2">
+                  <X className="w-5 h-5 text-red-500" />
+                  Restricted Modifications
+                </h4>
+                <ul className="space-y-3 ml-6">
+                  <li className="flex items-start gap-2">
+                    <X className="w-4 h-4 text-red-500 mt-1 flex-shrink-0" />
+                    <div>
+                      <strong>Removing Watermarks:</strong> Cannot remove watermarks from Free License animations
+                    </div>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <X className="w-4 h-4 text-red-500 mt-1 flex-shrink-0" />
+                    <div>
+                      <strong>Reverse Engineering:</strong> Cannot recreate source files or extract components for redistribution
+                    </div>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <X className="w-4 h-4 text-red-500 mt-1 flex-shrink-0" />
+                    <div>
+                      <strong>AI Training:</strong> Cannot use animations to train AI models without explicit permission
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Placement Guidelines */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Image className="w-5 h-5" />
+                Where to Place Attribution
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                <div className="grid md:grid-cols-2 gap-4">
+                  {/* Websites */}
+                  <div className="bg-green-500/5 border border-green-500/20 rounded-lg p-4">
+                    <h4 className="font-semibold mb-2 text-green-600 dark:text-green-400">✓ Websites</h4>
+                    <ul className="text-sm space-y-1 text-muted-foreground">
+                      <li>• Website footer</li>
+                      <li>• Credits page</li>
+                      <li>• About page</li>
+                      <li>• Near the animation</li>
+                    </ul>
+                  </div>
+
+                  {/* Videos */}
+                  <div className="bg-green-500/5 border border-green-500/20 rounded-lg p-4">
+                    <h4 className="font-semibold mb-2 text-green-600 dark:text-green-400">✓ Videos</h4>
+                    <ul className="text-sm space-y-1 text-muted-foreground">
+                      <li>• End credits roll</li>
+                      <li>• Video description</li>
+                      <li>• Corner watermark (if space allows)</li>
+                    </ul>
+                  </div>
+
+                  {/* Social Media */}
+                  <div className="bg-green-500/5 border border-green-500/20 rounded-lg p-4">
+                    <h4 className="font-semibold mb-2 text-green-600 dark:text-green-400">✓ Social Media</h4>
+                    <ul className="text-sm space-y-1 text-muted-foreground">
+                      <li>• Post caption/description</li>
+                      <li>• First comment</li>
+                      <li>• Bio link to credits page</li>
+                    </ul>
+                  </div>
+
+                  {/* Presentations */}
+                  <div className="bg-green-500/5 border border-green-500/20 rounded-lg p-4">
+                    <h4 className="font-semibold mb-2 text-green-600 dark:text-green-400">✓ Presentations</h4>
+                    <ul className="text-sm space-y-1 text-muted-foreground">
+                      <li>• Final slide</li>
+                      <li>• Slide footer</li>
+                      <li>• References section</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* QA Checklist */}
+          <Card className="border-primary/50 bg-primary/5">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Check className="w-5 h-5 text-primary" />
+                Attribution QA Checklist
+              </CardTitle>
+              <CardDescription>
+                Verify your attribution meets requirements before publishing
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-3">
+                <div className="flex items-start gap-3">
+                  <div className="mt-1 w-5 h-5 rounded border-2 border-primary/50" />
+                  <div>
+                    <p className="font-medium">Is "Motiomint" clearly mentioned?</p>
+                    <p className="text-sm text-muted-foreground">The creator name must be visible and spelled correctly</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <div className="mt-1 w-5 h-5 rounded border-2 border-primary/50" />
+                  <div>
+                    <p className="font-medium">Is the attribution readable?</p>
+                    <p className="text-sm text-muted-foreground">Check font size, color contrast, and visibility in both light/dark modes</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <div className="mt-1 w-5 h-5 rounded border-2 border-primary/50" />
+                  <div>
+                    <p className="font-medium">Is it in an appropriate location?</p>
+                    <p className="text-sm text-muted-foreground">Footer, credits page, or near the animation content</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <div className="mt-1 w-5 h-5 rounded border-2 border-primary/50" />
+                  <div>
+                    <p className="font-medium">Does it link to motiomint.com? (optional but preferred)</p>
+                    <p className="text-sm text-muted-foreground">Providing a clickable link helps users discover more content</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <div className="mt-1 w-5 h-5 rounded border-2 border-primary/50" />
+                  <div>
+                    <p className="font-medium">Does it render correctly on mobile devices?</p>
+                    <p className="text-sm text-muted-foreground">Test responsiveness across different screen sizes</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <div className="mt-1 w-5 h-5 rounded border-2 border-primary/50" />
+                  <div>
+                    <p className="font-medium">Have you tested in both light and dark mode?</p>
+                    <p className="text-sm text-muted-foreground">Ensure visibility and proper contrast in both themes</p>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Final Note */}
+          <Alert>
+            <AlertCircle className="h-4 w-4" />
+            <AlertDescription>
+              <strong>Need Help?</strong> If you're unsure about attribution requirements for your specific use case, contact our support team at support@motiomint.com for personalized guidance.
+            </AlertDescription>
+          </Alert>
+        </div>
+      ),
+    },
+    'copyright-claims': {
+      title: 'Copyright & DMCA Policy',
+      icon: Shield,
+      content: (
+        <div className="space-y-8">
+          <div className="prose prose-slate dark:prose-invert max-w-none">
+            <p className="text-lg text-muted-foreground">
+              Placeholder for Copyright Claims article. Content coming soon.
+            </p>
+          </div>
         </div>
       ),
     },
