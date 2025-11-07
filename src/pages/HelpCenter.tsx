@@ -42,9 +42,10 @@ export default function HelpCenter() {
         'License types overview',
         'Commercial use guidelines',
         'Attribution requirements',
+        'Corporate, agency & team use',
         'Copyright claims'
       ],
-      slugs: ['license-types', 'commercial-use', 'attribution-requirements', 'copyright-claims']
+      slugs: ['license-types', 'commercial-use', 'attribution-requirements', 'corporate-agency-team', 'copyright-claims']
     },
     {
       icon: HelpCircle,

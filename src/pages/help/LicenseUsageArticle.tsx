@@ -1,5 +1,5 @@
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, Shield, Check, X, AlertCircle, BookOpen, FileText, Scale, Copy, Edit3, Code, Image } from 'lucide-react';
+import { ArrowLeft, Shield, Check, X, AlertCircle, BookOpen, FileText, Scale, Copy, Edit3, Code, Image, Users, Building2, HelpCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
@@ -1023,6 +1023,345 @@ export default function LicenseUsageArticle() {
             <AlertCircle className="h-4 w-4" />
             <AlertDescription>
               <strong>Need Help?</strong> If you're unsure about attribution requirements for your specific use case, contact our support team at support@motiomint.com for personalized guidance.
+            </AlertDescription>
+          </Alert>
+        </div>
+      ),
+    },
+    'corporate-agency-team': {
+      title: 'Corporate, Agency, and Team Use',
+      icon: Building2,
+      content: (
+        <div className="space-y-8">
+          {/* Introduction */}
+          <div className="prose prose-slate dark:prose-invert max-w-none">
+            <p className="text-lg text-muted-foreground">
+              Motiomint licenses are designed to accommodate agencies, corporate teams, and multi-user organizations. This guide explains ownership rights, usage policies, and collaboration guidelines for business environments.
+            </p>
+          </div>
+
+          {/* Agency & Team Licensing Rules */}
+          <Card className="border-2">
+            <CardHeader>
+              <div className="flex items-center gap-3">
+                <div className="p-2 rounded-lg bg-primary/10 text-primary">
+                  <Building2 className="w-6 h-6" />
+                </div>
+                <div>
+                  <CardTitle className="text-2xl">Licensing Rules for Agencies & Teams</CardTitle>
+                  <CardDescription>Understanding ownership and usage rights in business settings</CardDescription>
+                </div>
+              </div>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              {/* License Ownership */}
+              <div>
+                <h4 className="font-semibold text-lg mb-3 flex items-center gap-2">
+                  <Shield className="w-5 h-5 text-primary" />
+                  License Ownership & Transfer
+                </h4>
+                <ul className="space-y-3 ml-6">
+                  <li className="flex items-start gap-2">
+                    <Check className="w-4 h-4 text-green-500 mt-1 flex-shrink-0" />
+                    <div>
+                      <strong>Company Ownership:</strong> When purchased by a company account, the license belongs to the organization, not individual employees
+                    </div>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <Check className="w-4 h-4 text-green-500 mt-1 flex-shrink-0" />
+                    <div>
+                      <strong>Project Transfer:</strong> Agencies may transfer completed projects to clients, but the original license remains with the purchasing agency
+                    </div>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <Check className="w-4 h-4 text-green-500 mt-1 flex-shrink-0" />
+                    <div>
+                      <strong>Employee Departures:</strong> Licenses purchased under company accounts remain valid even when team members leave
+                    </div>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <X className="w-4 h-4 text-red-500 mt-1 flex-shrink-0" />
+                    <div>
+                      <strong>No Resale:</strong> Agencies cannot resell or sublicense Motiomint animations to clients as standalone assets
+                    </div>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <X className="w-4 h-4 text-red-500 mt-1 flex-shrink-0" />
+                    <div>
+                      <strong>License Restrictions:</strong> Purchased licenses cannot be transferred to other companies or resold in any form
+                    </div>
+                  </li>
+                </ul>
+              </div>
+
+              {/* Collaboration Limits */}
+              <div className="bg-blue-500/5 border border-blue-500/20 rounded-lg p-6">
+                <h4 className="font-semibold text-lg mb-3 flex items-center gap-2">
+                  <Users className="w-5 h-5 text-blue-500" />
+                  Team Collaboration & Access Limits
+                </h4>
+                <p className="text-muted-foreground mb-4">
+                  Multiple team members may work with downloaded animations according to these guidelines:
+                </p>
+                <ul className="space-y-2 ml-6">
+                  <li className="flex items-start gap-2">
+                    <Check className="w-4 h-4 text-blue-500 mt-1 flex-shrink-0" />
+                    <span><strong>Internal Sharing:</strong> Team members within the same organization may access downloaded files for the licensed project</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <Check className="w-4 h-4 text-blue-500 mt-1 flex-shrink-0" />
+                    <span><strong>Project Collaboration:</strong> Multiple designers, developers, and editors can work on the same licensed project</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <Check className="w-4 h-4 text-blue-500 mt-1 flex-shrink-0" />
+                    <span><strong>Version Control:</strong> Files may be stored in shared repositories (GitHub, Dropbox, etc.) for team access</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <X className="w-4 h-4 text-red-500 mt-1 flex-shrink-0" />
+                    <span><strong>No Public Sharing:</strong> Downloaded files cannot be shared publicly or with external organizations</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <X className="w-4 h-4 text-red-500 mt-1 flex-shrink-0" />
+                    <span><strong>Download Limits:</strong> Each license covers one project/end product (unless Extended License allows multiple products)</span>
+                  </li>
+                </ul>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Multi-User Access Policies */}
+          <Card className="border-2">
+            <CardHeader>
+              <CardTitle className="text-xl flex items-center gap-2">
+                <Users className="w-6 h-6" />
+                Multi-User Access & Shared Accounts
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div>
+                <h4 className="font-semibold mb-3">Account Access Guidelines</h4>
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div className="bg-green-500/5 border border-green-500/20 rounded-lg p-4">
+                    <h5 className="font-semibold mb-2 text-green-600 dark:text-green-400 flex items-center gap-2">
+                      <Check className="w-4 h-4" />
+                      Permitted Access
+                    </h5>
+                    <ul className="text-sm space-y-2 text-muted-foreground">
+                      <li>• Team workspace accounts with role-based permissions</li>
+                      <li>• Individual accounts for each team member (recommended)</li>
+                      <li>• Delegated download access within organization</li>
+                      <li>• Shared storage of downloaded files internally</li>
+                    </ul>
+                  </div>
+
+                  <div className="bg-red-500/5 border border-red-500/20 rounded-lg p-4">
+                    <h5 className="font-semibold mb-2 text-red-600 dark:text-red-400 flex items-center gap-2">
+                      <X className="w-4 h-4" />
+                      Prohibited Access
+                    </h5>
+                    <ul className="text-sm space-y-2 text-muted-foreground">
+                      <li>• Sharing login credentials across multiple companies</li>
+                      <li>• Public redistribution of downloaded files</li>
+                      <li>• Using one account for unrelated client projects</li>
+                      <li>• Creating "shared" accounts for external freelancers</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <Alert className="border-primary/50 bg-primary/5">
+                <AlertCircle className="h-4 w-4 text-primary" />
+                <AlertDescription>
+                  <strong>Best Practice:</strong> For larger teams (10+ users), contact our sales team to discuss enterprise licensing options that provide better compliance tracking and multi-seat management.
+                </AlertDescription>
+              </Alert>
+            </CardContent>
+          </Card>
+
+          {/* Commercial Rights for Agency Projects */}
+          <Card className="border-2 border-primary/50">
+            <CardHeader>
+              <CardTitle className="text-xl flex items-center gap-2">
+                <FileText className="w-6 h-6 text-primary" />
+                Commercial Rights for Agency Projects
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <div>
+                <h4 className="font-semibold mb-3">What Agencies Can Do with Motiomint Assets</h4>
+                <ul className="space-y-3 ml-6">
+                  <li className="flex items-start gap-2">
+                    <Check className="w-4 h-4 text-green-500 mt-1 flex-shrink-0" />
+                    <div>
+                      <strong>Client Deliverables:</strong> Include animations in websites, apps, and videos created for clients (Standard or Extended License required)
+                    </div>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <Check className="w-4 h-4 text-green-500 mt-1 flex-shrink-0" />
+                    <div>
+                      <strong>Brand Work:</strong> Use in branding projects, marketing campaigns, and commercial advertisements
+                    </div>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <Check className="w-4 h-4 text-green-500 mt-1 flex-shrink-0" />
+                    <div>
+                      <strong>Multiple Clients:</strong> Purchase separate licenses for each distinct client project
+                    </div>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <Check className="w-4 h-4 text-green-500 mt-1 flex-shrink-0" />
+                    <div>
+                      <strong>SaaS Products:</strong> Integrate into software-as-a-service products for clients (Extended License required for unlimited users)
+                    </div>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <Check className="w-4 h-4 text-green-500 mt-1 flex-shrink-0" />
+                    <div>
+                      <strong>Portfolio Display:</strong> Showcase work using Motiomint animations in agency portfolios and case studies
+                    </div>
+                  </li>
+                </ul>
+              </div>
+
+              <div className="bg-amber-500/10 border border-amber-500/30 rounded-lg p-6">
+                <h4 className="font-semibold mb-3 flex items-center gap-2 text-amber-600 dark:text-amber-400">
+                  <AlertCircle className="w-5 h-5" />
+                  Important Licensing Considerations
+                </h4>
+                <ul className="space-y-2 text-sm">
+                  <li className="flex items-start gap-2">
+                    <span className="text-amber-600 dark:text-amber-400 mt-1">•</span>
+                    <span>Each unique client project requires its own license purchase</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-amber-600 dark:text-amber-400 mt-1">•</span>
+                    <span>Using the same animation across multiple client projects requires multiple Standard Licenses or one Extended License</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-amber-600 dark:text-amber-400 mt-1">•</span>
+                    <span>If a client will own/redistribute the final product (e.g., selling merchandise), an Extended License is required</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-amber-600 dark:text-amber-400 mt-1">•</span>
+                    <span>Broadcast television, streaming platforms, and theatrical releases require Extended License</span>
+                  </li>
+                </ul>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* FAQ Section */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-xl flex items-center gap-2">
+                <HelpCircle className="w-6 h-6" />
+                Frequently Asked Questions
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <div className="space-y-4">
+                <div className="border-l-4 border-primary pl-4 py-2">
+                  <h4 className="font-semibold mb-2">Can I use one license for multiple client projects?</h4>
+                  <p className="text-muted-foreground text-sm">
+                    No. A Standard License covers one end product for one client. If you want to use the same animation for multiple clients, you need either: (a) a separate Standard License for each project, or (b) one Extended License that permits multiple end products.
+                  </p>
+                </div>
+
+                <div className="border-l-4 border-primary pl-4 py-2">
+                  <h4 className="font-semibold mb-2">What happens to our licenses if an employee leaves?</h4>
+                  <p className="text-muted-foreground text-sm">
+                    If the license was purchased under a company/organization account, it remains valid and owned by the company. Individual employees leaving does not affect license validity. However, if purchased under a personal account, that license stays with the individual.
+                  </p>
+                </div>
+
+                <div className="border-l-4 border-primary pl-4 py-2">
+                  <h4 className="font-semibold mb-2">Can we share downloaded files with freelancers or contractors?</h4>
+                  <p className="text-muted-foreground text-sm">
+                    Yes, as long as they are working on the specific licensed project for your organization. The license holder (your company) remains responsible for ensuring proper usage. Freelancers cannot reuse the files for other clients or projects.
+                  </p>
+                </div>
+
+                <div className="border-l-4 border-primary pl-4 py-2">
+                  <h4 className="font-semibold mb-2">Do we need a license for internal company presentations?</h4>
+                  <p className="text-muted-foreground text-sm">
+                    Free License is sufficient for internal, non-commercial presentations. However, if the presentation is client-facing, used for sales/marketing purposes, or distributed externally, you need at least a Standard License.
+                  </p>
+                </div>
+
+                <div className="border-l-4 border-primary pl-4 py-2">
+                  <h4 className="font-semibold mb-2">How do enterprise/volume licensing discounts work?</h4>
+                  <p className="text-muted-foreground text-sm">
+                    For teams requiring 50+ licenses per year or organizations needing custom licensing agreements, contact our enterprise sales team at enterprise@motiomint.com. We offer volume discounts, dedicated account management, and custom contract terms.
+                  </p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* QA Checklist */}
+          <Card className="border-primary/50 bg-primary/5">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Check className="w-5 h-5 text-primary" />
+                Corporate/Agency Licensing QA Checklist
+              </CardTitle>
+              <CardDescription>
+                Verify compliance before deploying animations in client projects
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-3">
+                <div className="flex items-start gap-3">
+                  <div className="mt-1 w-5 h-5 rounded border-2 border-primary/50" />
+                  <div>
+                    <p className="font-medium">Have we purchased the correct license type for this project scope?</p>
+                    <p className="text-sm text-muted-foreground">Standard for single projects, Extended for multiple products or broadcast</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <div className="mt-1 w-5 h-5 rounded border-2 border-primary/50" />
+                  <div>
+                    <p className="font-medium">Is the license purchased under the company account?</p>
+                    <p className="text-sm text-muted-foreground">Ensures organizational ownership and continuity</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <div className="mt-1 w-5 h-5 rounded border-2 border-primary/50" />
+                  <div>
+                    <p className="font-medium">Have we documented which license applies to each client project?</p>
+                    <p className="text-sm text-muted-foreground">Maintain clear records for compliance and future reference</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <div className="mt-1 w-5 h-5 rounded border-2 border-primary/50" />
+                  <div>
+                    <p className="font-medium">Are external contractors/freelancers aware of usage restrictions?</p>
+                    <p className="text-sm text-muted-foreground">Brief collaborators on licensing terms to prevent misuse</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <div className="mt-1 w-5 h-5 rounded border-2 border-primary/50" />
+                  <div>
+                    <p className="font-medium">Does the final deliverable exceed 500K end users? (If yes, Extended License required)</p>
+                    <p className="text-sm text-muted-foreground">Standard License caps at 500,000 views/users; Extended has no limit</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <div className="mt-1 w-5 h-5 rounded border-2 border-primary/50" />
+                  <div>
+                    <p className="font-medium">Have we tested all deliverables in light and dark mode?</p>
+                    <p className="text-sm text-muted-foreground">Ensure animations render correctly across all client environments</p>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Contact Note */}
+          <Alert>
+            <AlertCircle className="h-4 w-4" />
+            <AlertDescription>
+              <strong>Need Enterprise Licensing?</strong> For custom licensing agreements, volume discounts, or dedicated account management, contact our enterprise team at enterprise@motiomint.com or visit our Enterprise Solutions page.
             </AlertDescription>
           </Alert>
         </div>
