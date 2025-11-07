@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Search, ChevronRight, BookOpen, Shield, CreditCard, HelpCircle, FileText, Mail, MessageCircle } from 'lucide-react';
+import { Search, ChevronRight, BookOpen, Shield, CreditCard, HelpCircle, FileText, Mail, MessageCircle, Headphones } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -79,6 +79,18 @@ export default function HelpCenter() {
         'Mobile app support',
         'Integration guides'
       ]
+    },
+    {
+      icon: Headphones,
+      title: 'Contact & Support',
+      description: 'Reach out to our team',
+      articles: [
+        'Support email & response times',
+        'Submit a support request',
+        'Support channel guide',
+        'Live chat support'
+      ],
+      slugs: ['support-email', 'submit-request', 'support-channels', 'live-chat']
     }
   ];
 
@@ -180,6 +192,9 @@ export default function HelpCenter() {
                           } else if (category.title === 'License & Usage' && category.slugs) {
                             articleSlug = category.slugs[idx];
                             basePath = '/help/license-usage';
+                          } else if (category.title === 'Contact & Support' && category.slugs) {
+                            articleSlug = category.slugs[idx];
+                            basePath = '/help/contact-support';
                           }
                           
                           return (
