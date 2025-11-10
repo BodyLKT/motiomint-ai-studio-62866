@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Search, ChevronRight, BookOpen, Shield, CreditCard, HelpCircle, FileText, Mail, MessageCircle, Headphones } from 'lucide-react';
+import { Search, ChevronRight, BookOpen, Shield, CreditCard, HelpCircle, FileText, Mail, MessageCircle, Headphones, Users } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -92,6 +92,15 @@ export default function HelpCenter() {
         'Troubleshooting & technical assistance'
       ],
       slugs: ['support-email', 'submit-request', 'support-channels', 'live-chat', 'troubleshooting']
+    },
+    {
+      icon: Users,
+      title: 'Community',
+      description: 'Connect with creators',
+      articles: [
+        'Community overview & guidelines'
+      ],
+      slugs: ['community-overview']
     }
   ];
 
@@ -196,6 +205,9 @@ export default function HelpCenter() {
                           } else if (category.title === 'Contact & Support' && category.slugs) {
                             articleSlug = category.slugs[idx];
                             basePath = '/help/contact-support';
+                          } else if (category.title === 'Community' && category.slugs) {
+                            articleSlug = category.slugs[idx];
+                            basePath = '/help/community';
                           }
                           
                           return (
