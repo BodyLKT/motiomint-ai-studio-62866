@@ -88,9 +88,10 @@ export default function HelpCenter() {
         'Support email & response times',
         'Submit a support request',
         'Support channel guide',
-        'Live chat support'
+        'Live chat support',
+        'Troubleshooting & technical assistance'
       ],
-      slugs: ['support-email', 'submit-request', 'support-channels', 'live-chat']
+      slugs: ['support-email', 'submit-request', 'support-channels', 'live-chat', 'troubleshooting']
     }
   ];
 

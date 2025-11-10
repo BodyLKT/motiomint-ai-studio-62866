@@ -1,5 +1,5 @@
 import { useParams, Link } from 'react-router-dom';
-import { ArrowLeft, Mail, MessageCircle, Clock, AlertCircle, CreditCard, Shield, HelpCircle, Send, User, AtSign } from 'lucide-react';
+import { ArrowLeft, Mail, MessageCircle, Clock, AlertCircle, CreditCard, Shield, HelpCircle, Send, User, AtSign, Wrench, RefreshCw, LogIn, Key, Play, Download, Monitor, Chrome, Settings } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
@@ -496,6 +496,539 @@ const articles = {
           <Clock className="h-4 w-4" />
           <AlertDescription>
             <strong>Outside business hours?</strong> Leave us a message and we'll respond via email within our standard response times. You can also browse our Help Center for immediate answers.
+          </AlertDescription>
+        </Alert>
+      </div>
+    )
+  },
+  
+  'troubleshooting': {
+    title: 'Troubleshooting & Technical Assistance',
+    icon: Wrench,
+    content: (
+      <div className="space-y-8">
+        <section>
+          <h2 className="text-2xl font-semibold mb-4">Common Technical Issues & Solutions</h2>
+          <p className="text-muted-foreground mb-6">
+            Find quick solutions to the most common technical problems. If these steps don't resolve your issue, you can escalate to our support team.
+          </p>
+        </section>
+
+        {/* Login & Account Access Issues */}
+        <section>
+          <div className="flex items-center gap-3 mb-4">
+            <div className="p-2 rounded-lg bg-blue-500/10 text-blue-500">
+              <LogIn className="w-6 h-6" />
+            </div>
+            <h3 className="text-xl font-semibold">Login, Sign-up & Password Issues</h3>
+          </div>
+          
+          <div className="space-y-4">
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-lg">Can't Log In / Invalid Credentials</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <ul className="space-y-2 text-sm">
+                  <li className="flex gap-2">
+                    <span className="text-primary">1.</span>
+                    <div>
+                      <p className="font-medium">Verify your email address</p>
+                      <p className="text-muted-foreground">Double-check for typos and ensure you're using the correct email</p>
+                    </div>
+                  </li>
+                  <li className="flex gap-2">
+                    <span className="text-primary">2.</span>
+                    <div>
+                      <p className="font-medium">Check password carefully</p>
+                      <p className="text-muted-foreground">Passwords are case-sensitive. Ensure Caps Lock is off</p>
+                    </div>
+                  </li>
+                  <li className="flex gap-2">
+                    <span className="text-primary">3.</span>
+                    <div>
+                      <p className="font-medium">Clear browser cookies and cache</p>
+                      <p className="text-muted-foreground">Old session data can cause login issues</p>
+                    </div>
+                  </li>
+                  <li className="flex gap-2">
+                    <span className="text-primary">4.</span>
+                    <div>
+                      <p className="font-medium">Try password reset</p>
+                      <p className="text-muted-foreground">Click "Forgot Password" and follow the email instructions</p>
+                    </div>
+                  </li>
+                </ul>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-lg flex items-center gap-2">
+                  <Key className="w-5 h-5 text-orange-500" />
+                  Password Reset Not Working
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <ul className="space-y-2 text-sm">
+                  <li className="flex gap-2">
+                    <span className="text-primary">•</span>
+                    <p><strong>Check spam/junk folder:</strong> Reset emails may be filtered as spam</p>
+                  </li>
+                  <li className="flex gap-2">
+                    <span className="text-primary">•</span>
+                    <p><strong>Wait 5-10 minutes:</strong> Email delivery can be delayed</p>
+                  </li>
+                  <li className="flex gap-2">
+                    <span className="text-primary">•</span>
+                    <p><strong>Whitelist our email:</strong> Add noreply@motiomint.com to your contacts</p>
+                  </li>
+                  <li className="flex gap-2">
+                    <span className="text-primary">•</span>
+                    <p><strong>Try a different browser:</strong> Some email clients block reset links</p>
+                  </li>
+                  <li className="flex gap-2">
+                    <span className="text-primary">•</span>
+                    <p><strong>Request new link:</strong> Reset links expire after 24 hours</p>
+                  </li>
+                </ul>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-lg">Sign-Up Issues / Email Verification</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <ul className="space-y-2 text-sm">
+                  <li className="flex gap-2">
+                    <span className="text-primary">•</span>
+                    <p><strong>Verification email not received:</strong> Check spam folder and wait up to 10 minutes</p>
+                  </li>
+                  <li className="flex gap-2">
+                    <span className="text-primary">•</span>
+                    <p><strong>Email already in use:</strong> You may have an existing account. Try password reset instead</p>
+                  </li>
+                  <li className="flex gap-2">
+                    <span className="text-primary">•</span>
+                    <p><strong>Invalid email format:</strong> Ensure your email follows the format: name@domain.com</p>
+                  </li>
+                </ul>
+              </CardContent>
+            </Card>
+          </div>
+        </section>
+
+        {/* Video Playback & Download Issues */}
+        <section>
+          <div className="flex items-center gap-3 mb-4">
+            <div className="p-2 rounded-lg bg-green-500/10 text-green-500">
+              <Play className="w-6 h-6" />
+            </div>
+            <h3 className="text-xl font-semibold">Video Playback, Preview & Download Problems</h3>
+          </div>
+          
+          <div className="space-y-4">
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-lg">Video Won't Play / Stuck Loading</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <ul className="space-y-2 text-sm">
+                  <li className="flex gap-2">
+                    <span className="text-primary">1.</span>
+                    <div>
+                      <p className="font-medium">Check internet connection</p>
+                      <p className="text-muted-foreground">Videos require stable connection. Try refreshing the page</p>
+                    </div>
+                  </li>
+                  <li className="flex gap-2">
+                    <span className="text-primary">2.</span>
+                    <div>
+                      <p className="font-medium">Update your browser</p>
+                      <p className="text-muted-foreground">Outdated browsers may not support video codecs</p>
+                    </div>
+                  </li>
+                  <li className="flex gap-2">
+                    <span className="text-primary">3.</span>
+                    <div>
+                      <p className="font-medium">Disable browser extensions</p>
+                      <p className="text-muted-foreground">Ad blockers and privacy extensions can interfere with playback</p>
+                    </div>
+                  </li>
+                  <li className="flex gap-2">
+                    <span className="text-primary">4.</span>
+                    <div>
+                      <p className="font-medium">Try a different browser</p>
+                      <p className="text-muted-foreground">We recommend Chrome, Firefox, Safari, or Edge</p>
+                    </div>
+                  </li>
+                  <li className="flex gap-2">
+                    <span className="text-primary">5.</span>
+                    <div>
+                      <p className="font-medium">Clear browser cache</p>
+                      <p className="text-muted-foreground">Corrupted cache can cause playback issues</p>
+                    </div>
+                  </li>
+                </ul>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-lg flex items-center gap-2">
+                  <Download className="w-5 h-5 text-purple-500" />
+                  Download Failed / Incomplete Downloads
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <ul className="space-y-2 text-sm">
+                  <li className="flex gap-2">
+                    <span className="text-primary">•</span>
+                    <p><strong>Check available storage:</strong> Ensure you have enough disk space</p>
+                  </li>
+                  <li className="flex gap-2">
+                    <span className="text-primary">•</span>
+                    <p><strong>Disable download managers:</strong> Third-party download tools can interfere</p>
+                  </li>
+                  <li className="flex gap-2">
+                    <span className="text-primary">•</span>
+                    <p><strong>Check subscription status:</strong> Ensure your plan allows downloads</p>
+                  </li>
+                  <li className="flex gap-2">
+                    <span className="text-primary">•</span>
+                    <p><strong>Use a wired connection:</strong> More stable than WiFi for large files</p>
+                  </li>
+                  <li className="flex gap-2">
+                    <span className="text-primary">•</span>
+                    <p><strong>Try right-click &gt; Save As:</strong> Alternative download method</p>
+                  </li>
+                </ul>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-lg">Poor Video Quality / Buffering</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <ul className="space-y-2 text-sm">
+                  <li className="flex gap-2">
+                    <span className="text-primary">•</span>
+                    <p><strong>Lower playback quality:</strong> Click quality settings (if available) and select a lower resolution</p>
+                  </li>
+                  <li className="flex gap-2">
+                    <span className="text-primary">•</span>
+                    <p><strong>Pause and let buffer:</strong> Allow video to preload before playing</p>
+                  </li>
+                  <li className="flex gap-2">
+                    <span className="text-primary">•</span>
+                    <p><strong>Close other tabs/apps:</strong> Free up bandwidth and system resources</p>
+                  </li>
+                  <li className="flex gap-2">
+                    <span className="text-primary">•</span>
+                    <p><strong>Download instead of streaming:</strong> For best quality without buffering</p>
+                  </li>
+                </ul>
+              </CardContent>
+            </Card>
+          </div>
+        </section>
+
+        {/* Browser & Performance Issues */}
+        <section>
+          <div className="flex items-center gap-3 mb-4">
+            <div className="p-2 rounded-lg bg-orange-500/10 text-orange-500">
+              <Monitor className="w-6 h-6" />
+            </div>
+            <h3 className="text-xl font-semibold">Browser & Dashboard Performance Issues</h3>
+          </div>
+          
+          <div className="space-y-4">
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-lg">Slow Dashboard / Pages Not Loading</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <ul className="space-y-2 text-sm">
+                  <li className="flex gap-2">
+                    <span className="text-primary">1.</span>
+                    <div>
+                      <p className="font-medium">Clear browser cache and cookies</p>
+                      <p className="text-muted-foreground">Press Ctrl+Shift+Delete (Windows) or Cmd+Shift+Delete (Mac)</p>
+                    </div>
+                  </li>
+                  <li className="flex gap-2">
+                    <span className="text-primary">2.</span>
+                    <div>
+                      <p className="font-medium">Disable unnecessary browser extensions</p>
+                      <p className="text-muted-foreground">Extensions can slow down page loading significantly</p>
+                    </div>
+                  </li>
+                  <li className="flex gap-2">
+                    <span className="text-primary">3.</span>
+                    <div>
+                      <p className="font-medium">Update your browser to latest version</p>
+                      <p className="text-muted-foreground">Newer versions include performance improvements</p>
+                    </div>
+                  </li>
+                  <li className="flex gap-2">
+                    <span className="text-primary">4.</span>
+                    <div>
+                      <p className="font-medium">Try incognito/private mode</p>
+                      <p className="text-muted-foreground">This disables extensions and uses fresh settings</p>
+                    </div>
+                  </li>
+                  <li className="flex gap-2">
+                    <span className="text-primary">5.</span>
+                    <div>
+                      <p className="font-medium">Restart your browser completely</p>
+                      <p className="text-muted-foreground">Close all browser windows and reopen</p>
+                    </div>
+                  </li>
+                </ul>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-lg flex items-center gap-2">
+                  <Chrome className="w-5 h-5 text-blue-500" />
+                  Browser Compatibility Issues
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  <div>
+                    <p className="font-medium mb-2 text-sm">Supported Browsers (Latest Versions):</p>
+                    <ul className="space-y-1 text-sm text-muted-foreground">
+                      <li>✓ Google Chrome (Recommended)</li>
+                      <li>✓ Mozilla Firefox</li>
+                      <li>✓ Microsoft Edge</li>
+                      <li>✓ Safari (macOS/iOS)</li>
+                    </ul>
+                  </div>
+                  <Alert className="bg-yellow-500/10 border-yellow-500/20">
+                    <AlertCircle className="h-4 w-4 text-yellow-600" />
+                    <AlertDescription className="text-sm">
+                      <strong>Note:</strong> Internet Explorer is not supported. Please switch to a modern browser for the best experience.
+                    </AlertDescription>
+                  </Alert>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-lg flex items-center gap-2">
+                  <Settings className="w-5 h-5 text-purple-500" />
+                  Step-by-Step: Clear Cache & Cookies
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  <div>
+                    <p className="font-semibold text-sm mb-2">Chrome / Edge:</p>
+                    <ol className="space-y-1 text-sm text-muted-foreground ml-4">
+                      <li>1. Press Ctrl+Shift+Delete (Cmd+Shift+Delete on Mac)</li>
+                      <li>2. Select "All time" for time range</li>
+                      <li>3. Check "Cookies" and "Cached images and files"</li>
+                      <li>4. Click "Clear data"</li>
+                    </ol>
+                  </div>
+                  <div>
+                    <p className="font-semibold text-sm mb-2">Firefox:</p>
+                    <ol className="space-y-1 text-sm text-muted-foreground ml-4">
+                      <li>1. Press Ctrl+Shift+Delete (Cmd+Shift+Delete on Mac)</li>
+                      <li>2. Select "Everything" for time range</li>
+                      <li>3. Check "Cookies" and "Cache"</li>
+                      <li>4. Click "Clear Now"</li>
+                    </ol>
+                  </div>
+                  <div>
+                    <p className="font-semibold text-sm mb-2">Safari:</p>
+                    <ol className="space-y-1 text-sm text-muted-foreground ml-4">
+                      <li>1. Go to Safari &gt; Preferences &gt; Privacy</li>
+                      <li>2. Click "Manage Website Data"</li>
+                      <li>3. Click "Remove All"</li>
+                      <li>4. Confirm by clicking "Remove Now"</li>
+                    </ol>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </section>
+
+        {/* Quick Troubleshooting FAQ */}
+        <section>
+          <div className="flex items-center gap-3 mb-4">
+            <div className="p-2 rounded-lg bg-primary/10 text-primary">
+              <HelpCircle className="w-6 h-6" />
+            </div>
+            <h3 className="text-xl font-semibold">Quick Troubleshooting FAQ</h3>
+          </div>
+          
+          <div className="space-y-3">
+            <Card>
+              <CardHeader className="pb-3">
+                <CardTitle className="text-base">Why can't I see my downloaded videos?</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-muted-foreground">
+                  Check your browser's default download location. In Chrome/Edge, it's usually the "Downloads" folder. You can also check your browser's download history (Ctrl+J or Cmd+J) to find the file location.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader className="pb-3">
+                <CardTitle className="text-base">The website looks broken or has missing elements</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-muted-foreground">
+                  This is usually a caching issue. Clear your browser cache (Ctrl+Shift+Delete), then hard refresh the page (Ctrl+F5 or Cmd+Shift+R). If the issue persists, try accessing the site in incognito mode.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader className="pb-3">
+                <CardTitle className="text-base">I'm getting "Session expired" errors</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-muted-foreground">
+                  Your login session has timed out. Simply log in again. To prevent this, ensure "Remember me" is checked when logging in. Also check that your browser isn't set to delete cookies on close.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader className="pb-3">
+                <CardTitle className="text-base">Animations preview fine but won't download</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-muted-foreground">
+                  Verify your subscription plan includes downloads. Free plans may have limited download capabilities. Check your account status in Dashboard &gt; Subscription. If your plan is active, try disabling browser download managers or antivirus software temporarily.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader className="pb-3">
+                <CardTitle className="text-base">Getting error messages but they disappear too quickly</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-muted-foreground">
+                  Open your browser's Developer Console (F12 or right-click &gt; Inspect, then click "Console" tab) to see persistent error messages. Take a screenshot of these errors and include them when contacting support for faster resolution.
+                </p>
+              </CardContent>
+            </Card>
+          </div>
+        </section>
+
+        {/* Escalation Section */}
+        <section>
+          <Card className="bg-gradient-to-br from-primary/10 to-primary/5 border-primary/20">
+            <CardContent className="pt-6">
+              <div className="flex items-start gap-4">
+                <AlertCircle className="w-8 h-8 text-primary flex-shrink-0" />
+                <div className="space-y-4 flex-1">
+                  <div>
+                    <h3 className="text-lg font-semibold mb-2">Still Having Issues?</h3>
+                    <p className="text-sm text-muted-foreground">
+                      If the solutions above didn't resolve your problem, our support team is here to help. 
+                      Before contacting support, please gather the following information to speed up resolution:
+                    </p>
+                  </div>
+                  <ul className="space-y-2 text-sm">
+                    <li className="flex gap-2">
+                      <span className="text-primary">•</span>
+                      <p>Your account email address</p>
+                    </li>
+                    <li className="flex gap-2">
+                      <span className="text-primary">•</span>
+                      <p>Browser name and version (e.g., Chrome 120.0)</p>
+                    </li>
+                    <li className="flex gap-2">
+                      <span className="text-primary">•</span>
+                      <p>Screenshots of error messages or issues</p>
+                    </li>
+                    <li className="flex gap-2">
+                      <span className="text-primary">•</span>
+                      <p>Steps to reproduce the problem</p>
+                    </li>
+                    <li className="flex gap-2">
+                      <span className="text-primary">•</span>
+                      <p>Which troubleshooting steps you've already tried</p>
+                    </li>
+                  </ul>
+                  <div className="flex flex-col sm:flex-row gap-3 pt-2">
+                    <Link to="/help/contact-support/submit-request">
+                      <Button className="w-full sm:w-auto">
+                        <Send className="w-4 h-4 mr-2" />
+                        Submit Support Request
+                      </Button>
+                    </Link>
+                    <Link to="/help/contact-support/live-chat">
+                      <Button variant="outline" className="w-full sm:w-auto">
+                        <MessageCircle className="w-4 h-4 mr-2" />
+                        Start Live Chat
+                      </Button>
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </section>
+
+        {/* QA Checklist */}
+        <section>
+          <h2 className="text-2xl font-semibold mb-4">Quality Assurance Checklist</h2>
+          <Card>
+            <CardContent className="pt-6">
+              <div className="space-y-2">
+                <p className="font-medium mb-3 text-sm">Before Contacting Support, Verify:</p>
+                <div className="space-y-2">
+                  <label className="flex items-center gap-3 p-3 rounded-lg hover:bg-accent/50 transition-colors cursor-pointer">
+                    <input type="checkbox" className="w-4 h-4 rounded border-border" />
+                    <span className="text-sm">You're using a supported browser (Chrome, Firefox, Edge, Safari)</span>
+                  </label>
+                  <label className="flex items-center gap-3 p-3 rounded-lg hover:bg-accent/50 transition-colors cursor-pointer">
+                    <input type="checkbox" className="w-4 h-4 rounded border-border" />
+                    <span className="text-sm">Your browser is updated to the latest version</span>
+                  </label>
+                  <label className="flex items-center gap-3 p-3 rounded-lg hover:bg-accent/50 transition-colors cursor-pointer">
+                    <input type="checkbox" className="w-4 h-4 rounded border-border" />
+                    <span className="text-sm">You've cleared browser cache and cookies</span>
+                  </label>
+                  <label className="flex items-center gap-3 p-3 rounded-lg hover:bg-accent/50 transition-colors cursor-pointer">
+                    <input type="checkbox" className="w-4 h-4 rounded border-border" />
+                    <span className="text-sm">You've tried accessing in incognito/private mode</span>
+                  </label>
+                  <label className="flex items-center gap-3 p-3 rounded-lg hover:bg-accent/50 transition-colors cursor-pointer">
+                    <input type="checkbox" className="w-4 h-4 rounded border-border" />
+                    <span className="text-sm">Your internet connection is stable</span>
+                  </label>
+                  <label className="flex items-center gap-3 p-3 rounded-lg hover:bg-accent/50 transition-colors cursor-pointer">
+                    <input type="checkbox" className="w-4 h-4 rounded border-border" />
+                    <span className="text-sm">You've disabled browser extensions temporarily</span>
+                  </label>
+                  <label className="flex items-center gap-3 p-3 rounded-lg hover:bg-accent/50 transition-colors cursor-pointer">
+                    <input type="checkbox" className="w-4 h-4 rounded border-border" />
+                    <span className="text-sm">Content is visible and readable in both light and dark modes</span>
+                  </label>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </section>
+
+        <Alert>
+          <RefreshCw className="h-4 w-4" />
+          <AlertDescription>
+            <strong>Pro Tip:</strong> Most technical issues (approximately 80%) can be resolved by clearing cache and restarting your browser. Always try this first!
           </AlertDescription>
         </Alert>
       </div>
