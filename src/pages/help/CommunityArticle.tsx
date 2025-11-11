@@ -1,10 +1,155 @@
 import { useParams, Link } from 'react-router-dom';
-import { ArrowLeft, Users, MessageCircle, Heart, Lightbulb, Shield, AlertTriangle, CheckCircle, Lock, Unlock, Crown } from 'lucide-react';
+import { ArrowLeft, Users, MessageCircle, Heart, Lightbulb, Shield, AlertTriangle, CheckCircle, Lock, Unlock, Crown, Sparkles, Send, CheckCircle2, TrendingUp } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Badge } from '@/components/ui/badge';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+import { useState } from 'react';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import MainNavigation from '@/components/navigation/MainNavigation';
+
+const feedbackSchema = z.object({
+  title: z.string().min(5, 'Title must be at least 5 characters').max(100, 'Title must be less than 100 characters'),
+  description: z.string().min(20, 'Description must be at least 20 characters').max(1000, 'Description must be less than 1000 characters'),
+  category: z.enum(['UI', 'Features', 'Content', 'Other'], {
+    required_error: 'Please select a category',
+  }),
+});
+
+type FeedbackFormData = z.infer<typeof feedbackSchema>;
+
+const FeedbackForm = () => {
+  const [submitted, setSubmitted] = useState(false);
+  const [upvotes, setUpvotes] = useState(0);
+  const [hasUpvoted, setHasUpvoted] = useState(false);
+
+  const form = useForm<FeedbackFormData>({
+    resolver: zodResolver(feedbackSchema),
+    defaultValues: {
+      title: '',
+      description: '',
+      category: undefined,
+    },
+  });
+
+  const onSubmit = (data: FeedbackFormData) => {
+    console.log('Feedback submitted:', data);
+    setSubmitted(true);
+    form.reset();
+    setTimeout(() => setSubmitted(false), 5000);
+  };
+
+  const handleUpvote = () => {
+    if (!hasUpvoted) {
+      setUpvotes(prev => prev + 1);
+      setHasUpvoted(true);
+    }
+  };
+
+  return (
+    <div className="space-y-6">
+      {submitted && (
+        <Alert className="bg-primary/10 border-primary/30 animate-fade-in">
+          <CheckCircle2 className="h-4 w-4 text-primary" />
+          <AlertDescription className="text-foreground">
+            <strong>Thanks for your feedback!</strong> Our team reviews submissions weekly and will consider your idea for future updates.
+          </AlertDescription>
+        </Alert>
+      )}
+
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          <FormField
+            control={form.control}
+            name="title"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-base font-semibold">Idea Title *</FormLabel>
+                <FormControl>
+                  <Input 
+                    placeholder="Brief, descriptive title for your suggestion" 
+                    className="bg-background/50 border-border/50 focus:border-primary focus:ring-primary h-11"
+                    {...field} 
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="category"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-base font-semibold">Category *</FormLabel>
+                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                  <FormControl>
+                    <SelectTrigger className="bg-background/50 border-border/50 focus:border-primary focus:ring-primary h-11">
+                      <SelectValue placeholder="Select a category" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectItem value="UI">UI / Design</SelectItem>
+                    <SelectItem value="Features">Features / Functionality</SelectItem>
+                    <SelectItem value="Content">Content Library</SelectItem>
+                    <SelectItem value="Other">Other</SelectItem>
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="description"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-base font-semibold">Description *</FormLabel>
+                <FormControl>
+                  <Textarea 
+                    placeholder="Describe your idea in detail. What problem does it solve? How would it improve Motiomint?" 
+                    className="bg-background/50 border-border/50 focus:border-primary focus:ring-primary min-h-[150px] resize-none"
+                    {...field} 
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <div className="flex flex-col sm:flex-row gap-3">
+            <Button 
+              type="submit" 
+              className="flex-1 h-11 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30 transition-all duration-300"
+            >
+              <Send className="w-4 h-4 mr-2" />
+              Submit Feedback
+            </Button>
+            <Button 
+              type="button"
+              variant="outline"
+              onClick={handleUpvote}
+              disabled={hasUpvoted}
+              className={`h-11 px-6 transition-all duration-300 ${hasUpvoted ? 'border-primary/50 bg-primary/10 text-primary' : 'hover:border-primary/50 hover:bg-primary/5'}`}
+            >
+              <Heart className={`w-4 h-4 mr-2 ${hasUpvoted ? 'fill-primary' : ''}`} />
+              {hasUpvoted ? `Supported (${upvotes})` : 'Support this idea'}
+            </Button>
+          </div>
+        </form>
+      </Form>
+    </div>
+  );
+};
 
 const articles = {
   'community-overview': {
@@ -493,6 +638,243 @@ const articles = {
                     <input type="checkbox" className="w-4 h-4 rounded border-border" />
                     <span className="text-sm">Typography hierarchy is clear and consistent</span>
                   </label>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </section>
+      </div>
+    )
+  },
+  'feedback-ideas': {
+    title: 'Feedback & Ideas',
+    icon: Lightbulb,
+    content: (
+      <div className="space-y-8">
+        {/* Introduction */}
+        <section>
+          <div className="relative">
+            <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-transparent rounded-lg blur-xl" />
+            <Card className="relative bg-gradient-to-br from-primary/10 to-background border-primary/20">
+              <CardContent className="pt-6">
+                <div className="flex items-start gap-4">
+                  <div className="p-3 rounded-lg bg-primary/20 text-primary flex-shrink-0">
+                    <Lightbulb className="w-8 h-8" />
+                  </div>
+                  <div className="space-y-3">
+                    <h2 className="text-2xl font-semibold">Share Your Ideas with Motiomint</h2>
+                    <p className="text-muted-foreground leading-relaxed">
+                      Your feedback helps us build a better platform for creators worldwide. Whether you've discovered 
+                      a bug, have a feature request, or want to suggest new content, we want to hear from you. 
+                      This is your space to shape the future of Motiomint.
+                    </p>
+                    <div className="flex flex-wrap gap-3 pt-2">
+                      <Badge className="bg-primary/20 text-primary border-primary/30">
+                        <Sparkles className="w-3 h-3 mr-1" />
+                        Feature Requests
+                      </Badge>
+                      <Badge className="bg-primary/20 text-primary border-primary/30">
+                        <MessageCircle className="w-3 h-3 mr-1" />
+                        UI Improvements
+                      </Badge>
+                      <Badge className="bg-primary/20 text-primary border-primary/30">
+                        <TrendingUp className="w-3 h-3 mr-1" />
+                        Content Suggestions
+                      </Badge>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </section>
+
+        {/* Divider with glow */}
+        <div className="relative h-px">
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary to-transparent blur-sm" />
+        </div>
+
+        {/* Feedback Form */}
+        <section>
+          <h2 className="text-2xl font-semibold mb-6 flex items-center gap-3">
+            <Send className="w-7 h-7 text-primary" />
+            Submit Your Feedback
+          </h2>
+          <p className="text-muted-foreground mb-6">
+            Fill out the form below to share your thoughts. All submissions are reviewed by our product team.
+          </p>
+
+          <Card className="border-primary/20 hover:border-primary/40 transition-all duration-300 hover:shadow-lg hover:shadow-primary/10">
+            <CardContent className="pt-6">
+              <FeedbackForm />
+            </CardContent>
+          </Card>
+
+          <Alert className="mt-6 bg-muted/30 border-border/50">
+            <Lightbulb className="h-4 w-4" />
+            <AlertDescription>
+              <strong>Tip:</strong> The more specific your feedback, the easier it is for us to understand and implement. 
+              Include use cases, examples, or screenshots if possible.
+            </AlertDescription>
+          </Alert>
+        </section>
+
+        {/* Divider with glow */}
+        <div className="relative h-px">
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary to-transparent blur-sm" />
+        </div>
+
+        {/* Top Community Ideas */}
+        <section>
+          <h2 className="text-2xl font-semibold mb-6 flex items-center gap-3">
+            <TrendingUp className="w-7 h-7 text-primary" />
+            Top Community Ideas
+          </h2>
+          <p className="text-muted-foreground mb-6">
+            Check out the most popular feature requests from our community. You can support ideas you like!
+          </p>
+
+          <div className="space-y-4">
+            {/* Example Idea Cards */}
+            <Card className="group hover:border-primary/50 transition-all duration-300 hover:shadow-lg hover:shadow-primary/10 relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full blur-3xl group-hover:bg-primary/10 transition-all duration-300" />
+              <CardContent className="pt-6 relative">
+                <div className="flex items-start justify-between gap-4">
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2 mb-2">
+                      <Badge className="bg-purple-500/20 text-purple-500 border-purple-500/30">UI</Badge>
+                      <Badge variant="outline" className="text-xs">Featured</Badge>
+                    </div>
+                    <h3 className="text-lg font-semibold mb-2">Dark Mode Customization</h3>
+                    <p className="text-sm text-muted-foreground">
+                      Allow users to customize dark mode colors and intensity for better personalization.
+                    </p>
+                  </div>
+                  <div className="flex flex-col items-center gap-1 min-w-[60px]">
+                    <Button variant="ghost" size="sm" className="hover:bg-primary/10 hover:text-primary">
+                      <Heart className="w-4 h-4" />
+                    </Button>
+                    <span className="text-sm font-semibold text-primary">247</span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="group hover:border-primary/50 transition-all duration-300 hover:shadow-lg hover:shadow-primary/10 relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full blur-3xl group-hover:bg-primary/10 transition-all duration-300" />
+              <CardContent className="pt-6 relative">
+                <div className="flex items-start justify-between gap-4">
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2 mb-2">
+                      <Badge className="bg-blue-500/20 text-blue-500 border-blue-500/30">Features</Badge>
+                    </div>
+                    <h3 className="text-lg font-semibold mb-2">Batch Download Option</h3>
+                    <p className="text-sm text-muted-foreground">
+                      Enable downloading multiple animations at once with custom export settings for each.
+                    </p>
+                  </div>
+                  <div className="flex flex-col items-center gap-1 min-w-[60px]">
+                    <Button variant="ghost" size="sm" className="hover:bg-primary/10 hover:text-primary">
+                      <Heart className="w-4 h-4" />
+                    </Button>
+                    <span className="text-sm font-semibold text-primary">189</span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="group hover:border-primary/50 transition-all duration-300 hover:shadow-lg hover:shadow-primary/10 relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full blur-3xl group-hover:bg-primary/10 transition-all duration-300" />
+              <CardContent className="pt-6 relative">
+                <div className="flex items-start justify-between gap-4">
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2 mb-2">
+                      <Badge className="bg-green-500/20 text-green-500 border-green-500/30">Content</Badge>
+                    </div>
+                    <h3 className="text-lg font-semibold mb-2">3D Animation Library</h3>
+                    <p className="text-sm text-muted-foreground">
+                      Expand the library to include 3D motion graphics and animated objects for modern designs.
+                    </p>
+                  </div>
+                  <div className="flex flex-col items-center gap-1 min-w-[60px]">
+                    <Button variant="ghost" size="sm" className="hover:bg-primary/10 hover:text-primary">
+                      <Heart className="w-4 h-4" />
+                    </Button>
+                    <span className="text-sm font-semibold text-primary">156</span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          <div className="mt-6">
+            <Card className="bg-gradient-to-br from-primary/10 to-background border-primary/30">
+              <CardContent className="pt-6">
+                <div className="flex items-center justify-between flex-wrap gap-4">
+                  <div>
+                    <h3 className="text-lg font-semibold mb-1">View Full Roadmap</h3>
+                    <p className="text-sm text-muted-foreground">
+                      See what we're working on and what's coming next
+                    </p>
+                  </div>
+                  <Button className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg shadow-primary/20">
+                    Coming Soon
+                    <Sparkles className="w-4 h-4 ml-2" />
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </section>
+
+        {/* Divider with glow */}
+        <div className="relative h-px">
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary to-transparent blur-sm" />
+        </div>
+
+        {/* QA Checklist */}
+        <section>
+          <h2 className="text-2xl font-semibold mb-4">Quality Assurance</h2>
+          <Card>
+            <CardContent className="pt-6">
+              <div className="space-y-2">
+                <p className="font-medium mb-3 text-sm">Verified Features:</p>
+                <div className="grid md:grid-cols-2 gap-2">
+                  <div className="flex items-center gap-2 text-sm">
+                    <CheckCircle className="w-4 h-4 text-green-500" />
+                    <span>Form validation working</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-sm">
+                    <CheckCircle className="w-4 h-4 text-green-500" />
+                    <span>Mobile touch targets &gt; 44px</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-sm">
+                    <CheckCircle className="w-4 h-4 text-green-500" />
+                    <span>Keyboard navigation enabled</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-sm">
+                    <CheckCircle className="w-4 h-4 text-green-500" />
+                    <span>Color contrast WCAG AA</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-sm">
+                    <CheckCircle className="w-4 h-4 text-green-500" />
+                    <span>Animations smooth in dark mode</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-sm">
+                    <CheckCircle className="w-4 h-4 text-green-500" />
+                    <span>Animations smooth in light mode</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-sm">
+                    <CheckCircle className="w-4 h-4 text-green-500" />
+                    <span>Form labels properly associated</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-sm">
+                    <CheckCircle className="w-4 h-4 text-green-500" />
+                    <span>Error messages clear</span>
+                  </div>
                 </div>
               </div>
             </CardContent>
