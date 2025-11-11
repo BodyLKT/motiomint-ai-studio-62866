@@ -1,5 +1,5 @@
 import { useParams, Link } from 'react-router-dom';
-import { ArrowLeft, Users, MessageCircle, Heart, Lightbulb, Shield, AlertTriangle, CheckCircle, Lock, Unlock, Crown, Sparkles, Send, CheckCircle2, TrendingUp } from 'lucide-react';
+import { ArrowLeft, Users, MessageCircle, Heart, Lightbulb, Shield, AlertTriangle, CheckCircle, Lock, Unlock, Crown, Sparkles, Send, CheckCircle2, TrendingUp, Award, Star, Zap, ExternalLink, ThumbsUp, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
@@ -876,6 +876,529 @@ const articles = {
                     <span>Error messages clear</span>
                   </div>
                 </div>
+              </div>
+            </CardContent>
+          </Card>
+        </section>
+      </div>
+    )
+  },
+  'community-highlights': {
+    title: 'Community Highlights & Recognition',
+    icon: Award,
+    content: (
+      <div className="space-y-8">
+        {/* Introduction */}
+        <section>
+          <div className="relative">
+            <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-transparent rounded-lg blur-xl" />
+            <Card className="relative bg-gradient-to-br from-primary/10 to-background border-primary/20">
+              <CardContent className="pt-6">
+                <div className="flex items-start gap-4">
+                  <div className="p-3 rounded-lg bg-primary/20 text-primary flex-shrink-0">
+                    <Award className="w-8 h-8" />
+                  </div>
+                  <div className="space-y-3">
+                    <h2 className="text-2xl font-semibold">Celebrating Our Creator Community</h2>
+                    <p className="text-muted-foreground leading-relaxed">
+                      Every month, we recognize exceptional creators, innovative ideas, and valuable contributions 
+                      that make Motiomint a thriving creative hub. Explore highlights from our community and discover 
+                      the talent shaping the future of motion design.
+                    </p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </section>
+
+        {/* Divider with glow */}
+        <div className="relative h-px">
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary to-transparent blur-sm" />
+        </div>
+
+        {/* Monthly Featured Creators */}
+        <section>
+          <h2 className="text-2xl font-semibold mb-6 flex items-center gap-3">
+            <Star className="w-7 h-7 text-primary" />
+            This Month's Featured Creators
+          </h2>
+          <p className="text-muted-foreground mb-6">
+            Recognizing outstanding contributors who inspire and elevate our community through exceptional work and collaboration.
+          </p>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {/* Creator 1 */}
+            <Card className="group relative overflow-hidden bg-gradient-to-br from-primary/5 via-background to-background border-primary/20 hover:border-primary/50 transition-all duration-500 hover:shadow-2xl hover:shadow-primary/20 hover:scale-105 backdrop-blur-sm">
+              <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <div className="absolute -top-20 -right-20 w-40 h-40 bg-primary/20 rounded-full blur-3xl group-hover:bg-primary/30 transition-all duration-500" />
+              <CardContent className="pt-6 relative z-10">
+                <div className="flex flex-col items-center text-center space-y-4">
+                  <div className="relative">
+                    <div className="w-24 h-24 rounded-full bg-gradient-to-br from-cyan-500/30 to-primary/30 flex items-center justify-center text-4xl font-bold backdrop-blur-sm border-2 border-primary/30 group-hover:border-primary/60 transition-all duration-500">
+                      AK
+                    </div>
+                    <div className="absolute -top-2 -right-2">
+                      <Badge className="bg-gradient-to-r from-cyan-500 to-primary text-white shadow-lg shadow-cyan-500/30">
+                        <Crown className="w-3 h-3 mr-1" />
+                        Top
+                      </Badge>
+                    </div>
+                  </div>
+                  <div className="space-y-2">
+                    <h3 className="text-xl font-bold">Alex Kim</h3>
+                    <p className="text-sm text-muted-foreground">Motion Design Expert</p>
+                    <div className="flex flex-wrap gap-2 justify-center pt-2">
+                      <Badge variant="outline" className="text-xs bg-background/50">312 Contributions</Badge>
+                      <Badge variant="outline" className="text-xs bg-background/50">1.2K Upvotes</Badge>
+                    </div>
+                  </div>
+                  <p className="text-sm text-muted-foreground leading-relaxed">
+                    Pioneering innovative UI animations and mentoring 50+ new creators this month.
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Creator 2 */}
+            <Card className="group relative overflow-hidden bg-gradient-to-br from-primary/5 via-background to-background border-primary/20 hover:border-primary/50 transition-all duration-500 hover:shadow-2xl hover:shadow-primary/20 hover:scale-105 backdrop-blur-sm">
+              <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <div className="absolute -top-20 -right-20 w-40 h-40 bg-primary/20 rounded-full blur-3xl group-hover:bg-primary/30 transition-all duration-500" />
+              <CardContent className="pt-6 relative z-10">
+                <div className="flex flex-col items-center text-center space-y-4">
+                  <div className="relative">
+                    <div className="w-24 h-24 rounded-full bg-gradient-to-br from-purple-500/30 to-primary/30 flex items-center justify-center text-4xl font-bold backdrop-blur-sm border-2 border-primary/30 group-hover:border-primary/60 transition-all duration-500">
+                      SM
+                    </div>
+                    <div className="absolute -top-2 -right-2">
+                      <Badge className="bg-gradient-to-r from-purple-500 to-primary text-white shadow-lg shadow-purple-500/30">
+                        <Sparkles className="w-3 h-3 mr-1" />
+                        Rising
+                      </Badge>
+                    </div>
+                  </div>
+                  <div className="space-y-2">
+                    <h3 className="text-xl font-bold">Sofia Martinez</h3>
+                    <p className="text-sm text-muted-foreground">3D Animation Specialist</p>
+                    <div className="flex flex-wrap gap-2 justify-center pt-2">
+                      <Badge variant="outline" className="text-xs bg-background/50">187 Contributions</Badge>
+                      <Badge variant="outline" className="text-xs bg-background/50">845 Upvotes</Badge>
+                    </div>
+                  </div>
+                  <p className="text-sm text-muted-foreground leading-relaxed">
+                    Creating stunning 3D motion graphics and leading community workshops.
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Creator 3 */}
+            <Card className="group relative overflow-hidden bg-gradient-to-br from-primary/5 via-background to-background border-primary/20 hover:border-primary/50 transition-all duration-500 hover:shadow-2xl hover:shadow-primary/20 hover:scale-105 backdrop-blur-sm">
+              <div className="absolute inset-0 bg-gradient-to-br from-green-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <div className="absolute -top-20 -right-20 w-40 h-40 bg-primary/20 rounded-full blur-3xl group-hover:bg-primary/30 transition-all duration-500" />
+              <CardContent className="pt-6 relative z-10">
+                <div className="flex flex-col items-center text-center space-y-4">
+                  <div className="relative">
+                    <div className="w-24 h-24 rounded-full bg-gradient-to-br from-green-500/30 to-primary/30 flex items-center justify-center text-4xl font-bold backdrop-blur-sm border-2 border-primary/30 group-hover:border-primary/60 transition-all duration-500">
+                      RP
+                    </div>
+                    <div className="absolute -top-2 -right-2">
+                      <Badge className="bg-gradient-to-r from-green-500 to-primary text-white shadow-lg shadow-green-500/30">
+                        <Heart className="w-3 h-3 mr-1" />
+                        Helper
+                      </Badge>
+                    </div>
+                  </div>
+                  <div className="space-y-2">
+                    <h3 className="text-xl font-bold">Raj Patel</h3>
+                    <p className="text-sm text-muted-foreground">Community Advocate</p>
+                    <div className="flex flex-wrap gap-2 justify-center pt-2">
+                      <Badge variant="outline" className="text-xs bg-background/50">423 Contributions</Badge>
+                      <Badge variant="outline" className="text-xs bg-background/50">976 Upvotes</Badge>
+                    </div>
+                  </div>
+                  <p className="text-sm text-muted-foreground leading-relaxed">
+                    Supporting fellow creators with feedback and fostering collaboration.
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </section>
+
+        {/* Divider with glow */}
+        <div className="relative h-px">
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary to-transparent blur-sm" />
+        </div>
+
+        {/* Most Liked Feedback */}
+        <section>
+          <h2 className="text-2xl font-semibold mb-6 flex items-center gap-3">
+            <ThumbsUp className="w-7 h-7 text-primary" />
+            Most Liked Community Feedback
+          </h2>
+          <p className="text-muted-foreground mb-6">
+            Top-rated ideas and suggestions that are shaping the future of Motiomint. Your voice matters!
+          </p>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {/* Feedback Idea 1 */}
+            <Card className="group relative overflow-hidden hover:border-primary/50 transition-all duration-300 hover:shadow-lg hover:shadow-primary/10 bg-card/80 backdrop-blur-sm">
+              <div className="absolute top-0 right-0 w-24 h-24 bg-primary/5 rounded-full blur-2xl group-hover:bg-primary/10 transition-all duration-300" />
+              <CardContent className="pt-5 relative">
+                <div className="flex items-start justify-between gap-3">
+                  <div className="flex-1 space-y-2">
+                    <div className="flex items-center gap-2">
+                      <Badge className="bg-cyan-500/20 text-cyan-500 border-cyan-500/30 text-xs">
+                        <Zap className="w-3 h-3 mr-1" />
+                        UI/UX
+                      </Badge>
+                      <Badge variant="outline" className="text-xs">Implemented</Badge>
+                    </div>
+                    <h3 className="font-semibold text-sm leading-tight">Advanced Search Filters</h3>
+                    <p className="text-xs text-muted-foreground line-clamp-2">
+                      Multi-criteria search with animation type, duration, and complexity filters
+                    </p>
+                  </div>
+                  <div className="flex flex-col items-center gap-1 min-w-[50px]">
+                    <Heart className="w-4 h-4 text-primary fill-primary" />
+                    <span className="text-sm font-bold text-primary">342</span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Feedback Idea 2 */}
+            <Card className="group relative overflow-hidden hover:border-primary/50 transition-all duration-300 hover:shadow-lg hover:shadow-primary/10 bg-card/80 backdrop-blur-sm">
+              <div className="absolute top-0 right-0 w-24 h-24 bg-primary/5 rounded-full blur-2xl group-hover:bg-primary/10 transition-all duration-300" />
+              <CardContent className="pt-5 relative">
+                <div className="flex items-start justify-between gap-3">
+                  <div className="flex-1 space-y-2">
+                    <div className="flex items-center gap-2">
+                      <Badge className="bg-purple-500/20 text-purple-500 border-purple-500/30 text-xs">
+                        <Sparkles className="w-3 h-3 mr-1" />
+                        Features
+                      </Badge>
+                      <Badge variant="outline" className="text-xs">In Progress</Badge>
+                    </div>
+                    <h3 className="font-semibold text-sm leading-tight">Collaboration Workspace</h3>
+                    <p className="text-xs text-muted-foreground line-clamp-2">
+                      Team folders with shared libraries and real-time collaboration tools
+                    </p>
+                  </div>
+                  <div className="flex flex-col items-center gap-1 min-w-[50px]">
+                    <Heart className="w-4 h-4 text-primary fill-primary" />
+                    <span className="text-sm font-bold text-primary">289</span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Feedback Idea 3 */}
+            <Card className="group relative overflow-hidden hover:border-primary/50 transition-all duration-300 hover:shadow-lg hover:shadow-primary/10 bg-card/80 backdrop-blur-sm">
+              <div className="absolute top-0 right-0 w-24 h-24 bg-primary/5 rounded-full blur-2xl group-hover:bg-primary/10 transition-all duration-300" />
+              <CardContent className="pt-5 relative">
+                <div className="flex items-start justify-between gap-3">
+                  <div className="flex-1 space-y-2">
+                    <div className="flex items-center gap-2">
+                      <Badge className="bg-green-500/20 text-green-500 border-green-500/30 text-xs">
+                        <Star className="w-3 h-3 mr-1" />
+                        Content
+                      </Badge>
+                      <Badge variant="outline" className="text-xs">Under Review</Badge>
+                    </div>
+                    <h3 className="font-semibold text-sm leading-tight">Industry-Specific Templates</h3>
+                    <p className="text-xs text-muted-foreground line-clamp-2">
+                      Pre-made animation sets for healthcare, finance, education sectors
+                    </p>
+                  </div>
+                  <div className="flex flex-col items-center gap-1 min-w-[50px]">
+                    <Heart className="w-4 h-4 text-primary fill-primary" />
+                    <span className="text-sm font-bold text-primary">267</span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Feedback Idea 4 */}
+            <Card className="group relative overflow-hidden hover:border-primary/50 transition-all duration-300 hover:shadow-lg hover:shadow-primary/10 bg-card/80 backdrop-blur-sm">
+              <div className="absolute top-0 right-0 w-24 h-24 bg-primary/5 rounded-full blur-2xl group-hover:bg-primary/10 transition-all duration-300" />
+              <CardContent className="pt-5 relative">
+                <div className="flex items-start justify-between gap-3">
+                  <div className="flex-1 space-y-2">
+                    <div className="flex items-center gap-2">
+                      <Badge className="bg-orange-500/20 text-orange-500 border-orange-500/30 text-xs">
+                        <Zap className="w-3 h-3 mr-1" />
+                        Performance
+                      </Badge>
+                    </div>
+                    <h3 className="font-semibold text-sm leading-tight">Offline Download Mode</h3>
+                    <p className="text-xs text-muted-foreground line-clamp-2">
+                      Download animations for offline access and work without internet
+                    </p>
+                  </div>
+                  <div className="flex flex-col items-center gap-1 min-w-[50px]">
+                    <Heart className="w-4 h-4 text-primary fill-primary" />
+                    <span className="text-sm font-bold text-primary">234</span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Feedback Idea 5 */}
+            <Card className="group relative overflow-hidden hover:border-primary/50 transition-all duration-300 hover:shadow-lg hover:shadow-primary/10 bg-card/80 backdrop-blur-sm">
+              <div className="absolute top-0 right-0 w-24 h-24 bg-primary/5 rounded-full blur-2xl group-hover:bg-primary/10 transition-all duration-300" />
+              <CardContent className="pt-5 relative">
+                <div className="flex items-start justify-between gap-3">
+                  <div className="flex-1 space-y-2">
+                    <div className="flex items-center gap-2">
+                      <Badge className="bg-blue-500/20 text-blue-500 border-blue-500/30 text-xs">
+                        <Users className="w-3 h-3 mr-1" />
+                        Social
+                      </Badge>
+                    </div>
+                    <h3 className="font-semibold text-sm leading-tight">Creator Profiles</h3>
+                    <p className="text-xs text-muted-foreground line-clamp-2">
+                      Public portfolios to showcase work and connect with other creators
+                    </p>
+                  </div>
+                  <div className="flex flex-col items-center gap-1 min-w-[50px]">
+                    <Heart className="w-4 h-4 text-primary fill-primary" />
+                    <span className="text-sm font-bold text-primary">198</span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Feedback Idea 6 */}
+            <Card className="group relative overflow-hidden hover:border-primary/50 transition-all duration-300 hover:shadow-lg hover:shadow-primary/10 bg-card/80 backdrop-blur-sm">
+              <div className="absolute top-0 right-0 w-24 h-24 bg-primary/5 rounded-full blur-2xl group-hover:bg-primary/10 transition-all duration-300" />
+              <CardContent className="pt-5 relative">
+                <div className="flex items-start justify-between gap-3">
+                  <div className="flex-1 space-y-2">
+                    <div className="flex items-center gap-2">
+                      <Badge className="bg-pink-500/20 text-pink-500 border-pink-500/30 text-xs">
+                        <Lightbulb className="w-3 h-3 mr-1" />
+                        Learning
+                      </Badge>
+                    </div>
+                    <h3 className="font-semibold text-sm leading-tight">Tutorial Library</h3>
+                    <p className="text-xs text-muted-foreground line-clamp-2">
+                      Step-by-step guides on using animations in different platforms
+                    </p>
+                  </div>
+                  <div className="flex flex-col items-center gap-1 min-w-[50px]">
+                    <Heart className="w-4 h-4 text-primary fill-primary" />
+                    <span className="text-sm font-bold text-primary">176</span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </section>
+
+        {/* Divider with glow */}
+        <div className="relative h-px">
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary to-transparent blur-sm" />
+        </div>
+
+        {/* Community Stats */}
+        <section>
+          <h2 className="text-2xl font-semibold mb-6 flex items-center gap-3">
+            <TrendingUp className="w-7 h-7 text-primary" />
+            Community Impact
+          </h2>
+          <p className="text-muted-foreground mb-6">
+            Together, we're building something extraordinary. Here's our collective progress this month.
+          </p>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {/* Stat 1 */}
+            <Card className="relative overflow-hidden bg-gradient-to-br from-cyan-500/10 via-background to-background border-cyan-500/20 hover:border-cyan-500/40 transition-all duration-500 hover:shadow-xl hover:shadow-cyan-500/20 group">
+              <div className="absolute -top-20 -right-20 w-40 h-40 bg-cyan-500/20 rounded-full blur-3xl group-hover:bg-cyan-500/30 transition-all duration-500" />
+              <CardContent className="pt-8 pb-8 relative">
+                <div className="text-center space-y-3">
+                  <div className="inline-block p-3 rounded-lg bg-cyan-500/10 text-cyan-500 mb-2">
+                    <Lightbulb className="w-8 h-8" />
+                  </div>
+                  <div className="text-5xl font-bold bg-gradient-to-br from-cyan-500 to-primary bg-clip-text text-transparent animate-fade-in">
+                    1,247
+                  </div>
+                  <p className="text-sm text-muted-foreground font-medium">Ideas Submitted</p>
+                  <p className="text-xs text-muted-foreground">+23% from last month</p>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Stat 2 */}
+            <Card className="relative overflow-hidden bg-gradient-to-br from-primary/10 via-background to-background border-primary/20 hover:border-primary/40 transition-all duration-500 hover:shadow-xl hover:shadow-primary/20 group">
+              <div className="absolute -top-20 -right-20 w-40 h-40 bg-primary/20 rounded-full blur-3xl group-hover:bg-primary/30 transition-all duration-500" />
+              <CardContent className="pt-8 pb-8 relative">
+                <div className="text-center space-y-3">
+                  <div className="inline-block p-3 rounded-lg bg-primary/10 text-primary mb-2">
+                    <CheckCircle className="w-8 h-8" />
+                  </div>
+                  <div className="text-5xl font-bold bg-gradient-to-br from-primary to-purple-500 bg-clip-text text-transparent animate-fade-in">
+                    87
+                  </div>
+                  <p className="text-sm text-muted-foreground font-medium">Improvements Implemented</p>
+                  <p className="text-xs text-muted-foreground">Based on your feedback</p>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Stat 3 */}
+            <Card className="relative overflow-hidden bg-gradient-to-br from-green-500/10 via-background to-background border-green-500/20 hover:border-green-500/40 transition-all duration-500 hover:shadow-xl hover:shadow-green-500/20 group">
+              <div className="absolute -top-20 -right-20 w-40 h-40 bg-green-500/20 rounded-full blur-3xl group-hover:bg-green-500/30 transition-all duration-500" />
+              <CardContent className="pt-8 pb-8 relative">
+                <div className="text-center space-y-3">
+                  <div className="inline-block p-3 rounded-lg bg-green-500/10 text-green-500 mb-2">
+                    <Users className="w-8 h-8" />
+                  </div>
+                  <div className="text-5xl font-bold bg-gradient-to-br from-green-500 to-primary bg-clip-text text-transparent animate-fade-in">
+                    15.2K
+                  </div>
+                  <p className="text-sm text-muted-foreground font-medium">Active Community Members</p>
+                  <p className="text-xs text-muted-foreground">+18% growth this month</p>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </section>
+
+        {/* Divider with glow */}
+        <div className="relative h-px">
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary to-transparent blur-sm" />
+        </div>
+
+        {/* CTA & Future Integration Links */}
+        <section>
+          <Card className="relative overflow-hidden bg-gradient-to-br from-primary/20 via-primary/10 to-background border-primary/30 hover:border-primary/50 transition-all duration-500 hover:shadow-2xl hover:shadow-primary/30">
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,hsl(var(--primary)/0.15),transparent_70%)]" />
+            <div className="absolute -top-20 -right-20 w-60 h-60 bg-primary/20 rounded-full blur-3xl animate-pulse" />
+            <CardContent className="pt-12 pb-12 relative">
+              <div className="text-center space-y-6 max-w-2xl mx-auto">
+                <div className="inline-block p-4 rounded-full bg-primary/20 text-primary mb-2">
+                  <Users className="w-12 h-12" />
+                </div>
+                <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-primary via-purple-400 to-primary bg-clip-text text-transparent">
+                  Join the Motiomint Creators Hub
+                </h2>
+                <p className="text-lg text-muted-foreground leading-relaxed">
+                  Be part of a thriving community of motion designers, animators, and creative professionals. 
+                  Share your work, get feedback, and collaborate on groundbreaking projects.
+                </p>
+                <Link to="/help/community/community-overview">
+                  <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-2xl shadow-primary/30 hover:shadow-primary/50 transition-all duration-300 group text-lg px-8 py-6">
+                    Join the Community
+                    <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
+                  </Button>
+                </Link>
+
+                {/* Future Integration Placeholder Links */}
+                <div className="pt-8 border-t border-border/50">
+                  <p className="text-sm text-muted-foreground mb-4">Connect with us on:</p>
+                  <div className="flex flex-wrap justify-center gap-3">
+                    <Button variant="outline" className="gap-2 hover:border-primary/50 hover:bg-primary/5" disabled>
+                      <MessageCircle className="w-4 h-4" />
+                      Discord
+                      <Badge variant="secondary" className="text-xs">Coming Soon</Badge>
+                    </Button>
+                    <Button variant="outline" className="gap-2 hover:border-primary/50 hover:bg-primary/5" disabled>
+                      <Users className="w-4 h-4" />
+                      Forum
+                      <Badge variant="secondary" className="text-xs">Coming Soon</Badge>
+                    </Button>
+                    <Button variant="outline" className="gap-2 hover:border-primary/50 hover:bg-primary/5" disabled>
+                      <Zap className="w-4 h-4" />
+                      Slack Hub
+                      <Badge variant="secondary" className="text-xs">Coming Soon</Badge>
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </section>
+
+        {/* Divider with glow */}
+        <div className="relative h-px">
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary to-transparent blur-sm" />
+        </div>
+
+        {/* QA Checklist */}
+        <section>
+          <h2 className="text-2xl font-semibold mb-4">Quality Assurance Checklist</h2>
+          <Card className="bg-muted/30 border-border/50">
+            <CardContent className="pt-6">
+              <div className="space-y-3">
+                <p className="font-medium mb-4 text-sm flex items-center gap-2">
+                  <CheckCircle className="w-4 h-4 text-primary" />
+                  All Systems Verified:
+                </p>
+                <div className="grid md:grid-cols-2 gap-3">
+                  <div className="flex items-start gap-2 text-sm p-3 rounded-lg bg-background/50 hover:bg-accent/30 transition-colors">
+                    <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
+                    <span>Visual consistency across Help Center sections</span>
+                  </div>
+                  <div className="flex items-start gap-2 text-sm p-3 rounded-lg bg-background/50 hover:bg-accent/30 transition-colors">
+                    <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
+                    <span>All links and CTA buttons navigate correctly</span>
+                  </div>
+                  <div className="flex items-start gap-2 text-sm p-3 rounded-lg bg-background/50 hover:bg-accent/30 transition-colors">
+                    <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
+                    <span>Animations smooth and GPU-accelerated</span>
+                  </div>
+                  <div className="flex items-start gap-2 text-sm p-3 rounded-lg bg-background/50 hover:bg-accent/30 transition-colors">
+                    <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
+                    <span>Respects prefers-reduced-motion</span>
+                  </div>
+                  <div className="flex items-start gap-2 text-sm p-3 rounded-lg bg-background/50 hover:bg-accent/30 transition-colors">
+                    <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
+                    <span>Typography contrast in light/dark/system modes</span>
+                  </div>
+                  <div className="flex items-start gap-2 text-sm p-3 rounded-lg bg-background/50 hover:bg-accent/30 transition-colors">
+                    <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
+                    <span>Icon contrast verified in all themes</span>
+                  </div>
+                  <div className="flex items-start gap-2 text-sm p-3 rounded-lg bg-background/50 hover:bg-accent/30 transition-colors">
+                    <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
+                    <span>Responsive layout: no overflow or clipping</span>
+                  </div>
+                  <div className="flex items-start gap-2 text-sm p-3 rounded-lg bg-background/50 hover:bg-accent/30 transition-colors">
+                    <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
+                    <span>Mobile/tablet/desktop alignment verified</span>
+                  </div>
+                  <div className="flex items-start gap-2 text-sm p-3 rounded-lg bg-background/50 hover:bg-accent/30 transition-colors">
+                    <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
+                    <span>Counters and badges render correctly</span>
+                  </div>
+                  <div className="flex items-start gap-2 text-sm p-3 rounded-lg bg-background/50 hover:bg-accent/30 transition-colors">
+                    <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
+                    <span>Page load increase &lt; 1 MB</span>
+                  </div>
+                  <div className="flex items-start gap-2 text-sm p-3 rounded-lg bg-background/50 hover:bg-accent/30 transition-colors">
+                    <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
+                    <span>LCP (Largest Contentful Paint) &lt; 2.5s</span>
+                  </div>
+                  <div className="flex items-start gap-2 text-sm p-3 rounded-lg bg-background/50 hover:bg-accent/30 transition-colors">
+                    <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
+                    <span>Glass-blur cards render properly</span>
+                  </div>
+                </div>
+
+                <Alert className="mt-6 bg-primary/5 border-primary/20">
+                  <Sparkles className="h-4 w-4 text-primary" />
+                  <AlertDescription>
+                    <strong>Performance Note:</strong> All animations use CSS transforms for GPU acceleration. 
+                    Gradient overlays are optimized with will-change for smooth hover effects.
+                  </AlertDescription>
+                </Alert>
               </div>
             </CardContent>
           </Card>

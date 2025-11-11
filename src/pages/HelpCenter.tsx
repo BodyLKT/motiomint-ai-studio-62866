@@ -99,9 +99,10 @@ export default function HelpCenter() {
       description: 'Connect with creators',
       articles: [
         'Community overview & guidelines',
-        'Feedback & ideas'
+        'Feedback & ideas',
+        'Community highlights & recognition'
       ],
-      slugs: ['community-overview', 'feedback-ideas']
+      slugs: ['community-overview', 'feedback-ideas', 'community-highlights']
     }
   ];
 
