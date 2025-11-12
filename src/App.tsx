@@ -22,6 +22,7 @@ import SubscriptionBillingArticle from "./pages/help/SubscriptionBillingArticle"
 import LicenseUsageArticle from "./pages/help/LicenseUsageArticle";
 import ContactSupportArticle from "./pages/help/ContactSupportArticle";
 import CommunityArticle from "./pages/help/CommunityArticle";
+import TermsArticle from "./pages/help/TermsArticle";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -44,7 +45,8 @@ const App = () => (
           <Route path="/help/license-usage/:slug" element={<LicenseUsageArticle />} />
           <Route path="/help/contact-support/:slug" element={<ContactSupportArticle />} />
           <Route path="/help/community/:slug" element={<CommunityArticle />} />
-              <Route 
+          <Route path="/help/terms-policies/:slug" element={<TermsArticle />} />
+              <Route
                 path="/dashboard" 
                 element={
                   <ProtectedRoute>
