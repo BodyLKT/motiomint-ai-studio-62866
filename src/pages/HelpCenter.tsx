@@ -103,6 +103,15 @@ export default function HelpCenter() {
         'Community highlights & recognition'
       ],
       slugs: ['community-overview', 'feedback-ideas', 'community-highlights']
+    },
+    {
+      icon: FileText,
+      title: 'Terms & Policies',
+      description: 'Legal information and policies',
+      articles: [
+        'Terms of Service'
+      ],
+      slugs: ['terms-of-service']
     }
   ];
 
@@ -210,6 +219,9 @@ export default function HelpCenter() {
                           } else if (category.title === 'Community' && category.slugs) {
                             articleSlug = category.slugs[idx];
                             basePath = '/help/community';
+                          } else if (category.title === 'Terms & Policies' && category.slugs) {
+                            articleSlug = category.slugs[idx];
+                            basePath = '/help/terms-policies';
                           }
                           
                           return (
