@@ -17,14 +17,14 @@ export default function SubscriptionBillingArticle() {
   }> = {
     'subscription-plans': {
       title: 'Subscription Plans Explained',
-      description: 'Learn about all available subscription plans and one-time packs',
+      description: 'Learn about all available subscription plans and One-Time Packs',
       content: (
         <div className="space-y-8">
           {/* Overview */}
           <section>
             <h2 className="text-2xl font-bold mb-4">Overview</h2>
             <p className="text-muted-foreground mb-4">
-              Motiomint offers flexible pricing options to suit every need. Choose between monthly subscriptions for ongoing access or one-time packs for specific projects.
+              Motiomint offers flexible pricing options to suit every need. Choose between monthly subscriptions for ongoing access or One-Time Packs for specific projects.
             </p>
           </section>
 
@@ -223,7 +223,7 @@ export default function SubscriptionBillingArticle() {
             <Alert className="mb-6">
               <Zap className="h-4 w-4" />
               <AlertDescription>
-                One-time packs are perfect for specific projects. No recurring charges, just pay once and download.
+                One-Time Packs are perfect for specific projects. No recurring charges, just pay once and download.
               </AlertDescription>
             </Alert>
             
@@ -933,7 +933,7 @@ export default function SubscriptionBillingArticle() {
                 </CardHeader>
                 <CardContent>
                   <p className="text-sm text-muted-foreground">
-                    One-time pack purchases are eligible for refunds within 7 days if no downloads have been made. Once you download even one animation, the pack is non-refundable.
+                    One-Time Pack purchases are eligible for refunds within 7 days if no downloads have been made. Once you download even one animation, the pack is non-refundable.
                   </p>
                 </CardContent>
               </Card>
@@ -1288,7 +1288,7 @@ export default function SubscriptionBillingArticle() {
                     </div>
                   </div>
                   <p className="text-xs text-muted-foreground mt-4 italic">
-                    Available for both subscriptions and one-time packs
+                    Available for both subscriptions and One-Time Packs
                   </p>
                 </CardContent>
               </Card>

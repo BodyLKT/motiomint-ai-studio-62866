@@ -1,4 +1,4 @@
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import { ArrowLeft, CheckCircle, Info, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -78,7 +78,7 @@ const articles = {
               Accept Terms & Conditions
             </h2>
             <p className="text-muted-foreground mb-4">
-              Review and accept our Terms of Service and Privacy Policy by checking the agreement box. These documents outline your rights and responsibilities as a Motiomint user.
+              Review and accept our <Link to="/help/terms-policies/terms-of-service" className="text-primary hover:underline">Terms of Service</Link> and <Link to="/help/terms-policies/privacy-policy" className="text-primary hover:underline">Privacy Policy</Link> by checking the agreement box. These documents outline your rights and responsibilities as a Motiomint user.
             </p>
           </section>
 

@@ -27,15 +27,15 @@ export default function LicenseUsageArticle() {
           {/* Introduction */}
           <div className="prose prose-slate dark:prose-invert max-w-none">
             <p className="text-lg text-muted-foreground">
-              Motiomint offers three distinct license types to suit different usage needs. Each license grants specific rights and comes with particular restrictions to ensure fair use and protect creators.
+              Motiomint offers three distinct license types to suit different usage needs. Each license grants specific rights and comes with particular restrictions to ensure fair use and protect AI-generated content creators.
             </p>
           </div>
 
           {/* Free License */}
           <Card className="border-2">
-            <CardHeader>
+              <CardHeader>
               <div className="flex items-center gap-3">
-                <div className="p-2 rounded-lg bg-blue-500/10 text-blue-500">
+                <div className="p-2 rounded-lg bg-primary/10 text-primary">
                   <Shield className="w-6 h-6" />
                 </div>
                 <div>

@@ -54,31 +54,31 @@ const articles = {
               </CardHeader>
               <CardContent>
                 <p className="text-sm text-muted-foreground">
-                  Standard response time for free plan users during business hours.
+                  Standard response time for Free Plan users during business hours.
                 </p>
               </CardContent>
             </Card>
             
             <Card>
               <CardHeader>
-                <Badge className="w-fit mb-2 bg-primary">Standard Plan</Badge>
+                <Badge className="w-fit mb-2 bg-primary">Starter & Pro Plans</Badge>
                 <CardTitle className="text-lg">24-48 Hours</CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-sm text-muted-foreground">
-                  Priority response for standard subscription members.
+                  Priority response for Starter and Pro subscription members.
                 </p>
               </CardContent>
             </Card>
             
             <Card>
               <CardHeader>
-                <Badge className="w-fit mb-2 bg-gradient-to-r from-primary to-primary/60">Extended Plan</Badge>
+                <Badge className="w-fit mb-2 bg-gradient-to-r from-primary to-primary/60">Mega Plan</Badge>
                 <CardTitle className="text-lg">12-24 Hours</CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-sm text-muted-foreground">
-                  Expedited support with the fastest response times available.
+                  Expedited support with the fastest response times available for Mega Plan subscribers.
                 </p>
               </CardContent>
             </Card>

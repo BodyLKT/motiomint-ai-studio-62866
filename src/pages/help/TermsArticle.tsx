@@ -769,7 +769,7 @@ const articlesData: Record<string, any> = {
                 </CardHeader>
                 <CardContent className="space-y-3 text-sm text-muted-foreground">
                   <p>
-                    <strong className="text-foreground">Attribution Not Required:</strong> If you have an active paid subscription (Pro, Business, or Enterprise), you are <strong className="text-primary">not required</strong> to provide attribution when using downloaded animations.
+                    <strong className="text-foreground">Attribution Not Required:</strong> If you have an active paid subscription (Starter, Basic, Pro, or Mega), you are <strong className="text-primary">not required</strong> to provide attribution when using downloaded animations.
                   </p>
                   <p>
                     <strong className="text-foreground">Optional Recognition:</strong> While not mandatory, we appreciate when creators mention Motiomint in their work, as it helps support our community and platform growth.

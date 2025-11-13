@@ -278,11 +278,11 @@ export default function HelpCenter() {
                   Our support team is here to help you. Get in touch and we'll respond as soon as possible.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                  <Button size="lg" className="gap-2">
+                  <Button size="lg" className="gap-2" onClick={() => navigate('/help/contact-support/submit-request')}>
                     <Mail className="w-5 h-5" />
                     Submit a Request
                   </Button>
-                  <Button size="lg" variant="outline" className="gap-2">
+                  <Button size="lg" variant="outline" className="gap-2" onClick={() => navigate('/help/contact-support/live-chat')}>
                     <MessageCircle className="w-5 h-5" />
                     Live Chat
                   </Button>
@@ -301,13 +301,13 @@ export default function HelpCenter() {
               <button onClick={() => navigate('/')} className="hover:text-primary transition-colors">
                 Home
               </button>
-              <button className="hover:text-primary transition-colors">
-                Terms of Use
+              <button onClick={() => navigate('/help/terms-policies/terms-of-service')} className="hover:text-primary transition-colors">
+                Terms of Service
               </button>
-              <button className="hover:text-primary transition-colors">
+              <button onClick={() => navigate('/help/terms-policies/privacy-policy')} className="hover:text-primary transition-colors">
                 Privacy Policy
               </button>
-              <button className="hover:text-primary transition-colors">
+              <button onClick={() => navigate('/help/contact-support/support-email')} className="hover:text-primary transition-colors">
                 Contact Us
               </button>
             </div>
