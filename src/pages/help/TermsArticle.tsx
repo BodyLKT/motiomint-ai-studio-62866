@@ -1,5 +1,5 @@
 import { useParams, Link } from 'react-router-dom';
-import { ArrowLeft, FileText, Scale, UserCheck, Shield, CreditCard, AlertTriangle, Mail, Cookie, Eye, BarChart3, Megaphone, Database, Lock, Download, Trash2, UserX, CheckCircle2 } from 'lucide-react';
+import { ArrowLeft, FileText, Scale, UserCheck, Shield, CreditCard, AlertTriangle, Mail, Cookie, Eye, BarChart3, Megaphone, Database, Lock, Download, Trash2, UserX, CheckCircle2, Copyright, Gavel, Ban, Flag, Award } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
@@ -403,6 +403,436 @@ const articlesData: Record<string, any> = {
                 <a href="mailto:legal@motiomint.com" className="text-primary hover:underline">
                   legal@motiomint.com
                 </a>
+              </AlertDescription>
+            </Alert>
+          </div>
+        ),
+      },
+    ],
+  },
+  'intellectual-property': {
+    title: 'Intellectual Property & License Integration',
+    icon: Copyright,
+    lastUpdated: 'January 15, 2025',
+    sections: [
+      {
+        id: 'ip-overview',
+        title: 'Intellectual Property Overview',
+        icon: Copyright,
+        content: (
+          <div className="space-y-6">
+            <p className="text-muted-foreground leading-relaxed">
+              All AI-generated animations, visual assets, branding elements, user interface designs, and platform code available on <strong className="text-foreground">Motiomint</strong> are the exclusive intellectual property of Motiomint and are protected by international copyright and intellectual property laws.
+            </p>
+
+            <div className="grid gap-4">
+              <Card className="bg-card/50 backdrop-blur-sm border-border/50 hover:border-primary/30 transition-all">
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-lg flex items-center gap-2">
+                    <Copyright className="h-5 w-5 text-primary" />
+                    Ownership & Rights
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-3 text-sm text-muted-foreground">
+                  <p>
+                    <strong className="text-foreground">Platform Ownership:</strong> All animations, source files, AI models, algorithms, and related technology remain the sole property of Motiomint.
+                  </p>
+                  <p>
+                    <strong className="text-foreground">License Grant:</strong> By downloading animations, you receive a <strong className="text-foreground">non-exclusive, non-transferable license</strong> to use the content according to the terms of your subscription tier.
+                  </p>
+                  <p>
+                    <strong className="text-foreground">No Ownership Transfer:</strong> You do not acquire ownership of the source files, underlying AI models, or any proprietary technology used to generate the animations.
+                  </p>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-card/50 backdrop-blur-sm border-border/50 hover:border-primary/30 transition-all">
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-lg flex items-center gap-2">
+                    <Shield className="h-5 w-5 text-primary" />
+                    Subscription Termination
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-3 text-sm text-muted-foreground">
+                  <p>
+                    <strong className="text-foreground">Active Subscription:</strong> You may continue to use all downloaded animations in existing projects as long as your subscription remains active.
+                  </p>
+                  <p>
+                    <strong className="text-foreground">Post-Cancellation:</strong> Previously downloaded animations can be used in projects that were <strong className="text-foreground">already published or in production</strong> before your subscription ended.
+                  </p>
+                  <p className="text-amber-500">
+                    <strong>⚠️ Important:</strong> New projects created after subscription cancellation require an active subscription or individual asset purchase.
+                  </p>
+                </CardContent>
+              </Card>
+            </div>
+
+            <Alert className="bg-primary/5 border-primary/20">
+              <FileText className="h-4 w-4 text-primary" />
+              <AlertDescription className="text-foreground">
+                For detailed information about license types and usage permissions, visit the{' '}
+                <Link to="/help/license-usage/license-types" className="text-primary hover:underline font-medium">
+                  License & Usage
+                </Link>{' '}
+                section.
+              </AlertDescription>
+            </Alert>
+          </div>
+        ),
+      },
+      {
+        id: 'ai-animation-rights',
+        title: 'AI-Generated Animation Rights',
+        icon: Gavel,
+        content: (
+          <div className="space-y-6">
+            <p className="text-muted-foreground leading-relaxed">
+              Understanding your rights and restrictions is essential for compliant use of Motiomint animations. The following guidelines outline permitted and restricted uses based on your subscription tier.
+            </p>
+
+            <div className="space-y-6">
+              <div>
+                <h3 className="text-xl font-semibold mb-4 flex items-center gap-2 text-foreground">
+                  <span className="text-primary">✓</span> Permitted Uses
+                </h3>
+                <div className="grid gap-3">
+                  <Card className="bg-primary/5 border-primary/20">
+                    <CardContent className="pt-4">
+                      <p className="text-foreground font-medium mb-1">Commercial Use (Paid Plans)</p>
+                      <p className="text-sm text-muted-foreground">
+                        Use animations in commercial projects, including advertisements, marketing campaigns, product promotions, and revenue-generating content.
+                      </p>
+                    </CardContent>
+                  </Card>
+                  
+                  <Card className="bg-primary/5 border-primary/20">
+                    <CardContent className="pt-4">
+                      <p className="text-foreground font-medium mb-1">Social Media & Digital Content</p>
+                      <p className="text-sm text-muted-foreground">
+                        Integrate animations into social media posts, YouTube videos, TikTok content, Instagram stories, and other digital platforms.
+                      </p>
+                    </CardContent>
+                  </Card>
+
+                  <Card className="bg-primary/5 border-primary/20">
+                    <CardContent className="pt-4">
+                      <p className="text-foreground font-medium mb-1">Advertising & Marketing</p>
+                      <p className="text-sm text-muted-foreground">
+                        Include animations in TV commercials, online ads, billboards, presentations, and promotional materials.
+                      </p>
+                    </CardContent>
+                  </Card>
+
+                  <Card className="bg-primary/5 border-primary/20">
+                    <CardContent className="pt-4">
+                      <p className="text-foreground font-medium mb-1">Client Work & Agency Projects</p>
+                      <p className="text-sm text-muted-foreground">
+                        Use animations in projects created for clients, provided the final deliverable is a completed composition (not raw animation files).
+                      </p>
+                    </CardContent>
+                  </Card>
+                </div>
+              </div>
+
+              <div>
+                <h3 className="text-xl font-semibold mb-4 flex items-center gap-2 text-foreground">
+                  <span className="text-destructive">✗</span> Restricted Uses
+                </h3>
+                <div className="grid gap-3">
+                  <Card className="bg-destructive/5 border-destructive/20">
+                    <CardContent className="pt-4">
+                      <p className="text-foreground font-medium mb-1">Redistribution of Raw Files</p>
+                      <p className="text-sm text-muted-foreground">
+                        You may not share, distribute, or transfer raw animation files to third parties, including clients, colleagues, or other users.
+                      </p>
+                    </CardContent>
+                  </Card>
+                  
+                  <Card className="bg-destructive/5 border-destructive/20">
+                    <CardContent className="pt-4">
+                      <p className="text-foreground font-medium mb-1">Reselling or Repackaging</p>
+                      <p className="text-sm text-muted-foreground">
+                        Animations cannot be resold, sublicensed, or repackaged as part of animation packs, templates, or stock libraries.
+                      </p>
+                    </CardContent>
+                  </Card>
+
+                  <Card className="bg-destructive/5 border-destructive/20">
+                    <CardContent className="pt-4">
+                      <p className="text-foreground font-medium mb-1">Competing Stock Marketplaces</p>
+                      <p className="text-sm text-muted-foreground">
+                        You may not upload Motiomint animations to other stock animation platforms, marketplaces, or competing services.
+                      </p>
+                    </CardContent>
+                  </Card>
+
+                  <Card className="bg-destructive/5 border-destructive/20">
+                    <CardContent className="pt-4">
+                      <p className="text-foreground font-medium mb-1">Creating Competing Libraries</p>
+                      <p className="text-sm text-muted-foreground">
+                        Using Motiomint assets to create competing animation libraries, tools, or services is strictly prohibited.
+                      </p>
+                    </CardContent>
+                  </Card>
+                </div>
+              </div>
+            </div>
+
+            <Alert className="bg-accent/50 border-border">
+              <AlertTriangle className="h-4 w-4" />
+              <AlertDescription className="text-muted-foreground">
+                <strong className="text-foreground">Free vs. Paid Downloads:</strong> Free downloads have more restrictive usage terms (typically limited to personal or non-commercial use). Paid subscription downloads include full commercial licensing rights.
+              </AlertDescription>
+            </Alert>
+          </div>
+        ),
+      },
+      {
+        id: 'redistribution-resale',
+        title: 'Redistribution & Resale Rules',
+        icon: Ban,
+        content: (
+          <div className="space-y-6">
+            <p className="text-muted-foreground leading-relaxed">
+              Motiomint enforces strict redistribution and resale policies to protect our content and ensure fair use for all subscribers.
+            </p>
+
+            <div className="grid gap-4">
+              <Card className="bg-card/50 backdrop-blur-sm border-border/50">
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-lg flex items-center gap-2">
+                    <Ban className="h-5 w-5 text-destructive" />
+                    Raw File Distribution Prohibited
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-3 text-sm text-muted-foreground">
+                  <p>
+                    <strong className="text-foreground">Strict Prohibition:</strong> You may not sell, share, distribute, or transfer raw animation files obtained from Motiomint in any format (MP4, GIF, Lottie, JSON, etc.).
+                  </p>
+                  <p>
+                    <strong className="text-foreground">Violation Consequences:</strong> Redistribution of raw files is a violation of these terms and may result in immediate account suspension, legal action, and removal of download privileges.
+                  </p>
+                  <p className="text-amber-500">
+                    <strong>⚠️ Example of Violation:</strong> Sending raw animation files to a client instead of delivering a completed video composition.
+                  </p>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-card/50 backdrop-blur-sm border-border/50">
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-lg flex items-center gap-2">
+                    <CheckCircle2 className="h-5 w-5 text-primary" />
+                    Permitted Final Compositions
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-3 text-sm text-muted-foreground">
+                  <p>
+                    <strong className="text-foreground">Edited Projects:</strong> You may sell or deliver final video projects, advertisements, or compositions that include Motiomint animations as integrated elements.
+                  </p>
+                  <p>
+                    <strong className="text-foreground">Substantial Transformation:</strong> The final deliverable must be substantially different from the original animation (e.g., edited, combined with other content, or part of a larger production).
+                  </p>
+                  <p className="text-primary">
+                    <strong>✓ Example of Permitted Use:</strong> Delivering a completed advertisement video that includes Motiomint animations alongside custom footage, voiceover, and branding.
+                  </p>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-card/50 backdrop-blur-sm border-border/50">
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-lg flex items-center gap-2">
+                    <Lock className="h-5 w-5 text-primary" />
+                    AI Model Ownership
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-3 text-sm text-muted-foreground">
+                  <p>
+                    <strong className="text-foreground">Proprietary Technology:</strong> All AI models, algorithms, training data, and underlying technology used to generate animations remain the exclusive property of Motiomint.
+                  </p>
+                  <p>
+                    <strong className="text-foreground">No Reverse Engineering:</strong> Attempting to reverse engineer, replicate, or extract AI model data from Motiomint is strictly prohibited and subject to legal action.
+                  </p>
+                </CardContent>
+              </Card>
+            </div>
+
+            <Alert className="bg-destructive/10 border-destructive/30">
+              <AlertTriangle className="h-4 w-4 text-destructive" />
+              <AlertDescription className="text-foreground">
+                <strong>Legal Warning:</strong> Violation of redistribution or resale terms may result in immediate account termination, legal proceedings, and financial penalties. If you are unsure about a specific use case, contact our legal team before proceeding.
+              </AlertDescription>
+            </Alert>
+          </div>
+        ),
+      },
+      {
+        id: 'dmca-takedown',
+        title: 'DMCA Takedown Process',
+        icon: Flag,
+        content: (
+          <div className="space-y-6">
+            <p className="text-muted-foreground leading-relaxed">
+              Motiomint respects intellectual property rights and complies with the Digital Millennium Copyright Act (DMCA). If you believe your content has been misused or infringed upon, you may submit a takedown request.
+            </p>
+
+            <Card className="bg-card/50 backdrop-blur-sm border-border/50">
+              <CardHeader className="pb-3">
+                <CardTitle className="text-lg flex items-center gap-2">
+                  <Flag className="h-5 w-5 text-primary" />
+                  How to Report Content Misuse
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4 text-sm text-muted-foreground">
+                <p>
+                  If you discover that Motiomint animations are being misused in violation of our terms (e.g., redistributed, resold, or used in unauthorized contexts), please submit a report to our legal team.
+                </p>
+                
+                <div className="bg-accent/30 border border-border/50 rounded-lg p-4 space-y-3">
+                  <p className="text-foreground font-medium">Required Information for DMCA Takedown:</p>
+                  <ul className="list-disc list-inside space-y-1 ml-2">
+                    <li>Your contact information (name, email, phone number)</li>
+                    <li>Description of the copyrighted work being infringed</li>
+                    <li>URL or location where the infringing content appears</li>
+                    <li>Statement of good faith belief that the use is unauthorized</li>
+                    <li>Statement that the information provided is accurate</li>
+                    <li>Physical or electronic signature</li>
+                  </ul>
+                </div>
+
+                <div className="flex flex-col gap-3 pt-2">
+                  <Link to="/help/contact-support/submit-request">
+                    <Button variant="outline" className="w-full justify-start gap-2 hover:bg-destructive/10 hover:border-destructive/50">
+                      <Flag className="h-4 w-4" />
+                      Report Misuse
+                    </Button>
+                  </Link>
+                  
+                  <p className="text-xs text-center text-muted-foreground">
+                    For formal DMCA notices, email:{' '}
+                    <a href="mailto:legal@motiomint.com" className="text-primary hover:underline">
+                      legal@motiomint.com
+                    </a>
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-card/50 backdrop-blur-sm border-border/50">
+              <CardHeader className="pb-3">
+                <CardTitle className="text-lg flex items-center gap-2">
+                  <Shield className="h-5 w-5 text-primary" />
+                  Motiomint's Response Process
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3 text-sm text-muted-foreground">
+                <p>
+                  <strong className="text-foreground">Step 1 - Review:</strong> Our legal team reviews all takedown requests within 2-5 business days.
+                </p>
+                <p>
+                  <strong className="text-foreground">Step 2 - Verification:</strong> We verify the legitimacy of the claim and investigate the reported content.
+                </p>
+                <p>
+                  <strong className="text-foreground">Step 3 - Action:</strong> If the claim is valid, we take appropriate action, which may include content removal, account suspension, or legal proceedings.
+                </p>
+                <p>
+                  <strong className="text-foreground">Step 4 - Notification:</strong> All parties are notified of the outcome and any actions taken.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Alert className="bg-accent/50 border-border">
+              <Mail className="h-4 w-4" />
+              <AlertDescription className="text-muted-foreground">
+                <strong className="text-foreground">Response Time:</strong> Motiomint aims to respond to all DMCA takedown requests within 5 business days. Urgent cases may be expedited upon request.
+              </AlertDescription>
+            </Alert>
+          </div>
+        ),
+      },
+      {
+        id: 'attribution-policy',
+        title: 'Attribution Policy',
+        icon: Award,
+        content: (
+          <div className="space-y-6">
+            <p className="text-muted-foreground leading-relaxed">
+              Motiomint's attribution policy varies based on your subscription tier and the type of download. Understanding when attribution is required helps ensure compliant use.
+            </p>
+
+            <div className="grid gap-4">
+              <Card className="bg-primary/5 border-primary/20">
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-lg flex items-center gap-2">
+                    <Award className="h-5 w-5 text-primary" />
+                    Paid Subscription Downloads
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-3 text-sm text-muted-foreground">
+                  <p>
+                    <strong className="text-foreground">Attribution Not Required:</strong> If you have an active paid subscription (Pro, Business, or Enterprise), you are <strong className="text-primary">not required</strong> to provide attribution when using downloaded animations.
+                  </p>
+                  <p>
+                    <strong className="text-foreground">Optional Recognition:</strong> While not mandatory, we appreciate when creators mention Motiomint in their work, as it helps support our community and platform growth.
+                  </p>
+                  <div className="bg-accent/30 border border-border/50 rounded-lg p-3 mt-3">
+                    <p className="text-xs text-foreground">
+                      <strong>Suggested Attribution (Optional):</strong><br />
+                      "Animations by Motiomint" or "Powered by Motiomint"
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-accent/30 border-border/50">
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-lg flex items-center gap-2">
+                    <FileText className="h-5 w-5 text-foreground" />
+                    Free Downloads
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-3 text-sm text-muted-foreground">
+                  <p>
+                    <strong className="text-foreground">Attribution Recommended:</strong> For free downloads (available to users on the Free plan), attribution is <strong className="text-foreground">recommended but optional</strong>.
+                  </p>
+                  <p>
+                    <strong className="text-foreground">Commercial Restrictions:</strong> Free downloads are typically limited to personal or non-commercial use unless otherwise specified. Check the individual asset license before use.
+                  </p>
+                  <div className="bg-accent/50 border border-border/50 rounded-lg p-3 mt-3">
+                    <p className="text-xs text-foreground">
+                      <strong>Suggested Attribution for Free Downloads:</strong><br />
+                      "Animation by Motiomint - https://motiomint.com"
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-card/50 backdrop-blur-sm border-border/50">
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-lg flex items-center gap-2">
+                    <Shield className="h-5 w-5 text-primary" />
+                    Where to Provide Attribution
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-2 text-sm text-muted-foreground">
+                  <p>If you choose to provide attribution, here are common places to include it:</p>
+                  <ul className="list-disc list-inside space-y-1 ml-2">
+                    <li>Video descriptions (YouTube, Vimeo, social media)</li>
+                    <li>Website footer or credits page</li>
+                    <li>Project credits or end cards in video productions</li>
+                    <li>Marketing material fine print or credits section</li>
+                  </ul>
+                </CardContent>
+              </Card>
+            </div>
+
+            <Alert className="bg-primary/5 border-primary/20">
+              <CheckCircle2 className="h-4 w-4 text-primary" />
+              <AlertDescription className="text-foreground">
+                <strong>Summary:</strong> Paid subscribers enjoy attribution-free use, while free users are encouraged (but not required) to credit Motiomint. For specific attribution requirements, refer to the{' '}
+                <Link to="/help/license-usage/attribution-requirements" className="text-primary hover:underline font-medium">
+                  Attribution Requirements
+                </Link>{' '}
+                section.
               </AlertDescription>
             </Alert>
           </div>

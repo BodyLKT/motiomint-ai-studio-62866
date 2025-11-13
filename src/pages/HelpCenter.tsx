@@ -109,9 +109,10 @@ export default function HelpCenter() {
       title: 'Terms & Policies',
       description: 'Legal information and policies',
       articles: [
-        'Terms of Service'
+        'Terms of Service',
+        'Intellectual Property & License Integration'
       ],
-      slugs: ['terms-of-service']
+      slugs: ['terms-of-service', 'intellectual-property']
     }
   ];
 
