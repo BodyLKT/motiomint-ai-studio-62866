@@ -1,5 +1,5 @@
 import { useParams, Link } from 'react-router-dom';
-import { ArrowLeft, FileText, Scale, UserCheck, Shield, CreditCard, AlertTriangle, Mail, Cookie, Eye, BarChart3, Megaphone, Database, Lock, Download, Trash2, UserX, CheckCircle2, Copyright, Gavel, Ban, Flag, Award } from 'lucide-react';
+import { ArrowLeft, FileText, Scale, UserCheck, Shield, CreditCard, AlertTriangle, Mail, Cookie, Eye, BarChart3, Megaphone, Database, Lock, Download, Trash2, UserX, CheckCircle2, Copyright, Gavel, Ban, Flag, Award, Users, Clock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
@@ -833,6 +833,1102 @@ const articlesData: Record<string, any> = {
                   Attribution Requirements
                 </Link>{' '}
                 section.
+              </AlertDescription>
+            </Alert>
+          </div>
+        ),
+      },
+    ],
+  },
+  'privacy-policy': {
+    title: 'Privacy Policy',
+    icon: Eye,
+    lastUpdated: 'January 15, 2025',
+    sections: [
+      {
+        id: 'data-collected',
+        title: 'Data We Collect',
+        icon: Database,
+        content: (
+          <div className="space-y-6">
+            <p className="text-muted-foreground leading-relaxed">
+              Motiomint collects various types of information to provide, maintain, and improve our services. This section outlines what data we collect and why.
+            </p>
+
+            <div className="grid gap-4">
+              <Card className="bg-card/50 backdrop-blur-sm border-border/50">
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-lg flex items-center gap-2">
+                    <UserCheck className="h-5 w-5 text-primary" />
+                    Account Information
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-3 text-sm text-muted-foreground">
+                  <p>
+                    <strong className="text-foreground">Personal Details:</strong> Name, email address, username, and optional profile information (avatar, bio).
+                  </p>
+                  <p>
+                    <strong className="text-foreground">Authentication Data:</strong> Encrypted passwords, session tokens, and authentication preferences.
+                  </p>
+                  <p>
+                    <strong className="text-foreground">Profile Preferences:</strong> Theme settings, language preferences, notification settings, and content filters.
+                  </p>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-card/50 backdrop-blur-sm border-border/50">
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-lg flex items-center gap-2">
+                    <CreditCard className="h-5 w-5 text-primary" />
+                    Payment & Billing Data
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-3 text-sm text-muted-foreground">
+                  <p>
+                    <strong className="text-foreground">Processed via Stripe/PayPal:</strong> All payment information is securely processed by our payment partners. Motiomint does <strong className="text-destructive">not store full credit card numbers</strong>.
+                  </p>
+                  <p>
+                    <strong className="text-foreground">Transaction Records:</strong> We store transaction IDs, billing amounts, subscription tier, purchase dates, and invoice details.
+                  </p>
+                  <p>
+                    <strong className="text-foreground">Billing Address:</strong> Country, postal code, and billing name for tax compliance and fraud prevention.
+                  </p>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-card/50 backdrop-blur-sm border-border/50">
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-lg flex items-center gap-2">
+                    <BarChart3 className="h-5 w-5 text-primary" />
+                    Usage & Analytics Data
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-3 text-sm text-muted-foreground">
+                  <p>
+                    <strong className="text-foreground">Behavioral Analytics:</strong> Pages visited, search queries, animations viewed, downloads, time spent on platform, and feature usage patterns.
+                  </p>
+                  <p>
+                    <strong className="text-foreground">Technical Data:</strong> IP address, browser type, device type, operating system, screen resolution, and referrer information.
+                  </p>
+                  <p>
+                    <strong className="text-foreground">Performance Monitoring:</strong> Page load times, error logs, and crash reports to improve site performance.
+                  </p>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-card/50 backdrop-blur-sm border-border/50">
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-lg flex items-center gap-2">
+                    <Download className="h-5 w-5 text-primary" />
+                    AI & User-Uploaded Content
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-3 text-sm text-muted-foreground">
+                  <p>
+                    <strong className="text-foreground">AI Training:</strong> Motiomint uses aggregated, anonymized usage patterns to improve AI recommendation algorithms. We <strong className="text-primary">do not</strong> use personal data for third-party AI training.
+                  </p>
+                  <p>
+                    <strong className="text-foreground">User Uploads:</strong> If you upload files for editing or customization, these files are temporarily stored and deleted after processing (typically within 30 days).
+                  </p>
+                </CardContent>
+              </Card>
+            </div>
+
+            <Alert className="bg-primary/5 border-primary/20">
+              <Shield className="h-4 w-4 text-primary" />
+              <AlertDescription className="text-foreground">
+                <strong>Data Minimization:</strong> Motiomint only collects data necessary to provide our services and improve user experience. We do not sell personal data to third parties.
+              </AlertDescription>
+            </Alert>
+          </div>
+        ),
+      },
+      {
+        id: 'legal-basis',
+        title: 'Legal Basis for Processing (GDPR)',
+        icon: Scale,
+        content: (
+          <div className="space-y-6">
+            <p className="text-muted-foreground leading-relaxed">
+              Under the General Data Protection Regulation (GDPR), Motiomint processes personal data based on the following legal grounds:
+            </p>
+
+            <div className="grid gap-4">
+              <Card className="bg-card/50 backdrop-blur-sm border-border/50">
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-lg flex items-center gap-2">
+                    <FileText className="h-5 w-5 text-primary" />
+                    Performance of Contract
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="text-sm text-muted-foreground">
+                  <p>
+                    Processing necessary to fulfill our Terms of Service, including account creation, subscription management, download delivery, and customer support.
+                  </p>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-card/50 backdrop-blur-sm border-border/50">
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-lg flex items-center gap-2">
+                    <BarChart3 className="h-5 w-5 text-primary" />
+                    Legitimate Interest
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="text-sm text-muted-foreground">
+                  <p>
+                    Analytics, fraud prevention, site optimization, security monitoring, and improving AI recommendation algorithms—balanced against user privacy rights.
+                  </p>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-card/50 backdrop-blur-sm border-border/50">
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-lg flex items-center gap-2">
+                    <CheckCircle2 className="h-5 w-5 text-primary" />
+                    Consent
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="text-sm text-muted-foreground">
+                  <p>
+                    Non-essential cookies, marketing emails, and personalized advertising require explicit user consent, which can be withdrawn at any time.
+                  </p>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-card/50 backdrop-blur-sm border-border/50">
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-lg flex items-center gap-2">
+                    <Shield className="h-5 w-5 text-primary" />
+                    Legal Obligation
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="text-sm text-muted-foreground">
+                  <p>
+                    Tax compliance, financial record-keeping, responding to lawful government requests, and enforcing legal rights.
+                  </p>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        ),
+      },
+      {
+        id: 'data-usage',
+        title: 'How We Use Your Data',
+        icon: BarChart3,
+        content: (
+          <div className="space-y-6">
+            <p className="text-muted-foreground leading-relaxed">
+              Motiomint uses collected data for the following purposes:
+            </p>
+
+            <div className="space-y-4">
+              <Card className="bg-card/50 backdrop-blur-sm border-border/50">
+                <CardContent className="pt-6 space-y-4 text-sm text-muted-foreground">
+                  <div className="flex gap-3">
+                    <div className="h-6 w-6 rounded-full bg-primary/10 flex items-center justify-center shrink-0 mt-0.5">
+                      <UserCheck className="h-3.5 w-3.5 text-primary" />
+                    </div>
+                    <div>
+                      <strong className="text-foreground block">Account Creation & Authentication</strong>
+                      <p className="mt-1">Managing user accounts, verifying identities, enabling secure login, and maintaining account security.</p>
+                    </div>
+                  </div>
+
+                  <div className="flex gap-3">
+                    <div className="h-6 w-6 rounded-full bg-primary/10 flex items-center justify-center shrink-0 mt-0.5">
+                      <CreditCard className="h-3.5 w-3.5 text-primary" />
+                    </div>
+                    <div>
+                      <strong className="text-foreground block">Processing Orders</strong>
+                      <p className="mt-1">Managing One-Time Packs, subscription billing, refunds, and generating invoices.</p>
+                    </div>
+                  </div>
+
+                  <div className="flex gap-3">
+                    <div className="h-6 w-6 rounded-full bg-primary/10 flex items-center justify-center shrink-0 mt-0.5">
+                      <BarChart3 className="h-3.5 w-3.5 text-primary" />
+                    </div>
+                    <div>
+                      <strong className="text-foreground block">Personalization & Recommendations</strong>
+                      <p className="mt-1">Suggesting relevant animations based on browsing history, searches, and preferences.</p>
+                    </div>
+                  </div>
+
+                  <div className="flex gap-3">
+                    <div className="h-6 w-6 rounded-full bg-primary/10 flex items-center justify-center shrink-0 mt-0.5">
+                      <BarChart3 className="h-3.5 w-3.5 text-primary" />
+                    </div>
+                    <div>
+                      <strong className="text-foreground block">Analytics & Performance</strong>
+                      <p className="mt-1">Monitoring site traffic, analyzing user behavior, identifying bugs, and improving platform performance.</p>
+                    </div>
+                  </div>
+
+                  <div className="flex gap-3">
+                    <div className="h-6 w-6 rounded-full bg-primary/10 flex items-center justify-center shrink-0 mt-0.5">
+                      <Shield className="h-3.5 w-3.5 text-primary" />
+                    </div>
+                    <div>
+                      <strong className="text-foreground block">Fraud Prevention & Security</strong>
+                      <p className="mt-1">Detecting suspicious activity, preventing unauthorized access, and enforcing Terms of Service.</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+
+            <Alert className="bg-accent/50 border-border">
+              <CheckCircle2 className="h-4 w-4" />
+              <AlertDescription className="text-muted-foreground">
+                <strong className="text-foreground">No Data Sale:</strong> Motiomint does <strong className="text-primary">not sell</strong> your personal data to advertisers or third parties.
+              </AlertDescription>
+            </Alert>
+          </div>
+        ),
+      },
+      {
+        id: 'data-sharing',
+        title: 'Data Sharing & Third Parties',
+        icon: Users,
+        content: (
+          <div className="space-y-6">
+            <p className="text-muted-foreground leading-relaxed">
+              Motiomint may share your data with trusted third-party service providers to deliver our services. We <strong className="text-foreground">do not sell</strong> personal information.
+            </p>
+
+            <div className="grid gap-4">
+              <Card className="bg-card/50 backdrop-blur-sm border-border/50">
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-lg flex items-center gap-2">
+                    <CreditCard className="h-5 w-5 text-primary" />
+                    Payment Processors
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="text-sm text-muted-foreground">
+                  <p>
+                    <strong className="text-foreground">Stripe & PayPal:</strong> Secure payment processing, subscription management, and transaction records. These providers comply with PCI-DSS standards.
+                  </p>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-card/50 backdrop-blur-sm border-border/50">
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-lg flex items-center gap-2">
+                    <BarChart3 className="h-5 w-5 text-primary" />
+                    Analytics Tools
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="text-sm text-muted-foreground">
+                  <p>
+                    <strong className="text-foreground">Usage Analytics:</strong> We use analytics services to understand user behavior, optimize site performance, and improve features. Data is aggregated and anonymized where possible.
+                  </p>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-card/50 backdrop-blur-sm border-border/50">
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-lg flex items-center gap-2">
+                    <Database className="h-5 w-5 text-primary" />
+                    Cloud Hosting Providers
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="text-sm text-muted-foreground">
+                  <p>
+                    <strong className="text-foreground">Secure Infrastructure:</strong> Motiomint uses trusted cloud hosting providers for data storage, content delivery, and application hosting. All providers maintain SOC 2 compliance and industry-standard encryption.
+                  </p>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-card/50 backdrop-blur-sm border-border/50">
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-lg flex items-center gap-2">
+                    <Mail className="h-5 w-5 text-primary" />
+                    Communication Platforms
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="text-sm text-muted-foreground">
+                  <p>
+                    <strong className="text-foreground">Email Services:</strong> Transactional emails (password resets, receipts, notifications) are sent via secure email service providers.
+                  </p>
+                </CardContent>
+              </Card>
+            </div>
+
+            <Alert className="bg-primary/5 border-primary/20">
+              <Shield className="h-4 w-4 text-primary" />
+              <AlertDescription className="text-foreground">
+                <strong>CCPA Compliance:</strong> California residents have the right to opt-out of data sharing. Motiomint does <strong className="text-primary">not sell</strong> personal information as defined by CCPA/CPRA.
+              </AlertDescription>
+            </Alert>
+          </div>
+        ),
+      },
+      {
+        id: 'user-rights',
+        title: 'Your Rights & Data Control',
+        icon: UserCheck,
+        content: (
+          <div className="space-y-6">
+            <p className="text-muted-foreground leading-relaxed">
+              Motiomint respects your data privacy rights. Depending on your location, you may have the following rights under GDPR, CCPA, or equivalent regulations:
+            </p>
+
+            <div className="grid gap-4">
+              <Card className="bg-primary/5 border-primary/20">
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-lg flex items-center gap-2">
+                    <Eye className="h-5 w-5 text-primary" />
+                    Right to Access
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="text-sm text-muted-foreground">
+                  <p>
+                    Request a copy of all personal data Motiomint holds about you, including account details, transaction history, and usage data.
+                  </p>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-primary/5 border-primary/20">
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-lg flex items-center gap-2">
+                    <FileText className="h-5 w-5 text-primary" />
+                    Right to Correction
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="text-sm text-muted-foreground">
+                  <p>
+                    Update or correct inaccurate personal information. Many profile details can be edited directly in your account settings.
+                  </p>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-destructive/5 border-destructive/20">
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-lg flex items-center gap-2">
+                    <Trash2 className="h-5 w-5 text-destructive" />
+                    Right to Erasure (Right to be Forgotten)
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="text-sm text-muted-foreground">
+                  <p>
+                    <strong className="text-foreground">Delete Your Account:</strong> Request complete deletion of your personal data, subject to legal retention requirements (e.g., tax records, fraud prevention).
+                  </p>
+                  <p className="mt-2">
+                    <strong className="text-foreground">Retention Exception:</strong> Financial records may be retained for 7 years as required by law.
+                  </p>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-primary/5 border-primary/20">
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-lg flex items-center gap-2">
+                    <Download className="h-5 w-5 text-primary" />
+                    Right to Data Portability
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="text-sm text-muted-foreground">
+                  <p>
+                    Request a machine-readable copy of your data (JSON/CSV format) to transfer to another service.
+                  </p>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-primary/5 border-primary/20">
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-lg flex items-center gap-2">
+                    <Ban className="h-5 w-5 text-primary" />
+                    Right to Restriction & Objection
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="text-sm text-muted-foreground">
+                  <p>
+                    Restrict or object to certain types of data processing, such as marketing communications or AI-based personalization.
+                  </p>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-primary/5 border-primary/20">
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-lg flex items-center gap-2">
+                    <UserX className="h-5 w-5 text-primary" />
+                    Right to Withdraw Consent
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="text-sm text-muted-foreground">
+                  <p>
+                    Withdraw consent for non-essential cookies, marketing emails, or optional data processing at any time without penalty.
+                  </p>
+                </CardContent>
+              </Card>
+            </div>
+
+            <Card className="bg-card/50 backdrop-blur-sm border-border/50">
+              <CardHeader>
+                <CardTitle className="text-lg flex items-center gap-2">
+                  <Mail className="h-5 w-5 text-primary" />
+                  Exercise Your Rights
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3 text-sm text-muted-foreground">
+                <p>
+                  To exercise any of these rights, please contact us at:
+                </p>
+                <div className="bg-muted/50 rounded-lg p-4 space-y-2">
+                  <p className="font-mono text-primary">
+                    <a href="mailto:privacy@motiomint.com" className="hover:underline">
+                      privacy@motiomint.com
+                    </a>
+                  </p>
+                  <p className="text-xs">
+                    Or submit a request via our{' '}
+                    <Link to="/help/contact-support/submit-request" className="text-primary hover:underline font-medium">
+                      Contact Support
+                    </Link>{' '}
+                    page.
+                  </p>
+                </div>
+                <p className="text-xs">
+                  <strong className="text-foreground">Response Time:</strong> We aim to respond to all data rights requests within 30 days.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Alert className="bg-accent/50 border-border">
+              <CheckCircle2 className="h-4 w-4" />
+              <AlertDescription className="text-muted-foreground">
+                <strong className="text-foreground">EU/EEA & UK Users:</strong> You have the right to lodge a complaint with your local Data Protection Authority if you believe your data rights have been violated.
+              </AlertDescription>
+            </Alert>
+          </div>
+        ),
+      },
+      {
+        id: 'data-retention',
+        title: 'Data Retention Periods',
+        icon: Clock,
+        content: (
+          <div className="space-y-6">
+            <p className="text-muted-foreground leading-relaxed">
+              Motiomint retains personal data only as long as necessary to fulfill the purposes outlined in this Privacy Policy or as required by law.
+            </p>
+
+            <div className="grid gap-4">
+              <Card className="bg-card/50 backdrop-blur-sm border-border/50">
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-lg flex items-center gap-2">
+                    <UserCheck className="h-5 w-5 text-primary" />
+                    Active Accounts
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="text-sm text-muted-foreground">
+                  <p>
+                    <strong className="text-foreground">Retention:</strong> Account data is retained as long as your account remains active.
+                  </p>
+                  <p className="mt-2">
+                    <strong className="text-foreground">Inactive Accounts:</strong> Accounts inactive for 3+ years may be archived or deleted after notification.
+                  </p>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-card/50 backdrop-blur-sm border-border/50">
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-lg flex items-center gap-2">
+                    <Download className="h-5 w-5 text-primary" />
+                    Download History
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="text-sm text-muted-foreground">
+                  <p>
+                    <strong className="text-foreground">Retention:</strong> Download records are retained indefinitely to allow re-downloads and license verification.
+                  </p>
+                  <p className="mt-2">
+                    <strong className="text-foreground">Account Deletion:</strong> Download history is permanently deleted upon account deletion (subject to legal requirements).
+                  </p>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-card/50 backdrop-blur-sm border-border/50">
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-lg flex items-center gap-2">
+                    <CreditCard className="h-5 w-5 text-primary" />
+                    Financial Records
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="text-sm text-muted-foreground">
+                  <p>
+                    <strong className="text-foreground">Retention:</strong> Transaction records, invoices, and billing information are retained for <strong className="text-primary">7 years</strong> to comply with tax laws and accounting regulations.
+                  </p>
+                  <p className="mt-2">
+                    <strong className="text-foreground">Legal Requirement:</strong> Cannot be deleted before retention period expires.
+                  </p>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-card/50 backdrop-blur-sm border-border/50">
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-lg flex items-center gap-2">
+                    <BarChart3 className="h-5 w-5 text-primary" />
+                    Analytics & Logs
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="text-sm text-muted-foreground">
+                  <p>
+                    <strong className="text-foreground">Retention:</strong> Aggregated, anonymized analytics data is retained indefinitely for platform improvement.
+                  </p>
+                  <p className="mt-2">
+                    <strong className="text-foreground">Server Logs:</strong> Raw server logs are retained for 90 days for security and troubleshooting.
+                  </p>
+                </CardContent>
+              </Card>
+            </div>
+
+            <Alert className="bg-primary/5 border-primary/20">
+              <Shield className="h-4 w-4 text-primary" />
+              <AlertDescription className="text-foreground">
+                <strong>Data Deletion:</strong> When data is no longer needed, it is securely deleted or anonymized. Backups may retain data for up to 30 additional days.
+              </AlertDescription>
+            </Alert>
+          </div>
+        ),
+      },
+      {
+        id: 'security',
+        title: 'Security Measures',
+        icon: Lock,
+        content: (
+          <div className="space-y-6">
+            <p className="text-muted-foreground leading-relaxed">
+              Motiomint employs industry-standard security measures to protect your personal data from unauthorized access, disclosure, alteration, or destruction.
+            </p>
+
+            <div className="space-y-4">
+              <Card className="bg-card/50 backdrop-blur-sm border-border/50">
+                <CardContent className="pt-6 space-y-4 text-sm text-muted-foreground">
+                  <div className="flex gap-3">
+                    <div className="h-6 w-6 rounded-full bg-primary/10 flex items-center justify-center shrink-0 mt-0.5">
+                      <Lock className="h-3.5 w-3.5 text-primary" />
+                    </div>
+                    <div>
+                      <strong className="text-foreground block">TLS/SSL Encryption</strong>
+                      <p className="mt-1">All data transmitted between your device and Motiomint servers is encrypted using HTTPS/TLS protocols.</p>
+                    </div>
+                  </div>
+
+                  <div className="flex gap-3">
+                    <div className="h-6 w-6 rounded-full bg-primary/10 flex items-center justify-center shrink-0 mt-0.5">
+                      <Shield className="h-3.5 w-3.5 text-primary" />
+                    </div>
+                    <div>
+                      <strong className="text-foreground block">Password Hashing</strong>
+                      <p className="mt-1">User passwords are hashed using bcrypt or similar algorithms. Motiomint cannot access plaintext passwords.</p>
+                    </div>
+                  </div>
+
+                  <div className="flex gap-3">
+                    <div className="h-6 w-6 rounded-full bg-primary/10 flex items-center justify-center shrink-0 mt-0.5">
+                      <Database className="h-3.5 w-3.5 text-primary" />
+                    </div>
+                    <div>
+                      <strong className="text-foreground block">Controlled Access</strong>
+                      <p className="mt-1">Access to personal data is restricted to authorized personnel only, with role-based access controls and audit logs.</p>
+                    </div>
+                  </div>
+
+                  <div className="flex gap-3">
+                    <div className="h-6 w-6 rounded-full bg-primary/10 flex items-center justify-center shrink-0 mt-0.5">
+                      <Shield className="h-3.5 w-3.5 text-primary" />
+                    </div>
+                    <div>
+                      <strong className="text-foreground block">Regular Security Audits</strong>
+                      <p className="mt-1">Motiomint conducts regular security assessments, vulnerability scanning, and penetration testing.</p>
+                    </div>
+                  </div>
+
+                  <div className="flex gap-3">
+                    <div className="h-6 w-6 rounded-full bg-primary/10 flex items-center justify-center shrink-0 mt-0.5">
+                      <AlertTriangle className="h-3.5 w-3.5 text-primary" />
+                    </div>
+                    <div>
+                      <strong className="text-foreground block">Breach Notification</strong>
+                      <p className="mt-1">In the event of a data breach, affected users will be notified within 72 hours as required by GDPR.</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+
+            <Alert className="bg-accent/50 border-border">
+              <AlertTriangle className="h-4 w-4" />
+              <AlertDescription className="text-muted-foreground">
+                <strong className="text-foreground">User Responsibility:</strong> You are responsible for maintaining the confidentiality of your account credentials. Do not share your password with others.
+              </AlertDescription>
+            </Alert>
+          </div>
+        ),
+      },
+      {
+        id: 'contact',
+        title: 'Contact Information',
+        icon: Mail,
+        content: (
+          <div className="space-y-6">
+            <p className="text-muted-foreground leading-relaxed">
+              For questions, concerns, or requests related to this Privacy Policy or your personal data, please contact us:
+            </p>
+
+            <Card className="bg-primary/5 border-primary/20">
+              <CardHeader>
+                <CardTitle className="text-lg">Motiomint Privacy Team</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3 text-sm">
+                <div>
+                  <strong className="text-foreground">Email:</strong>{' '}
+                  <a href="mailto:privacy@motiomint.com" className="text-primary hover:underline font-medium">
+                    privacy@motiomint.com
+                  </a>
+                </div>
+                <div>
+                  <strong className="text-foreground">Support Portal:</strong>{' '}
+                  <Link to="/help/contact-support/submit-request" className="text-primary hover:underline font-medium">
+                    Submit a Privacy Request
+                  </Link>
+                </div>
+                <div>
+                  <strong className="text-foreground">Data Protection Officer:</strong>{' '}
+                  <a href="mailto:dpo@motiomint.com" className="text-primary hover:underline font-medium">
+                    dpo@motiomint.com
+                  </a>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Alert className="bg-accent/50 border-border">
+              <Mail className="h-4 w-4" />
+              <AlertDescription className="text-muted-foreground">
+                <strong className="text-foreground">Response Time:</strong> We aim to respond to all privacy-related inquiries within 5 business days and data rights requests within 30 days.
+              </AlertDescription>
+            </Alert>
+          </div>
+        ),
+      },
+    ],
+  },
+  'cookie-policy': {
+    title: 'Cookie Policy',
+    icon: Cookie,
+    lastUpdated: 'January 15, 2025',
+    sections: [
+      {
+        id: 'what-are-cookies',
+        title: 'What Are Cookies?',
+        icon: Cookie,
+        content: (
+          <div className="space-y-6">
+            <p className="text-muted-foreground leading-relaxed">
+              Cookies are small text files stored on your device when you visit websites. They help websites remember your preferences, improve performance, and provide personalized experiences.
+            </p>
+
+            <Card className="bg-card/50 backdrop-blur-sm border-border/50">
+              <CardHeader className="pb-3">
+                <CardTitle className="text-lg flex items-center gap-2">
+                  <FileText className="h-5 w-5 text-primary" />
+                  Types of Cookies
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3 text-sm text-muted-foreground">
+                <p>
+                  <strong className="text-foreground">Session Cookies:</strong> Temporary cookies deleted when you close your browser. Used for authentication and cart management.
+                </p>
+                <p>
+                  <strong className="text-foreground">Persistent Cookies:</strong> Remain on your device for a set period. Used for remembering preferences and analytics.
+                </p>
+                <p>
+                  <strong className="text-foreground">First-Party Cookies:</strong> Set by Motiomint directly. Used for core functionality and user experience.
+                </p>
+                <p>
+                  <strong className="text-foreground">Third-Party Cookies:</strong> Set by external services (analytics, payment processors). Subject to their own privacy policies.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Alert className="bg-primary/5 border-primary/20">
+              <CheckCircle2 className="h-4 w-4 text-primary" />
+              <AlertDescription className="text-foreground">
+                <strong>Cookie Lifespan:</strong> Most Motiomint cookies expire after 6 months. You can delete cookies at any time via your browser settings.
+              </AlertDescription>
+            </Alert>
+          </div>
+        ),
+      },
+      {
+        id: 'cookie-purposes',
+        title: 'How We Use Cookies',
+        icon: BarChart3,
+        content: (
+          <div className="space-y-6">
+            <p className="text-muted-foreground leading-relaxed">
+              Motiomint uses cookies for the following purposes:
+            </p>
+
+            <div className="grid gap-4">
+              <Card className="bg-card/50 backdrop-blur-sm border-border/50">
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-lg flex items-center gap-2">
+                    <UserCheck className="h-5 w-5 text-primary" />
+                    Authentication
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="text-sm text-muted-foreground">
+                  <p>
+                    <strong className="text-foreground">Purpose:</strong> Keeping you logged in and maintaining session security.
+                  </p>
+                  <p className="mt-2">
+                    <strong className="text-foreground">Essential:</strong> Yes — Required for core functionality.
+                  </p>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-card/50 backdrop-blur-sm border-border/50">
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-lg flex items-center gap-2">
+                    <Eye className="h-5 w-5 text-primary" />
+                    User Preferences
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="text-sm text-muted-foreground">
+                  <p>
+                    <strong className="text-foreground">Purpose:</strong> Remembering your theme (light/dark), language, and display preferences.
+                  </p>
+                  <p className="mt-2">
+                    <strong className="text-foreground">Essential:</strong> No — Functional but optional.
+                  </p>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-card/50 backdrop-blur-sm border-border/50">
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-lg flex items-center gap-2">
+                    <BarChart3 className="h-5 w-5 text-primary" />
+                    Analytics
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="text-sm text-muted-foreground">
+                  <p>
+                    <strong className="text-foreground">Purpose:</strong> Understanding how users interact with Motiomint to improve features and performance.
+                  </p>
+                  <p className="mt-2">
+                    <strong className="text-foreground">Essential:</strong> No — Can be disabled via cookie preferences.
+                  </p>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-card/50 backdrop-blur-sm border-border/50">
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-lg flex items-center gap-2">
+                    <CreditCard className="h-5 w-5 text-primary" />
+                    Cart Storage
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="text-sm text-muted-foreground">
+                  <p>
+                    <strong className="text-foreground">Purpose:</strong> Remembering items in your cart before checkout.
+                  </p>
+                  <p className="mt-2">
+                    <strong className="text-foreground">Essential:</strong> Yes — Required for shopping functionality.
+                  </p>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-card/50 backdrop-blur-sm border-border/50">
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-lg flex items-center gap-2">
+                    <Shield className="h-5 w-5 text-primary" />
+                    Site Performance
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="text-sm text-muted-foreground">
+                  <p>
+                    <strong className="text-foreground">Purpose:</strong> Optimizing page load times, caching content, and reducing server load.
+                  </p>
+                  <p className="mt-2">
+                    <strong className="text-foreground">Essential:</strong> Yes — Improves user experience.
+                  </p>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        ),
+      },
+      {
+        id: 'cookie-types',
+        title: 'Cookie Categories',
+        icon: Database,
+        content: (
+          <div className="space-y-6">
+            <p className="text-muted-foreground leading-relaxed">
+              Motiomint categorizes cookies based on their purpose and user consent requirements:
+            </p>
+
+            <div className="grid gap-4">
+              <Card className="bg-primary/5 border-primary/20">
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-lg flex items-center gap-2">
+                    <Shield className="h-5 w-5 text-primary" />
+                    Strictly Necessary Cookies
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-3 text-sm text-muted-foreground">
+                  <p>
+                    <strong className="text-foreground">Description:</strong> Essential for basic website functionality. Cannot be disabled without breaking core features.
+                  </p>
+                  <p>
+                    <strong className="text-foreground">Examples:</strong> Authentication tokens, session IDs, cart data, security tokens.
+                  </p>
+                  <p>
+                    <strong className="text-foreground">Consent Required:</strong> <span className="text-destructive font-semibold">No</span> — Always active.
+                  </p>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-card/50 backdrop-blur-sm border-border/50">
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-lg flex items-center gap-2">
+                    <Eye className="h-5 w-5 text-primary" />
+                    Functional Cookies
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-3 text-sm text-muted-foreground">
+                  <p>
+                    <strong className="text-foreground">Description:</strong> Enhance user experience by remembering preferences and settings.
+                  </p>
+                  <p>
+                    <strong className="text-foreground">Examples:</strong> Theme preference (light/dark), language selection, volume settings, filter preferences.
+                  </p>
+                  <p>
+                    <strong className="text-foreground">Consent Required:</strong> <span className="text-primary font-semibold">Yes</span> — Can be disabled.
+                  </p>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-card/50 backdrop-blur-sm border-border/50">
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-lg flex items-center gap-2">
+                    <BarChart3 className="h-5 w-5 text-primary" />
+                    Analytics Cookies
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-3 text-sm text-muted-foreground">
+                  <p>
+                    <strong className="text-foreground">Description:</strong> Track user behavior to understand site usage and improve performance.
+                  </p>
+                  <p>
+                    <strong className="text-foreground">Examples:</strong> Page views, click tracking, session duration, bounce rates, conversion tracking.
+                  </p>
+                  <p>
+                    <strong className="text-foreground">Consent Required:</strong> <span className="text-primary font-semibold">Yes</span> — Can be disabled.
+                  </p>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-card/50 backdrop-blur-sm border-border/50">
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-lg flex items-center gap-2">
+                    <Megaphone className="h-5 w-5 text-primary" />
+                    Marketing Cookies
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-3 text-sm text-muted-foreground">
+                  <p>
+                    <strong className="text-foreground">Description:</strong> Track users across websites to deliver targeted advertising and promotional content.
+                  </p>
+                  <p>
+                    <strong className="text-foreground">Current Status:</strong> <span className="text-muted-foreground">Not currently enabled on Motiomint.</span> If added in the future, explicit consent will be required.
+                  </p>
+                  <p>
+                    <strong className="text-foreground">Consent Required:</strong> <span className="text-primary font-semibold">Yes</span> — Always optional.
+                  </p>
+                </CardContent>
+              </Card>
+            </div>
+
+            <Alert className="bg-accent/50 border-border">
+              <CheckCircle2 className="h-4 w-4" />
+              <AlertDescription className="text-muted-foreground">
+                <strong className="text-foreground">Default Settings:</strong> Only strictly necessary cookies are enabled by default. All optional cookies require explicit user consent.
+              </AlertDescription>
+            </Alert>
+          </div>
+        ),
+      },
+      {
+        id: 'consent-banner',
+        title: 'Cookie Consent Management',
+        icon: CheckCircle2,
+        content: (
+          <div className="space-y-6">
+            <p className="text-muted-foreground leading-relaxed">
+              Motiomint respects your privacy choices. When you first visit our site, you'll see a cookie consent banner with the following options:
+            </p>
+
+            <div className="grid gap-4">
+              <Card className="bg-card/50 backdrop-blur-sm border-border/50">
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-lg flex items-center gap-2">
+                    <CheckCircle2 className="h-5 w-5 text-primary" />
+                    Accept All Cookies
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="text-sm text-muted-foreground">
+                  <p>
+                    Enables all cookie categories (Necessary, Functional, Analytics). Provides the full Motiomint experience with personalized features and performance optimizations.
+                  </p>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-card/50 backdrop-blur-sm border-border/50">
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-lg flex items-center gap-2">
+                    <Ban className="h-5 w-5 text-destructive" />
+                    Reject Non-Essential Cookies
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="text-sm text-muted-foreground">
+                  <p>
+                    Disables all optional cookies (Functional, Analytics, Marketing). Only strictly necessary cookies remain active. Some features may be limited.
+                  </p>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-card/50 backdrop-blur-sm border-border/50">
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-lg flex items-center gap-2">
+                    <Eye className="h-5 w-5 text-primary" />
+                    Manage Preferences
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="text-sm text-muted-foreground">
+                  <p>
+                    Granular control over each cookie category. Choose which optional cookies to enable or disable based on your privacy preferences.
+                  </p>
+                </CardContent>
+              </Card>
+            </div>
+
+            <Card className="bg-primary/5 border-primary/20">
+              <CardHeader>
+                <CardTitle className="text-lg flex items-center gap-2">
+                  <Shield className="h-5 w-5 text-primary" />
+                  Cookie Preference Storage
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="text-sm text-muted-foreground">
+                <p>
+                  <strong className="text-foreground">Duration:</strong> Your cookie preferences are stored for <strong className="text-primary">6 months</strong>. After this period, you'll be prompted to renew your consent.
+                </p>
+                <p className="mt-2">
+                  <strong className="text-foreground">Withdraw Consent:</strong> You can change your cookie preferences at any time via the "Manage Preferences" link in the site footer.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Alert className="bg-accent/50 border-border">
+              <AlertTriangle className="h-4 w-4" />
+              <AlertDescription className="text-muted-foreground">
+                <strong className="text-foreground">Note:</strong> The actual cookie consent banner will be implemented in a future update. This section documents the planned functionality and user consent options.
+              </AlertDescription>
+            </Alert>
+          </div>
+        ),
+      },
+      {
+        id: 'manage-cookies',
+        title: 'How to Manage Cookies',
+        icon: Eye,
+        content: (
+          <div className="space-y-6">
+            <p className="text-muted-foreground leading-relaxed">
+              You have full control over cookies. Here's how to manage, clear, or disable cookies on Motiomint:
+            </p>
+
+            <div className="space-y-4">
+              <Card className="bg-card/50 backdrop-blur-sm border-border/50">
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-lg flex items-center gap-2">
+                    <Eye className="h-5 w-5 text-primary" />
+                    Update Cookie Preferences
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="text-sm text-muted-foreground">
+                  <p>
+                    <strong className="text-foreground">Method 1:</strong> Click the "Cookie Preferences" link in the site footer to adjust your settings at any time.
+                  </p>
+                  <p className="mt-2">
+                    <strong className="text-foreground">Method 2:</strong> Access your account settings and navigate to "Privacy & Cookies" to manage preferences.
+                  </p>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-card/50 backdrop-blur-sm border-border/50">
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-lg flex items-center gap-2">
+                    <Trash2 className="h-5 w-5 text-destructive" />
+                    Clear Cookies via Browser
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-3 text-sm text-muted-foreground">
+                  <p>
+                    <strong className="text-foreground">Chrome:</strong> Settings → Privacy and security → Clear browsing data → Cookies and other site data.
+                  </p>
+                  <p>
+                    <strong className="text-foreground">Firefox:</strong> Settings → Privacy & Security → Cookies and Site Data → Clear Data.
+                  </p>
+                  <p>
+                    <strong className="text-foreground">Safari:</strong> Preferences → Privacy → Manage Website Data → Remove All.
+                  </p>
+                  <p>
+                    <strong className="text-foreground">Edge:</strong> Settings → Privacy, search, and services → Clear browsing data → Cookies and other site data.
+                  </p>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-card/50 backdrop-blur-sm border-border/50">
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-lg flex items-center gap-2">
+                    <Ban className="h-5 w-5 text-destructive" />
+                    Block All Cookies
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="text-sm text-muted-foreground">
+                  <p>
+                    <strong className="text-foreground">Browser Settings:</strong> Configure your browser to block all cookies. Note that this will prevent you from logging in to Motiomint and using most features.
+                  </p>
+                  <p className="mt-2">
+                    <strong className="text-foreground">Private/Incognito Mode:</strong> Browsing in private mode will delete cookies when the session ends but won't save preferences.
+                  </p>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-card/50 backdrop-blur-sm border-border/50">
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-lg flex items-center gap-2">
+                    <UserX className="h-5 w-5 text-primary" />
+                    Withdraw Consent
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="text-sm text-muted-foreground">
+                  <p>
+                    <strong className="text-foreground">Anytime Withdrawal:</strong> You can withdraw consent for optional cookies at any time without penalty. This will not affect your ability to use Motiomint's core features.
+                  </p>
+                </CardContent>
+              </Card>
+            </div>
+
+            <Alert className="bg-accent/50 border-border">
+              <AlertTriangle className="h-4 w-4" />
+              <AlertDescription className="text-muted-foreground">
+                <strong className="text-foreground">Impact of Disabling Cookies:</strong> Blocking necessary cookies will prevent login, cart functionality, and session management. Disabling functional/analytics cookies may result in a less personalized experience.
               </AlertDescription>
             </Alert>
           </div>
