@@ -110,9 +110,11 @@ export default function HelpCenter() {
       description: 'Legal information and policies',
       articles: [
         'Terms of Service',
+        'Privacy Policy',
+        'Cookie Policy',
         'Intellectual Property & License Integration'
       ],
-      slugs: ['terms-of-service', 'intellectual-property']
+      slugs: ['terms-of-service', 'privacy-policy', 'cookie-policy', 'intellectual-property']
     }
   ];
 
@@ -306,6 +308,9 @@ export default function HelpCenter() {
               </button>
               <button onClick={() => navigate('/help/terms-policies/privacy-policy')} className="hover:text-primary transition-colors">
                 Privacy Policy
+              </button>
+              <button onClick={() => navigate('/help/terms-policies/cookie-policy')} className="hover:text-primary transition-colors">
+                Cookie Policy
               </button>
               <button onClick={() => navigate('/help/contact-support/support-email')} className="hover:text-primary transition-colors">
                 Contact Us
