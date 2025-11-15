@@ -1,5 +1,5 @@
 import { ReactNode, useEffect } from 'react';
-import { ArrowLeft, ThumbsUp, ThumbsDown } from 'lucide-react';
+import { ArrowLeft, ArrowRight, ThumbsUp, ThumbsDown, Lightbulb } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import MainNavigation from '@/components/navigation/MainNavigation';
@@ -12,18 +12,16 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { cn } from '@/lib/utils';
+import { getRelatedArticles, getAdjacentArticles } from '@/lib/helpCenterData';
 
 interface ArticleLayoutProps {
   title: string;
   category: string;
   categoryPath: string;
   children: ReactNode;
-  relatedArticles?: {
-    title: string;
-    path: string;
-  }[];
+  articleId?: string;
 }
 
 export default function ArticleLayout({
@@ -31,8 +29,14 @@ export default function ArticleLayout({
   category,
   categoryPath,
   children,
-  relatedArticles = []
+  articleId
 }: ArticleLayoutProps) {
+  const location = useLocation();
+  
+  // Get smart suggestions and adjacent articles
+  const relatedArticles = articleId ? getRelatedArticles(articleId, 4) : [];
+  const { previous, next } = getAdjacentArticles(location.pathname);
+  
   // Smooth scroll to top on article change
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -115,29 +119,75 @@ export default function ArticleLayout({
             {children}
           </article>
 
-          {/* Related Articles */}
+          {/* Previous/Next Navigation */}
+          {(previous || next) && (
+            <div 
+              className="mb-16 grid grid-cols-1 md:grid-cols-2 gap-4 animate-fade-in"
+              style={{ animationDelay: '0.5s' }}
+            >
+              {previous ? (
+                <Link
+                  to={previous.path}
+                  className="group flex items-center gap-3 p-4 rounded-lg border-2 border-border hover:border-primary/50 hover:bg-primary/5 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                >
+                  <ArrowLeft className="w-5 h-5 text-primary group-hover:-translate-x-1 transition-transform" />
+                  <div className="flex-1 text-left">
+                    <p className="text-xs text-muted-foreground uppercase tracking-wider mb-1">Previous</p>
+                    <p className="font-semibold text-foreground group-hover:text-primary transition-colors">
+                      {previous.title}
+                    </p>
+                  </div>
+                </Link>
+              ) : (
+                <div /> 
+              )}
+              
+              {next && (
+                <Link
+                  to={next.path}
+                  className="group flex items-center gap-3 p-4 rounded-lg border-2 border-border hover:border-primary/50 hover:bg-primary/5 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                >
+                  <div className="flex-1 text-right">
+                    <p className="text-xs text-muted-foreground uppercase tracking-wider mb-1">Next</p>
+                    <p className="font-semibold text-foreground group-hover:text-primary transition-colors">
+                      {next.title}
+                    </p>
+                  </div>
+                  <ArrowRight className="w-5 h-5 text-primary group-hover:translate-x-1 transition-transform" />
+                </Link>
+              )}
+            </div>
+          )}
+
+          {/* Smart Suggestions - You May Also Find Helpful */}
           {relatedArticles.length > 0 && (
             <Card 
-              className="mb-16 animate-fade-in hover:shadow-lg transition-all duration-300"
-              style={{ animationDelay: '0.5s' }}
+              className="mb-16 animate-fade-in hover:shadow-lg transition-all duration-300 border-2 border-primary/10"
+              style={{ animationDelay: '0.6s' }}
             >
               <CardContent className="pt-6">
                 <h2 className="text-xl font-semibold mb-6 flex items-center gap-2">
-                  <span className="text-primary">Related Articles</span>
+                  <Lightbulb className="w-5 h-5 text-primary" />
+                  <span className="text-foreground">You May Also Find Helpful</span>
                 </h2>
                 <div className="grid gap-3" role="list">
-                  {relatedArticles.map((article, idx) => (
+                  {relatedArticles.map((article) => (
                     <Link
-                      key={idx}
+                      key={article.id}
                       to={article.path}
-                      className="flex items-center gap-3 p-4 rounded-lg border border-border hover:border-primary/50 hover:bg-primary/5 hover:translate-x-1 transition-all duration-200 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                      className="flex items-start gap-3 p-4 rounded-lg border border-border hover:border-primary/50 hover:bg-primary/5 hover:translate-x-1 transition-all duration-200 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                       role="listitem"
                       aria-label={`Read related article: ${article.title}`}
                     >
-                      <ArrowLeft className="w-4 h-4 text-muted-foreground group-hover:text-primary rotate-180 transition-all duration-200 group-hover:translate-x-1" aria-hidden="true" />
-                      <span className="text-foreground group-hover:text-primary transition-colors duration-200">
-                        {article.title}
-                      </span>
+                      <ArrowRight className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-all duration-200 group-hover:translate-x-1 mt-1 flex-shrink-0" aria-hidden="true" />
+                      <div className="flex-1">
+                        <span className="text-foreground group-hover:text-primary transition-colors duration-200 font-medium block mb-1">
+                          {article.title}
+                        </span>
+                        <span className="text-xs text-muted-foreground line-clamp-2">
+                          {article.description}
+                        </span>
+                      </div>
                     </Link>
                   ))}
                 </div>
@@ -148,7 +198,7 @@ export default function ArticleLayout({
           {/* Feedback Section */}
           <Card 
             className="bg-muted/30 hover:bg-muted/40 transition-all duration-300 animate-fade-in"
-            style={{ animationDelay: '0.6s' }}
+            style={{ animationDelay: '0.7s' }}
           >
             <CardContent className="pt-6">
               <div className="text-center space-y-4">
