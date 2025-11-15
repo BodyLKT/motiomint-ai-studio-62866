@@ -29,7 +29,7 @@ const articlesData: Record<string, any> = {
               By creating an account, browsing, or downloading content from Motiomint, you acknowledge that you have read, understood, and agree to be bound by these Terms. If you do not agree with any part of these Terms, you must not use our platform.
             </p>
             <Alert className="bg-primary/5 border-primary/20">
-              <AlertTriangle className="h-4 w-4 text-primary" />
+              <AlertTriangle className="w-5 h-5 text-primary" />
               <AlertDescription className="text-foreground">
                 <strong>Important:</strong> Motiomint reserves the right to update or modify these Terms at any time. Continued use of the platform after changes constitutes acceptance of the updated Terms.
               </AlertDescription>

@@ -9,21 +9,21 @@ const articles = {
   'create-account': {
     title: 'How to Create an Account',
     content: (
-      <div className="space-y-6">
-        <p className="text-lg text-muted-foreground">
+        <div className="space-y-8">
+        <p className="text-lg text-muted-foreground leading-relaxed">
           Getting started with Motiomint is quick and easy. Follow these steps to create your account and start exploring thousands of premium animations.
         </p>
 
         <Alert className="bg-primary/5 border-primary/20">
-          <Info className="h-4 w-4" />
-          <AlertDescription>
+          <Info className="w-5 h-5 text-primary" />
+          <AlertDescription className="text-foreground">
             Creating an account is completely free and gives you immediate access to browse our entire animation library.
           </AlertDescription>
         </Alert>
 
         <div className="space-y-8">
           <section>
-            <h2 className="text-2xl font-semibold mb-4 flex items-center gap-2">
+            <h2 className="text-2xl font-semibold mb-6 flex items-center gap-2">
               <span className="flex items-center justify-center w-8 h-8 rounded-full bg-primary/10 text-primary text-sm font-bold">1</span>
               Navigate to Sign Up
             </h2>
@@ -33,7 +33,7 @@ const articles = {
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold mb-4 flex items-center gap-2">
+            <h2 className="text-2xl font-semibold mb-6 flex items-center gap-2">
               <span className="flex items-center justify-center w-8 h-8 rounded-full bg-primary/10 text-primary text-sm font-bold">2</span>
               Enter Your Information
             </h2>
@@ -73,7 +73,7 @@ const articles = {
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold mb-4 flex items-center gap-2">
+            <h2 className="text-2xl font-semibold mb-6 flex items-center gap-2">
               <span className="flex items-center justify-center w-8 h-8 rounded-full bg-primary/10 text-primary text-sm font-bold">3</span>
               Accept Terms & Conditions
             </h2>
