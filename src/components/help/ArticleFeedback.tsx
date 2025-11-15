@@ -98,10 +98,10 @@ export default function ArticleFeedback({ articleId, className }: ArticleFeedbac
 
   return (
     <div className={cn("space-y-4", className)}>
-      <Card className="bg-muted/30 hover:bg-muted/40 transition-all duration-300">
-        <CardContent className="pt-6">
+      <Card className="bg-muted/30 hover:bg-muted/40 transition-all duration-200">
+        <CardContent className="pt-5 sm:pt-6">
           <div className="text-center space-y-4">
-            <h3 className="text-lg font-semibold">Was this article helpful?</h3>
+            <h3 className="text-base sm:text-lg font-semibold leading-snug">Was this article helpful?</h3>
             
             {!feedbackGiven && !showCommentBox && (
               <div 
@@ -111,29 +111,29 @@ export default function ArticleFeedback({ articleId, className }: ArticleFeedbac
               >
                 <Button 
                   variant="outline" 
-                  size="lg"
+                  size="default"
                   onClick={handlePositiveFeedback}
                   className={cn(
-                    "hover:bg-green-500/10 hover:border-green-500/50 hover:text-green-600 dark:hover:text-green-400 hover:scale-105 transition-all duration-200 group",
+                    "hover:bg-green-500/10 hover:border-green-500/50 hover:text-green-600 dark:hover:text-green-400 hover:scale-105 transition-all duration-150 group",
                     feedbackType === 'positive' && "bg-green-500/10 border-green-500/50 text-green-600 dark:text-green-400"
                   )}
                   aria-label="Yes, this article was helpful"
                 >
-                  <ThumbsUp className="w-5 h-5 mr-2 group-hover:scale-110 transition-transform" aria-hidden="true" />
-                  Yes, this helped
+                  <ThumbsUp className="w-4 h-4 sm:w-5 sm:h-5 mr-2 group-hover:scale-110 transition-transform duration-150" aria-hidden="true" />
+                  <span className="text-sm sm:text-base">Yes, this helped</span>
                 </Button>
                 <Button 
                   variant="outline" 
-                  size="lg"
+                  size="default"
                   onClick={handleNegativeFeedback}
                   className={cn(
-                    "hover:bg-red-500/10 hover:border-red-500/50 hover:text-red-600 dark:hover:text-red-400 hover:scale-105 transition-all duration-200 group",
+                    "hover:bg-red-500/10 hover:border-red-500/50 hover:text-red-600 dark:hover:text-red-400 hover:scale-105 transition-all duration-150 group",
                     feedbackType === 'negative' && "bg-red-500/10 border-red-500/50 text-red-600 dark:text-red-400"
                   )}
                   aria-label="No, this article was not helpful"
                 >
-                  <ThumbsDown className="w-5 h-5 mr-2 group-hover:scale-110 transition-transform" aria-hidden="true" />
-                  No, I need more help
+                  <ThumbsDown className="w-4 h-4 sm:w-5 sm:h-5 mr-2 group-hover:scale-110 transition-transform duration-150" aria-hidden="true" />
+                  <span className="text-sm sm:text-base">No, I need more help</span>
                 </Button>
               </div>
             )}

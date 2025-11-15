@@ -113,11 +113,11 @@ export default function HelpCenterSearch({ className }: HelpCenterSearchProps) {
             if (results.length > 0) setIsOpen(true);
           }}
           className={cn(
-            "w-full h-12 pl-12 pr-12 text-base",
+            "w-full h-11 sm:h-12 pl-11 sm:pl-12 pr-11 sm:pr-12 text-sm sm:text-base",
             "bg-background/60 backdrop-blur-sm",
             "border-2 border-border/50",
             "hover:border-primary/30 focus:border-primary",
-            "transition-all duration-200",
+            "transition-all duration-150",
             "placeholder:text-muted-foreground/60",
             "focus-visible:ring-2 focus-visible:ring-primary/20"
           )}
@@ -148,11 +148,11 @@ export default function HelpCenterSearch({ className }: HelpCenterSearchProps) {
           id="search-results"
           role="listbox"
           className={cn(
-            "absolute z-50 w-full mt-2 p-2",
-            "bg-background/95 backdrop-blur-lg",
+            "absolute z-50 w-full mt-2 p-1.5 sm:p-2",
+            "bg-background/95 backdrop-blur-md",
             "border-2 border-primary/20",
             "shadow-xl shadow-primary/5",
-            "animate-fade-in max-h-[400px] overflow-y-auto"
+            "animate-fade-in max-h-[350px] sm:max-h-[400px] overflow-y-auto rounded-xl"
           )}
         >
           <div className="space-y-1">
@@ -164,8 +164,8 @@ export default function HelpCenterSearch({ className }: HelpCenterSearchProps) {
                 role="option"
                 aria-selected={selectedIndex === index}
                 className={cn(
-                  "flex items-start justify-between gap-3 p-3 rounded-lg",
-                  "transition-all duration-200 group",
+                  "flex items-start justify-between gap-2 sm:gap-3 p-2.5 sm:p-3 rounded-lg",
+                  "transition-all duration-150 group",
                   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
                   selectedIndex === index
                     ? "bg-primary/10 border-primary/30"
@@ -176,13 +176,13 @@ export default function HelpCenterSearch({ className }: HelpCenterSearchProps) {
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-1">
                     <h4 className={cn(
-                      "font-semibold text-sm truncate transition-colors",
+                      "font-semibold text-sm truncate transition-colors duration-150 leading-snug",
                       selectedIndex === index ? "text-primary" : "text-foreground"
                     )}>
                       {article.title}
                     </h4>
                   </div>
-                  <p className="text-xs text-muted-foreground line-clamp-2 mb-2">
+                  <p className="text-xs text-muted-foreground line-clamp-2 mb-2 leading-relaxed">
                     {article.description}
                   </p>
                   <Badge 
@@ -194,7 +194,7 @@ export default function HelpCenterSearch({ className }: HelpCenterSearchProps) {
                 </div>
                 <ArrowRight 
                   className={cn(
-                    "w-4 h-4 flex-shrink-0 transition-all duration-200 mt-1",
+                    "w-4 h-4 flex-shrink-0 transition-all duration-150 mt-1",
                     selectedIndex === index 
                       ? "text-primary translate-x-1" 
                       : "text-muted-foreground group-hover:translate-x-1"
@@ -206,8 +206,8 @@ export default function HelpCenterSearch({ className }: HelpCenterSearchProps) {
           </div>
 
           {/* Search Tips */}
-          <div className="mt-3 pt-3 border-t border-border/50">
-            <p className="text-xs text-muted-foreground text-center">
+          <div className="mt-2 sm:mt-3 pt-2 sm:pt-3 border-t border-border/50">
+            <p className="text-xs text-muted-foreground text-center px-2">
               <kbd className="px-1.5 py-0.5 text-xs rounded bg-muted">↑</kbd>
               {' '}<kbd className="px-1.5 py-0.5 text-xs rounded bg-muted">↓</kbd>
               {' '}to navigate • {' '}
@@ -224,16 +224,16 @@ export default function HelpCenterSearch({ className }: HelpCenterSearchProps) {
       {isOpen && query.length >= 2 && results.length === 0 && (
         <Card 
           className={cn(
-            "absolute z-50 w-full mt-2 p-6",
-            "bg-background/95 backdrop-blur-lg",
+            "absolute z-50 w-full mt-2 p-5 sm:p-6",
+            "bg-background/95 backdrop-blur-md",
             "border-2 border-border/50",
-            "animate-fade-in text-center"
+            "animate-fade-in text-center rounded-xl"
           )}
         >
-          <p className="text-muted-foreground text-sm">
+          <p className="text-muted-foreground text-sm leading-relaxed">
             No results found for "<span className="font-semibold text-foreground">{query}</span>"
           </p>
-          <p className="text-xs text-muted-foreground mt-2">
+          <p className="text-xs text-muted-foreground mt-2 leading-relaxed">
             Try different keywords or browse categories below
           </p>
         </Card>

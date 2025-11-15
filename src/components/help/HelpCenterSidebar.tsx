@@ -102,12 +102,12 @@ export default function HelpCenterSidebar() {
 
   return (
     <aside
-      className="fixed top-20 left-0 h-[calc(100vh-5rem)] w-64 border-r border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 z-40 hidden lg:block"
+      className="fixed top-20 left-0 h-[calc(100vh-5rem)] w-64 border-r border-border bg-background/95 backdrop-blur-sm supports-[backdrop-filter]:bg-background/60 z-40 hidden lg:block"
       role="navigation"
       aria-label="Help Center Navigation"
     >
-      <ScrollArea className="h-full py-6 px-3">
-        <nav className="space-y-2">
+      <ScrollArea className="h-full py-4 px-3">
+        <nav className="space-y-1.5">
           {sidebarCategories.map((category) => {
             const Icon = category.icon;
             const isActive = currentPath.startsWith(category.basePath);
@@ -120,20 +120,20 @@ export default function HelpCenterSidebar() {
               >
                 <CollapsibleTrigger
                   className={cn(
-                    "flex w-full items-center justify-between rounded-lg px-3 py-2.5 text-sm font-medium transition-all duration-200",
+                    "flex w-full items-center justify-between rounded-lg px-3 py-2 text-sm font-medium transition-all duration-150",
                     "hover:bg-accent/50 hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
                     isActive ? "bg-accent text-accent-foreground" : "text-muted-foreground"
                   )}
                   aria-label={`Toggle ${category.title} section`}
                 >
-                  <div className="flex items-center gap-2">
-                    <Icon className={cn("h-4 w-4 transition-colors", isActive && "text-primary")} />
-                    <span>{category.title}</span>
+                  <div className="flex items-center gap-2.5">
+                    <Icon className={cn("h-4 w-4 transition-colors duration-150", isActive && "text-primary")} />
+                    <span className="leading-snug">{category.title}</span>
                   </div>
-                  <ChevronRight className="h-4 w-4 transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+                  <ChevronRight className="h-4 w-4 transition-transform duration-150 group-data-[state=open]/collapsible:rotate-90" />
                 </CollapsibleTrigger>
                 <CollapsibleContent className="animate-accordion-down">
-                  <div className="ml-6 mt-1 space-y-1 border-l border-border/50 pl-3">
+                  <div className="ml-6 mt-0.5 space-y-0.5 border-l border-border/50 pl-3">
                     {category.items.map((item) => {
                       const isItemActive = currentPath === item.path;
                       
@@ -142,7 +142,7 @@ export default function HelpCenterSidebar() {
                           key={item.path}
                           to={item.path}
                           className={cn(
-                            "block rounded-md px-3 py-2 text-sm transition-all duration-200",
+                            "block rounded-md px-3 py-1.5 text-sm transition-all duration-150 leading-relaxed",
                             "hover:bg-accent/50 hover:text-accent-foreground hover:translate-x-0.5",
                             "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
                             isItemActive
