@@ -1944,6 +1944,11 @@ export default function TermsArticle() {
 
   const article = slug ? articlesData[slug] : null;
 
+  // Scroll to top on article load
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [slug]);
+
   useEffect(() => {
     const handleScroll = () => {
       if (!article) return;

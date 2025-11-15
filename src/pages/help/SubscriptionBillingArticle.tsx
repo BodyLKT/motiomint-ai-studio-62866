@@ -1,4 +1,5 @@
 import { useParams, useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 import { ArrowLeft, Check, AlertCircle, CreditCard, RefreshCw, Zap, XCircle, DollarSign, Clock, FileText, Shield, Download } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -9,6 +10,11 @@ import MainNavigation from '@/components/navigation/MainNavigation';
 export default function SubscriptionBillingArticle() {
   const { slug } = useParams();
   const navigate = useNavigate();
+
+  // Scroll to top on article load
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [slug]);
 
   const articles: Record<string, {
     title: string;

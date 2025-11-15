@@ -1,4 +1,5 @@
 import { useParams, useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 import { ArrowLeft, Shield, Check, X, AlertCircle, BookOpen, FileText, Scale, Copy, Edit3, Code, Image, Users, Building2, HelpCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -17,6 +18,11 @@ import {
 export default function LicenseUsageArticle() {
   const { slug } = useParams();
   const navigate = useNavigate();
+
+  // Scroll to top on article load
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [slug]);
 
   const articles = {
     'license-types': {

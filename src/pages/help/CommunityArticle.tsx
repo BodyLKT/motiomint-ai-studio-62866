@@ -1,4 +1,5 @@
 import { useParams, Link } from 'react-router-dom';
+import { useEffect } from 'react';
 import { ArrowLeft, Users, MessageCircle, Heart, Lightbulb, Shield, AlertTriangle, CheckCircle, Lock, Unlock, Crown, Sparkles, Send, CheckCircle2, TrendingUp, Award, Star, Zap, ExternalLink, ThumbsUp, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -1411,6 +1412,11 @@ const articles = {
 export default function CommunityArticle() {
   const { slug } = useParams();
   const article = slug ? articles[slug as keyof typeof articles] : null;
+
+  // Scroll to top on article load
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [slug]);
 
   if (!article) {
     return (

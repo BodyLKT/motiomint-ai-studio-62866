@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { useEffect } from 'react';
 import { BookOpen, CreditCard, Shield, Headphones, Users, FileText, ArrowRight, TrendingUp, Clock, Flame } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -10,6 +11,11 @@ import { getPopularArticles, getRecentlyUpdatedArticles } from '@/lib/helpCenter
 
 export default function HelpCenter() {
   const categories = helpCenterData;
+  
+  // Scroll to top on page load
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, []);
   
   // Get popular and recently updated articles
   const popularArticleIds = getPopularArticles(6);
