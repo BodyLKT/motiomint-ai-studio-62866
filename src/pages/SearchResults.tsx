@@ -27,19 +27,6 @@ import { LoginModal } from '@/components/auth/LoginModal';
 import { SignUpModal } from '@/components/auth/SignUpModal';
 import { getCachedSearch, UnifiedSearchResult } from '@/lib/unifiedSearch';
 
-interface Animation {
-  id: string;
-  title: string;
-  description: string;
-  category: string;
-  file_url: string;
-  thumbnail_url: string;
-  preview_url?: string;
-  tags: string[];
-  format?: string;
-  resolution?: string;
-}
-
 export default function SearchResults() {
   const { t } = useTranslation();
   const { user, signOut } = useAuth();
@@ -353,23 +340,19 @@ export default function SearchResults() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 lg:gap-6">
                   {animationResults.map((result) => {
                     if (result.type !== 'animation') return null;
-                    const animation: Animation = {
-                      id: result.id,
-                      title: result.title,
-                      description: result.description,
-                      category: result.category,
-                      thumbnail_url: result.thumbnail_url,
-                      file_url: '',
-                      tags: result.tags,
-                    };
                     return (
                       <AnimationCard
                         key={result.id}
-                        animation={animation}
+                        id={result.id}
+                        title={result.title}
+                        description={result.description}
+                        category={result.category}
+                        thumbnailUrl={result.thumbnail_url}
+                        tags={result.tags}
                         isFavorite={favorites.has(result.id)}
                         isInCart={cart.has(result.id)}
-                        onToggleFavorite={() => toggleFavorite(result.id)}
-                        onToggleCart={() => toggleCart(result.id)}
+                        onFavoriteToggle={() => toggleFavorite(result.id)}
+                        onCartToggle={() => toggleCart(result.id)}
                       />
                     );
                   })}
@@ -518,7 +501,7 @@ export default function SearchResults() {
       {/* Modals */}
       <LoginModal 
         open={showLoginModal} 
-        onOpenChange={setShowLoginModal}
+        onClose={() => setShowLoginModal(false)}
         onSwitchToSignUp={() => {
           setShowLoginModal(false);
           setShowSignUpModal(true);
@@ -526,7 +509,7 @@ export default function SearchResults() {
       />
       <SignUpModal 
         open={showSignUpModal} 
-        onOpenChange={setShowSignUpModal}
+        onClose={() => setShowSignUpModal(false)}
         onSwitchToLogin={() => {
           setShowSignUpModal(false);
           setShowLoginModal(true);
