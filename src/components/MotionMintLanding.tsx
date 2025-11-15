@@ -180,7 +180,7 @@ const MotionMintLanding = () => {
       />
 
       {/* Hero Section */}
-      <section className="relative pt-40 pb-16 min-h-[75vh]">
+      <section className="relative pt-40 pb-12 min-h-[85vh] flex items-center">
         <div 
           className="absolute inset-0 z-0"
           style={{
@@ -191,12 +191,12 @@ const MotionMintLanding = () => {
           }}
         />
         {/* Darker overlay for better contrast in both light and dark mode */}
-        <div className="absolute inset-0 bg-black/30 z-0" />
-        <div className="absolute inset-0 bg-gradient-to-br from-background/95 via-background/90 to-background/85 dark:from-background/50 dark:via-background/30 dark:to-background/20 z-0" />
-        <div className="absolute inset-0 animated-gradient opacity-20 dark:opacity-100 z-0" />
+        <div className="absolute inset-0 bg-black/40 z-0" />
+        <div className="absolute inset-0 bg-gradient-to-br from-background/90 via-background/85 to-background/80 dark:from-background/50 dark:via-background/30 dark:to-background/20 z-0" />
+        <div className="absolute inset-0 animated-gradient opacity-15 dark:opacity-100 z-0" />
         
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
+        <div className="container mx-auto px-4 relative z-10 w-full">
+          <div className="grid lg:grid-cols-2 gap-12 items-center justify-items-center">
             <div className="text-center lg:text-left">
               <Badge className="mb-6 bg-primary/20 text-primary border-primary/30">
                 {t('hero.badge')}
@@ -235,8 +235,10 @@ const MotionMintLanding = () => {
             </div>
             
             {/* 3D Animation Carousel */}
-            <div className="relative h-[500px] lg:h-[650px] flex items-center justify-center">
-              <AnimationCarousel3D />
+            <div className="relative w-full flex items-center justify-center lg:justify-end">
+              <div className="h-[500px] lg:h-[600px] w-full max-w-[600px]">
+                <AnimationCarousel3D />
+              </div>
             </div>
           </div>
         </div>

@@ -215,7 +215,7 @@ export const AnimationCarousel3D = () => {
 
   if (animations.length === 0) {
     return (
-      <div className="relative w-full h-full min-h-[500px] lg:min-h-[650px] flex items-center justify-center">
+      <div className="relative w-full h-full min-h-[500px] lg:min-h-[600px] flex items-center justify-center">
         <div className="text-muted-foreground">Loading animations...</div>
       </div>
     );
@@ -224,7 +224,7 @@ export const AnimationCarousel3D = () => {
   return (
     <div 
       ref={carouselRef}
-      className="relative w-full h-full min-h-[500px] lg:min-h-[650px]"
+      className="relative w-full h-full min-h-[500px] lg:min-h-[600px]"
       onMouseEnter={handleUserInteraction}
       tabIndex={0}
       role="region"
@@ -246,7 +246,7 @@ export const AnimationCarousel3D = () => {
         onTouchEnd={handleTouchEnd}
       >
         {/* Cards Container */}
-        <div className="relative w-full h-[500px] lg:h-[650px]">
+        <div className="relative w-full h-[500px] lg:h-[600px]">
           {animations.map((animation, index) => {
             const style = getCardStyle(index);
             const isCenter = index === currentIndex;
