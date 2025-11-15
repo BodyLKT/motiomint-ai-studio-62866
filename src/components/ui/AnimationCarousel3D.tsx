@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -18,6 +18,10 @@ export const AnimationCarousel3D = () => {
   const [animations, setAnimations] = useState<Animation[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoplayActive, setIsAutoplayActive] = useState(true);
+  const [isDragging, setIsDragging] = useState(false);
+  const [startX, setStartX] = useState(0);
+  const [dragOffset, setDragOffset] = useState(0);
+  const carouselRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -29,8 +33,8 @@ export const AnimationCarousel3D = () => {
     if (!isAutoplayActive || animations.length === 0) return;
 
     const autoplayInterval = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % Math.ceil(animations.length / 6));
-    }, 4000); // Change every 4 seconds
+      setCurrentIndex((prev) => (prev + 1) % animations.length);
+    }, 4000);
 
     return () => clearInterval(autoplayInterval);
   }, [isAutoplayActive, animations.length]);
@@ -38,22 +42,19 @@ export const AnimationCarousel3D = () => {
   // Pause autoplay on user interaction
   const handleUserInteraction = useCallback(() => {
     setIsAutoplayActive(false);
-    // Resume autoplay after 10 seconds of no interaction
     setTimeout(() => setIsAutoplayActive(true), 10000);
   }, []);
 
   const fetchRandomAnimations = async () => {
     try {
-      // Fetch 18 random animations for 3 sets of 6
       const { data, error } = await supabase
         .from('animations')
         .select('id, title, thumbnail_url, file_url, category')
-        .limit(18);
+        .limit(12);
 
       if (error) throw error;
 
       if (data) {
-        // Shuffle the animations and map file_url to video_url
         const shuffled = [...data].sort(() => Math.random() - 0.5);
         setAnimations(shuffled.map(item => ({
           ...item,
@@ -66,130 +67,292 @@ export const AnimationCarousel3D = () => {
   };
 
   const handleAnimationClick = (id: string) => {
+    if (isDragging) return;
     handleUserInteraction();
     navigate(`/animation/${id}`);
   };
 
-  // Get current 6 animations to display
-  const displayedAnimations = animations.slice(currentIndex * 6, (currentIndex * 6) + 6);
-  const totalPages = Math.ceil(animations.length / 6);
-
   const goToPrevious = () => {
     handleUserInteraction();
-    setCurrentIndex((prev) => (prev - 1 + totalPages) % totalPages);
+    setCurrentIndex((prev) => (prev - 1 + animations.length) % animations.length);
   };
 
   const goToNext = () => {
     handleUserInteraction();
-    setCurrentIndex((prev) => (prev + 1) % totalPages);
+    setCurrentIndex((prev) => (prev + 1) % animations.length);
   };
 
-  return (
-    <div className="relative w-full h-full min-h-[600px] lg:min-h-[700px]">
-      <div 
-        className="w-full h-full flex items-center perspective-1000"
-        onMouseEnter={handleUserInteraction}
-        onTouchStart={handleUserInteraction}
-      >
-        <div className="w-full grid grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4 auto-rows-fr">
-        {displayedAnimations.map((animation, index) => (
-          <Card 
-            key={animation.id}
-            className="group relative overflow-hidden rounded-2xl cursor-pointer transform transition-all duration-500 hover:scale-105 hover:z-10 glass border-primary/30 glow-primary animate-fade-in aspect-[9/16]"
-            onClick={() => handleAnimationClick(animation.id)}
-            style={{
-              transformStyle: 'preserve-3d',
-              animationDelay: `${index * 100}ms`,
-            }}
-          >
-            <div className="relative w-full h-full overflow-hidden">
-              {/* Video Preview */}
-              <video
-                src={animation.video_url}
-                poster={animation.thumbnail_url}
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                muted
-                loop
-                playsInline
-                onMouseEnter={(e) => e.currentTarget.play()}
-                onMouseLeave={(e) => {
-                  e.currentTarget.pause();
-                  e.currentTarget.currentTime = 0;
-                }}
-              />
-              
-              {/* Gradient Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-              
-              {/* Category Badge */}
-              <Badge className="absolute top-2 right-2 bg-primary/90 backdrop-blur-sm text-white border-0 shadow-lg text-xs">
-                {animation.category}
-              </Badge>
-              
-              {/* Play Icon Overlay */}
-              <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                <div className="w-12 h-12 rounded-full bg-primary/90 backdrop-blur-sm flex items-center justify-center shadow-2xl animate-pulse">
-                  <Play className="w-6 h-6 text-white ml-0.5" />
-                </div>
-              </div>
-              
-              {/* Title */}
-              <div className="absolute bottom-0 left-0 right-0 p-3">
-                <h3 className="text-white font-bold text-sm line-clamp-2 drop-shadow-lg">
-                  {animation.title}
-                </h3>
-              </div>
+  // Drag/Swipe handlers
+  const handleDragStart = (clientX: number) => {
+    setIsDragging(true);
+    setStartX(clientX);
+    handleUserInteraction();
+  };
 
-              {/* Glow Effect */}
-              <div className="absolute inset-0 bg-gradient-to-r from-primary/20 via-secondary/20 to-accent/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-            </div>
-          </Card>
-        ))}
+  const handleDragMove = (clientX: number) => {
+    if (!isDragging) return;
+    const diff = clientX - startX;
+    setDragOffset(diff);
+  };
+
+  const handleDragEnd = () => {
+    if (!isDragging) return;
+    setIsDragging(false);
+    
+    if (Math.abs(dragOffset) > 50) {
+      if (dragOffset > 0) {
+        goToPrevious();
+      } else {
+        goToNext();
+      }
+    }
+    setDragOffset(0);
+  };
+
+  // Mouse events
+  const handleMouseDown = (e: React.MouseEvent) => {
+    handleDragStart(e.clientX);
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    handleDragMove(e.clientX);
+  };
+
+  const handleMouseUp = () => {
+    handleDragEnd();
+  };
+
+  const handleMouseLeave = () => {
+    if (isDragging) handleDragEnd();
+  };
+
+  // Touch events
+  const handleTouchStart = (e: React.TouchEvent) => {
+    handleDragStart(e.touches[0].clientX);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    handleDragMove(e.touches[0].clientX);
+  };
+
+  const handleTouchEnd = () => {
+    handleDragEnd();
+  };
+
+  // Keyboard navigation
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'ArrowLeft') {
+        goToPrevious();
+      } else if (e.key === 'ArrowRight') {
+        goToNext();
+      }
+    };
+
+    if (carouselRef.current) {
+      window.addEventListener('keydown', handleKeyDown);
+    }
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [animations.length]);
+
+  // Calculate position and styling for each card
+  const getCardStyle = (index: number) => {
+    const position = index - currentIndex;
+    const absPosition = Math.abs(position);
+    
+    // Only show cards within range of -2 to 2
+    if (absPosition > 2) {
+      return {
+        opacity: 0,
+        transform: 'translateX(0) scale(0.5) rotateY(0deg)',
+        zIndex: 0,
+        pointerEvents: 'none' as const,
+      };
+    }
+
+    let translateX = position * 280; // Base spacing
+    let scale = 1;
+    let opacity = 1;
+    let rotateY = 0;
+    let zIndex = 10;
+    let blur = 0;
+
+    if (position === 0) {
+      // Center card
+      scale = 1;
+      opacity = 1;
+      zIndex = 30;
+      translateX += dragOffset * 0.3;
+    } else if (absPosition === 1) {
+      // Adjacent cards
+      scale = 0.85;
+      opacity = 0.7;
+      rotateY = position > 0 ? -15 : 15;
+      zIndex = 20;
+      translateX += dragOffset * 0.2;
+      blur = 1;
+    } else if (absPosition === 2) {
+      // Far cards
+      scale = 0.7;
+      opacity = 0.4;
+      rotateY = position > 0 ? -25 : 25;
+      zIndex = 10;
+      translateX += dragOffset * 0.1;
+      blur = 2;
+    }
+
+    return {
+      opacity,
+      transform: `translateX(${translateX}px) scale(${scale}) rotateY(${rotateY}deg) translateZ(0)`,
+      zIndex,
+      filter: blur > 0 ? `blur(${blur}px)` : 'none',
+      pointerEvents: position === 0 ? ('auto' as const) : ('none' as const),
+    };
+  };
+
+  if (animations.length === 0) {
+    return (
+      <div className="relative w-full h-full min-h-[500px] lg:min-h-[600px] flex items-center justify-center">
+        <div className="text-muted-foreground">Loading animations...</div>
+      </div>
+    );
+  }
+
+  return (
+    <div 
+      ref={carouselRef}
+      className="relative w-full h-full min-h-[500px] lg:min-h-[600px] overflow-hidden"
+      onMouseEnter={handleUserInteraction}
+      tabIndex={0}
+      role="region"
+      aria-label="3D Animation Carousel"
+    >
+      {/* Carousel Container */}
+      <div 
+        className="w-full h-full flex items-center justify-center"
+        style={{ 
+          perspective: '1200px',
+          perspectiveOrigin: 'center center',
+        }}
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp}
+        onMouseLeave={handleMouseLeave}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+      >
+        {/* Cards Container */}
+        <div className="relative w-full h-[500px] lg:h-[600px]">
+          {animations.map((animation, index) => {
+            const style = getCardStyle(index);
+            const isCenter = index === currentIndex;
+            
+            return (
+              <Card 
+                key={animation.id}
+                className={`group absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[260px] lg:w-[320px] h-[460px] lg:h-[560px] overflow-hidden rounded-2xl cursor-pointer glass border-primary/30 transition-all duration-700 ease-out ${
+                  isCenter ? 'glow-primary' : ''
+                }`}
+                onClick={() => handleAnimationClick(animation.id)}
+                style={{
+                  ...style,
+                  transformStyle: 'preserve-3d',
+                  willChange: 'transform, opacity',
+                }}
+              >
+                <div className="relative w-full h-full overflow-hidden">
+                  {/* Video Preview */}
+                  <video
+                    src={animation.video_url}
+                    poster={animation.thumbnail_url}
+                    className="w-full h-full object-cover transition-transform duration-700"
+                    muted
+                    loop
+                    playsInline
+                    onMouseEnter={(e) => isCenter && e.currentTarget.play()}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.pause();
+                      e.currentTarget.currentTime = 0;
+                    }}
+                  />
+                  
+                  {/* Gradient Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                  
+                  {/* Category Badge */}
+                  <Badge className="absolute top-3 right-3 bg-primary/90 backdrop-blur-sm text-white border-0 shadow-lg text-xs">
+                    {animation.category}
+                  </Badge>
+                  
+                  {/* Play Icon Overlay - only visible on center card */}
+                  {isCenter && (
+                    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      <div className="w-14 h-14 rounded-full bg-primary/90 backdrop-blur-sm flex items-center justify-center shadow-2xl">
+                        <Play className="w-7 h-7 text-white ml-0.5" />
+                      </div>
+                    </div>
+                  )}
+                  
+                  {/* Title */}
+                  <div className="absolute bottom-0 left-0 right-0 p-4">
+                    <h3 className="text-white font-bold text-base line-clamp-2 drop-shadow-lg">
+                      {animation.title}
+                    </h3>
+                  </div>
+
+                  {/* Glow Effect */}
+                  {isCenter && (
+                    <div className="absolute inset-0 bg-gradient-to-r from-primary/20 via-secondary/20 to-accent/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  )}
+                </div>
+              </Card>
+            );
+          })}
         </div>
       </div>
 
       {/* Navigation Controls */}
-      {totalPages > 1 && (
-        <>
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={goToPrevious}
-            className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 z-20 h-10 w-10 md:h-12 md:w-12 rounded-full bg-background/80 backdrop-blur-sm border-primary/30 hover:bg-primary/20 hover:border-primary shadow-lg transition-all"
-            aria-label="Previous animations"
-          >
-            <ChevronLeft className="h-5 w-5 md:h-6 md:w-6" />
-          </Button>
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={goToNext}
-            className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 z-20 h-10 w-10 md:h-12 md:w-12 rounded-full bg-background/80 backdrop-blur-sm border-primary/30 hover:bg-primary/20 hover:border-primary shadow-lg transition-all"
-            aria-label="Next animations"
-          >
-            <ChevronRight className="h-5 w-5 md:h-6 md:w-6" />
-          </Button>
+      <Button
+        variant="outline"
+        size="icon"
+        onClick={goToPrevious}
+        className="absolute left-2 md:left-4 lg:left-8 top-1/2 -translate-y-1/2 z-40 h-10 w-10 md:h-12 md:w-12 rounded-full bg-background/90 backdrop-blur-sm border-primary/30 hover:bg-primary/20 hover:border-primary shadow-lg transition-all hover:scale-110"
+        aria-label="Previous animation"
+      >
+        <ChevronLeft className="h-5 w-5 md:h-6 md:w-6" />
+      </Button>
+      <Button
+        variant="outline"
+        size="icon"
+        onClick={goToNext}
+        className="absolute right-2 md:right-4 lg:right-8 top-1/2 -translate-y-1/2 z-40 h-10 w-10 md:h-12 md:w-12 rounded-full bg-background/90 backdrop-blur-sm border-primary/30 hover:bg-primary/20 hover:border-primary shadow-lg transition-all hover:scale-110"
+        aria-label="Next animation"
+      >
+        <ChevronRight className="h-5 w-5 md:h-6 md:w-6" />
+      </Button>
 
-          {/* Pagination Dots */}
-          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 flex gap-2">
-            {Array.from({ length: totalPages }).map((_, index) => (
-              <button
-                key={index}
-                onClick={() => {
-                  handleUserInteraction();
-                  setCurrentIndex(index);
-                }}
-                className={`h-2 rounded-full transition-all ${
-                  index === currentIndex 
-                    ? 'w-8 bg-primary' 
-                    : 'w-2 bg-primary/30 hover:bg-primary/50'
-                }`}
-                aria-label={`Go to page ${index + 1}`}
-              />
-            ))}
-          </div>
-        </>
-      )}
+      {/* Pagination Dots */}
+      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-40 flex gap-2">
+        {animations.slice(0, 8).map((_, index) => (
+          <button
+            key={index}
+            onClick={() => {
+              handleUserInteraction();
+              setCurrentIndex(index);
+            }}
+            className={`h-2 rounded-full transition-all ${
+              index === currentIndex 
+                ? 'w-8 bg-primary' 
+                : 'w-2 bg-primary/30 hover:bg-primary/50'
+            }`}
+            aria-label={`Go to animation ${index + 1}`}
+          />
+        ))}
+      </div>
     </div>
   );
 };
