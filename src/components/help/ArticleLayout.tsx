@@ -1,9 +1,11 @@
 import { ReactNode, useEffect } from 'react';
-import { ArrowLeft, ArrowRight, ThumbsUp, ThumbsDown, Lightbulb } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Lightbulb } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import MainNavigation from '@/components/navigation/MainNavigation';
 import HelpCenterSidebar from '@/components/help/HelpCenterSidebar';
+import ArticleFeedback from '@/components/help/ArticleFeedback';
+import ReportIssueModal from '@/components/help/ReportIssueModal';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -15,6 +17,7 @@ import {
 import { Link, useLocation } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 import { getRelatedArticles, getAdjacentArticles } from '@/lib/helpCenterData';
+import { trackArticleView } from '@/lib/helpCenterAnalytics';
 
 interface ArticleLayoutProps {
   title: string;
@@ -37,10 +40,15 @@ export default function ArticleLayout({
   const relatedArticles = articleId ? getRelatedArticles(articleId, 4) : [];
   const { previous, next } = getAdjacentArticles(location.pathname);
   
-  // Smooth scroll to top on article change
+  // Track article view and smooth scroll to top on article change
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, [title]);
+    
+    // Track article view for analytics
+    if (articleId) {
+      trackArticleView(articleId);
+    }
+  }, [title, articleId]);
 
   return (
     <div className="min-h-screen bg-background">
@@ -112,18 +120,38 @@ export default function ArticleLayout({
 
           {/* Article Content */}
           <article 
-            className="prose prose-slate dark:prose-invert max-w-none mb-16 animate-fade-in"
+            className="prose prose-slate dark:prose-invert max-w-none mb-12 animate-fade-in"
             style={{ animationDelay: '0.4s' }}
             role="article"
           >
             {children}
           </article>
 
+          {/* Report Issue Button */}
+          {articleId && (
+            <div 
+              className="mb-16 flex justify-end animate-fade-in"
+              style={{ animationDelay: '0.45s' }}
+            >
+              <ReportIssueModal articleId={articleId} articleTitle={title} />
+            </div>
+          )}
+
+          {/* Article Feedback */}
+          {articleId && (
+            <div 
+              className="mb-16 animate-fade-in"
+              style={{ animationDelay: '0.5s' }}
+            >
+              <ArticleFeedback articleId={articleId} />
+            </div>
+          )}
+
           {/* Previous/Next Navigation */}
           {(previous || next) && (
             <div 
               className="mb-16 grid grid-cols-1 md:grid-cols-2 gap-4 animate-fade-in"
-              style={{ animationDelay: '0.5s' }}
+              style={{ animationDelay: '0.55s' }}
             >
               {previous ? (
                 <Link
@@ -163,7 +191,7 @@ export default function ArticleLayout({
           {relatedArticles.length > 0 && (
             <Card 
               className="mb-16 animate-fade-in hover:shadow-lg transition-all duration-300 border-2 border-primary/10"
-              style={{ animationDelay: '0.6s' }}
+              style={{ animationDelay: '0.65s' }}
             >
               <CardContent className="pt-6">
                 <h2 className="text-xl font-semibold mb-6 flex items-center gap-2">
@@ -195,48 +223,26 @@ export default function ArticleLayout({
             </Card>
           )}
 
-          {/* Feedback Section */}
+          {/* Additional Support CTA */}
           <Card 
             className="bg-muted/30 hover:bg-muted/40 transition-all duration-300 animate-fade-in"
-            style={{ animationDelay: '0.7s' }}
+            style={{ animationDelay: '0.75s' }}
           >
             <CardContent className="pt-6">
               <div className="text-center space-y-4">
-                <h3 className="text-lg font-semibold">Was this article helpful?</h3>
-                <div 
-                  className="flex gap-3 justify-center" 
-                  role="group" 
-                  aria-label="Article feedback"
-                >
-                  <Button 
-                    variant="outline" 
-                    size="sm"
-                    className="hover:bg-success/10 hover:border-success/50 hover:text-success hover:scale-105 transition-all duration-200 group"
-                    aria-label="Yes, this article was helpful"
-                  >
-                    <ThumbsUp className="w-4 h-4 mr-2 group-hover:scale-110 transition-transform" aria-hidden="true" />
-                    Yes
-                  </Button>
-                  <Button 
-                    variant="outline" 
-                    size="sm"
-                    className="hover:bg-destructive/10 hover:border-destructive/50 hover:text-destructive hover:scale-105 transition-all duration-200 group"
-                    aria-label="No, this article was not helpful"
-                  >
-                    <ThumbsDown className="w-4 h-4 mr-2 group-hover:scale-110 transition-transform" aria-hidden="true" />
-                    No
-                  </Button>
-                </div>
+                <h3 className="text-lg font-semibold">Need Additional Help?</h3>
                 <p className="text-sm text-muted-foreground">
-                  Need more help?{' '}
+                  Can't find what you're looking for? Our support team is here to help.
+                </p>
+                <Button asChild size="lg" className="group">
                   <Link 
-                    to="/help/contact-support/submit-request" 
-                    className="text-primary hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-sm transition-colors"
-                    aria-label="Contact support for additional help"
+                    to="/help/contact-support/submit-request"
+                    className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-md"
                   >
                     Contact Support
+                    <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
                   </Link>
-                </p>
+                </Button>
               </div>
             </CardContent>
           </Card>
