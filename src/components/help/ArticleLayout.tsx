@@ -62,7 +62,7 @@ export default function ArticleLayout({
           "animate-fade-in"
         )}
       >
-        <div className="container mx-auto px-4 pt-24 sm:pt-28 pb-8 max-w-4xl">
+        <div className="container mx-auto px-4 pt-32 sm:pt-36 pb-8 max-w-4xl">
           {/* Breadcrumb Navigation */}
           <Breadcrumb className="mb-8 animate-fade-in" style={{ animationDelay: '0.1s' }}>
             <BreadcrumbList>

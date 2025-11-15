@@ -1441,7 +1441,7 @@ export default function CommunityArticle() {
       <MainNavigation />
       
       {/* Header */}
-      <section className="border-b border-border/50 bg-gradient-to-br from-primary/5 to-background py-12">
+      <section className="border-b border-border/50 bg-gradient-to-br from-primary/5 to-background pt-32 sm:pt-36 pb-12">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
             <Link to="/help">

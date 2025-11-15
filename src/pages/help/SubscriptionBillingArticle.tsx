@@ -1634,7 +1634,7 @@ export default function SubscriptionBillingArticle() {
     <div className="min-h-screen bg-background">
       <MainNavigation />
       
-      <div className="container mx-auto px-4 py-8 max-w-4xl">
+      <div className="container mx-auto px-4 pt-32 sm:pt-36 pb-8 max-w-4xl">
         {/* Back Button */}
         <Button
           variant="ghost"
