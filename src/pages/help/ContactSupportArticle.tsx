@@ -1,4 +1,5 @@
 import { useParams, Link } from 'react-router-dom';
+import { useEffect } from 'react';
 import { ArrowLeft, Mail, MessageCircle, Clock, AlertCircle, CreditCard, Shield, HelpCircle, Send, User, AtSign, Wrench, RefreshCw, LogIn, Key, Play, Download, Monitor, Chrome, Settings } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -1220,6 +1221,11 @@ function ContactFormSection() {
 export default function ContactSupportArticle() {
   const { slug } = useParams();
   const article = slug ? articles[slug as keyof typeof articles] : null;
+
+  // Scroll to top on article load
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [slug]);
 
   if (!article) {
     return (
