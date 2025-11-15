@@ -1406,7 +1406,7 @@ export default function LicenseUsageArticle() {
       <MainNavigation />
       
       {/* Header */}
-      <section className="relative bg-gradient-to-br from-primary/20 via-primary/10 to-background py-12 border-b border-border/50">
+      <section className="relative bg-gradient-to-br from-primary/20 via-primary/10 to-background pt-32 sm:pt-36 pb-12 border-b border-border/50">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
             <Button

@@ -146,6 +146,17 @@
   html {
     scroll-behavior: smooth;
   }
+
+  /* Ensure headings are visible below fixed header when using anchor links */
+  h1, h2, h3, h4, h5, h6 {
+    scroll-margin-top: 8rem; /* 128px - accounts for fixed header height */
+  }
+
+  @media (min-width: 640px) {
+    h1, h2, h3, h4, h5, h6 {
+      scroll-margin-top: 9rem; /* 144px - larger header on desktop */
+    }
+  }
 }
 
 @layer components {
