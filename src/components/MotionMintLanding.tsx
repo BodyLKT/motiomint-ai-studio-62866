@@ -180,7 +180,7 @@ const MotionMintLanding = () => {
       />
 
       {/* Hero Section */}
-      <section className="relative pt-40 pb-20 min-h-[90vh] lg:min-h-[95vh]">
+      <section className="relative pt-40 pb-16 min-h-[75vh]">
         <div 
           className="absolute inset-0 z-0"
           style={{
@@ -190,12 +190,13 @@ const MotionMintLanding = () => {
             opacity: 0.3
           }}
         />
-        {/* Dark overlay for better text contrast in light mode */}
-        <div className="absolute inset-0 bg-gradient-to-br from-background/98 via-background/95 to-background/92 dark:from-background/60 dark:via-background/40 dark:to-background/20 z-0" />
-        <div className="absolute inset-0 animated-gradient opacity-30 dark:opacity-100 z-0" />
+        {/* Darker overlay for better contrast in both light and dark mode */}
+        <div className="absolute inset-0 bg-black/30 z-0" />
+        <div className="absolute inset-0 bg-gradient-to-br from-background/95 via-background/90 to-background/85 dark:from-background/50 dark:via-background/30 dark:to-background/20 z-0" />
+        <div className="absolute inset-0 animated-gradient opacity-20 dark:opacity-100 z-0" />
         
         <div className="container mx-auto px-4 relative z-10">
-          <div className="grid lg:grid-cols-2 gap-12 items-center min-h-[80vh] lg:min-h-[85vh]">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="text-center lg:text-left">
               <Badge className="mb-6 bg-primary/20 text-primary border-primary/30">
                 {t('hero.badge')}
