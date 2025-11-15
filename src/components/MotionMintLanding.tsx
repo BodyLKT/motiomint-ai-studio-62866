@@ -190,7 +190,9 @@ const MotionMintLanding = () => {
             opacity: 0.3
           }}
         />
-        <div className="absolute inset-0 animated-gradient z-0" />
+        {/* Dark overlay for better text contrast in light mode */}
+        <div className="absolute inset-0 bg-gradient-to-br from-background/95 via-background/90 to-background/85 dark:from-background/60 dark:via-background/40 dark:to-background/20 z-0" />
+        <div className="absolute inset-0 animated-gradient opacity-40 dark:opacity-100 z-0" />
         
         <div className="container mx-auto px-4 relative z-10">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
@@ -232,7 +234,7 @@ const MotionMintLanding = () => {
             </div>
             
             {/* 3D Animation Carousel */}
-            <div className="relative">
+            <div className="relative min-h-[500px] lg:min-h-[600px] flex items-center justify-center">
               <AnimationCarousel3D />
             </div>
           </div>
