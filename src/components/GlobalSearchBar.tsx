@@ -1,46 +1,20 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Search, TrendingUp, Clock, X, Filter, Sparkles } from 'lucide-react';
+import { Search, X, ArrowRight, Sparkles, FileText, Wrench, Layers } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 import { Card } from '@/components/ui/card';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-  DropdownMenuSeparator,
-  DropdownMenuLabel,
-} from '@/components/ui/dropdown-menu';
-import { supabase } from '@/integrations/supabase/client';
+import { Badge } from '@/components/ui/badge';
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
+import { getQuickSuggestions, UnifiedSearchResult } from '@/lib/unifiedSearch';
 import { cn } from '@/lib/utils';
-
-interface SearchSuggestion {
-  type: 'recent' | 'popular' | 'category' | 'trending' | 'tag';
-  text: string;
-  count?: number;
-}
 
 interface GlobalSearchBarProps {
   className?: string;
   variant?: 'default' | 'hero';
   autoFocus?: boolean;
 }
-
-const CATEGORIES = [
-  'Tech & Futuristic',
-  'Fitness & Lifestyle',
-  'Business & Finance',
-  'Travel & Nature',
-  'Abstract Backgrounds',
-  'Social Media Hooks',
-];
-
-const PLATFORMS = ['Facebook', 'Instagram', 'TikTok', 'LinkedIn', 'Twitter'];
-const FORMATS = ['MP4', 'MOV', 'GIF', 'WebM'];
-const SIZES = ['720p', '1080p', '4K'];
 
 export default function GlobalSearchBar({ 
   className, 
@@ -51,11 +25,13 @@ export default function GlobalSearchBar({
   const navigate = useNavigate();
   const [query, setQuery] = useState('');
   const [isOpen, setIsOpen] = useState(false);
-  const [suggestions, setSuggestions] = useState<SearchSuggestion[]>([]);
+  const [suggestions, setSuggestions] = useState<UnifiedSearchResult[]>([]);
   const [recentSearches, setRecentSearches] = useState<string[]>([]);
-  const [selectedFilter, setSelectedFilter] = useState<string>('all');
+  const [isMobileOpen, setIsMobileOpen] = useState(false);
+  const [isFocused, setIsFocused] = useState(false);
   const searchRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const [isSearching, setIsSearching] = useState(false);
 
   // Load recent searches from localStorage
   useEffect(() => {
@@ -74,6 +50,7 @@ export default function GlobalSearchBar({
     const handleClickOutside = (event: MouseEvent) => {
       if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
         setIsOpen(false);
+        setIsFocused(false);
       }
     };
 
@@ -88,65 +65,31 @@ export default function GlobalSearchBar({
     }
   }, [autoFocus]);
 
-  // Fetch suggestions based on query
+  // Fetch suggestions with debouncing and prefetching
   useEffect(() => {
     const fetchSuggestions = async () => {
       if (query.length < 2) {
-        // Show recent searches and popular categories
-        const baseSuggestions: SearchSuggestion[] = [
-          ...recentSearches.slice(0, 3).map(text => ({ type: 'recent' as const, text })),
-          ...CATEGORIES.slice(0, 3).map(text => ({ type: 'category' as const, text })),
-        ];
-        setSuggestions(baseSuggestions);
+        setSuggestions([]);
+        setIsSearching(false);
         return;
       }
 
+      setIsSearching(true);
+
       try {
-        // Fetch matching tags and titles
-        const { data: animations, error } = await supabase
-          .from('animations')
-          .select('title, tags, category')
-          .or(`title.ilike.%${query}%,tags.cs.{${query}}`)
-          .limit(10);
-
-        if (error) throw error;
-
-        const newSuggestions: SearchSuggestion[] = [];
-        const seen = new Set<string>();
-
-        // Add matching categories
-        CATEGORIES.forEach(cat => {
-          if (cat.toLowerCase().includes(query.toLowerCase()) && !seen.has(cat)) {
-            newSuggestions.push({ type: 'category', text: cat });
-            seen.add(cat);
-          }
-        });
-
-        // Add matching titles
-        animations?.forEach(anim => {
-          if (anim.title && !seen.has(anim.title)) {
-            newSuggestions.push({ type: 'trending', text: anim.title });
-            seen.add(anim.title);
-          }
-          
-          // Add matching tags
-          anim.tags?.forEach(tag => {
-            if (tag.toLowerCase().includes(query.toLowerCase()) && !seen.has(tag)) {
-              newSuggestions.push({ type: 'tag', text: tag });
-              seen.add(tag);
-            }
-          });
-        });
-
-        setSuggestions(newSuggestions.slice(0, 8));
+        // Prefetch after 200ms pause
+        const results = await getQuickSuggestions(query, 12);
+        setSuggestions(results);
       } catch (error) {
         console.error('Error fetching suggestions:', error);
+      } finally {
+        setIsSearching(false);
       }
     };
 
-    const debounce = setTimeout(fetchSuggestions, 150);
+    const debounce = setTimeout(fetchSuggestions, 200);
     return () => clearTimeout(debounce);
-  }, [query, recentSearches]);
+  }, [query]);
 
   const saveRecentSearch = (searchText: string) => {
     const updated = [searchText, ...recentSearches.filter(s => s !== searchText)].slice(0, 10);
@@ -160,14 +103,24 @@ export default function GlobalSearchBar({
 
     saveRecentSearch(searchQuery);
     setIsOpen(false);
+    setIsMobileOpen(false);
     
-    // Navigate to search results with query and filter
-    const params = new URLSearchParams();
-    params.set('q', searchQuery);
-    if (selectedFilter !== 'all') {
-      params.set('filter', selectedFilter);
+    navigate(`/search?q=${encodeURIComponent(searchQuery)}`);
+  };
+
+  const handleSuggestionClick = (result: UnifiedSearchResult) => {
+    if (result.type === 'animation') {
+      navigate(`/animation/${result.id}`);
+    } else if (result.type === 'category') {
+      navigate(`/category?name=${encodeURIComponent(result.name)}`);
+    } else if (result.type === 'tool') {
+      navigate(result.path);
+    } else if (result.type === 'help') {
+      navigate(result.path);
     }
-    navigate(`/search?${params.toString()}`);
+    setIsOpen(false);
+    setIsMobileOpen(false);
+    setQuery('');
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -175,6 +128,8 @@ export default function GlobalSearchBar({
       handleSearch();
     } else if (e.key === 'Escape') {
       setIsOpen(false);
+      setIsFocused(false);
+      inputRef.current?.blur();
     }
   };
 
@@ -184,40 +139,45 @@ export default function GlobalSearchBar({
     inputRef.current?.focus();
   };
 
-  const getSuggestionIcon = (type: SearchSuggestion['type']) => {
+  const getResultIcon = (type: UnifiedSearchResult['type']) => {
     switch (type) {
-      case 'recent':
-        return <Clock className="w-4 h-4 text-muted-foreground" />;
-      case 'popular':
-      case 'trending':
-        return <TrendingUp className="w-4 h-4 text-primary" />;
-      case 'category':
+      case 'animation':
         return <Sparkles className="w-4 h-4 text-primary" />;
-      case 'tag':
-        return <Search className="w-4 h-4 text-muted-foreground" />;
+      case 'category':
+        return <Layers className="w-4 h-4 text-secondary" />;
+      case 'tool':
+        return <Wrench className="w-4 h-4 text-accent" />;
+      case 'help':
+        return <FileText className="w-4 h-4 text-muted-foreground" />;
       default:
         return <Search className="w-4 h-4 text-muted-foreground" />;
     }
   };
 
+  const groupedSuggestions = suggestions.reduce((acc, result) => {
+    if (!acc[result.type]) acc[result.type] = [];
+    acc[result.type].push(result);
+    return acc;
+  }, {} as Record<string, UnifiedSearchResult[]>);
+
   const isHero = variant === 'hero';
 
-  return (
+  // Desktop Search UI
+  const DesktopSearch = (
     <div ref={searchRef} className={cn('relative w-full', className)}>
       <div className={cn(
-        'relative flex items-center gap-2',
-        isHero ? 'max-w-3xl mx-auto' : 'max-w-2xl'
+        'relative flex items-center',
+        isHero ? 'max-w-3xl mx-auto' : 'max-w-2xl mx-auto'
       )}>
         {/* Search Input */}
-        <div className={cn(
-          'relative flex-1 group',
-          isHero && 'shadow-2xl'
-        )}>
-          <Search className={cn(
-            'absolute left-4 top-1/2 -translate-y-1/2 transition-colors z-[1]',
-            isOpen ? 'text-primary' : 'text-muted-foreground',
-            isHero ? 'w-6 h-6' : 'w-5 h-5'
-          )} />
+        <div className="relative flex-1 group">
+          <Search 
+            className={cn(
+              'absolute left-4 top-1/2 -translate-y-1/2 transition-all duration-200 pointer-events-none z-10',
+              isFocused ? 'text-primary scale-110' : 'text-muted-foreground',
+              isHero ? 'w-6 h-6' : 'w-5 h-5'
+            )} 
+          />
           
           <Input
             ref={inputRef}
@@ -227,130 +187,425 @@ export default function GlobalSearchBar({
               setQuery(e.target.value);
               setIsOpen(true);
             }}
-            onFocus={() => setIsOpen(true)}
+            onFocus={() => {
+              setIsFocused(true);
+              setIsOpen(true);
+            }}
+            onBlur={() => setIsFocused(false)}
             onKeyDown={handleKeyDown}
-            placeholder={t('search.placeholder')}
+            placeholder={isHero 
+              ? "Search animations, categories, tools, FAQs..." 
+              : "Search animations, categories, tools..."}
             className={cn(
-              'w-full pr-24 transition-all duration-300',
+              'w-full pr-20 transition-all duration-300',
               isHero 
-                ? 'h-16 pl-14 text-lg rounded-full border-2 border-border/50 hover:border-primary/50 focus:border-primary bg-background/95 backdrop-blur-sm' 
-                : 'h-12 pl-12 rounded-full border-border/50 hover:border-primary/50 focus:border-primary',
-              isOpen && 'border-primary shadow-lg'
+                ? 'h-16 pl-14 text-lg rounded-full border-2' 
+                : 'h-12 pl-12 rounded-full',
+              'bg-background/80 backdrop-blur-md',
+              'border-border/50 hover:border-primary/40',
+              'focus:border-primary focus:shadow-glow',
+              'focus-visible:ring-2 focus-visible:ring-primary/20',
+              isFocused && 'scale-[1.02] shadow-glow'
             )}
+            aria-label="Global search"
           />
 
-          {/* Clear Button */}
-          {query && (
+          {query && !isHero && (
             <Button
-              type="button"
+              onClick={clearSearch}
               variant="ghost"
               size="icon"
-              onClick={clearSearch}
               className={cn(
-                'absolute right-2 top-1/2 -translate-y-1/2 rounded-full hover:bg-muted z-[1]',
-                isHero ? 'h-10 w-10' : 'h-8 w-8'
+                'absolute right-2 top-1/2 -translate-y-1/2',
+                'h-8 w-8 rounded-full hover:bg-muted'
               )}
+              aria-label="Clear search"
             >
               <X className="w-4 h-4" />
             </Button>
           )}
-        </div>
 
-        {/* Filter Dropdown */}
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
+          {isHero && (
             <Button
-              variant={selectedFilter === 'all' ? 'outline' : 'default'}
-              size={isHero ? 'lg' : 'default'}
+              onClick={() => handleSearch()}
               className={cn(
-                'gap-2',
-                isHero ? 'h-16 px-6 rounded-full' : 'h-12 px-4 rounded-full'
+                'absolute right-2 top-1/2 -translate-y-1/2',
+                'h-12 px-6 rounded-full',
+                'bg-primary hover:bg-primary/90',
+                'shadow-glow'
               )}
             >
-              <Filter className={isHero ? 'w-5 h-5' : 'w-4 h-4'} />
-              {selectedFilter === 'all' ? t('search.filters') : selectedFilter}
+              <Search className="w-5 h-5 mr-2" />
+              Search
             </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="w-56 bg-background/95 backdrop-blur-sm border-border/50 z-[100]">
-            <DropdownMenuLabel>{t('search.filterBy')}</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            
-            <DropdownMenuItem onClick={() => setSelectedFilter('all')}>
-              <span className={selectedFilter === 'all' ? 'font-semibold text-primary' : ''}>
-                {t('search.allResults')}
-              </span>
-            </DropdownMenuItem>
-            
-            <DropdownMenuSeparator />
-            <DropdownMenuLabel className="text-xs text-muted-foreground">
-              {t('search.categories')}
-            </DropdownMenuLabel>
-            {CATEGORIES.slice(0, 4).map((cat) => (
-              <DropdownMenuItem key={cat} onClick={() => setSelectedFilter(cat)}>
-                <span className={selectedFilter === cat ? 'font-semibold text-primary' : ''}>
-                  {cat}
-                </span>
-              </DropdownMenuItem>
-            ))}
-            
-            <DropdownMenuSeparator />
-            <DropdownMenuLabel className="text-xs text-muted-foreground">
-              {t('search.platforms')}
-            </DropdownMenuLabel>
-            {PLATFORMS.slice(0, 3).map((platform) => (
-              <DropdownMenuItem key={platform} onClick={() => setSelectedFilter(platform)}>
-                <span className={selectedFilter === platform ? 'font-semibold text-primary' : ''}>
-                  {platform}
-                </span>
-              </DropdownMenuItem>
-            ))}
-          </DropdownMenuContent>
-        </DropdownMenu>
-
-        {/* Search Button (Hero variant only) */}
-        {isHero && (
-          <Button
-            onClick={() => handleSearch()}
-            size="lg"
-            className="h-16 px-8 rounded-full btn-glow"
-          >
-            {t('search.search')}
-          </Button>
-        )}
+          )}
+        </div>
       </div>
 
-      {/* Suggestions Dropdown */}
+      {/* Suggestions Dropdown - Frosted Glass */}
       {isOpen && suggestions.length > 0 && (
-        <Card className={cn(
-          'absolute top-full mt-2 w-full bg-background/95 backdrop-blur-xl border-border/50 shadow-2xl overflow-hidden z-[100]',
-          isHero ? 'max-w-3xl mx-auto left-0 right-0' : 'max-w-2xl'
-        )}>
-          <div className="max-h-96 overflow-y-auto">
-            {suggestions.map((suggestion, index) => (
-              <button
-                key={`${suggestion.type}-${suggestion.text}-${index}`}
-                onClick={() => handleSearch(suggestion.text)}
-                className="w-full px-4 py-3 flex items-center gap-3 hover:bg-muted/50 transition-colors text-left group"
+        <Card 
+          className={cn(
+            'absolute z-[100] w-full mt-3',
+            isHero ? 'max-w-3xl left-1/2 -translate-x-1/2' : 'max-w-2xl left-1/2 -translate-x-1/2',
+            'bg-background/95 backdrop-blur-xl',
+            'border-2 border-primary/20',
+            'shadow-elevated',
+            'animate-fade-in',
+            'max-h-[500px] overflow-y-auto',
+            'rounded-2xl p-3'
+          )}
+        >
+          {/* Animations Section */}
+          {groupedSuggestions.animation && groupedSuggestions.animation.length > 0 && (
+            <div className="mb-4">
+              <div className="px-3 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wide">
+                Animations
+              </div>
+              <div className="space-y-1">
+                {groupedSuggestions.animation.slice(0, 4).map((result, idx) => {
+                  if (result.type !== 'animation') return null;
+                  return (
+                  <button
+                    key={`${result.id}-${idx}`}
+                    onClick={() => handleSuggestionClick(result)}
+                    className={cn(
+                      'w-full flex items-center gap-3 p-3 rounded-xl',
+                      'hover:bg-primary/10 transition-all duration-150',
+                      'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring',
+                      'group'
+                    )}
+                  >
+                    <div className="w-12 h-12 rounded-lg overflow-hidden flex-shrink-0 bg-muted">
+                      <img 
+                        src={result.thumbnail_url} 
+                        alt={result.title}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                    <div className="flex-1 min-w-0 text-left">
+                      <div className="font-medium text-sm truncate group-hover:text-primary transition-colors">
+                        {result.title}
+                      </div>
+                      <div className="text-xs text-muted-foreground">
+                        {result.category}
+                      </div>
+                    </div>
+                    <ArrowRight className="w-4 h-4 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all" />
+                  </button>
+                );})}
+              </div>
+            </div>
+          )}
+
+          {/* Categories Section */}
+          {groupedSuggestions.category && groupedSuggestions.category.length > 0 && (
+            <div className="mb-4">
+              <div className="px-3 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wide">
+                Categories
+              </div>
+              <div className="space-y-1">
+                {groupedSuggestions.category.slice(0, 3).map((result, idx) => {
+                  if (result.type !== 'category') return null;
+                  return (
+                  <button
+                    key={`${result.name}-${idx}`}
+                    onClick={() => handleSuggestionClick(result)}
+                    className={cn(
+                      'w-full flex items-center gap-3 p-3 rounded-xl',
+                      'hover:bg-secondary/10 transition-all duration-150',
+                      'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring',
+                      'group'
+                    )}
+                  >
+                    {getResultIcon('category')}
+                    <div className="flex-1 text-left">
+                      <div className="font-medium text-sm group-hover:text-secondary transition-colors">
+                        {result.name}
+                      </div>
+                    </div>
+                    <ArrowRight className="w-4 h-4 text-muted-foreground group-hover:text-secondary group-hover:translate-x-1 transition-all" />
+                  </button>
+                );})}
+              </div>
+            </div>
+          )}
+
+          {/* Tools Section */}
+          {groupedSuggestions.tool && groupedSuggestions.tool.length > 0 && (
+            <div className="mb-4">
+              <div className="px-3 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wide">
+                Tools
+              </div>
+              <div className="space-y-1">
+                {groupedSuggestions.tool.map((result, idx) => {
+                  if (result.type !== 'tool') return null;
+                  return (
+                  <button
+                    key={`${result.name}-${idx}`}
+                    onClick={() => handleSuggestionClick(result)}
+                    className={cn(
+                      'w-full flex items-center gap-3 p-3 rounded-xl',
+                      'hover:bg-accent/10 transition-all duration-150',
+                      'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring',
+                      'group'
+                    )}
+                  >
+                    <div className="text-2xl">{result.icon}</div>
+                    <div className="flex-1 text-left min-w-0">
+                      <div className="font-medium text-sm group-hover:text-accent transition-colors">
+                        {result.name}
+                      </div>
+                      <div className="text-xs text-muted-foreground truncate">
+                        {result.description}
+                      </div>
+                    </div>
+                    <ArrowRight className="w-4 h-4 text-muted-foreground group-hover:text-accent group-hover:translate-x-1 transition-all" />
+                  </button>
+                );})}
+              </div>
+            </div>
+          )}
+
+          {/* Help Articles Section */}
+          {groupedSuggestions.help && groupedSuggestions.help.length > 0 && (
+            <div>
+              <div className="px-3 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wide">
+                Help Center
+              </div>
+              <div className="space-y-1">
+                {groupedSuggestions.help.slice(0, 3).map((result, idx) => {
+                  if (result.type !== 'help') return null;
+                  return (
+                  <button
+                    key={`${result.id}-${idx}`}
+                    onClick={() => handleSuggestionClick(result)}
+                    className={cn(
+                      'w-full flex items-center gap-3 p-3 rounded-xl',
+                      'hover:bg-muted/50 transition-all duration-150',
+                      'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring',
+                      'group'
+                    )}
+                  >
+                    {getResultIcon('help')}
+                    <div className="flex-1 text-left min-w-0">
+                      <div className="font-medium text-sm group-hover:text-foreground transition-colors truncate">
+                        {result.title}
+                      </div>
+                      <Badge variant="secondary" className="text-xs mt-1">
+                        {result.category}
+                      </Badge>
+                    </div>
+                    <ArrowRight className="w-4 h-4 text-muted-foreground group-hover:translate-x-1 transition-all" />
+                  </button>
+                );})}
+              </div>
+            </div>
+          )}
+
+          {/* View All Results */}
+          {suggestions.length > 0 && (
+            <div className="mt-3 pt-3 border-t border-border/50">
+              <Button
+                onClick={() => handleSearch()}
+                variant="ghost"
+                className="w-full justify-center gap-2 text-sm font-medium hover:bg-primary/10 hover:text-primary"
               >
-                {getSuggestionIcon(suggestion.type)}
-                <span className="flex-1 group-hover:text-primary transition-colors">
-                  {suggestion.text}
-                </span>
-                {suggestion.type === 'category' && (
-                  <Badge variant="secondary" className="text-xs">
-                    {t('search.category')}
-                  </Badge>
-                )}
-                {suggestion.type === 'recent' && (
-                  <Badge variant="outline" className="text-xs">
-                    {t('search.recent')}
-                  </Badge>
-                )}
-              </button>
-            ))}
-          </div>
+                View all results for "{query}"
+                <ArrowRight className="w-4 h-4" />
+              </Button>
+            </div>
+          )}
         </Card>
       )}
     </div>
+  );
+
+  // Mobile Search UI (Bottom Sheet)
+  const MobileSearch = (
+    <>
+      <Button
+        onClick={() => setIsMobileOpen(true)}
+        variant="outline"
+        size="icon"
+        className="lg:hidden"
+        aria-label="Open search"
+      >
+        <Search className="w-5 h-5" />
+      </Button>
+
+      <Sheet open={isMobileOpen} onOpenChange={setIsMobileOpen}>
+        <SheetContent side="bottom" className="h-[90vh] rounded-t-3xl">
+          <SheetHeader>
+            <SheetTitle>Search Motiomint</SheetTitle>
+          </SheetHeader>
+          
+          <div className="mt-6 space-y-4">
+            {/* Mobile Search Input */}
+            <div className="relative">
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground pointer-events-none z-10" />
+              <Input
+                type="text"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                onKeyDown={handleKeyDown}
+                placeholder="Search animations, categories, tools..."
+                className="h-14 pl-12 pr-12 text-base rounded-2xl bg-background/80 backdrop-blur-md"
+                autoFocus
+              />
+              {query && (
+                <Button
+                  onClick={clearSearch}
+                  variant="ghost"
+                  size="icon"
+                  className="absolute right-2 top-1/2 -translate-y-1/2 h-10 w-10"
+                >
+                  <X className="w-5 h-5" />
+                </Button>
+              )}
+            </div>
+
+            {/* Mobile Suggestions */}
+            {suggestions.length > 0 && (
+              <div className="space-y-4 overflow-y-auto max-h-[calc(90vh-200px)]">
+                {/* Animations */}
+                {groupedSuggestions.animation && groupedSuggestions.animation.length > 0 && (
+                  <div>
+                    <div className="px-2 py-2 text-sm font-semibold text-muted-foreground">
+                      Animations
+                    </div>
+                    <div className="space-y-2">
+                      {groupedSuggestions.animation.slice(0, 4).map((result, idx) => {
+                        if (result.type !== 'animation') return null;
+                        return (
+                        <button
+                          key={`${result.id}-${idx}`}
+                          onClick={() => handleSuggestionClick(result)}
+                          className="w-full flex items-center gap-4 p-4 rounded-2xl hover:bg-primary/10 transition-all active:scale-95"
+                        >
+                          <div className="w-16 h-16 rounded-xl overflow-hidden flex-shrink-0 bg-muted">
+                            <img 
+                              src={result.thumbnail_url} 
+                              alt={result.title}
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
+                          <div className="flex-1 min-w-0 text-left">
+                            <div className="font-medium truncate">{result.title}</div>
+                            <div className="text-sm text-muted-foreground">{result.category}</div>
+                          </div>
+                          <ArrowRight className="w-5 h-5 text-muted-foreground flex-shrink-0" />
+                        </button>
+                      );})}
+                    </div>
+                  </div>
+                )}
+
+                {/* Categories */}
+                {groupedSuggestions.category && groupedSuggestions.category.length > 0 && (
+                  <div>
+                    <div className="px-2 py-2 text-sm font-semibold text-muted-foreground">
+                      Categories
+                    </div>
+                    <div className="space-y-2">
+                      {groupedSuggestions.category.slice(0, 3).map((result, idx) => {
+                        if (result.type !== 'category') return null;
+                        return (
+                        <button
+                          key={`${result.name}-${idx}`}
+                          onClick={() => handleSuggestionClick(result)}
+                          className="w-full flex items-center gap-4 p-4 rounded-2xl hover:bg-secondary/10 transition-all active:scale-95"
+                        >
+                          <Layers className="w-6 h-6 text-secondary" />
+                          <div className="flex-1 text-left font-medium">{result.name}</div>
+                          <ArrowRight className="w-5 h-5 text-muted-foreground" />
+                        </button>
+                      );})}
+                    </div>
+                  </div>
+                )}
+
+                {/* Tools */}
+                {groupedSuggestions.tool && groupedSuggestions.tool.length > 0 && (
+                  <div>
+                    <div className="px-2 py-2 text-sm font-semibold text-muted-foreground">
+                      Tools
+                    </div>
+                    <div className="space-y-2">
+                      {groupedSuggestions.tool.map((result, idx) => {
+                        if (result.type !== 'tool') return null;
+                        return (
+                        <button
+                          key={`${result.name}-${idx}`}
+                          onClick={() => handleSuggestionClick(result)}
+                          className="w-full flex items-center gap-4 p-4 rounded-2xl hover:bg-accent/10 transition-all active:scale-95"
+                        >
+                          <div className="text-3xl">{result.icon}</div>
+                          <div className="flex-1 text-left min-w-0">
+                            <div className="font-medium">{result.name}</div>
+                            <div className="text-sm text-muted-foreground truncate">{result.description}</div>
+                          </div>
+                          <ArrowRight className="w-5 h-5 text-muted-foreground" />
+                        </button>
+                      );})}
+                    </div>
+                  </div>
+                )}
+
+                {/* Help Articles */}
+                {groupedSuggestions.help && groupedSuggestions.help.length > 0 && (
+                  <div>
+                    <div className="px-2 py-2 text-sm font-semibold text-muted-foreground">
+                      Help Center
+                    </div>
+                    <div className="space-y-2">
+                      {groupedSuggestions.help.slice(0, 3).map((result, idx) => {
+                        if (result.type !== 'help') return null;
+                        return (
+                        <button
+                          key={`${result.id}-${idx}`}
+                          onClick={() => handleSuggestionClick(result)}
+                          className="w-full flex items-center gap-4 p-4 rounded-2xl hover:bg-muted/50 transition-all active:scale-95"
+                        >
+                          <FileText className="w-6 h-6 text-muted-foreground" />
+                          <div className="flex-1 text-left min-w-0">
+                            <div className="font-medium truncate">{result.title}</div>
+                            <Badge variant="secondary" className="text-xs mt-1">{result.category}</Badge>
+                          </div>
+                          <ArrowRight className="w-5 h-5 text-muted-foreground" />
+                        </button>
+                      );})}
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* Mobile Search Button */}
+            {query && (
+              <Button
+                onClick={() => handleSearch()}
+                className="w-full h-14 text-base rounded-2xl"
+                size="lg"
+              >
+                <Search className="w-5 h-5 mr-2" />
+                Search for "{query}"
+              </Button>
+            )}
+          </div>
+        </SheetContent>
+      </Sheet>
+    </>
+  );
+
+  return (
+    <>
+      <div className="hidden lg:block">
+        {DesktopSearch}
+      </div>
+      <div className="lg:hidden">
+        {MobileSearch}
+      </div>
+    </>
   );
 }
