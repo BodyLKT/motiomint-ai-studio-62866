@@ -19,7 +19,7 @@ const articles = {
     content: (
       <div className="space-y-8">
         <section>
-          <h2 className="text-2xl font-semibold mb-4">Contact Information</h2>
+          <h2 className="text-2xl font-semibold mb-6">Contact Information</h2>
           <Card className="bg-primary/5 border-primary/20">
             <CardContent className="pt-6">
               <div className="space-y-4">
@@ -45,7 +45,7 @@ const articles = {
         </section>
 
         <section>
-          <h2 className="text-2xl font-semibold mb-4">Response Times</h2>
+          <h2 className="text-2xl font-semibold mb-6">Response Times</h2>
           <div className="grid gap-4 md:grid-cols-3">
             <Card>
               <CardHeader>
@@ -86,7 +86,7 @@ const articles = {
         </section>
 
         <section>
-          <h2 className="text-2xl font-semibold mb-4">Best Practices for Email Support</h2>
+          <h2 className="text-2xl font-semibold mb-6">Best Practices for Email Support</h2>
           <Card>
             <CardContent className="pt-6">
               <ul className="space-y-3">

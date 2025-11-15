@@ -57,7 +57,7 @@ const FeedbackForm = () => {
     <div className="space-y-6">
       {submitted && (
         <Alert className="bg-primary/10 border-primary/30 animate-fade-in">
-          <CheckCircle2 className="h-4 w-4 text-primary" />
+          <CheckCircle2 className="w-5 h-5 text-primary" />
           <AlertDescription className="text-foreground">
             <strong>Thanks for your feedback!</strong> Our team reviews submissions weekly and will consider your idea for future updates.
           </AlertDescription>

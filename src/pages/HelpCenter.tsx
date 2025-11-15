@@ -144,7 +144,7 @@ export default function HelpCenter() {
             
             {/* Search Bar */}
             <div className="relative max-w-2xl mx-auto">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
               <Input
                 type="text"
                 placeholder="Search for articles, guides, or topics..."
@@ -162,7 +162,7 @@ export default function HelpCenter() {
         <div className="container mx-auto px-4">
           {/* Popular Topics */}
           <div className="max-w-4xl mx-auto mb-16">
-            <h2 className="text-2xl font-bold mb-6 text-center">Popular Topics</h2>
+            <h2 className="text-2xl font-semibold mb-6 text-center">Popular Topics</h2>
             <div className="flex flex-wrap justify-center gap-3">
               {popularTopics.map((topic) => (
                 <Button
@@ -178,7 +178,7 @@ export default function HelpCenter() {
 
           {/* Help Categories Grid */}
           <div className="max-w-7xl mx-auto">
-            <h2 className="text-2xl font-bold mb-8 text-center">Browse by Category</h2>
+            <h2 className="text-2xl font-semibold mb-8 text-center">Browse by Category</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {helpCategories.map((category) => {
                 const Icon = category.icon;
@@ -275,7 +275,7 @@ export default function HelpCenter() {
           <div className="max-w-4xl mx-auto mt-20">
             <Card className="bg-gradient-to-br from-primary/10 to-primary/5 border-primary/20">
               <CardContent className="p-8 text-center">
-                <h2 className="text-2xl font-bold mb-4">Can't find an answer to your question?</h2>
+                <h2 className="text-2xl font-semibold mb-4">Can't find an answer to your question?</h2>
                 <p className="text-muted-foreground mb-6">
                   Our support team is here to help you. Get in touch and we'll respond as soon as possible.
                 </p>
@@ -296,10 +296,10 @@ export default function HelpCenter() {
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-border/50 bg-muted/30 py-8 mt-20">
+      <footer className="border-t border-border/50 bg-muted/30 py-12 mt-20">
         <div className="container mx-auto px-4">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-muted-foreground">
-            <div className="flex gap-6">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-6 text-sm text-muted-foreground">
+            <div className="flex flex-wrap gap-6 justify-center">
               <button onClick={() => navigate('/')} className="hover:text-primary transition-colors">
                 Home
               </button>
@@ -316,7 +316,7 @@ export default function HelpCenter() {
                 Contact Us
               </button>
             </div>
-            <p>© 2025 Motiomint. All rights reserved.</p>
+            <p className="text-center md:text-right">© 2025 Motiomint. All rights reserved.</p>
           </div>
         </div>
       </footer>

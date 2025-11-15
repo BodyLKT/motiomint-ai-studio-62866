@@ -22,15 +22,15 @@ export default function SubscriptionBillingArticle() {
         <div className="space-y-8">
           {/* Overview */}
           <section>
-            <h2 className="text-2xl font-bold mb-4">Overview</h2>
-            <p className="text-muted-foreground mb-4">
+            <h2 className="text-2xl font-semibold mb-6">Overview</h2>
+            <p className="text-muted-foreground leading-relaxed">
               Motiomint offers flexible pricing options to suit every need. Choose between monthly subscriptions for ongoing access or One-Time Packs for specific projects.
             </p>
           </section>
 
           {/* Subscription Plans */}
           <section>
-            <h2 className="text-2xl font-bold mb-6">Monthly Subscription Plans</h2>
+            <h2 className="text-2xl font-semibold mb-6">Monthly Subscription Plans</h2>
             <div className="grid md:grid-cols-2 gap-6">
               
               {/* Free Plan */}

@@ -26,7 +26,7 @@ export default function LicenseUsageArticle() {
         <div className="space-y-8">
           {/* Introduction */}
           <div className="prose prose-slate dark:prose-invert max-w-none">
-            <p className="text-lg text-muted-foreground">
+            <p className="text-lg text-muted-foreground leading-relaxed">
               Motiomint offers three distinct license types to suit different usage needs. Each license grants specific rights and comes with particular restrictions to ensure fair use and protect AI-generated content creators.
             </p>
           </div>
