@@ -1,13 +1,28 @@
 import { Link } from 'react-router-dom';
-import { BookOpen, CreditCard, Shield, Headphones, Users, FileText, ArrowRight } from 'lucide-react';
+import { BookOpen, CreditCard, Shield, Headphones, Users, FileText, ArrowRight, TrendingUp, Clock, Flame } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 import MainNavigation from '@/components/navigation/MainNavigation';
 import HelpCenterSearch from '@/components/help/HelpCenterSearch';
-import { helpCenterData } from '@/lib/helpCenterData';
+import { helpCenterData, allArticles } from '@/lib/helpCenterData';
+import { getPopularArticles, getRecentlyUpdatedArticles } from '@/lib/helpCenterAnalytics';
 
 export default function HelpCenter() {
   const categories = helpCenterData;
+  
+  // Get popular and recently updated articles
+  const popularArticleIds = getPopularArticles(6);
+  const recentlyUpdatedIds = getRecentlyUpdatedArticles(3);
+  
+  // Map IDs to article data
+  const popularArticles = popularArticleIds
+    .map(({ articleId }) => allArticles.find(a => a.id === articleId))
+    .filter(Boolean);
+    
+  const recentArticles = recentlyUpdatedIds
+    .map(({ articleId }) => allArticles.find(a => a.id === articleId))
+    .filter(Boolean);
 
   const popularTopics = [
     'How to download animations',
@@ -85,11 +100,104 @@ export default function HelpCenter() {
             </div>
           </div>
 
+          {/* Popular Articles Section */}
+          {popularArticles.length > 0 && (
+            <div 
+              className="max-w-6xl mx-auto mb-16 animate-fade-in"
+              style={{ animationDelay: '0.5s' }}
+            >
+              <div className="flex items-center justify-center gap-3 mb-8">
+                <Flame className="w-6 h-6 text-orange-500" />
+                <h2 className="text-3xl font-semibold text-center">Popular Articles</h2>
+              </div>
+              <p className="text-center text-muted-foreground mb-8">
+                Most helpful articles based on community feedback
+              </p>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {popularArticles.slice(0, 6).map((article, idx) => (
+                  <Card
+                    key={article!.id}
+                    className="group hover:border-primary/50 hover:shadow-lg transition-all duration-300 animate-fade-in"
+                    style={{ animationDelay: `${0.55 + idx * 0.05}s` }}
+                  >
+                    <CardHeader>
+                      <div className="flex items-start justify-between gap-2 mb-2">
+                        <CardTitle className="text-lg group-hover:text-primary transition-colors">
+                          {article!.title}
+                        </CardTitle>
+                        <Badge variant="secondary" className="flex items-center gap-1 shrink-0">
+                          <TrendingUp className="w-3 h-3" />
+                          <span className="text-xs">Popular</span>
+                        </Badge>
+                      </div>
+                      <CardDescription className="line-clamp-2">
+                        {article!.description}
+                      </CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <Button
+                        asChild
+                        variant="ghost"
+                        className="w-full justify-start group/btn hover:bg-primary/10"
+                      >
+                        <Link to={article!.path}>
+                          <span className="text-sm">Read article</span>
+                          <ArrowRight className="w-4 h-4 ml-auto group-hover/btn:translate-x-1 transition-transform" />
+                        </Link>
+                      </Button>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Recently Updated Articles */}
+          {recentArticles.length > 0 && (
+            <div 
+              className="max-w-4xl mx-auto mb-16 animate-fade-in"
+              style={{ animationDelay: '0.7s' }}
+            >
+              <div className="flex items-center justify-center gap-3 mb-8">
+                <Clock className="w-6 h-6 text-primary" />
+                <h2 className="text-2xl font-semibold text-center">Recently Updated</h2>
+              </div>
+              <Card className="border-2 border-primary/10">
+                <CardContent className="pt-6">
+                  <div className="space-y-3">
+                    {recentArticles.map((article, idx) => (
+                      <Link
+                        key={article!.id}
+                        to={article!.path}
+                        className="flex items-start gap-3 p-4 rounded-lg border border-border hover:border-primary/50 hover:bg-primary/5 transition-all duration-200 group animate-fade-in"
+                        style={{ animationDelay: `${0.75 + idx * 0.05}s` }}
+                      >
+                        <Clock className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
+                        <div className="flex-1 min-w-0">
+                          <h3 className="font-semibold text-foreground group-hover:text-primary transition-colors mb-1">
+                            {article!.title}
+                          </h3>
+                          <p className="text-sm text-muted-foreground line-clamp-2">
+                            {article!.description}
+                          </p>
+                          <Badge variant="outline" className="mt-2 text-xs">
+                            {article!.category}
+                          </Badge>
+                        </div>
+                        <ArrowRight className="w-5 h-5 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all flex-shrink-0 mt-1" />
+                      </Link>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          )}
+
           {/* Help Categories Grid */}
           <div className="max-w-6xl mx-auto">
             <h2 
               className="text-3xl font-semibold mb-8 text-center animate-fade-in"
-              style={{ animationDelay: '0.6s' }}
+              style={{ animationDelay: '0.9s' }}
             >
               Browse by Category
             </h2>
@@ -104,12 +212,12 @@ export default function HelpCenter() {
                   <Card
                     key={category.id}
                     className="group relative overflow-hidden border-2 border-border/50 hover:border-primary/50 hover:shadow-xl transition-all duration-300 animate-fade-in"
-                    style={{ animationDelay: `${0.7 + idx * 0.1}s` }}
+                    style={{ animationDelay: `${1.0 + idx * 0.1}s` }}
                     role="listitem"
                   >
                     <CardHeader>
                       <div className="flex items-center gap-3 mb-2">
-                        <div className="p-3 rounded-xl bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-300">
+                        <div className="p-3 rounded-xl bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-300 flex-shrink-0">
                           <Icon className="w-6 h-6" />
                         </div>
                         <CardTitle className="text-xl group-hover:text-primary transition-colors">
@@ -122,18 +230,29 @@ export default function HelpCenter() {
                     </CardHeader>
                     <CardContent>
                       <ul className="space-y-3">
-                        {category.articles.map((article) => (
+                        {category.articles.slice(0, 4).map((article) => (
                           <li key={article.id}>
                             <Link
                               to={article.path}
-                              className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors group/link focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-sm"
+                              className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors group/link focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-sm"
                               aria-label={`Navigate to ${article.title}`}
                             >
-                              <ArrowRight className="w-4 h-4 group-hover/link:translate-x-1 transition-transform" />
-                              <span className="text-sm">{article.title}</span>
+                              <ArrowRight className="w-4 h-4 group-hover/link:translate-x-1 transition-transform flex-shrink-0" />
+                              <span className="truncate">{article.title}</span>
                             </Link>
                           </li>
                         ))}
+                        {category.articles.length > 4 && (
+                          <li>
+                            <Link
+                              to={category.path}
+                              className="flex items-center gap-2 text-sm text-primary font-medium hover:underline"
+                            >
+                              <span>View all {category.articles.length} articles</span>
+                              <ArrowRight className="w-4 h-4" />
+                            </Link>
+                          </li>
+                        )}
                       </ul>
                     </CardContent>
                   </Card>
@@ -145,7 +264,7 @@ export default function HelpCenter() {
           {/* CTA Section */}
           <div 
             className="max-w-4xl mx-auto mt-20 text-center animate-fade-in"
-            style={{ animationDelay: '1.2s' }}
+            style={{ animationDelay: '1.5s' }}
           >
             <Card className="bg-gradient-to-br from-primary/10 via-primary/5 to-background border-2 border-primary/20">
               <CardContent className="pt-8 pb-8 space-y-6">
