@@ -25,7 +25,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { LoginModal } from '@/components/auth/LoginModal';
 import { SignUpModal } from '@/components/auth/SignUpModal';
 import { ModernVideoPlayer } from '@/components/ui/ModernVideoPlayer';
-import { AnimationCarousel3D } from '@/components/ui/AnimationCarousel3D';
+import { HeroCarouselGrid } from '@/components/ui/HeroCarouselGrid';
 import MainNavigation from '@/components/navigation/MainNavigation';
 import VideoPreview from '@/components/ui/VideoPreview';
 import heroImage from '@/assets/hero-bg.jpg';
@@ -238,9 +238,9 @@ const MotionMintLanding = () => {
             </div>
             
             {/* Hero Carousel Column */}
-            <div className="flex items-center justify-center overflow-hidden relative lg:-translate-y-[1.2vh]">
-              <div className="w-full max-w-[600px]">
-                <AnimationCarousel3D />
+            <div className="flex items-center justify-center">
+              <div className="w-full">
+                <HeroCarouselGrid />
               </div>
             </div>
             
