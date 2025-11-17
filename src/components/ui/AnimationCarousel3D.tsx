@@ -173,7 +173,7 @@ export const AnimationCarousel3D = () => {
       };
     }
 
-    let translateX = position * 280; // Base spacing
+    let translateX = position * 340; // Base spacing - increased for larger cards
     let scale = 1;
     let opacity = 1;
     let rotateY = 0;
@@ -258,7 +258,7 @@ export const AnimationCarousel3D = () => {
             return (
               <Card 
                 key={animation.id}
-                className={`group absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[260px] lg:w-[320px] h-[460px] lg:h-[560px] overflow-hidden rounded-2xl cursor-pointer glass border-primary/30 transition-all duration-700 ease-out ${
+                className={`group absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[280px] md:w-[340px] lg:w-[400px] h-[480px] md:h-[580px] lg:h-[680px] overflow-hidden rounded-2xl cursor-pointer glass border-primary/30 transition-all duration-700 ease-out ${
                   isCenter ? 'glow-primary border-2 border-dashed border-green-500' : 'border-2 border-dashed border-purple-500'
                 }`}
                 onClick={() => handleAnimationClick(animation.id)}
