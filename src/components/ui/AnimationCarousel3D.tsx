@@ -247,10 +247,10 @@ export const AnimationCarousel3D = () => {
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
       >
-        {/* Cards Container - RED: Hugs cards, centered by Blue */}
-        <div className="relative flex items-center justify-center border-2 border-dashed border-red-500" style={{ outline: '2px dashed red' }}>
+        {/* Cards Container - RED: Sized to hold cards, centered by Blue */}
+        <div className="relative flex items-center justify-center h-[500px] md:h-[600px] lg:h-[720px] border-2 border-dashed border-red-500" style={{ outline: '2px dashed red' }}>
           {/* Card positioning wrapper */}
-          <div className="relative flex items-center justify-center">
+          <div className="relative flex items-center justify-center w-full h-full">
             {animations.map((animation, index) => {
             const style = getCardStyle(index);
             const isCenter = index === currentIndex;
