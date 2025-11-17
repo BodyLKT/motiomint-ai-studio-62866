@@ -231,7 +231,7 @@ export const AnimationCarousel3D = () => {
       aria-label="3D Animation Carousel"
       style={{ outline: '2px dashed yellow' }}
     >
-      {/* Carousel Container */}
+      {/* Carousel Container - BLUE: Centers Red */}
       <div 
         className="w-full h-full flex items-center justify-center border-2 border-dashed border-blue-500"
         style={{ 
@@ -247,9 +247,9 @@ export const AnimationCarousel3D = () => {
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
       >
-        {/* Cards Container - RED: Now aligned with Blue/Yellow */}
-        <div className="relative w-full h-full flex items-center justify-center border-2 border-dashed border-red-500" style={{ outline: '2px dashed red' }}>
-          {/* Inner wrapper - centered by parent flex */}
+        {/* Cards Container - RED: Hugs cards, centered by Blue */}
+        <div className="relative flex items-center justify-center border-2 border-dashed border-red-500" style={{ outline: '2px dashed red' }}>
+          {/* Card positioning wrapper */}
           <div className="relative flex items-center justify-center">
             {animations.map((animation, index) => {
             const style = getCardStyle(index);
