@@ -187,13 +187,13 @@ const MotionMintLanding = () => {
             backgroundImage: `url(${heroImage})`,
             backgroundSize: 'cover',
             backgroundPosition: 'center',
-            opacity: 0.3
+            opacity: 0.4
           }}
         />
-        {/* Darker overlay for better contrast in both light and dark mode */}
-        <div className="absolute inset-0 bg-black/40 z-0" />
-        <div className="absolute inset-0 bg-gradient-to-br from-background/90 via-background/85 to-background/80 dark:from-background/50 dark:via-background/30 dark:to-background/20 z-0" />
-        <div className="absolute inset-0 animated-gradient opacity-15 dark:opacity-100 z-0" />
+        {/* Lighter overlay for better background visibility */}
+        <div className="absolute inset-0 bg-black/20 z-0" />
+        <div className="absolute inset-0 bg-gradient-to-br from-background/80 via-background/70 to-background/60 dark:from-background/40 dark:via-background/25 dark:to-background/15 z-0" />
+        <div className="absolute inset-0 animated-gradient opacity-20 dark:opacity-100 z-0" />
         
         {/* Hero Inner Container */}
         <div className="container mx-auto px-4 relative z-10 w-full">
@@ -412,7 +412,7 @@ const MotionMintLanding = () => {
 
       {/* Pricing Section */}
       <section id="pricing" className="py-16">
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto px-4 max-w-6xl">
           <div className="text-center mb-10">
             <h2 className="text-3xl lg:text-4xl font-bold mb-4">
               {t('pricing.title')}
@@ -444,7 +444,8 @@ const MotionMintLanding = () => {
               </div>
             </div>
             
-            <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            <div className="flex justify-center">
+              <div className="grid md:grid-cols-2 gap-8 w-full max-w-4xl">
               {pricingPlans[selectedPricingTab].map((plan, index) => (
                 <Card key={index} className={`glass pricing-card border-border/50 relative ${plan.popular ? 'border-primary/50 glow-primary' : ''}`}>
                   {plan.popular && (
@@ -481,6 +482,7 @@ const MotionMintLanding = () => {
                   </CardContent>
                 </Card>
               ))}
+              </div>
             </div>
           </div>
         </div>
@@ -563,7 +565,7 @@ const MotionMintLanding = () => {
       </section>
 
       {/* Footer CTA */}
-      <footer className="py-16 bg-background-alt border-t border-border/50">
+      <footer className="py-16 bg-background border-t border-border/50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-10">
             <h2 className="text-3xl lg:text-4xl font-bold mb-4">
@@ -595,7 +597,7 @@ const MotionMintLanding = () => {
           </div>
 
           {/* Newsletter Signup */}
-          <div className="max-w-md mx-auto mb-12">
+          <div className="max-w-md mx-auto mb-16">
             <Card className="glass border-border/50">
               <CardContent className="p-6">
                 <h3 className="text-xl font-semibold mb-4 text-center">{t('newsletter.title')}</h3>
@@ -618,27 +620,109 @@ const MotionMintLanding = () => {
             </Card>
           </div>
           
-          <div className="border-t border-border/20 pt-8 text-center text-muted-foreground">
-            <div className="flex flex-col md:flex-row justify-between items-center">
-              <div className="font-bold text-2xl gradient-text mb-4 md:mb-0">
-                motiomint
+          {/* Footer Links - Multi-column SaaS Layout */}
+          <div className="border-t border-border/20 pt-12">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12 max-w-6xl mx-auto">
+              {/* Column 1 - Brand */}
+              <div className="col-span-2 md:col-span-1">
+                <div className="font-bold text-2xl gradient-text mb-3">
+                  motiomint
+                </div>
+                <p className="text-sm text-muted-foreground mb-4">
+                  Empowering creators with AI-powered animations.
+                </p>
+                <p className="text-xs text-muted-foreground">
+                  © 2025 MotioMint
+                </p>
               </div>
-              <div className="flex space-x-6 text-sm">
-                <a href="#" className="hover:text-foreground transition-colors">{t('footer.privacyPolicy')}</a>
-                <a href="#" className="hover:text-foreground transition-colors">{t('footer.termsOfService')}</a>
-                <a href="#" className="hover:text-foreground transition-colors">{t('footer.contact')}</a>
-                <Button 
-                  variant="ghost" 
-                  size="sm"
-                  onClick={() => setShowLoginModal(true)}
-                >
-                  <LogIn className="w-4 h-4 mr-2" />
-                  {t('footerCTA.loginSignup')}
-                </Button>
+
+              {/* Column 2 - Product */}
+              <div>
+                <h4 className="font-semibold mb-3 text-foreground">Product</h4>
+                <ul className="space-y-2 text-sm text-muted-foreground">
+                  <li>
+                    <button onClick={() => navigate('/dashboard')} className="hover:text-foreground transition-colors">
+                      Browse Animations
+                    </button>
+                  </li>
+                  <li>
+                    <button onClick={() => navigate('/dashboard')} className="hover:text-foreground transition-colors">
+                      Categories
+                    </button>
+                  </li>
+                  <li>
+                    <button onClick={() => navigate('/pricing')} className="hover:text-foreground transition-colors">
+                      Pricing
+                    </button>
+                  </li>
+                  <li>
+                    <button onClick={() => user ? navigate('/dashboard') : setShowSignUpModal(true)} className="hover:text-foreground transition-colors">
+                      Download Free Pack
+                    </button>
+                  </li>
+                </ul>
+              </div>
+
+              {/* Column 3 - Company */}
+              <div>
+                <h4 className="font-semibold mb-3 text-foreground">Company</h4>
+                <ul className="space-y-2 text-sm text-muted-foreground">
+                  <li>
+                    <button onClick={() => navigate('/help')} className="hover:text-foreground transition-colors">
+                      About
+                    </button>
+                  </li>
+                  <li>
+                    <button onClick={() => navigate('/help')} className="hover:text-foreground transition-colors">
+                      Contact
+                    </button>
+                  </li>
+                  <li>
+                    <button onClick={() => navigate('/help/terms')} className="hover:text-foreground transition-colors">
+                      Privacy Policy
+                    </button>
+                  </li>
+                  <li>
+                    <button onClick={() => navigate('/help/terms')} className="hover:text-foreground transition-colors">
+                      Terms of Service
+                    </button>
+                  </li>
+                </ul>
+              </div>
+
+              {/* Column 4 - Account */}
+              <div>
+                <h4 className="font-semibold mb-3 text-foreground">Account</h4>
+                <ul className="space-y-2 text-sm text-muted-foreground">
+                  <li>
+                    <button onClick={() => setShowLoginModal(true)} className="hover:text-foreground transition-colors">
+                      Login
+                    </button>
+                  </li>
+                  <li>
+                    <button onClick={() => setShowSignUpModal(true)} className="hover:text-foreground transition-colors">
+                      Sign Up
+                    </button>
+                  </li>
+                  <li>
+                    <button onClick={() => navigate('/dashboard')} className="hover:text-foreground transition-colors">
+                      Dashboard
+                    </button>
+                  </li>
+                  <li>
+                    <button onClick={() => navigate('/dashboard')} className="hover:text-foreground transition-colors">
+                      My Library
+                    </button>
+                  </li>
+                </ul>
               </div>
             </div>
-            <div className="mt-4 text-sm">
-              {t('footer.allRightsReserved')}
+
+            {/* Bottom Bar */}
+            <div className="border-t border-border/20 pt-8 text-center">
+              <p className="text-sm text-muted-foreground">
+                All rights reserved. MotioMint is a registered trademark.
+              </p>
             </div>
           </div>
         </div>
