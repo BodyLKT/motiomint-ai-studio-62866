@@ -197,7 +197,7 @@ const MotionMintLanding = () => {
         
         {/* Hero Inner Container */}
         <div className="container mx-auto px-4 relative z-10 w-full">
-          <div className="grid lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1.4fr)] gap-16 items-center">
+          <div className="grid lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1.4fr)] gap-20 items-center">
             
             {/* Hero Text Column */}
             <div className="flex flex-col justify-center text-center lg:text-left max-w-[600px] mx-auto lg:mx-0">
@@ -238,7 +238,7 @@ const MotionMintLanding = () => {
             </div>
             
             {/* Hero Carousel Column */}
-            <div className="flex items-center justify-center overflow-hidden relative">
+            <div className="flex items-center justify-center overflow-hidden relative lg:-translate-y-[1.2vh]">
               <div className="w-full max-w-[600px]">
                 <AnimationCarousel3D />
               </div>
