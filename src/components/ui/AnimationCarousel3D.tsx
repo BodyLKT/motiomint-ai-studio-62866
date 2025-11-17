@@ -250,7 +250,7 @@ export const AnimationCarousel3D = () => {
         {/* Cards Container - RED: Now aligned with Blue/Yellow */}
         <div className="relative w-full h-full flex items-center justify-center border-2 border-dashed border-red-500" style={{ outline: '2px dashed red' }}>
           {/* Inner positioning wrapper to maintain card visual position */}
-          <div className="absolute inset-0 flex items-center justify-center -translate-y-[1vh] md:-translate-y-[3vh] lg:-translate-y-[6vh]">
+          <div className="absolute inset-0 flex items-center justify-center -translate-y-[2vh] md:-translate-y-[5vh] lg:-translate-y-[10vh]">
             {animations.map((animation, index) => {
             const style = getCardStyle(index);
             const isCenter = index === currentIndex;
