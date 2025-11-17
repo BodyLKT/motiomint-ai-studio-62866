@@ -23,6 +23,10 @@ import LicenseUsageArticle from "./pages/help/LicenseUsageArticle";
 import ContactSupportArticle from "./pages/help/ContactSupportArticle";
 import CommunityArticle from "./pages/help/CommunityArticle";
 import TermsArticle from "./pages/help/TermsArticle";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import TermsOfService from "./pages/TermsOfService";
+import About from "./pages/About";
+import Contact from "./pages/Contact";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -39,6 +43,10 @@ const App = () => (
               <Route path="/" element={<Index />} />
               <Route path="/pricing" element={<PricingPage />} />
               <Route path="/checkout" element={<CheckoutPage />} />
+              <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+              <Route path="/terms-of-service" element={<TermsOfService />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/contact" element={<Contact />} />
           <Route path="/help" element={<HelpCenter />} />
           <Route path="/help/getting-started/:slug" element={<GettingStartedArticle />} />
           <Route path="/help/subscription-billing/:slug" element={<SubscriptionBillingArticle />} />

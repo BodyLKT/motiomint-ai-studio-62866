@@ -7,6 +7,7 @@ import { Badge } from '@/components/ui/badge';
 import { CheckCircle, ArrowRight } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import MainNavigation from '@/components/navigation/MainNavigation';
+import { Footer } from '@/components/Footer';
 
 const PricingPage = () => {
   const { t } = useTranslation();
@@ -75,7 +76,7 @@ const PricingPage = () => {
 
           {/* Tab Selector */}
           <div className="flex justify-center mb-12">
-            <div className="bg-muted/50 p-1 rounded-lg border border-border/50">
+            <div className="bg-muted/50 p-1 rounded-lg border border-border/50 inline-flex">
               <Button 
                 variant={selectedTab === 'oneTime' ? 'default' : 'ghost'} 
                 size="lg"
@@ -96,7 +97,8 @@ const PricingPage = () => {
           </div>
 
           {/* Pricing Cards */}
-          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+          <div className="flex justify-center">
+            <div className="grid md:grid-cols-2 gap-8 w-full max-w-4xl">
             {currentPlans.map((plan, index) => (
               <Card 
                 key={index} 
@@ -139,6 +141,7 @@ const PricingPage = () => {
                 </CardContent>
               </Card>
             ))}
+            </div>
           </div>
 
           {/* Additional Info */}
@@ -163,6 +166,8 @@ const PricingPage = () => {
           </div>
         </div>
       </section>
+
+      <Footer />
     </div>
   );
 };
