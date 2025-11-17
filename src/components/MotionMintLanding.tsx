@@ -196,7 +196,7 @@ const MotionMintLanding = () => {
         <div className="absolute inset-0 animated-gradient opacity-15 dark:opacity-100 z-0" />
         
         <div className="container mx-auto px-4 relative z-10 w-full">
-          <div className="grid lg:grid-cols-2 gap-12 items-center justify-items-center">
+          <div className="grid lg:grid-cols-[1.1fr_1.3fr] gap-16 items-center">
             <div className="text-center lg:text-left">
               <Badge className="mb-6 bg-primary/20 text-primary border-primary/30">
                 {t('hero.badge')}
@@ -235,7 +235,7 @@ const MotionMintLanding = () => {
             </div>
             
             {/* 3D Animation Carousel */}
-            <div className="relative w-full flex items-center justify-center lg:justify-end lg:-translate-y-[6vh]">
+            <div className="relative w-full flex items-center justify-center overflow-hidden pl-8">
               <div className="h-[500px] lg:h-[600px] w-full max-w-[600px]">
                 <AnimationCarousel3D />
               </div>
