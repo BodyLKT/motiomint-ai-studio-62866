@@ -173,7 +173,7 @@ export const AnimationCarousel3D = () => {
       };
     }
 
-    let translateX = position * 340; // Base spacing - increased for larger cards
+    let translateX = position * 300; // Base spacing for card separation
     let scale = 1;
     let opacity = 1;
     let rotateY = 0;
@@ -224,42 +224,34 @@ export const AnimationCarousel3D = () => {
   return (
     <div 
       ref={carouselRef}
-      className="relative w-full h-full min-h-[500px] lg:min-h-[600px] border-2 border-dashed border-yellow-500"
+      className="relative w-full h-[500px] md:h-[580px] lg:h-[660px] flex items-center justify-center"
       onMouseEnter={handleUserInteraction}
       tabIndex={0}
       role="region"
       aria-label="3D Animation Carousel"
-      style={{ outline: '2px dashed yellow' }}
+      style={{ 
+        perspective: '1200px',
+        perspectiveOrigin: 'center center',
+      }}
+      onMouseDown={handleMouseDown}
+      onMouseMove={handleMouseMove}
+      onMouseUp={handleMouseUp}
+      onMouseLeave={handleMouseLeave}
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
     >
-      {/* Carousel Container - BLUE: Centers Red */}
-      <div 
-        className="w-full h-full flex items-center justify-center border-2 border-dashed border-blue-500"
-        style={{ 
-          perspective: '1200px',
-          perspectiveOrigin: 'center center',
-          outline: '2px dashed blue',
-        }}
-        onMouseDown={handleMouseDown}
-        onMouseMove={handleMouseMove}
-        onMouseUp={handleMouseUp}
-        onMouseLeave={handleMouseLeave}
-        onTouchStart={handleTouchStart}
-        onTouchMove={handleTouchMove}
-        onTouchEnd={handleTouchEnd}
-      >
-        {/* Cards Container - RED: Sized to hold cards, centered by Blue */}
-        <div className="relative flex items-center justify-center h-[500px] md:h-[600px] lg:h-[720px] border-2 border-dashed border-red-500" style={{ outline: '2px dashed red' }}>
-          {/* Card positioning wrapper */}
-          <div className="relative flex items-center justify-center w-full h-full">
-            {animations.map((animation, index) => {
+      {/* Cards track - centered container */}
+      <div className="relative flex items-center justify-center w-full h-full">
+        {animations.map((animation, index) => {
             const style = getCardStyle(index);
             const isCenter = index === currentIndex;
             
             return (
               <Card 
                 key={animation.id}
-                className={`group absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[280px] md:w-[340px] lg:w-[400px] h-[480px] md:h-[580px] lg:h-[680px] overflow-hidden rounded-2xl cursor-pointer glass border-primary/30 transition-all duration-700 ease-out ${
-                  isCenter ? 'glow-primary border-2 border-dashed border-green-500' : 'border-2 border-dashed border-purple-500'
+                className={`group absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[280px] md:w-[320px] lg:w-[360px] h-[460px] md:h-[540px] lg:h-[600px] overflow-hidden rounded-2xl cursor-pointer glass border-primary/30 transition-all duration-700 ease-out ${
+                  isCenter ? 'glow-primary' : ''
                 }`}
                 onClick={() => handleAnimationClick(animation.id)}
                 style={{
@@ -316,8 +308,6 @@ export const AnimationCarousel3D = () => {
               </Card>
             );
           })}
-          </div>
-        </div>
       </div>
 
       {/* Navigation Controls */}
@@ -325,7 +315,7 @@ export const AnimationCarousel3D = () => {
         variant="outline"
         size="icon"
         onClick={goToPrevious}
-        className="absolute left-2 md:left-4 lg:left-8 top-1/2 -translate-y-1/2 z-40 h-10 w-10 md:h-12 md:w-12 rounded-full bg-background/90 backdrop-blur-sm border-primary/30 hover:bg-primary/20 hover:border-primary shadow-lg transition-all hover:scale-110 border-4 border-dashed border-orange-500"
+        className="absolute left-2 md:left-4 lg:left-6 top-1/2 -translate-y-1/2 z-40 h-10 w-10 md:h-12 md:w-12 rounded-full bg-background/90 backdrop-blur-sm border-primary/30 hover:bg-primary/20 hover:border-primary shadow-lg transition-all hover:scale-110"
         aria-label="Previous animation"
       >
         <ChevronLeft className="h-5 w-5 md:h-6 md:w-6" />
@@ -334,14 +324,14 @@ export const AnimationCarousel3D = () => {
         variant="outline"
         size="icon"
         onClick={goToNext}
-        className="absolute right-2 md:right-4 lg:right-8 top-1/2 -translate-y-1/2 z-40 h-10 w-10 md:h-12 md:w-12 rounded-full bg-background/90 backdrop-blur-sm border-primary/30 hover:bg-primary/20 hover:border-primary shadow-lg transition-all hover:scale-110 border-4 border-dashed border-orange-500"
+        className="absolute right-2 md:right-4 lg:right-6 top-1/2 -translate-y-1/2 z-40 h-10 w-10 md:h-12 md:w-12 rounded-full bg-background/90 backdrop-blur-sm border-primary/30 hover:bg-primary/20 hover:border-primary shadow-lg transition-all hover:scale-110"
         aria-label="Next animation"
       >
         <ChevronRight className="h-5 w-5 md:h-6 md:w-6" />
       </Button>
 
       {/* Pagination Dots */}
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-40 flex gap-2 border-2 border-dashed border-pink-500 p-2" style={{ outline: '2px dashed pink' }}>
+      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-40 flex gap-2">
         {animations.slice(0, 8).map((_, index) => (
           <button
             key={index}
