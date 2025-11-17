@@ -224,18 +224,20 @@ export const AnimationCarousel3D = () => {
   return (
     <div 
       ref={carouselRef}
-      className="relative w-full h-full min-h-[500px] lg:min-h-[600px]"
+      className="relative w-full h-full min-h-[500px] lg:min-h-[600px] border-2 border-dashed border-yellow-500"
       onMouseEnter={handleUserInteraction}
       tabIndex={0}
       role="region"
       aria-label="3D Animation Carousel"
+      style={{ outline: '2px dashed yellow' }}
     >
       {/* Carousel Container */}
       <div 
-        className="w-full h-full flex items-center justify-center"
+        className="w-full h-full flex items-center justify-center border-2 border-dashed border-blue-500"
         style={{ 
           perspective: '1200px',
           perspectiveOrigin: 'center center',
+          outline: '2px dashed blue',
         }}
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
@@ -246,7 +248,7 @@ export const AnimationCarousel3D = () => {
         onTouchEnd={handleTouchEnd}
       >
         {/* Cards Container */}
-        <div className="relative w-full h-[500px] lg:h-[600px] flex items-center justify-center -translate-y-[1vh] md:-translate-y-[3vh] lg:-translate-y-[6vh]">
+        <div className="relative w-full h-[500px] lg:h-[600px] flex items-center justify-center -translate-y-[1vh] md:-translate-y-[3vh] lg:-translate-y-[6vh] border-2 border-dashed border-red-500" style={{ outline: '2px dashed red' }}>
           {animations.map((animation, index) => {
             const style = getCardStyle(index);
             const isCenter = index === currentIndex;
@@ -255,7 +257,7 @@ export const AnimationCarousel3D = () => {
               <Card 
                 key={animation.id}
                 className={`group absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[260px] lg:w-[320px] h-[460px] lg:h-[560px] overflow-hidden rounded-2xl cursor-pointer glass border-primary/30 transition-all duration-700 ease-out ${
-                  isCenter ? 'glow-primary' : ''
+                  isCenter ? 'glow-primary border-2 border-dashed border-green-500' : 'border-2 border-dashed border-purple-500'
                 }`}
                 onClick={() => handleAnimationClick(animation.id)}
                 style={{
@@ -320,7 +322,7 @@ export const AnimationCarousel3D = () => {
         variant="outline"
         size="icon"
         onClick={goToPrevious}
-        className="absolute left-2 md:left-4 lg:left-8 top-1/2 -translate-y-1/2 z-40 h-10 w-10 md:h-12 md:w-12 rounded-full bg-background/90 backdrop-blur-sm border-primary/30 hover:bg-primary/20 hover:border-primary shadow-lg transition-all hover:scale-110"
+        className="absolute left-2 md:left-4 lg:left-8 top-1/2 -translate-y-1/2 z-40 h-10 w-10 md:h-12 md:w-12 rounded-full bg-background/90 backdrop-blur-sm border-primary/30 hover:bg-primary/20 hover:border-primary shadow-lg transition-all hover:scale-110 border-4 border-dashed border-orange-500"
         aria-label="Previous animation"
       >
         <ChevronLeft className="h-5 w-5 md:h-6 md:w-6" />
@@ -329,14 +331,14 @@ export const AnimationCarousel3D = () => {
         variant="outline"
         size="icon"
         onClick={goToNext}
-        className="absolute right-2 md:right-4 lg:right-8 top-1/2 -translate-y-1/2 z-40 h-10 w-10 md:h-12 md:w-12 rounded-full bg-background/90 backdrop-blur-sm border-primary/30 hover:bg-primary/20 hover:border-primary shadow-lg transition-all hover:scale-110"
+        className="absolute right-2 md:right-4 lg:right-8 top-1/2 -translate-y-1/2 z-40 h-10 w-10 md:h-12 md:w-12 rounded-full bg-background/90 backdrop-blur-sm border-primary/30 hover:bg-primary/20 hover:border-primary shadow-lg transition-all hover:scale-110 border-4 border-dashed border-orange-500"
         aria-label="Next animation"
       >
         <ChevronRight className="h-5 w-5 md:h-6 md:w-6" />
       </Button>
 
       {/* Pagination Dots */}
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-40 flex gap-2">
+      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-40 flex gap-2 border-2 border-dashed border-pink-500 p-2" style={{ outline: '2px dashed pink' }}>
         {animations.slice(0, 8).map((_, index) => (
           <button
             key={index}
