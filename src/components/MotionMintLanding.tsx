@@ -235,7 +235,7 @@ const MotionMintLanding = () => {
             </div>
             
             {/* 3D Animation Carousel */}
-            <div className="relative w-full flex items-center justify-center lg:justify-end">
+            <div className="relative w-full flex items-center justify-center lg:justify-end lg:-translate-y-[6vh]">
               <div className="h-[500px] lg:h-[600px] w-full max-w-[600px]">
                 <AnimationCarousel3D />
               </div>
