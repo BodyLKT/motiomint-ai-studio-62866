@@ -23,7 +23,7 @@ export const HeroCarouselGrid = () => {
   const autoPlayRef = useRef<NodeJS.Timeout | null>(null);
   
   const CARDS_PER_PAGE = 6;
-  const AUTO_PLAY_INTERVAL = 5000;
+  const AUTO_PLAY_INTERVAL = 7000;
   const totalPages = Math.ceil(animations.length / CARDS_PER_PAGE);
 
   useEffect(() => {
