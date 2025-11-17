@@ -246,7 +246,7 @@ export const AnimationCarousel3D = () => {
         onTouchEnd={handleTouchEnd}
       >
         {/* Cards Container */}
-        <div className="relative w-full h-[500px] lg:h-[600px]">
+        <div className="relative w-full h-[500px] lg:h-[600px] translate-y-0 md:-translate-y-[2vh] lg:-translate-y-[4vh]">
           {animations.map((animation, index) => {
             const style = getCardStyle(index);
             const isCenter = index === currentIndex;
