@@ -195,10 +195,13 @@ const MotionMintLanding = () => {
         <div className="absolute inset-0 bg-gradient-to-br from-background/90 via-background/85 to-background/80 dark:from-background/50 dark:via-background/30 dark:to-background/20 z-0" />
         <div className="absolute inset-0 animated-gradient opacity-15 dark:opacity-100 z-0" />
         
+        {/* Hero Inner Container */}
         <div className="container mx-auto px-4 relative z-10 w-full">
-          <div className="grid lg:grid-cols-[1.1fr_1.3fr] gap-16 items-center">
-            <div className="text-center lg:text-left">
-              <Badge className="mb-6 bg-primary/20 text-primary border-primary/30">
+          <div className="grid lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1.4fr)] gap-16 items-center">
+            
+            {/* Hero Text Column */}
+            <div className="flex flex-col justify-center text-center lg:text-left max-w-[600px] mx-auto lg:mx-0">
+              <Badge className="mb-6 bg-primary/20 text-primary border-primary/30 w-fit mx-auto lg:mx-0">
                 {t('hero.badge')}
               </Badge>
               
@@ -209,7 +212,7 @@ const MotionMintLanding = () => {
                 </span>
               </h1>
               
-              <p className="text-xl lg:text-2xl text-muted-foreground mb-8 max-w-2xl">
+              <p className="text-xl lg:text-2xl text-muted-foreground mb-8">
                 {t('hero.subtitle')}
               </p>
               
@@ -234,12 +237,13 @@ const MotionMintLanding = () => {
               </div>
             </div>
             
-            {/* 3D Animation Carousel */}
-            <div className="relative w-full flex items-center justify-center overflow-hidden pl-8">
-              <div className="h-[500px] lg:h-[600px] w-full max-w-[600px]">
+            {/* Hero Carousel Column */}
+            <div className="flex items-center justify-center overflow-hidden relative">
+              <div className="w-full max-w-[600px]">
                 <AnimationCarousel3D />
               </div>
             </div>
+            
           </div>
         </div>
       </section>
