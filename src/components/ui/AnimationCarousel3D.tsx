@@ -247,9 +247,11 @@ export const AnimationCarousel3D = () => {
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
       >
-        {/* Cards Container */}
-        <div className="relative w-full h-[500px] lg:h-[600px] flex items-center justify-center -translate-y-[1vh] md:-translate-y-[3vh] lg:-translate-y-[6vh] border-2 border-dashed border-red-500" style={{ outline: '2px dashed red' }}>
-          {animations.map((animation, index) => {
+        {/* Cards Container - RED: Now aligned with Blue/Yellow */}
+        <div className="relative w-full h-full flex items-center justify-center border-2 border-dashed border-red-500" style={{ outline: '2px dashed red' }}>
+          {/* Inner positioning wrapper to maintain card visual position */}
+          <div className="absolute inset-0 flex items-center justify-center -translate-y-[1vh] md:-translate-y-[3vh] lg:-translate-y-[6vh]">
+            {animations.map((animation, index) => {
             const style = getCardStyle(index);
             const isCenter = index === currentIndex;
             
@@ -314,6 +316,7 @@ export const AnimationCarousel3D = () => {
               </Card>
             );
           })}
+          </div>
         </div>
       </div>
 
