@@ -22,6 +22,7 @@ import {
   LogIn
 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
+import { Footer } from '@/components/Footer';
 import { LoginModal } from '@/components/auth/LoginModal';
 import { SignUpModal } from '@/components/auth/SignUpModal';
 import { ModernVideoPlayer } from '@/components/ui/ModernVideoPlayer';
@@ -571,11 +572,6 @@ const MotionMintLanding = () => {
             <h2 className="text-3xl lg:text-4xl font-bold mb-4">
               {t('footerCTA.title')}
             </h2>
-            <p className="text-lg text-muted-foreground mb-6 max-w-2xl mx-auto">
-              {t('footerCTA.subtitle')}
-            </p>
-            
-            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
               <Button 
                 size="lg" 
                 className="btn-glow text-lg px-8 py-4"
