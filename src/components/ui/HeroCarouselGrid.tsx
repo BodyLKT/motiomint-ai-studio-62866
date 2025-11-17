@@ -87,7 +87,7 @@ export const HeroCarouselGrid = () => {
   };
 
   const handleCardClick = (animationId: string) => {
-    navigate(`/video/${animationId}`);
+    navigate(`/animation/${animationId}`);
   };
 
   const goToPrevious = useCallback(() => {
