@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { PlayCircle, ChevronLeft, ChevronRight } from 'lucide-react';
@@ -18,13 +18,56 @@ export const HeroCarouselGrid = () => {
   const [animations, setAnimations] = useState<Animation[]>([]);
   const [currentPage, setCurrentPage] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
+  const [isPaused, setIsPaused] = useState(false);
   const navigate = useNavigate();
+  const autoPlayRef = useRef<NodeJS.Timeout | null>(null);
   
   const CARDS_PER_PAGE = 6;
+  const AUTO_PLAY_INTERVAL = 5000;
   const totalPages = Math.ceil(animations.length / CARDS_PER_PAGE);
 
   useEffect(() => {
     fetchAnimations();
+  }, []);
+
+  // Shuffle animations array
+  const shuffleArray = useCallback((array: Animation[]) => {
+    const shuffled = [...array];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled;
+  }, []);
+
+  // Auto-play logic
+  useEffect(() => {
+    if (isLoading || isPaused || totalPages <= 1) return;
+
+    autoPlayRef.current = setInterval(() => {
+      setCurrentPage((prev) => {
+        const nextPage = (prev + 1) % totalPages;
+        // Shuffle when looping back to start
+        if (nextPage === 0) {
+          setAnimations((current) => shuffleArray(current));
+        }
+        return nextPage;
+      });
+    }, AUTO_PLAY_INTERVAL);
+
+    return () => {
+      if (autoPlayRef.current) {
+        clearInterval(autoPlayRef.current);
+      }
+    };
+  }, [isLoading, isPaused, totalPages, shuffleArray]);
+
+  const handleMouseEnter = useCallback(() => {
+    setIsPaused(true);
+  }, []);
+
+  const handleMouseLeave = useCallback(() => {
+    setIsPaused(false);
   }, []);
 
   const fetchAnimations = async () => {
@@ -47,13 +90,23 @@ export const HeroCarouselGrid = () => {
     navigate(`/video/${animationId}`);
   };
 
-  const goToPrevious = () => {
+  const goToPrevious = useCallback(() => {
+    setIsPaused(true);
     setCurrentPage((prev) => (prev - 1 + totalPages) % totalPages);
-  };
+    setTimeout(() => setIsPaused(false), 3000);
+  }, [totalPages]);
 
-  const goToNext = () => {
+  const goToNext = useCallback(() => {
+    setIsPaused(true);
     setCurrentPage((prev) => (prev + 1) % totalPages);
-  };
+    setTimeout(() => setIsPaused(false), 3000);
+  }, [totalPages]);
+
+  const goToPage = useCallback((page: number) => {
+    setIsPaused(true);
+    setCurrentPage(page);
+    setTimeout(() => setIsPaused(false), 3000);
+  }, []);
 
   const currentAnimations = animations.slice(
     currentPage * CARDS_PER_PAGE,
@@ -71,13 +124,20 @@ export const HeroCarouselGrid = () => {
   }
 
   return (
-    <div className="relative w-full">
-      {/* Grid Container */}
-      <div className="grid grid-cols-3 gap-4 lg:gap-6 w-full">
+    <div 
+      className="relative w-full"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
+      {/* Grid Container with fade transition */}
+      <div 
+        key={currentPage}
+        className="grid grid-cols-3 gap-4 lg:gap-6 w-full animate-fade-in"
+      >
         {currentAnimations.map((animation) => (
           <Card
             key={animation.id}
-            className="group relative overflow-hidden rounded-xl cursor-pointer glass border-primary/20 hover:border-primary/40 transition-all duration-300 hover:scale-105 aspect-[3/4]"
+            className="group relative overflow-hidden rounded-xl cursor-pointer glass border-primary/20 hover:border-primary/40 transition-all duration-300 hover:scale-[1.03] hover:-translate-y-1 hover:shadow-2xl aspect-[3/4]"
             onClick={() => handleCardClick(animation.id)}
           >
             {/* Video Preview */}
@@ -120,7 +180,8 @@ export const HeroCarouselGrid = () => {
             variant="ghost"
             size="icon"
             onClick={goToPrevious}
-            className="absolute -left-4 top-1/2 -translate-y-1/2 z-20 glass hover:bg-primary/20"
+            onMouseEnter={handleMouseEnter}
+            className="absolute -left-4 top-1/2 -translate-y-1/2 z-20 glass hover:bg-primary/20 transition-all"
             aria-label="Previous"
           >
             <ChevronLeft className="w-6 h-6" />
@@ -130,7 +191,8 @@ export const HeroCarouselGrid = () => {
             variant="ghost"
             size="icon"
             onClick={goToNext}
-            className="absolute -right-4 top-1/2 -translate-y-1/2 z-20 glass hover:bg-primary/20"
+            onMouseEnter={handleMouseEnter}
+            className="absolute -right-4 top-1/2 -translate-y-1/2 z-20 glass hover:bg-primary/20 transition-all"
             aria-label="Next"
           >
             <ChevronRight className="w-6 h-6" />
@@ -144,7 +206,8 @@ export const HeroCarouselGrid = () => {
           {[...Array(totalPages)].map((_, index) => (
             <button
               key={index}
-              onClick={() => setCurrentPage(index)}
+              onClick={() => goToPage(index)}
+              onMouseEnter={handleMouseEnter}
               className={`w-2 h-2 rounded-full transition-all duration-300 ${
                 index === currentPage
                   ? 'bg-primary w-8'
