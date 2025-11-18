@@ -52,6 +52,20 @@ const PrivacyPolicy = () => {
           </section>
 
           <section>
+            <h2 className="text-2xl font-bold mb-4 text-foreground">Third-Party Editors</h2>
+            <p className="text-muted-foreground leading-relaxed">
+              When you choose to open an animation in a third-party editor (such as Canva, CapCut, or VEED), we may 
+              provide that service with a file URL or media asset necessary to load your animation. We do not control 
+              how these third parties collect, use, or store your information.
+            </p>
+            <p className="text-muted-foreground leading-relaxed mt-4">
+              Your use of third-party editors is governed by their own privacy policies. We encourage you to review 
+              those policies before using their services. If you prefer not to share data with third-party editors, 
+              you can always download your animation directly from MotioMint instead.
+            </p>
+          </section>
+
+          <section>
             <h2 className="text-2xl font-bold mb-4 text-foreground">Data Retention & Security</h2>
             <p className="text-muted-foreground leading-relaxed">
               We retain your personal information for as long as necessary to fulfill the purposes outlined in this 
