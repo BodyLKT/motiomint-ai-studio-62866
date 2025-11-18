@@ -16,11 +16,12 @@ import {
   Facebook,
   Instagram,
   Smartphone,
-  Twitter,
   Linkedin,
   CheckCircle2,
   ExternalLink,
   Sparkles,
+  Video,
+  X,
 } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
 
@@ -65,6 +66,19 @@ export default function EditShareModal({ open, onOpenChange, animation }: EditSh
     });
   };
 
+  const handleEditInVEED = () => {
+    // VEED.io editor URL
+    const veedUrl = `https://www.veed.io/new?url=${encodeURIComponent(
+      animation.file_url
+    )}`;
+    window.open(veedUrl, '_blank', 'noopener,noreferrer');
+    
+    toast({
+      title: t('editShare.openedInVEED'),
+      description: t('editShare.openedInVEEDDesc'),
+    });
+  };
+
   const handleShare = async (platform: string) => {
     setIsSharing(true);
 
@@ -96,8 +110,8 @@ export default function EditShareModal({ open, onOpenChange, animation }: EditSh
           )}`;
           break;
 
-        case 'twitter':
-          shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
+        case 'x':
+          shareUrl = `https://x.com/intent/tweet?text=${encodeURIComponent(
             shareData.text
           )}&url=${encodeURIComponent(shareData.url)}`;
           break;
@@ -191,7 +205,7 @@ export default function EditShareModal({ open, onOpenChange, animation }: EditSh
               {t('editShare.editSectionDesc')}
             </p>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <Button
                 onClick={handleEditInCanva}
                 size="lg"
@@ -205,6 +219,24 @@ export default function EditShareModal({ open, onOpenChange, animation }: EditSh
                   <p className="font-semibold">{t('editShare.editInCanva')}</p>
                   <p className="text-xs text-muted-foreground mt-1">
                     {t('editShare.canvaDesc')}
+                  </p>
+                </div>
+                <ExternalLink className="h-4 w-4 text-muted-foreground" />
+              </Button>
+
+              <Button
+                onClick={handleEditInVEED}
+                size="lg"
+                variant="outline"
+                className="h-auto py-6 flex flex-col items-center gap-3 hover:border-primary/50 hover:bg-primary/5 transition-all group"
+              >
+                <div className="p-3 rounded-full bg-primary/10 group-hover:bg-primary/20 transition-colors">
+                  <Video className="h-6 w-6 text-primary" />
+                </div>
+                <div className="text-center">
+                  <p className="font-semibold">{t('editShare.editInVEED')}</p>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    {t('editShare.veedDesc')}
                   </p>
                 </div>
                 <ExternalLink className="h-4 w-4 text-muted-foreground" />
@@ -301,15 +333,15 @@ export default function EditShareModal({ open, onOpenChange, animation }: EditSh
                 <span className="text-sm">TikTok</span>
               </Button>
 
-              {/* Twitter */}
+              {/* X (Twitter) */}
               <Button
-                onClick={() => handleShare('twitter')}
+                onClick={() => handleShare('x')}
                 disabled={isSharing}
                 variant="outline"
                 className="h-auto py-4 flex flex-col items-center gap-2 hover:border-primary/50 hover:bg-primary/5"
               >
-                <Twitter className="h-5 w-5" />
-                <span className="text-sm">Twitter</span>
+                <X className="h-5 w-5" />
+                <span className="text-sm">X (Twitter)</span>
               </Button>
 
               {/* LinkedIn */}
