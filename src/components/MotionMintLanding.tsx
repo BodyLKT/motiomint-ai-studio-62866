@@ -32,6 +32,7 @@ import VideoPreview from '@/components/ui/VideoPreview';
 import heroImage from '@/assets/hero-bg.jpg';
 import techAnimation from '@/assets/tech-animation.jpg';
 import fitnessAnimation from '@/assets/fitness-animation.jpg';
+import { BackToTop } from '@/components/ui/BackToTop';
 
 const MotionMintLanding = () => {
   const { t } = useTranslation();
@@ -566,6 +567,7 @@ const MotionMintLanding = () => {
       </section>
 
       <Footer />
+      <BackToTop />
     </div>
   );
 };

@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Loader2, Heart, Download as DownloadIcon, Grid3x3, User, History } from 'lucide-react';
+import { BackToTop } from '@/components/ui/BackToTop';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from '@/hooks/use-toast';
 import AnimationCard from '@/components/dashboard/AnimationCard';
@@ -422,6 +423,7 @@ export default function Dashboard() {
           </Tabs>
         </div>
       </main>
+      <BackToTop />
     </div>
   );
 }

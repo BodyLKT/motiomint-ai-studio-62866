@@ -1,7 +1,9 @@
+import { useEffect } from 'react';
 import MainNavigation from '@/components/navigation/MainNavigation';
 import { Footer } from '@/components/Footer';
 import { Sparkles, Target, Users, Zap } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
+import { BackToTop } from '@/components/ui/BackToTop';
 
 const About = () => {
   const values = [
@@ -27,11 +29,15 @@ const About = () => {
     }
   ];
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <div className="min-h-screen bg-background">
       <MainNavigation />
       
-      <main className="container mx-auto px-4 py-24 max-w-6xl">
+      <main className="container mx-auto px-4 pt-36 pb-24 max-w-6xl">
         {/* Header */}
         <div className="text-center mb-16">
           <h1 className="text-4xl lg:text-6xl font-bold mb-6 gradient-text">About MotioMint</h1>
@@ -118,6 +124,7 @@ const About = () => {
       </main>
 
       <Footer />
+      <BackToTop />
     </div>
   );
 };

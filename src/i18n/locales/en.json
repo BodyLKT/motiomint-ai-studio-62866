@@ -213,8 +213,8 @@
     "browseAll": "Browse All Animations"
   },
   "dashboard": {
-    "welcome": "Hi {{name}}, welcome back 👋",
-    "welcomeDefault": "Hi there, welcome back 👋",
+    "welcome": "Hi {{name}}, welcome back",
+    "welcomeDefault": "Hi there, welcome back",
     "subtitle": "Access your animation library, manage subscriptions, and download your favorite content.",
     "totalAnimations": "Total Animations",
     "favorites": "Favorites",

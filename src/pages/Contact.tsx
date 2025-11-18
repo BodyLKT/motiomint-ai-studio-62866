@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import MainNavigation from '@/components/navigation/MainNavigation';
 import { Footer } from '@/components/Footer';
 import { Mail, MessageSquare } from 'lucide-react';
@@ -6,8 +7,8 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
-import { useState } from 'react';
 import { toast } from 'sonner';
+import { BackToTop } from '@/components/ui/BackToTop';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -22,11 +23,15 @@ const Contact = () => {
     setFormData({ name: '', email: '', message: '' });
   };
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <div className="min-h-screen bg-background">
       <MainNavigation />
       
-      <main className="container mx-auto px-4 py-24 max-w-5xl">
+      <main className="container mx-auto px-4 pt-36 pb-24 max-w-5xl">
         {/* Header */}
         <div className="text-center mb-16">
           <h1 className="text-4xl lg:text-6xl font-bold mb-6 gradient-text">Contact Us</h1>
@@ -133,6 +138,7 @@ const Contact = () => {
       </main>
 
       <Footer />
+      <BackToTop />
     </div>
   );
 };
