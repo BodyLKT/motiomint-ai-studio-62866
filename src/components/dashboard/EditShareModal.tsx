@@ -272,6 +272,15 @@ export default function EditShareModal({ open, onOpenChange, animation }: EditSh
                 </div>
               </div>
             </div>
+
+            {/* Third-Party Disclaimer */}
+            <div className="mt-6 text-xs text-muted-foreground space-y-1">
+              <p className="font-medium">Third-party editors</p>
+              <p className="leading-relaxed">
+                Canva, CapCut, and VEED are third-party tools. MotioMint is not affiliated with or endorsed by these services. 
+                Editing your animation in these tools is subject to their own terms and privacy policies.
+              </p>
+            </div>
           </div>
 
           <Separator className="my-6" />

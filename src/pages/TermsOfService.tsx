@@ -54,6 +54,23 @@ const TermsOfService = () => {
           </section>
 
           <section>
+            <h2 className="text-2xl font-bold mb-4 text-foreground">Third-Party Services</h2>
+            <p className="text-muted-foreground leading-relaxed mb-4">
+              Some features of MotioMint allow you to open or edit your animations in third-party tools such as Canva, 
+              CapCut, or VEED ("Third-Party Services"). These services are operated by independent providers, not by MotioMint.
+            </p>
+            <ul className="list-disc pl-6 text-muted-foreground space-y-2">
+              <li>Your use of any Third-Party Service is governed solely by that provider's terms of service and privacy policy.</li>
+              <li>MotioMint does not control and is not responsible for the content, functionality, or availability of any Third-Party Service.</li>
+              <li>Any editing, exporting, or sharing actions you perform in a Third-Party Service are at your own discretion and risk.</li>
+              <li>MotioMint does not claim any partnership, sponsorship, or endorsement by Canva, CapCut, VEED, or any other Third-Party Service mentioned on the site.</li>
+            </ul>
+            <p className="text-muted-foreground leading-relaxed mt-4">
+              If you have questions about how a Third-Party Service handles your data, please review that provider's documentation directly.
+            </p>
+          </section>
+
+          <section>
             <h2 className="text-2xl font-bold mb-4 text-foreground">Limitation of Liability</h2>
             <p className="text-muted-foreground leading-relaxed">
               MotioMint provides its services "as is" without warranties of any kind, either express or implied. 
