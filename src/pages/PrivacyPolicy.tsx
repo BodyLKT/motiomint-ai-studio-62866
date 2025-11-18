@@ -1,12 +1,18 @@
+import { useEffect } from 'react';
 import MainNavigation from '@/components/navigation/MainNavigation';
 import { Footer } from '@/components/Footer';
+import { BackToTop } from '@/components/ui/BackToTop';
 
 const PrivacyPolicy = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <div className="min-h-screen bg-background">
       <MainNavigation />
       
-      <main className="container mx-auto px-4 py-24 max-w-4xl">
+      <main className="container mx-auto px-4 pt-36 pb-24 max-w-4xl">
         <h1 className="text-4xl lg:text-5xl font-bold mb-8 gradient-text">Privacy Policy</h1>
         
         <div className="prose prose-lg dark:prose-invert max-w-none space-y-8">
@@ -76,6 +82,7 @@ const PrivacyPolicy = () => {
       </main>
 
       <Footer />
+      <BackToTop />
     </div>
   );
 };

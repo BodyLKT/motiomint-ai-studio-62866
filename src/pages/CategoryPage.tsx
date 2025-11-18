@@ -23,6 +23,7 @@ import SortDropdown, { SortOption } from '@/components/category/SortDropdown';
 import { LoginModal } from '@/components/auth/LoginModal';
 import { SignUpModal } from '@/components/auth/SignUpModal';
 import { Input } from '@/components/ui/input';
+import { BackToTop } from '@/components/ui/BackToTop';
 
 interface Animation {
   id: string;
@@ -38,30 +39,24 @@ interface Animation {
   resolution?: string;
 }
 
-const CATEGORY_INFO: Record<string, { description: string; icon: string }> = {
+const CATEGORY_INFO: Record<string, { description: string }> = {
   'Tech & Futuristic': {
-    description: 'Holographic interfaces, circuit patterns, AI visuals, and futuristic motion graphics',
-    icon: '🚀'
+    description: 'Holographic interfaces, circuit patterns, AI visuals, and futuristic motion graphics'
   },
   'Fitness & Lifestyle': {
-    description: 'Workout graphics, health metrics, energy flows, and wellness animations',
-    icon: '💪'
+    description: 'Workout graphics, health metrics, energy flows, and wellness animations'
   },
   'Business & Finance': {
-    description: 'Charts, graphs, corporate motion graphics, and professional animations',
-    icon: '💼'
+    description: 'Charts, graphs, corporate motion graphics, and professional animations'
   },
   'Travel & Nature': {
-    description: 'Landscapes, travel routes, nature elements, and scenic animations',
-    icon: '🌍'
+    description: 'Landscapes, travel routes, nature elements, and scenic animations'
   },
   'Abstract Backgrounds': {
-    description: 'Flowing shapes, particles, gradient motions, and abstract patterns',
-    icon: '✨'
+    description: 'Flowing shapes, particles, gradient motions, and abstract patterns'
   },
   'Social Media Hooks': {
-    description: 'Attention-grabbing intros, transitions, and viral-ready animations',
-    icon: '📱'
+    description: 'Attention-grabbing intros, transitions, and viral-ready animations'
   }
 };
 
@@ -345,7 +340,6 @@ export default function CategoryPage() {
           </Button>
 
           <div className="flex items-start gap-4 mb-4">
-            <div className="text-5xl">{categoryInfo.icon}</div>
             <div className="flex-1">
               <h1 className="text-4xl font-bold mb-2">{category}</h1>
               <p className="text-lg text-muted-foreground max-w-3xl">
