@@ -41,42 +41,93 @@ export default function EditShareModal({ open, onOpenChange, animation }: EditSh
   const [isSharing, setIsSharing] = useState(false);
 
   const handleEditInCanva = () => {
-    // Canva Design API - Opens Canva editor with the image
-    const canvaUrl = `https://www.canva.com/design/create?template=${encodeURIComponent(
-      animation.file_url
-    )}`;
-    window.open(canvaUrl, '_blank', 'noopener,noreferrer');
-    
-    toast({
-      title: t('editShare.openedInCanva'),
-      description: t('editShare.openedInCanvaDesc'),
-    });
+    try {
+      // Canva Design API - Opens Canva editor with the image
+      const canvaUrl = `https://www.canva.com/design/create?template=${encodeURIComponent(
+        animation.file_url
+      )}`;
+      const newWindow = window.open(canvaUrl, '_blank', 'noopener,noreferrer');
+      
+      if (newWindow) {
+        toast({
+          title: t('editShare.openedInCanva'),
+          description: t('editShare.openedInCanvaDesc'),
+        });
+      } else {
+        toast({
+          title: 'Unable to open Canva',
+          description: 'Please allow pop-ups and try again.',
+          variant: 'destructive',
+        });
+      }
+    } catch (error) {
+      console.error('Error opening Canva:', error);
+      toast({
+        title: 'Unable to open Canva',
+        description: 'Please try again later.',
+        variant: 'destructive',
+      });
+    }
   };
 
   const handleEditInCapCut = () => {
-    // CapCut web editor URL
-    const capCutUrl = `https://www.capcut.com/editor?media=${encodeURIComponent(
-      animation.file_url
-    )}`;
-    window.open(capCutUrl, '_blank', 'noopener,noreferrer');
-    
-    toast({
-      title: t('editShare.openedInCapCut'),
-      description: t('editShare.openedInCapCutDesc'),
-    });
+    try {
+      // CapCut web editor URL
+      const capCutUrl = `https://www.capcut.com/editor?media=${encodeURIComponent(
+        animation.file_url
+      )}`;
+      const newWindow = window.open(capCutUrl, '_blank', 'noopener,noreferrer');
+      
+      if (newWindow) {
+        toast({
+          title: t('editShare.openedInCapCut'),
+          description: t('editShare.openedInCapCutDesc'),
+        });
+      } else {
+        toast({
+          title: 'Unable to open CapCut',
+          description: 'Please allow pop-ups and try again.',
+          variant: 'destructive',
+        });
+      }
+    } catch (error) {
+      console.error('Error opening CapCut:', error);
+      toast({
+        title: 'Unable to open CapCut',
+        description: 'Please try again later.',
+        variant: 'destructive',
+      });
+    }
   };
 
   const handleEditInVEED = () => {
-    // VEED.io editor URL
-    const veedUrl = `https://www.veed.io/new?url=${encodeURIComponent(
-      animation.file_url
-    )}`;
-    window.open(veedUrl, '_blank', 'noopener,noreferrer');
-    
-    toast({
-      title: t('editShare.openedInVEED'),
-      description: t('editShare.openedInVEEDDesc'),
-    });
+    try {
+      // VEED.io editor URL
+      const veedUrl = `https://www.veed.io/new?url=${encodeURIComponent(
+        animation.file_url
+      )}`;
+      const newWindow = window.open(veedUrl, '_blank', 'noopener,noreferrer');
+      
+      if (newWindow) {
+        toast({
+          title: t('editShare.openedInVEED'),
+          description: t('editShare.openedInVEEDDesc'),
+        });
+      } else {
+        toast({
+          title: 'Unable to open VEED',
+          description: 'Please allow pop-ups and try again.',
+          variant: 'destructive',
+        });
+      }
+    } catch (error) {
+      console.error('Error opening VEED:', error);
+      toast({
+        title: 'Unable to open VEED',
+        description: 'Please try again later.',
+        variant: 'destructive',
+      });
+    }
   };
 
   const handleShare = async (platform: string) => {
@@ -123,34 +174,59 @@ export default function EditShareModal({ open, onOpenChange, animation }: EditSh
           break;
 
         case 'instagram':
-          // Instagram doesn't have a web share URL, guide users
-          toast({
-            title: t('editShare.instagramGuide'),
-            description: t('editShare.instagramGuideDesc'),
-          });
+          // Instagram doesn't have a web share URL, copy link and guide users
+          try {
+            await navigator.clipboard.writeText(shareData.url);
+            toast({
+              title: 'Link copied for Instagram',
+              description: 'Open Instagram and paste the link in your story or post.',
+            });
+          } catch {
+            toast({
+              title: t('editShare.instagramGuide'),
+              description: t('editShare.instagramGuideDesc'),
+            });
+          }
           return;
 
         case 'tiktok':
-          // TikTok web upload
-          shareUrl = 'https://www.tiktok.com/upload';
-          toast({
-            title: t('editShare.tiktokGuide'),
-            description: t('editShare.tiktokGuideDesc'),
-          });
-          break;
+          // TikTok web upload - copy link and guide users
+          try {
+            await navigator.clipboard.writeText(shareData.url);
+            toast({
+              title: 'Link copied for TikTok',
+              description: 'Open TikTok and paste the link in your video description.',
+            });
+          } catch {
+            toast({
+              title: t('editShare.tiktokGuide'),
+              description: t('editShare.tiktokGuideDesc'),
+            });
+          }
+          // Also open TikTok upload page
+          window.open('https://www.tiktok.com/upload', '_blank', 'noopener,noreferrer');
+          return;
       }
 
       if (shareUrl) {
-        window.open(
+        const newWindow = window.open(
           shareUrl,
           '_blank',
-          'width=600,height=400,noopener,noreferrer'
+          'width=600,height=600,noopener,noreferrer'
         );
         
-        toast({
-          title: t('editShare.shareOpened'),
-          description: t('editShare.shareOpenedDesc', { platform }),
-        });
+        if (newWindow) {
+          toast({
+            title: t('editShare.shareOpened'),
+            description: t('editShare.shareOpenedDesc', { platform }),
+          });
+        } else {
+          toast({
+            title: 'Share failed',
+            description: 'Please allow pop-ups and try again.',
+            variant: 'destructive',
+          });
+        }
       }
     } catch (error) {
       console.error('Share error:', error);

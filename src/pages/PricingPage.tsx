@@ -102,7 +102,7 @@ const PricingPage = () => {
             {currentPlans.map((plan, index) => (
               <Card 
                 key={index} 
-                className={`glass border-border/50 relative hover:border-primary/50 transition-all duration-300 ${
+                className={`glass border-border/50 relative hover:border-primary/50 transition-all duration-300 flex flex-col ${
                   plan.popular ? 'border-primary/50 glow-primary scale-105' : ''
                 }`}
               >
@@ -113,14 +113,14 @@ const PricingPage = () => {
                     </Badge>
                   </div>
                 )}
-                <CardContent className="p-8">
+                <CardContent className="p-8 flex flex-col flex-1">
                   <div className="text-center mb-8">
                     <h3 className="text-2xl font-bold mb-2">{plan.name}</h3>
                     <div className="text-5xl font-black mb-2 gradient-text">{plan.price}</div>
                     <p className="text-muted-foreground">{plan.description}</p>
                   </div>
                   
-                  <ul className="space-y-4 mb-8">
+                  <ul className="space-y-4 mb-8 flex-1">
                     {plan.features.map((feature, idx) => (
                       <li key={idx} className="flex items-start">
                         <CheckCircle className="w-5 h-5 text-primary mr-3 flex-shrink-0 mt-0.5" />
@@ -130,7 +130,7 @@ const PricingPage = () => {
                   </ul>
                   
                   <Button 
-                    className={`w-full ${plan.popular ? 'btn-glow' : ''}`}
+                    className={`w-full mt-auto ${plan.popular ? 'btn-glow' : ''}`}
                     variant={plan.popular ? 'default' : 'outline'}
                     size="lg"
                     onClick={() => handleGetStarted(plan.name)}
