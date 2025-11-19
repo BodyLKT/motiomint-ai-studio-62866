@@ -5,6 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Play, ChevronLeft, ChevronRight } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
+import VideoPreview from '@/components/ui/VideoPreview';
 
 interface Animation {
   id: string;
@@ -262,22 +263,15 @@ export const AnimationCarousel3D = () => {
               >
                 <div className="relative w-full h-full overflow-hidden">
                   {/* Video Preview */}
-                  <video
-                    src={animation.video_url}
-                    poster={animation.thumbnail_url}
-                    className="w-full h-full object-cover transition-transform duration-700"
-                    muted
-                    loop
-                    playsInline
-                    onMouseEnter={(e) => isCenter && e.currentTarget.play()}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.pause();
-                      e.currentTarget.currentTime = 0;
-                    }}
+                  <VideoPreview
+                    thumbnailUrl={animation.thumbnail_url}
+                    videoUrl={animation.video_url}
+                    alt={animation.title}
+                    className="w-full h-full"
                   />
                   
                   {/* Gradient Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent pointer-events-none" />
                   
                   {/* Category Badge */}
                   <Badge className="absolute top-3 right-3 bg-primary/90 backdrop-blur-sm text-white border-0 shadow-lg text-xs">

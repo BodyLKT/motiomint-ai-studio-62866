@@ -5,6 +5,7 @@ import { PlayCircle, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { supabase } from '@/integrations/supabase/client';
 import { useNavigate } from 'react-router-dom';
+import VideoPreview from '@/components/ui/VideoPreview';
 
 interface Animation {
   id: string;
@@ -142,15 +143,13 @@ export const HeroCarouselGrid = () => {
           >
             {/* Video Preview */}
             <div className="absolute inset-0">
-              <video
-                src={animation.file_url}
-                className="w-full h-full object-cover"
-                loop
-                muted
-                playsInline
-                autoPlay
+              <VideoPreview
+                thumbnailUrl={animation.thumbnail_url}
+                videoUrl={animation.file_url}
+                alt={animation.title}
+                className="w-full h-full"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-background/20 to-transparent opacity-60 group-hover:opacity-40 transition-opacity" />
+              <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-background/20 to-transparent opacity-60 group-hover:opacity-40 transition-opacity pointer-events-none" />
             </div>
 
             {/* Category Badge */}
