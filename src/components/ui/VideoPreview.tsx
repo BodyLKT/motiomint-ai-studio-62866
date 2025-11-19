@@ -18,11 +18,40 @@ export default function VideoPreview({
   const [isHovered, setIsHovered] = useState(false);
   const [isTouched, setIsTouched] = useState(false);
   const [showVideo, setShowVideo] = useState(false);
+  const [isVideoLoaded, setIsVideoLoaded] = useState(false);
+  const [hasError, setHasError] = useState(false);
   const touchTimerRef = useRef<NodeJS.Timeout>();
+  const observerRef = useRef<IntersectionObserver | null>(null);
+
+  // Lazy load video when in viewport
+  useEffect(() => {
+    if (!videoUrl || !containerRef.current) return;
+
+    observerRef.current = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && videoRef.current && !isVideoLoaded) {
+            // Load video source when visible
+            videoRef.current.load();
+            setIsVideoLoaded(true);
+          }
+        });
+      },
+      { rootMargin: '50px' }
+    );
+
+    observerRef.current.observe(containerRef.current);
+
+    return () => {
+      if (observerRef.current) {
+        observerRef.current.disconnect();
+      }
+    };
+  }, [videoUrl, isVideoLoaded]);
 
   // Handle hover for desktop
   const handleMouseEnter = () => {
-    if (!videoUrl) return;
+    if (!videoUrl || hasError) return;
     setIsHovered(true);
     setShowVideo(true);
   };
@@ -35,13 +64,13 @@ export default function VideoPreview({
 
   // Handle touch for mobile/tablet
   const handleTouchStart = () => {
-    if (!videoUrl) return;
+    if (!videoUrl || hasError) return;
     
     // Long press detection
     touchTimerRef.current = setTimeout(() => {
       setIsTouched(true);
       setShowVideo(true);
-    }, 300); // 300ms for long press
+    }, 300);
   };
 
   const handleTouchEnd = () => {
@@ -49,7 +78,6 @@ export default function VideoPreview({
       clearTimeout(touchTimerRef.current);
     }
     
-    // If was touched, toggle video
     if (isTouched) {
       setIsTouched(false);
       setShowVideo(false);
@@ -58,9 +86,8 @@ export default function VideoPreview({
 
   // Handle tap to toggle
   const handleClick = (e: React.MouseEvent) => {
-    if (!videoUrl) return;
+    if (!videoUrl || hasError) return;
     
-    // Only handle on touch devices
     if ('ontouchstart' in window) {
       e.preventDefault();
       setIsTouched(!isTouched);
@@ -70,17 +97,21 @@ export default function VideoPreview({
 
   // Play/pause video based on state
   useEffect(() => {
-    if (!videoRef.current) return;
+    if (!videoRef.current || !isVideoLoaded) return;
 
     if (showVideo) {
-      videoRef.current.play().catch(() => {
-        // Autoplay failed, which is fine
-      });
+      const playPromise = videoRef.current.play();
+      if (playPromise !== undefined) {
+        playPromise.catch((error) => {
+          console.warn('Video play failed:', error);
+          // Autoplay might be blocked, that's okay
+        });
+      }
     } else {
       videoRef.current.pause();
       videoRef.current.currentTime = 0;
     }
-  }, [showVideo]);
+  }, [showVideo, isVideoLoaded]);
 
   // Cleanup on unmount
   useEffect(() => {
@@ -111,16 +142,18 @@ export default function VideoPreview({
       />
 
       {/* Video element */}
-      {videoUrl && (
+      {videoUrl && !hasError && (
         <video
           ref={videoRef}
           src={videoUrl}
           loop
           muted
           playsInline
-          preload="metadata"
+          preload="none"
+          onError={() => setHasError(true)}
+          onLoadedData={() => setIsVideoLoaded(true)}
           className={`absolute inset-0 object-cover w-full h-full transition-opacity duration-300 ${
-            showVideo ? 'opacity-100' : 'opacity-0'
+            showVideo && isVideoLoaded ? 'opacity-100' : 'opacity-0'
           }`}
         />
       )}
