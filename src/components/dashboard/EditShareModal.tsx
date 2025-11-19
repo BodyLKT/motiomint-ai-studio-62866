@@ -42,16 +42,13 @@ export default function EditShareModal({ open, onOpenChange, animation }: EditSh
 
   const handleEditInCanva = () => {
     try {
-      // Canva Design API - Opens Canva editor with the image
-      const canvaUrl = `https://www.canva.com/design/create?template=${encodeURIComponent(
-        animation.file_url
-      )}`;
+      const canvaUrl = 'https://www.canva.com/';
       const newWindow = window.open(canvaUrl, '_blank', 'noopener,noreferrer');
       
       if (newWindow) {
         toast({
-          title: t('editShare.openedInCanva'),
-          description: t('editShare.openedInCanvaDesc'),
+          title: 'Opening Canva',
+          description: 'Your animation is opening in Canva. Upload your video to start editing.',
         });
       } else {
         toast({
@@ -72,16 +69,13 @@ export default function EditShareModal({ open, onOpenChange, animation }: EditSh
 
   const handleEditInCapCut = () => {
     try {
-      // CapCut web editor URL
-      const capCutUrl = `https://www.capcut.com/editor?media=${encodeURIComponent(
-        animation.file_url
-      )}`;
+      const capCutUrl = 'https://www.capcut.com/';
       const newWindow = window.open(capCutUrl, '_blank', 'noopener,noreferrer');
       
       if (newWindow) {
         toast({
-          title: t('editShare.openedInCapCut'),
-          description: t('editShare.openedInCapCutDesc'),
+          title: 'Opening CapCut',
+          description: 'Your animation is opening in CapCut. Upload your video to start editing.',
         });
       } else {
         toast({
@@ -102,16 +96,13 @@ export default function EditShareModal({ open, onOpenChange, animation }: EditSh
 
   const handleEditInVEED = () => {
     try {
-      // VEED.io editor URL
-      const veedUrl = `https://www.veed.io/new?url=${encodeURIComponent(
-        animation.file_url
-      )}`;
+      const veedUrl = 'https://www.veed.io/';
       const newWindow = window.open(veedUrl, '_blank', 'noopener,noreferrer');
       
       if (newWindow) {
         toast({
-          title: t('editShare.openedInVEED'),
-          description: t('editShare.openedInVEEDDesc'),
+          title: 'Opening VEED',
+          description: 'Your animation is opening in VEED. Upload your video to start editing.',
         });
       } else {
         toast({
@@ -162,7 +153,7 @@ export default function EditShareModal({ open, onOpenChange, animation }: EditSh
           break;
 
         case 'x':
-          shareUrl = `https://x.com/intent/tweet?text=${encodeURIComponent(
+          shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
             shareData.text
           )}&url=${encodeURIComponent(shareData.url)}`;
           break;
@@ -174,37 +165,54 @@ export default function EditShareModal({ open, onOpenChange, animation }: EditSh
           break;
 
         case 'instagram':
-          // Instagram doesn't have a web share URL, copy link and guide users
-          try {
-            await navigator.clipboard.writeText(shareData.url);
+          // Instagram doesn't have direct web share, open Instagram and copy link
+          const instaWindow = window.open('https://www.instagram.com/', '_blank', 'noopener,noreferrer');
+          if (instaWindow) {
+            try {
+              await navigator.clipboard.writeText(shareData.url);
+              toast({
+                title: 'Opening Instagram',
+                description: 'Link copied! Paste it in your Instagram story or post.',
+              });
+            } catch {
+              toast({
+                title: 'Opening Instagram',
+                description: 'Share the animation link in your story or post.',
+              });
+            }
+          } else {
             toast({
-              title: 'Link copied for Instagram',
-              description: 'Open Instagram and paste the link in your story or post.',
-            });
-          } catch {
-            toast({
-              title: t('editShare.instagramGuide'),
-              description: t('editShare.instagramGuideDesc'),
+              title: 'Unable to open Instagram',
+              description: 'Please allow pop-ups and try again.',
+              variant: 'destructive',
             });
           }
           return;
 
         case 'tiktok':
-          // TikTok web upload - copy link and guide users
-          try {
-            await navigator.clipboard.writeText(shareData.url);
+          // Open TikTok upload page
+          const tiktokWindow = window.open('https://www.tiktok.com/upload?lang=en', '_blank', 'noopener,noreferrer');
+          if (tiktokWindow) {
+            // Copy link to clipboard
+            try {
+              await navigator.clipboard.writeText(shareData.url);
+              toast({
+                title: 'Opening TikTok',
+                description: 'Link copied! Paste it in your TikTok video description.',
+              });
+            } catch {
+              toast({
+                title: 'Opening TikTok',
+                description: 'Upload your animation and add the link in your video description.',
+              });
+            }
+          } else {
             toast({
-              title: 'Link copied for TikTok',
-              description: 'Open TikTok and paste the link in your video description.',
-            });
-          } catch {
-            toast({
-              title: t('editShare.tiktokGuide'),
-              description: t('editShare.tiktokGuideDesc'),
+              title: 'Unable to open TikTok',
+              description: 'Please allow pop-ups and try again.',
+              variant: 'destructive',
             });
           }
-          // Also open TikTok upload page
-          window.open('https://www.tiktok.com/upload', '_blank', 'noopener,noreferrer');
           return;
       }
 
