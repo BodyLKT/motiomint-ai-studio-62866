@@ -129,7 +129,7 @@ export default function EnhancedAnimationCard({
       >
         <VideoPreview
           thumbnailUrl={thumbnailUrl}
-          videoUrl={videoUrl || thumbnailUrl}
+          videoUrl={videoUrl}
           alt={title}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
         />
