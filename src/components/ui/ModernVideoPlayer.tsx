@@ -15,6 +15,7 @@ export const ModernVideoPlayer = ({ open, onClose, videoUrl, title }: ModernVide
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
   const [showControls, setShowControls] = useState(true);
+  const [videoAspect, setVideoAspect] = useState<'landscape' | 'portrait' | 'square'>('landscape');
   const hideControlsTimeout = useRef<NodeJS.Timeout>();
 
   useEffect(() => {
@@ -23,6 +24,19 @@ export const ModernVideoPlayer = ({ open, onClose, videoUrl, title }: ModernVide
       setIsPlaying(true);
     }
   }, [open]);
+
+  const handleLoadedMetadata = () => {
+    if (videoRef.current) {
+      const { videoWidth, videoHeight } = videoRef.current;
+      if (videoWidth > videoHeight) {
+        setVideoAspect('landscape');
+      } else if (videoHeight > videoWidth) {
+        setVideoAspect('portrait');
+      } else {
+        setVideoAspect('square');
+      }
+    }
+  };
 
   const togglePlay = () => {
     if (videoRef.current) {
@@ -73,9 +87,21 @@ export const ModernVideoPlayer = ({ open, onClose, videoUrl, title }: ModernVide
     onClose();
   };
 
+  // Dynamic sizing based on video aspect ratio
+  const getContainerClasses = () => {
+    switch (videoAspect) {
+      case 'portrait':
+        return 'max-w-[50vw] sm:max-w-[40vw] md:max-w-[35vw]';
+      case 'square':
+        return 'max-w-[70vw] sm:max-w-[60vw] md:max-w-[50vw]';
+      default:
+        return 'max-w-[90vw] md:max-w-5xl';
+    }
+  };
+
   return (
     <Dialog open={open} onOpenChange={handleClose}>
-      <DialogContent className="max-w-5xl p-0 bg-black border-0 overflow-hidden">
+      <DialogContent className={`${getContainerClasses()} max-h-[90vh] p-0 bg-black border-0 overflow-hidden`}>
         <div 
           className="relative group"
           onMouseMove={handleMouseMove}
@@ -85,9 +111,12 @@ export const ModernVideoPlayer = ({ open, onClose, videoUrl, title }: ModernVide
           <video
             ref={videoRef}
             src={videoUrl}
-            className="w-full aspect-video"
+            className="w-full h-auto max-h-[85vh] object-contain"
             onClick={togglePlay}
+            onLoadedMetadata={handleLoadedMetadata}
             loop
+            muted={isMuted}
+            playsInline
           />
 
           {/* Close Button */}
