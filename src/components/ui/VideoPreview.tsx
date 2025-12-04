@@ -1,10 +1,24 @@
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState, useEffect, useCallback } from 'react';
 
 interface VideoPreviewProps {
   thumbnailUrl: string;
   videoUrl?: string;
   alt: string;
   className?: string;
+}
+
+// Track currently playing videos to limit concurrent playback
+const playingVideos = new Set<HTMLVideoElement>();
+const MAX_CONCURRENT_VIDEOS = 2;
+
+function pauseOldestVideo() {
+  if (playingVideos.size >= MAX_CONCURRENT_VIDEOS) {
+    const oldest = playingVideos.values().next().value;
+    if (oldest) {
+      oldest.pause();
+      playingVideos.delete(oldest);
+    }
+  }
 }
 
 export default function VideoPreview({
@@ -17,101 +31,129 @@ export default function VideoPreview({
   const containerRef = useRef<HTMLDivElement>(null);
   const [isHovered, setIsHovered] = useState(false);
   const [isTouched, setIsTouched] = useState(false);
-  const [showVideo, setShowVideo] = useState(false);
-  const [isVideoLoaded, setIsVideoLoaded] = useState(false);
+  const [isVideoReady, setIsVideoReady] = useState(false);
   const [hasError, setHasError] = useState(false);
+  const [isInViewport, setIsInViewport] = useState(false);
   const touchTimerRef = useRef<NodeJS.Timeout>();
-  const observerRef = useRef<IntersectionObserver | null>(null);
+
+  // Check if the videoUrl is actually a video file (not an image)
+  const isValidVideoUrl = videoUrl && 
+    (videoUrl.endsWith('.mp4') || 
+     videoUrl.endsWith('.webm') || 
+     videoUrl.endsWith('.mov') ||
+     videoUrl.includes('/animations/'));
 
   // Lazy load video when in viewport
   useEffect(() => {
-    if (!videoUrl || !containerRef.current) return;
+    if (!isValidVideoUrl || !containerRef.current) return;
 
-    observerRef.current = new IntersectionObserver(
+    const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting && videoRef.current && !isVideoLoaded) {
-            // Load video source when visible
+          setIsInViewport(entry.isIntersecting);
+          
+          // Load video source when entering viewport
+          if (entry.isIntersecting && videoRef.current && !videoRef.current.src) {
+            videoRef.current.src = videoUrl!;
             videoRef.current.load();
-            setIsVideoLoaded(true);
           }
         });
       },
-      { rootMargin: '50px' }
+      { rootMargin: '100px', threshold: 0 }
     );
 
-    observerRef.current.observe(containerRef.current);
+    observer.observe(containerRef.current);
 
-    return () => {
-      if (observerRef.current) {
-        observerRef.current.disconnect();
-      }
-    };
-  }, [videoUrl, isVideoLoaded]);
+    return () => observer.disconnect();
+  }, [isValidVideoUrl, videoUrl]);
 
-  // Handle hover for desktop
-  const handleMouseEnter = () => {
-    if (!videoUrl || hasError) return;
-    setIsHovered(true);
-    setShowVideo(true);
-  };
+  // Handle video loaded
+  const handleVideoLoaded = useCallback(() => {
+    setIsVideoReady(true);
+  }, []);
 
-  const handleMouseLeave = () => {
-    setIsHovered(false);
-    setShowVideo(false);
-    setIsTouched(false);
-  };
+  // Handle video error
+  const handleVideoError = useCallback(() => {
+    setHasError(true);
+    setIsVideoReady(false);
+  }, []);
 
-  // Handle touch for mobile/tablet
-  const handleTouchStart = () => {
-    if (!videoUrl || hasError) return;
+  // Play video
+  const playVideo = useCallback(() => {
+    if (!videoRef.current || !isVideoReady || hasError) return;
     
-    // Long press detection
+    pauseOldestVideo();
+    
+    const playPromise = videoRef.current.play();
+    if (playPromise !== undefined) {
+      playPromise
+        .then(() => {
+          playingVideos.add(videoRef.current!);
+        })
+        .catch((error) => {
+          // Autoplay might be blocked, that's okay
+          console.warn('Video play failed:', error);
+        });
+    }
+  }, [isVideoReady, hasError]);
+
+  // Pause video
+  const pauseVideo = useCallback(() => {
+    if (!videoRef.current) return;
+    
+    videoRef.current.pause();
+    videoRef.current.currentTime = 0;
+    playingVideos.delete(videoRef.current);
+  }, []);
+
+  // Desktop hover handlers
+  const handleMouseEnter = useCallback(() => {
+    if (!isValidVideoUrl || hasError) return;
+    setIsHovered(true);
+  }, [isValidVideoUrl, hasError]);
+
+  const handleMouseLeave = useCallback(() => {
+    setIsHovered(false);
+    setIsTouched(false);
+  }, []);
+
+  // Mobile touch handlers
+  const handleTouchStart = useCallback(() => {
+    if (!isValidVideoUrl || hasError) return;
+    
+    // Long press detection for preview
     touchTimerRef.current = setTimeout(() => {
       setIsTouched(true);
-      setShowVideo(true);
-    }, 300);
-  };
+    }, 200);
+  }, [isValidVideoUrl, hasError]);
 
-  const handleTouchEnd = () => {
+  const handleTouchEnd = useCallback(() => {
     if (touchTimerRef.current) {
       clearTimeout(touchTimerRef.current);
     }
-    
-    if (isTouched) {
-      setIsTouched(false);
-      setShowVideo(false);
-    }
-  };
+  }, []);
 
-  // Handle tap to toggle
-  const handleClick = (e: React.MouseEvent) => {
-    if (!videoUrl || hasError) return;
+  // Tap to toggle on mobile
+  const handleClick = useCallback((e: React.MouseEvent) => {
+    if (!isValidVideoUrl || hasError) return;
     
+    // Only handle tap-to-play on touch devices
     if ('ontouchstart' in window) {
-      e.preventDefault();
-      setIsTouched(!isTouched);
-      setShowVideo(!showVideo);
+      e.stopPropagation();
+      setIsTouched(prev => !prev);
     }
-  };
+  }, [isValidVideoUrl, hasError]);
 
-  // Play/pause video based on state
+  // Control video playback based on state
   useEffect(() => {
-    if (!videoRef.current || !isVideoLoaded) return;
-
-    if (showVideo) {
-      const playPromise = videoRef.current.play();
-      if (playPromise !== undefined) {
-        playPromise.catch((error) => {
-          console.warn('Video play failed:', error);
-          // Autoplay might be blocked, that's okay
-        });
-      }
+    const shouldPlay = (isHovered || isTouched) && isInViewport;
+    
+    if (shouldPlay && isVideoReady) {
+      playVideo();
     } else {
-      videoRef.current.pause();
-      videoRef.current.currentTime = 0;
+      pauseVideo();
     }
-  }, [showVideo, isVideoLoaded]);
+  }, [isHovered, isTouched, isInViewport, isVideoReady, playVideo, pauseVideo]);
 
   // Cleanup on unmount
   useEffect(() => {
@@ -119,8 +161,13 @@ export default function VideoPreview({
       if (touchTimerRef.current) {
         clearTimeout(touchTimerRef.current);
       }
+      if (videoRef.current) {
+        playingVideos.delete(videoRef.current);
+      }
     };
   }, []);
+
+  const showVideo = (isHovered || isTouched) && isVideoReady && !hasError;
 
   return (
     <div
@@ -130,30 +177,31 @@ export default function VideoPreview({
       onMouseLeave={handleMouseLeave}
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
-      onClick={handleClick}
     >
-      {/* Thumbnail image */}
+      {/* Thumbnail image - always visible as poster */}
       <img
         src={thumbnailUrl}
         alt={alt}
         className={`object-cover w-full h-full transition-opacity duration-300 ${
-          showVideo && videoUrl ? 'opacity-0' : 'opacity-100'
+          showVideo ? 'opacity-0' : 'opacity-100'
         }`}
+        loading="lazy"
       />
 
-      {/* Video element */}
-      {videoUrl && !hasError && (
+      {/* Video element - only render if we have a valid video URL */}
+      {isValidVideoUrl && !hasError && (
         <video
           ref={videoRef}
-          src={videoUrl}
           loop
           muted
           playsInline
           preload="none"
-          onError={() => setHasError(true)}
-          onLoadedData={() => setIsVideoLoaded(true)}
+          poster={thumbnailUrl}
+          onLoadedData={handleVideoLoaded}
+          onCanPlayThrough={handleVideoLoaded}
+          onError={handleVideoError}
           className={`absolute inset-0 object-cover w-full h-full transition-opacity duration-300 ${
-            showVideo && isVideoLoaded ? 'opacity-100' : 'opacity-0'
+            showVideo ? 'opacity-100' : 'opacity-0'
           }`}
         />
       )}
