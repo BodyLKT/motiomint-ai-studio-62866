@@ -131,6 +131,7 @@ export default function EnhancedAnimationCard({
           thumbnailUrl={thumbnailUrl}
           videoUrl={videoUrl}
           alt={title}
+          isHovering={isHovered}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
         />
         
