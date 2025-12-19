@@ -7,18 +7,31 @@ interface VideoPreviewProps {
   className?: string;
 }
 
-// Track currently playing videos to limit concurrent playback
-const playingVideos = new Set<HTMLVideoElement>();
-const MAX_CONCURRENT_VIDEOS = 2;
+// Track currently playing video - only allow ONE at a time for performance
+let currentlyPlayingVideo: HTMLVideoElement | null = null;
 
-function pauseOldestVideo() {
-  if (playingVideos.size >= MAX_CONCURRENT_VIDEOS) {
-    const oldest = playingVideos.values().next().value;
-    if (oldest) {
-      oldest.pause();
-      playingVideos.delete(oldest);
-    }
+function pauseCurrentVideo() {
+  if (currentlyPlayingVideo) {
+    currentlyPlayingVideo.pause();
+    currentlyPlayingVideo.currentTime = 0;
+    currentlyPlayingVideo = null;
   }
+}
+
+// Check if URL is a real video file (not a placeholder)
+function isRealVideoUrl(url?: string): boolean {
+  if (!url) return false;
+  
+  // Exclude placeholder URLs
+  if (url.includes('placehold.co') || url.includes('placeholder')) return false;
+  
+  // Check for valid video extensions or paths
+  return (
+    url.endsWith('.mp4') ||
+    url.endsWith('.webm') ||
+    url.endsWith('.mov') ||
+    url.includes('/animations/')
+  );
 }
 
 export default function VideoPreview({
@@ -30,18 +43,12 @@ export default function VideoPreview({
   const videoRef = useRef<HTMLVideoElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [isHovered, setIsHovered] = useState(false);
-  const [isTouched, setIsTouched] = useState(false);
   const [isVideoReady, setIsVideoReady] = useState(false);
   const [hasError, setHasError] = useState(false);
   const [isInViewport, setIsInViewport] = useState(false);
-  const touchTimerRef = useRef<NodeJS.Timeout>();
 
-  // Check if the videoUrl is actually a video file (not an image)
-  const isValidVideoUrl = videoUrl && 
-    (videoUrl.endsWith('.mp4') || 
-     videoUrl.endsWith('.webm') || 
-     videoUrl.endsWith('.mov') ||
-     videoUrl.includes('/animations/'));
+  // Check if the videoUrl is actually a real video file
+  const isValidVideoUrl = isRealVideoUrl(videoUrl);
 
   // Lazy load video when in viewport
   useEffect(() => {
@@ -52,14 +59,23 @@ export default function VideoPreview({
         entries.forEach((entry) => {
           setIsInViewport(entry.isIntersecting);
           
-          // Load video source when entering viewport
+          // Preload video metadata when entering viewport for smoother hover experience
           if (entry.isIntersecting && videoRef.current && !videoRef.current.src) {
             videoRef.current.src = videoUrl!;
             videoRef.current.load();
           }
+          
+          // Pause if leaving viewport
+          if (!entry.isIntersecting && videoRef.current) {
+            videoRef.current.pause();
+            videoRef.current.currentTime = 0;
+            if (currentlyPlayingVideo === videoRef.current) {
+              currentlyPlayingVideo = null;
+            }
+          }
         });
       },
-      { rootMargin: '100px', threshold: 0 }
+      { rootMargin: '50px', threshold: 0 }
     );
 
     observer.observe(containerRef.current);
@@ -78,17 +94,20 @@ export default function VideoPreview({
     setIsVideoReady(false);
   }, []);
 
-  // Play video
+  // Play video - pause any currently playing video first
   const playVideo = useCallback(() => {
     if (!videoRef.current || !isVideoReady || hasError) return;
     
-    pauseOldestVideo();
+    // Pause currently playing video if different
+    if (currentlyPlayingVideo && currentlyPlayingVideo !== videoRef.current) {
+      pauseCurrentVideo();
+    }
     
     const playPromise = videoRef.current.play();
     if (playPromise !== undefined) {
       playPromise
         .then(() => {
-          playingVideos.add(videoRef.current!);
+          currentlyPlayingVideo = videoRef.current;
         })
         .catch((error) => {
           // Autoplay might be blocked, that's okay
@@ -97,13 +116,16 @@ export default function VideoPreview({
     }
   }, [isVideoReady, hasError]);
 
-  // Pause video
+  // Pause video and reset
   const pauseVideo = useCallback(() => {
     if (!videoRef.current) return;
     
     videoRef.current.pause();
     videoRef.current.currentTime = 0;
-    playingVideos.delete(videoRef.current);
+    
+    if (currentlyPlayingVideo === videoRef.current) {
+      currentlyPlayingVideo = null;
+    }
   }, []);
 
   // Desktop hover handlers
@@ -114,60 +136,27 @@ export default function VideoPreview({
 
   const handleMouseLeave = useCallback(() => {
     setIsHovered(false);
-    setIsTouched(false);
   }, []);
 
-  // Mobile touch handlers
-  const handleTouchStart = useCallback(() => {
-    if (!isValidVideoUrl || hasError) return;
-    
-    // Long press detection for preview
-    touchTimerRef.current = setTimeout(() => {
-      setIsTouched(true);
-    }, 200);
-  }, [isValidVideoUrl, hasError]);
-
-  const handleTouchEnd = useCallback(() => {
-    if (touchTimerRef.current) {
-      clearTimeout(touchTimerRef.current);
-    }
-  }, []);
-
-  // Tap to toggle on mobile
-  const handleClick = useCallback((e: React.MouseEvent) => {
-    if (!isValidVideoUrl || hasError) return;
-    
-    // Only handle tap-to-play on touch devices
-    if ('ontouchstart' in window) {
-      e.stopPropagation();
-      setIsTouched(prev => !prev);
-    }
-  }, [isValidVideoUrl, hasError]);
-
-  // Control video playback based on state
+  // Control video playback based on hover state
   useEffect(() => {
-    const shouldPlay = (isHovered || isTouched) && isInViewport;
-    
-    if (shouldPlay && isVideoReady) {
+    if (isHovered && isInViewport && isVideoReady) {
       playVideo();
-    } else {
+    } else if (!isHovered) {
       pauseVideo();
     }
-  }, [isHovered, isTouched, isInViewport, isVideoReady, playVideo, pauseVideo]);
+  }, [isHovered, isInViewport, isVideoReady, playVideo, pauseVideo]);
 
   // Cleanup on unmount
   useEffect(() => {
     return () => {
-      if (touchTimerRef.current) {
-        clearTimeout(touchTimerRef.current);
-      }
-      if (videoRef.current) {
-        playingVideos.delete(videoRef.current);
+      if (videoRef.current && currentlyPlayingVideo === videoRef.current) {
+        currentlyPlayingVideo = null;
       }
     };
   }, []);
 
-  const showVideo = (isHovered || isTouched) && isVideoReady && !hasError;
+  const showVideo = isHovered && isVideoReady && !hasError;
 
   return (
     <div
@@ -175,14 +164,12 @@ export default function VideoPreview({
       className={`relative overflow-hidden ${className}`}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      onTouchStart={handleTouchStart}
-      onTouchEnd={handleTouchEnd}
     >
       {/* Thumbnail image - always visible as poster */}
       <img
         src={thumbnailUrl}
         alt={alt}
-        className={`object-cover w-full h-full transition-opacity duration-300 ${
+        className={`object-cover w-full h-full transition-opacity duration-200 ${
           showVideo ? 'opacity-0' : 'opacity-100'
         }`}
         loading="lazy"
@@ -195,12 +182,12 @@ export default function VideoPreview({
           loop
           muted
           playsInline
-          preload="none"
+          preload="metadata"
           poster={thumbnailUrl}
           onLoadedData={handleVideoLoaded}
           onCanPlayThrough={handleVideoLoaded}
           onError={handleVideoError}
-          className={`absolute inset-0 object-cover w-full h-full transition-opacity duration-300 ${
+          className={`absolute inset-0 object-cover w-full h-full transition-opacity duration-200 ${
             showVideo ? 'opacity-100' : 'opacity-0'
           }`}
         />
