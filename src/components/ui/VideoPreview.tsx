@@ -5,6 +5,8 @@ interface VideoPreviewProps {
   videoUrl?: string;
   alt: string;
   className?: string;
+  /** External hover control - when provided, overrides internal hover detection */
+  isHovering?: boolean;
 }
 
 // Track currently playing video - only allow ONE at a time for performance
@@ -25,13 +27,16 @@ function isRealVideoUrl(url?: string): boolean {
   // Exclude placeholder URLs
   if (url.includes('placehold.co') || url.includes('placeholder')) return false;
   
-  // Check for valid video extensions or paths
-  return (
+  // Check for valid video extensions or paths - must be MP4, WebM or MOV
+  const hasVideoExtension = 
     url.endsWith('.mp4') ||
     url.endsWith('.webm') ||
-    url.endsWith('.mov') ||
-    url.includes('/animations/')
-  );
+    url.endsWith('.mov');
+  
+  // Also check if it's in the animations folder with a video extension
+  const isAnimationVideo = url.includes('/animations/') && hasVideoExtension;
+  
+  return hasVideoExtension || isAnimationVideo;
 }
 
 export default function VideoPreview({
@@ -39,13 +44,17 @@ export default function VideoPreview({
   videoUrl,
   alt,
   className = '',
+  isHovering: externalHover,
 }: VideoPreviewProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const [isHovered, setIsHovered] = useState(false);
+  const [internalHover, setInternalHover] = useState(false);
   const [isVideoReady, setIsVideoReady] = useState(false);
   const [hasError, setHasError] = useState(false);
   const [isInViewport, setIsInViewport] = useState(false);
+  
+  // Use external hover if provided, otherwise use internal
+  const isHovered = externalHover !== undefined ? externalHover : internalHover;
 
   // Check if the videoUrl is actually a real video file
   const isValidVideoUrl = isRealVideoUrl(videoUrl);
@@ -128,15 +137,17 @@ export default function VideoPreview({
     }
   }, []);
 
-  // Desktop hover handlers
+  // Desktop hover handlers - only used when external hover not provided
   const handleMouseEnter = useCallback(() => {
+    if (externalHover !== undefined) return; // Skip if controlled externally
     if (!isValidVideoUrl || hasError) return;
-    setIsHovered(true);
-  }, [isValidVideoUrl, hasError]);
+    setInternalHover(true);
+  }, [externalHover, isValidVideoUrl, hasError]);
 
   const handleMouseLeave = useCallback(() => {
-    setIsHovered(false);
-  }, []);
+    if (externalHover !== undefined) return; // Skip if controlled externally
+    setInternalHover(false);
+  }, [externalHover]);
 
   // Control video playback based on hover state
   useEffect(() => {

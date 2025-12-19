@@ -15,6 +15,55 @@ interface Animation {
   category: string;
 }
 
+// Extracted card component with its own hover state
+function HeroCarouselCard({ 
+  animation, 
+  onClick 
+}: { 
+  animation: Animation; 
+  onClick: (id: string) => void;
+}) {
+  const [isHovered, setIsHovered] = useState(false);
+
+  return (
+    <Card
+      className="group relative overflow-hidden rounded-xl cursor-pointer glass border-primary/20 hover:border-primary/40 transition-all duration-300 hover:scale-[1.03] hover:-translate-y-1 hover:shadow-2xl aspect-[3/4]"
+      onClick={() => onClick(animation.id)}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      {/* Video Preview */}
+      <div className="absolute inset-0">
+        <VideoPreview
+          thumbnailUrl={animation.thumbnail_url}
+          videoUrl={animation.file_url}
+          alt={animation.title}
+          isHovering={isHovered}
+          className="w-full h-full"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-background/20 to-transparent opacity-60 group-hover:opacity-40 transition-opacity pointer-events-none" />
+      </div>
+
+      {/* Category Badge */}
+      <Badge className="absolute top-3 left-3 z-10 bg-primary/90 text-primary-foreground">
+        {animation.category}
+      </Badge>
+
+      {/* Play Icon */}
+      <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity z-10">
+        <PlayCircle className="w-12 h-12 text-primary drop-shadow-lg" />
+      </div>
+
+      {/* Title */}
+      <div className="absolute bottom-0 left-0 right-0 p-3 z-10">
+        <h3 className="text-sm font-semibold text-foreground line-clamp-2">
+          {animation.title}
+        </h3>
+      </div>
+    </Card>
+  );
+}
+
 export const HeroCarouselGrid = () => {
   const [animations, setAnimations] = useState<Animation[]>([]);
   const [currentPage, setCurrentPage] = useState(0);
@@ -136,39 +185,11 @@ export const HeroCarouselGrid = () => {
         className="grid grid-cols-3 gap-4 lg:gap-6 w-full animate-fade-in"
       >
         {currentAnimations.map((animation) => (
-          <Card
-            key={animation.id}
-            className="group relative overflow-hidden rounded-xl cursor-pointer glass border-primary/20 hover:border-primary/40 transition-all duration-300 hover:scale-[1.03] hover:-translate-y-1 hover:shadow-2xl aspect-[3/4]"
-            onClick={() => handleCardClick(animation.id)}
-          >
-            {/* Video Preview */}
-            <div className="absolute inset-0">
-              <VideoPreview
-                thumbnailUrl={animation.thumbnail_url}
-                videoUrl={animation.file_url}
-                alt={animation.title}
-                className="w-full h-full"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-background/20 to-transparent opacity-60 group-hover:opacity-40 transition-opacity pointer-events-none" />
-            </div>
-
-            {/* Category Badge */}
-            <Badge className="absolute top-3 left-3 z-10 bg-primary/90 text-primary-foreground">
-              {animation.category}
-            </Badge>
-
-            {/* Play Icon */}
-            <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity z-10">
-              <PlayCircle className="w-12 h-12 text-primary drop-shadow-lg" />
-            </div>
-
-            {/* Title */}
-            <div className="absolute bottom-0 left-0 right-0 p-3 z-10">
-              <h3 className="text-sm font-semibold text-foreground line-clamp-2">
-                {animation.title}
-              </h3>
-            </div>
-          </Card>
+          <HeroCarouselCard 
+            key={animation.id} 
+            animation={animation} 
+            onClick={handleCardClick} 
+          />
         ))}
       </div>
 

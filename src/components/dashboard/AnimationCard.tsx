@@ -45,6 +45,7 @@ export default function AnimationCard({
   const navigate = useNavigate();
   const [isDownloading, setIsDownloading] = useState(false);
   const [showEditShare, setShowEditShare] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
 
   const handleDownload = async () => {
     if (isGuest && onAuthRequired) {
@@ -100,7 +101,11 @@ export default function AnimationCard({
 
   return (
     <>
-      <Card className="group overflow-hidden hover:shadow-xl transition-all duration-300 bg-card/50 backdrop-blur-sm border-primary/20 hover:border-primary/40 rounded-lg h-full">
+      <Card 
+        className="group overflow-hidden hover:shadow-xl transition-all duration-300 bg-card/50 backdrop-blur-sm border-primary/20 hover:border-primary/40 rounded-lg h-full"
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+      >
         {/* Full-size edge-to-edge preview with overlaid elements */}
         <div 
           className="relative w-full h-full overflow-hidden bg-muted cursor-pointer"
@@ -110,6 +115,7 @@ export default function AnimationCard({
             thumbnailUrl={thumbnailUrl}
             videoUrl={videoUrl}
             alt={title}
+            isHovering={isHovered}
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
           />
           
