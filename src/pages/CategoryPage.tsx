@@ -37,6 +37,11 @@ interface Animation {
   created_at: string;
   format?: string;
   resolution?: string;
+  // New thumbnail system fields
+  thumb_card_url?: string | null;
+  thumb_poster_url?: string | null;
+  thumb_status?: string | null;
+  thumb_source?: string | null;
 }
 
 const CATEGORY_INFO: Record<string, { description: string }> = {
@@ -495,6 +500,9 @@ export default function CategoryPage() {
                     resolution={animation.resolution}
                     isFavorite={favorites.has(animation.id)}
                     isInCart={cart.has(animation.id)}
+                    thumbCardUrl={animation.thumb_card_url}
+                    thumbStatus={animation.thumb_status}
+                    thumbSource={animation.thumb_source}
                     onFavoriteToggle={() => toggleFavorite(animation.id)}
                     onCartToggle={() => toggleCart(animation.id)}
                     isGuest={!user}

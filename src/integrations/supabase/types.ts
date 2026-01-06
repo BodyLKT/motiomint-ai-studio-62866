@@ -24,6 +24,14 @@ export type Database = {
           id: string
           resolution: string | null
           tags: string[] | null
+          thumb_card_url: string | null
+          thumb_error: string | null
+          thumb_extracted_at: string | null
+          thumb_frame_time: number | null
+          thumb_frame_url: string | null
+          thumb_poster_url: string | null
+          thumb_source: string | null
+          thumb_status: string | null
           thumbnail_url: string
           title: string
           updated_at: string
@@ -37,6 +45,14 @@ export type Database = {
           id?: string
           resolution?: string | null
           tags?: string[] | null
+          thumb_card_url?: string | null
+          thumb_error?: string | null
+          thumb_extracted_at?: string | null
+          thumb_frame_time?: number | null
+          thumb_frame_url?: string | null
+          thumb_poster_url?: string | null
+          thumb_source?: string | null
+          thumb_status?: string | null
           thumbnail_url: string
           title: string
           updated_at?: string
@@ -50,6 +66,14 @@ export type Database = {
           id?: string
           resolution?: string | null
           tags?: string[] | null
+          thumb_card_url?: string | null
+          thumb_error?: string | null
+          thumb_extracted_at?: string | null
+          thumb_frame_time?: number | null
+          thumb_frame_url?: string | null
+          thumb_poster_url?: string | null
+          thumb_source?: string | null
+          thumb_status?: string | null
           thumbnail_url?: string
           title?: string
           updated_at?: string

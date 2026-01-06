@@ -54,6 +54,11 @@ interface Animation {
   format?: string;
   resolution?: string;
   created_at: string;
+  // New thumbnail system fields
+  thumb_card_url?: string | null;
+  thumb_poster_url?: string | null;
+  thumb_status?: string | null;
+  thumb_source?: string | null;
 }
 
 interface DownloadConfig {
@@ -478,6 +483,9 @@ export default function VideoDetailsPage() {
               format={animation.format}
               resolution={animation.resolution}
               onClickPlay={() => setShowVideoPlayer(true)}
+              thumbPosterUrl={animation.thumb_poster_url}
+              thumbStatus={animation.thumb_status}
+              thumbSource={animation.thumb_source}
             />
 
             {/* Title & Actions */}

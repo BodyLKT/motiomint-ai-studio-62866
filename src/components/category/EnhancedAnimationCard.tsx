@@ -32,6 +32,10 @@ interface EnhancedAnimationCardProps {
   onCartToggle?: () => void;
   isGuest?: boolean;
   onAuthRequired?: () => void;
+  // New thumbnail system fields
+  thumbCardUrl?: string | null;
+  thumbStatus?: string | null;
+  thumbSource?: string | null;
 }
 
 export default function EnhancedAnimationCard({
@@ -50,6 +54,9 @@ export default function EnhancedAnimationCard({
   onCartToggle,
   isGuest = false,
   onAuthRequired,
+  thumbCardUrl,
+  thumbStatus,
+  thumbSource,
 }: EnhancedAnimationCardProps) {
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -132,6 +139,9 @@ export default function EnhancedAnimationCard({
           videoUrl={videoUrl}
           alt={title}
           isHovering={isHovered}
+          thumbCardUrl={thumbCardUrl}
+          thumbStatus={thumbStatus}
+          thumbSource={thumbSource}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
         />
         

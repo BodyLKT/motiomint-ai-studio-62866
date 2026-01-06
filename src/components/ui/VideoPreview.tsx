@@ -1,4 +1,5 @@
 import { useRef, useState, useEffect, useCallback } from 'react';
+import RealThumbnail from './RealThumbnail';
 
 interface VideoPreviewProps {
   thumbnailUrl: string;
@@ -7,6 +8,12 @@ interface VideoPreviewProps {
   className?: string;
   /** External hover control - when provided, overrides internal hover detection */
   isHovering?: boolean;
+  /** New thumbnail system fields */
+  thumbCardUrl?: string | null;
+  thumbStatus?: string | null;
+  thumbSource?: string | null;
+  /** Debug mode - show thumbnail source info */
+  debug?: boolean;
 }
 
 // Track currently playing video - only allow ONE at a time for performance
@@ -45,6 +52,10 @@ export default function VideoPreview({
   alt,
   className = '',
   isHovering: externalHover,
+  thumbCardUrl,
+  thumbStatus,
+  thumbSource,
+  debug = false,
 }: VideoPreviewProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -58,6 +69,12 @@ export default function VideoPreview({
 
   // Check if the videoUrl is actually a real video file
   const isValidVideoUrl = isRealVideoUrl(videoUrl);
+
+  // Determine which thumbnail URL to use (prefer new system)
+  const effectiveThumbnailUrl = 
+    (thumbStatus === 'ready' && thumbSource === 'extracted_frame' && thumbCardUrl) 
+      ? thumbCardUrl 
+      : thumbnailUrl;
 
   // Lazy load video when in viewport
   useEffect(() => {
@@ -176,14 +193,17 @@ export default function VideoPreview({
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      {/* Thumbnail image - always visible as poster */}
-      <img
-        src={thumbnailUrl}
-        alt={alt}
-        className={`object-cover w-full h-full transition-opacity duration-200 ${
+      {/* Thumbnail - uses RealThumbnail for proper fallback handling */}
+      <RealThumbnail
+        thumbnailUrl={thumbCardUrl}
+        legacyThumbnailUrl={thumbnailUrl}
+        thumbStatus={thumbStatus}
+        thumbSource={thumbSource}
+        title={alt}
+        className={`w-full h-full transition-opacity duration-200 ${
           showVideo ? 'opacity-0' : 'opacity-100'
         }`}
-        loading="lazy"
+        debug={debug}
       />
 
       {/* Video element - only render if we have a valid video URL */}
@@ -194,7 +214,7 @@ export default function VideoPreview({
           muted
           playsInline
           preload="metadata"
-          poster={thumbnailUrl}
+          poster={effectiveThumbnailUrl}
           onLoadedData={handleVideoLoaded}
           onCanPlayThrough={handleVideoLoaded}
           onError={handleVideoError}
@@ -208,6 +228,15 @@ export default function VideoPreview({
       <div className="absolute bottom-2 right-2 text-xs font-semibold text-white/70 bg-black/40 px-2 py-1 rounded pointer-events-none backdrop-blur-sm">
         motiomint
       </div>
+
+      {/* Debug overlay */}
+      {debug && (
+        <div className="absolute top-0 left-0 right-0 bg-black/80 text-[9px] text-white p-1 font-mono z-20">
+          <div>Source: {thumbSource || 'legacy'}</div>
+          <div>Status: {thumbStatus || 'n/a'}</div>
+          <div>Video: {isValidVideoUrl ? 'real' : 'placeholder'}</div>
+        </div>
+      )}
     </div>
   );
 }

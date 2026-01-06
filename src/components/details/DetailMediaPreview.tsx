@@ -1,5 +1,5 @@
 import { useRef, useState, useEffect, useCallback } from 'react';
-import { Eye } from 'lucide-react';
+import { Eye, ImageOff } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Card } from '@/components/ui/card';
 
@@ -10,6 +10,10 @@ interface DetailMediaPreviewProps {
   format?: string;
   resolution?: string;
   onClickPlay: () => void;
+  // New thumbnail system fields
+  thumbPosterUrl?: string | null;
+  thumbStatus?: string | null;
+  thumbSource?: string | null;
 }
 
 // Check if URL is a real video file (not a placeholder)
@@ -28,6 +32,12 @@ function isRealVideoUrl(url?: string): boolean {
   return hasVideoExtension;
 }
 
+// Check if a URL is a placeholder (not real)
+function isPlaceholderUrl(url?: string | null): boolean {
+  if (!url) return true;
+  return url.includes('placehold.co') || url.includes('placeholder');
+}
+
 export default function DetailMediaPreview({
   thumbnailUrl,
   videoUrl,
@@ -35,13 +45,38 @@ export default function DetailMediaPreview({
   format,
   resolution,
   onClickPlay,
+  thumbPosterUrl,
+  thumbStatus,
+  thumbSource,
 }: DetailMediaPreviewProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isHovered, setIsHovered] = useState(false);
   const [isVideoReady, setIsVideoReady] = useState(false);
   const [hasError, setHasError] = useState(false);
+  const [imageError, setImageError] = useState(false);
 
   const isValidVideoUrl = isRealVideoUrl(videoUrl);
+
+  // Determine which thumbnail to use (prefer new extracted frame)
+  const hasRealThumbnail = 
+    thumbSource === 'extracted_frame' && 
+    thumbStatus === 'ready' && 
+    thumbPosterUrl && 
+    !isPlaceholderUrl(thumbPosterUrl);
+  
+  // Check if legacy thumbnail is usable
+  const hasUsableLegacy = 
+    thumbnailUrl && 
+    !isPlaceholderUrl(thumbnailUrl) &&
+    (thumbnailUrl.startsWith('/thumbnails/') || thumbnailUrl.includes('supabase'));
+
+  const effectiveThumbnailUrl = hasRealThumbnail 
+    ? thumbPosterUrl 
+    : hasUsableLegacy 
+      ? thumbnailUrl 
+      : null;
+
+  const showFallback = !effectiveThumbnailUrl || imageError;
 
   // Preload video on mount
   useEffect(() => {
@@ -96,14 +131,30 @@ export default function DetailMediaPreview({
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
-        {/* Thumbnail image - visible when not hovering */}
-        <img
-          src={thumbnailUrl}
-          alt={title}
-          className={`w-full h-full object-cover transition-opacity duration-200 ${
+        {/* Thumbnail or fallback */}
+        {showFallback ? (
+          // Neutral fallback - solid color with title
+          <div className={`w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-muted to-muted-foreground/10 transition-opacity duration-200 ${
             showVideo ? 'opacity-0' : 'opacity-100'
-          }`}
-        />
+          }`}>
+            <ImageOff className="h-12 w-12 text-muted-foreground/50 mb-3" />
+            <span className="text-sm text-muted-foreground text-center font-medium px-4">
+              {title}
+            </span>
+            <span className="text-xs text-muted-foreground/70 mt-2">
+              Thumbnail pending extraction
+            </span>
+          </div>
+        ) : (
+          <img
+            src={effectiveThumbnailUrl!}
+            alt={title}
+            className={`w-full h-full object-cover transition-opacity duration-200 ${
+              showVideo ? 'opacity-0' : 'opacity-100'
+            }`}
+            onError={() => setImageError(true)}
+          />
+        )}
 
         {/* Video element - plays on hover */}
         {isValidVideoUrl && !hasError && (
@@ -113,7 +164,7 @@ export default function DetailMediaPreview({
             muted
             playsInline
             preload="metadata"
-            poster={thumbnailUrl}
+            poster={effectiveThumbnailUrl || undefined}
             onLoadedData={handleVideoLoaded}
             onCanPlayThrough={handleVideoLoaded}
             onError={handleVideoError}
@@ -150,6 +201,14 @@ export default function DetailMediaPreview({
         <div className="absolute bottom-2 right-2 text-xs font-semibold text-white/70 bg-black/40 px-2 py-1 rounded pointer-events-none backdrop-blur-sm">
           motiomint
         </div>
+
+        {/* Debug info - only visible in dev */}
+        {process.env.NODE_ENV === 'development' && (
+          <div className="absolute top-4 left-4 text-[9px] bg-black/80 text-white p-1 rounded font-mono">
+            <div>Source: {thumbSource || 'legacy'}</div>
+            <div>Status: {thumbStatus || 'n/a'}</div>
+          </div>
+        )}
       </div>
     </Card>
   );
