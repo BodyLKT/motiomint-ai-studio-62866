@@ -33,6 +33,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { toast } from '@/hooks/use-toast';
 import MainNavigation from '@/components/navigation/MainNavigation';
 import { ModernVideoPlayer } from '@/components/ui/ModernVideoPlayer';
+import DetailMediaPreview from '@/components/details/DetailMediaPreview';
 import DownloadOptions from '@/components/details/DownloadOptions';
 import RelatedAnimations from '@/components/details/RelatedAnimations';
 import ShareModal from '@/components/details/ShareModal';
@@ -469,36 +470,15 @@ export default function VideoDetailsPage() {
         <div className="grid lg:grid-cols-[1fr_400px] gap-8 mb-12">
           {/* Left Column - Preview & Info */}
           <div className="space-y-6">
-            {/* Video Preview */}
-            <Card className="overflow-hidden bg-card/50 backdrop-blur-sm border-border/50 group">
-              <div 
-                className="relative aspect-video bg-muted cursor-pointer"
-                onClick={() => setShowVideoPlayer(true)}
-              >
-                <img
-                  src={animation.thumbnail_url}
-                  alt={animation.title}
-                  className="w-full h-full object-cover"
-                />
-                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                  <div className="bg-primary/90 rounded-full p-4">
-                    <Eye className="w-8 h-8 text-primary-foreground" />
-                  </div>
-                </div>
-                <div className="absolute top-4 right-4 flex gap-2">
-                  {animation.format && (
-                    <Badge className="bg-background/90 backdrop-blur-sm text-foreground">
-                      {animation.format}
-                    </Badge>
-                  )}
-                  {animation.resolution && (
-                    <Badge className="bg-background/90 backdrop-blur-sm text-foreground">
-                      {animation.resolution}
-                    </Badge>
-                  )}
-                </div>
-              </div>
-            </Card>
+            {/* Video Preview with hover-to-play */}
+            <DetailMediaPreview
+              thumbnailUrl={animation.thumbnail_url}
+              videoUrl={animation.preview_url || animation.file_url}
+              title={animation.title}
+              format={animation.format}
+              resolution={animation.resolution}
+              onClickPlay={() => setShowVideoPlayer(true)}
+            />
 
             {/* Title & Actions */}
             <div className="space-y-4">
