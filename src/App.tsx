@@ -28,6 +28,7 @@ import TermsOfService from "./pages/TermsOfService";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import NotFound from "./pages/NotFound";
+import AdminThumbnails from "./pages/AdminThumbnails";
 
 const queryClient = new QueryClient();
 
@@ -71,6 +72,14 @@ const App = () => (
                 element={
                   <ProtectedRoute>
                     <CartPage />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/admin/thumbnails" 
+                element={
+                  <ProtectedRoute>
+                    <AdminThumbnails />
                   </ProtectedRoute>
                 } 
               />

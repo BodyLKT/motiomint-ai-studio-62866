@@ -24,6 +24,10 @@ interface AnimationCardProps {
   onCartToggle?: () => void;
   isGuest?: boolean;
   onAuthRequired?: () => void;
+  // New thumbnail system fields
+  thumbCardUrl?: string | null;
+  thumbStatus?: string | null;
+  thumbSource?: string | null;
 }
 
 export default function AnimationCard({
@@ -40,6 +44,9 @@ export default function AnimationCard({
   onCartToggle,
   isGuest = false,
   onAuthRequired,
+  thumbCardUrl,
+  thumbStatus,
+  thumbSource,
 }: AnimationCardProps) {
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -116,6 +123,9 @@ export default function AnimationCard({
             videoUrl={videoUrl}
             alt={title}
             isHovering={isHovered}
+            thumbCardUrl={thumbCardUrl}
+            thumbStatus={thumbStatus}
+            thumbSource={thumbSource}
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
           />
           
