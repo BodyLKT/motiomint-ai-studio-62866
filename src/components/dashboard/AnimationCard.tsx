@@ -1,14 +1,16 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Heart, Download, ShoppingCart, Loader2, Sparkles } from 'lucide-react';
+import { Heart, Download, ShoppingCart, Loader2, Sparkles, Eye } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from '@/hooks/use-toast';
 import VideoPreview from '@/components/ui/VideoPreview';
 import EditShareModal from './EditShareModal';
+import { CardOverlayButton } from '@/components/ui/CardOverlayButton';
+import { cn } from '@/lib/utils';
 
 interface AnimationCardProps {
   id: string;
@@ -170,7 +172,7 @@ export default function AnimationCard({
             {/* Primary Actions Row */}
             <div className="flex gap-2">
               {onCartToggle && (
-                <Button
+                <CardOverlayButton
                   onClick={(e) => {
                     e.stopPropagation();
                     if (isGuest && onAuthRequired) {
@@ -179,36 +181,31 @@ export default function AnimationCard({
                       onCartToggle();
                     }
                   }}
-                  variant={isInCart ? "default" : "outline"}
-                  size="sm"
-                  className="flex-1 h-9 backdrop-blur-md bg-background/90 hover:bg-background"
+                  isActive={isInCart}
                 >
-                  <ShoppingCart className="mr-1.5 h-3.5 w-3.5" />
-                  <span className="text-xs">{isInCart ? 'In Cart' : 'Add'}</span>
-                </Button>
+                  <ShoppingCart className="h-3.5 w-3.5" />
+                  <span>{isInCart ? 'In Cart' : 'Add'}</span>
+                </CardOverlayButton>
               )}
-              <Button
+              <CardOverlayButton
                 onClick={(e) => {
                   e.stopPropagation();
                   handleDownload();
                 }}
                 disabled={isDownloading}
-                size="sm"
-                className="flex-1 h-9 backdrop-blur-md"
-                variant="default"
               >
                 {isDownloading ? (
-                  <Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />
+                  <Loader2 className="h-3.5 w-3.5 animate-spin" />
                 ) : (
-                  <Download className="mr-1.5 h-3.5 w-3.5" />
+                  <Download className="h-3.5 w-3.5" />
                 )}
-                <span className="text-xs">{isDownloading ? t('animation.downloading') : t('animation.download')}</span>
-              </Button>
+                <span>{isDownloading ? t('animation.downloading') : t('animation.download')}</span>
+              </CardOverlayButton>
             </div>
             
             {/* Secondary Actions Row */}
             <div className="flex gap-2">
-              <Button
+              <CardOverlayButton
                 onClick={(e) => {
                   e.stopPropagation();
                   if (isGuest && onAuthRequired) {
@@ -217,25 +214,19 @@ export default function AnimationCard({
                     setShowEditShare(true);
                   }
                 }}
-                variant="outline"
-                size="sm"
-                className="flex-1 h-9 backdrop-blur-md bg-background/90 hover:bg-background border-primary/30 hover:bg-primary/10 text-xs"
               >
-                <Sparkles className="mr-1.5 h-3.5 w-3.5" />
-                {t('editShare.editAndShare')}
-              </Button>
-              <Button
+                <Sparkles className="h-3.5 w-3.5" />
+                <span>{t('editShare.editAndShare')}</span>
+              </CardOverlayButton>
+              <CardOverlayButton
                 onClick={(e) => {
                   e.stopPropagation();
                   navigate(`/similar/${id}`);
                 }}
-                variant="outline"
-                size="sm"
-                className="flex-1 h-9 backdrop-blur-md bg-background/90 hover:bg-background border-primary/30 hover:bg-primary/10 text-xs"
               >
-                <Sparkles className="mr-1.5 h-3.5 w-3.5" />
-                {t('similar.discoverSimilar')}
-              </Button>
+                <Sparkles className="h-3.5 w-3.5" />
+                <span>{t('similar.discoverSimilar')}</span>
+              </CardOverlayButton>
             </div>
           </div>
         </div>

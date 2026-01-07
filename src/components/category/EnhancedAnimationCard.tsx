@@ -14,6 +14,7 @@ import {
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from '@/hooks/use-toast';
 import VideoPreview from '@/components/ui/VideoPreview';
+import { CardOverlayButton } from '@/components/ui/CardOverlayButton';
 import { cn } from '@/lib/utils';
 
 interface EnhancedAnimationCardProps {
@@ -191,11 +192,10 @@ export default function EnhancedAnimationCard({
 
         {/* Action Buttons - Overlaid on preview - visible only on hover */}
         <div className="absolute inset-x-0 bottom-[72px] px-4 space-y-2 translate-y-full group-hover:translate-y-0 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-all duration-300">
-          {/* Unified overlay button style for all 4 actions */}
           {/* Primary Actions Row */}
           <div className="flex gap-2">
             {onCartToggle && (
-              <button
+              <CardOverlayButton
                 onClick={(e) => {
                   e.stopPropagation();
                   if (isGuest && onAuthRequired) {
@@ -204,78 +204,44 @@ export default function EnhancedAnimationCard({
                     onCartToggle();
                   }
                 }}
-                className={cn(
-                  "flex-1 h-9 px-3 rounded-md text-xs font-medium inline-flex items-center justify-center gap-1.5 transition-all",
-                  "backdrop-blur-md border border-white/20",
-                  "bg-black/50 text-white",
-                  "hover:bg-black/70 hover:border-white/30",
-                  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-1 focus-visible:ring-offset-black/50",
-                  "active:bg-black/80",
-                  "disabled:opacity-50 disabled:pointer-events-none",
-                  isInCart && "bg-primary/80 border-primary/50 hover:bg-primary/90"
-                )}
+                isActive={isInCart}
               >
                 <ShoppingCart className="h-3.5 w-3.5" />
                 <span>{isInCart ? 'In Cart' : 'Add'}</span>
-              </button>
+              </CardOverlayButton>
             )}
-            <button
+            <CardOverlayButton
               onClick={(e) => {
                 e.stopPropagation();
                 handleDownload();
               }}
               disabled={isDownloading}
-              className={cn(
-                "flex-1 h-9 px-3 rounded-md text-xs font-medium inline-flex items-center justify-center gap-1.5 transition-all",
-                "backdrop-blur-md border border-white/20",
-                "bg-black/50 text-white",
-                "hover:bg-black/70 hover:border-white/30",
-                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-1 focus-visible:ring-offset-black/50",
-                "active:bg-black/80",
-                "disabled:opacity-50 disabled:pointer-events-none"
-              )}
             >
               <Download className="h-3.5 w-3.5" />
               <span>{isDownloading ? 'Downloading...' : 'Download'}</span>
-            </button>
+            </CardOverlayButton>
           </div>
           
           {/* Secondary Actions Row */}
           <div className="flex gap-2">
-            <button
+            <CardOverlayButton
               onClick={(e) => {
                 e.stopPropagation();
                 handleViewDetails();
               }}
-              className={cn(
-                "flex-1 h-9 px-3 rounded-md text-xs font-medium inline-flex items-center justify-center gap-1.5 transition-all",
-                "backdrop-blur-md border border-white/20",
-                "bg-black/50 text-white",
-                "hover:bg-black/70 hover:border-white/30",
-                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-1 focus-visible:ring-offset-black/50",
-                "active:bg-black/80"
-              )}
             >
               <Eye className="h-3.5 w-3.5" />
               <span>Preview</span>
-            </button>
-            <button
+            </CardOverlayButton>
+            <CardOverlayButton
               onClick={(e) => {
                 e.stopPropagation();
                 handleDiscoverSimilar();
               }}
-              className={cn(
-                "flex-1 h-9 px-3 rounded-md text-xs font-medium inline-flex items-center justify-center gap-1.5 transition-all",
-                "backdrop-blur-md border border-white/20",
-                "bg-black/50 text-white",
-                "hover:bg-black/70 hover:border-white/30",
-                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-1 focus-visible:ring-offset-black/50",
-                "active:bg-black/80"
-              )}
             >
               <Sparkles className="h-3.5 w-3.5" />
               <span>Similar</span>
-            </button>
+            </CardOverlayButton>
           </div>
         </div>
       </div>
