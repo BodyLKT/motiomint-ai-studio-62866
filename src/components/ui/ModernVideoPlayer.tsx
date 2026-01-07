@@ -101,7 +101,7 @@ export const ModernVideoPlayer = ({ open, onClose, videoUrl, title }: ModernVide
 
   return (
     <Dialog open={open} onOpenChange={handleClose}>
-      <DialogContent className={`${getContainerClasses()} max-h-[90vh] p-0 bg-black border-0 overflow-hidden`}>
+      <DialogContent className={`${getContainerClasses()} max-h-[90vh] p-0 bg-black border-0 overflow-hidden [&>button]:hidden`}>
         <div 
           className="relative group"
           onMouseMove={handleMouseMove}
