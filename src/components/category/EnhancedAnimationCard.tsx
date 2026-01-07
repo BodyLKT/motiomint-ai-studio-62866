@@ -191,10 +191,11 @@ export default function EnhancedAnimationCard({
 
         {/* Action Buttons - Overlaid on preview - visible only on hover */}
         <div className="absolute inset-x-0 bottom-[72px] px-4 space-y-2 translate-y-full group-hover:translate-y-0 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-all duration-300">
+          {/* Unified overlay button style for all 4 actions */}
           {/* Primary Actions Row */}
           <div className="flex gap-2">
             {onCartToggle && (
-              <Button
+              <button
                 onClick={(e) => {
                   e.stopPropagation();
                   if (isGuest && onAuthRequired) {
@@ -203,55 +204,78 @@ export default function EnhancedAnimationCard({
                     onCartToggle();
                   }
                 }}
-                variant={isInCart ? "default" : "outline"}
-                size="sm"
-                className="flex-1 h-9 backdrop-blur-md bg-background/90 hover:bg-background"
+                className={cn(
+                  "flex-1 h-9 px-3 rounded-md text-xs font-medium inline-flex items-center justify-center gap-1.5 transition-all",
+                  "backdrop-blur-md border border-white/20",
+                  "bg-black/50 text-white",
+                  "hover:bg-black/70 hover:border-white/30",
+                  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-1 focus-visible:ring-offset-black/50",
+                  "active:bg-black/80",
+                  "disabled:opacity-50 disabled:pointer-events-none",
+                  isInCart && "bg-primary/80 border-primary/50 hover:bg-primary/90"
+                )}
               >
-                <ShoppingCart className="mr-1.5 h-3.5 w-3.5" />
-                <span className="text-xs">{isInCart ? 'In Cart' : 'Add'}</span>
-              </Button>
+                <ShoppingCart className="h-3.5 w-3.5" />
+                <span>{isInCart ? 'In Cart' : 'Add'}</span>
+              </button>
             )}
-            <Button
+            <button
               onClick={(e) => {
                 e.stopPropagation();
                 handleDownload();
               }}
               disabled={isDownloading}
-              size="sm"
-              className="flex-1 h-9 backdrop-blur-md"
-              variant="default"
+              className={cn(
+                "flex-1 h-9 px-3 rounded-md text-xs font-medium inline-flex items-center justify-center gap-1.5 transition-all",
+                "backdrop-blur-md border border-white/20",
+                "bg-black/50 text-white",
+                "hover:bg-black/70 hover:border-white/30",
+                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-1 focus-visible:ring-offset-black/50",
+                "active:bg-black/80",
+                "disabled:opacity-50 disabled:pointer-events-none"
+              )}
             >
-              <Download className="mr-1.5 h-3.5 w-3.5" />
-              <span className="text-xs">{isDownloading ? 'Downloading...' : 'Download'}</span>
-            </Button>
+              <Download className="h-3.5 w-3.5" />
+              <span>{isDownloading ? 'Downloading...' : 'Download'}</span>
+            </button>
           </div>
           
           {/* Secondary Actions Row */}
           <div className="flex gap-2">
-            <Button
+            <button
               onClick={(e) => {
                 e.stopPropagation();
                 handleViewDetails();
               }}
-              variant="outline"
-              size="sm"
-              className="flex-1 h-9 backdrop-blur-md bg-background/90 hover:bg-background border-primary/30 hover:bg-primary/10 text-xs"
+              className={cn(
+                "flex-1 h-9 px-3 rounded-md text-xs font-medium inline-flex items-center justify-center gap-1.5 transition-all",
+                "backdrop-blur-md border border-white/20",
+                "bg-black/50 text-white",
+                "hover:bg-black/70 hover:border-white/30",
+                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-1 focus-visible:ring-offset-black/50",
+                "active:bg-black/80"
+              )}
             >
-              <Eye className="mr-1.5 h-3.5 w-3.5" />
-              Preview
-            </Button>
-            <Button
+              <Eye className="h-3.5 w-3.5" />
+              <span>Preview</span>
+            </button>
+            <button
               onClick={(e) => {
                 e.stopPropagation();
                 handleDiscoverSimilar();
               }}
-              variant="outline"
-              size="sm"
-              className="flex-1 h-9 backdrop-blur-md bg-background/90 hover:bg-background border-primary/30 hover:bg-primary/10 text-xs"
+              className={cn(
+                "flex-1 h-9 px-3 rounded-md text-xs font-medium inline-flex items-center justify-center gap-1.5 transition-all",
+                "backdrop-blur-md border border-white/20",
+                "bg-black/50 text-white",
+                "hover:bg-black/70 hover:border-white/30",
+                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-1 focus-visible:ring-offset-black/50",
+                "active:bg-black/80"
+              )}
             >
-              <Sparkles className="mr-1.5 h-3.5 w-3.5" />
-              Similar
-            </Button>
+              <Sparkles className="h-3.5 w-3.5" />
+              <span>Similar</span>
+            </button>
           </div>
         </div>
       </div>
