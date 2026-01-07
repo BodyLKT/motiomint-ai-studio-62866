@@ -196,10 +196,10 @@ export default function MainNavigation({ onLoginClick, onSignUpClick }: MainNavi
                             <button
                               key={category.name}
                               onClick={() => navigate(category.path)}
-                              className="flex items-center gap-3 p-3 rounded-lg hover:bg-accent transition-colors text-left group"
+                              className="flex items-center gap-3 p-3 rounded-lg hover:bg-primary hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground transition-colors text-left group text-foreground"
                             >
-                              <category.icon className="w-5 h-5 text-primary flex-shrink-0" />
-                              <span className="text-sm font-medium group-hover:text-primary transition-colors">
+                              <category.icon className="w-5 h-5 flex-shrink-0 text-primary group-hover:text-primary-foreground group-focus:text-primary-foreground transition-colors" />
+                              <span className="text-sm font-medium transition-colors">
                                 {category.name}
                               </span>
                             </button>
@@ -229,14 +229,14 @@ export default function MainNavigation({ onLoginClick, onSignUpClick }: MainNavi
                             <button
                               key={tool.name}
                               onClick={() => navigate(tool.path)}
-                              className="flex items-start gap-3 p-3 rounded-lg hover:bg-accent transition-colors text-left w-full group"
+                              className="flex items-start gap-3 p-3 rounded-lg hover:bg-primary hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground transition-colors text-left w-full group text-foreground"
                             >
-                              <tool.icon className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
+                              <tool.icon className="w-5 h-5 flex-shrink-0 mt-0.5 text-primary group-hover:text-primary-foreground group-focus:text-primary-foreground transition-colors" />
                               <div>
-                                <div className="text-sm font-medium group-hover:text-primary transition-colors">
+                                <div className="text-sm font-medium transition-colors">
                                   {tool.name}
                                 </div>
-                                <div className="text-xs text-muted-foreground mt-0.5">
+                                <div className="text-xs text-muted-foreground group-hover:text-primary-foreground/70 group-focus:text-primary-foreground/70 mt-0.5 transition-colors">
                                   {tool.description}
                                 </div>
                               </div>
