@@ -58,6 +58,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { cn } from '@/lib/utils';
+import { CANONICAL_CATEGORIES, CATEGORY_INFO, getCategorySlug, type CanonicalCategory } from '@/lib/categoryMapping';
 
 interface MainNavigationProps {
   onLoginClick?: () => void;
@@ -139,14 +140,19 @@ export default function MainNavigation({ onLoginClick, onSignUpClick }: MainNavi
     navigate('/');
   };
 
-  const animationCategories = [
-    { name: 'Tech & Futuristic', icon: Zap, path: '/category/Tech & Futuristic' },
-    { name: 'Fitness & Lifestyle', icon: Activity, path: '/category/Fitness & Lifestyle' },
-    { name: 'Business & Finance', icon: Briefcase, path: '/category/Business & Finance' },
-    { name: 'Travel & Nature', icon: Plane, path: '/category/Travel & Nature' },
-    { name: 'Abstract Backgrounds', icon: Palette, path: '/category/Abstract Backgrounds' },
-    { name: 'Social Media Hooks', icon: Sparkles, path: '/category/Social Media Hooks' },
-  ];
+  // Use the new 4 canonical categories with icons
+  const categoryIcons: Record<CanonicalCategory, typeof Zap> = {
+    'Tech & Digital': Zap,
+    'Abstract & Motion Backgrounds': Palette,
+    'Lifestyle & Real World': Activity,
+    'Social & UI Hooks': Sparkles,
+  };
+
+  const animationCategories = CANONICAL_CATEGORIES.map((name) => ({
+    name,
+    icon: categoryIcons[name] || Sparkles,
+    path: `/category/${getCategorySlug(name)}`,
+  }));
 
   const toolsItems = [
     { name: t('tools.library'), icon: Film, path: '/dashboard', description: 'Browse all animations' },

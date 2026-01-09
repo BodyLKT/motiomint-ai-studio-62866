@@ -33,6 +33,7 @@ import heroImage from '@/assets/hero-bg.jpg';
 import techAnimation from '@/assets/tech-animation.jpg';
 import fitnessAnimation from '@/assets/fitness-animation.jpg';
 import { BackToTop } from '@/components/ui/BackToTop';
+import { CANONICAL_CATEGORIES, CATEGORY_INFO, getCategorySlug } from '@/lib/categoryMapping';
 
 const MotionMintLanding = () => {
   const { t } = useTranslation();
@@ -45,51 +46,17 @@ const MotionMintLanding = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-
-  const categories = [
-    {
-      title: 'Tech & Futuristic',
-      description: 'Holographic interfaces, circuit patterns, AI visuals',
-      image: techAnimation,
-      video: techAnimation, // Will be replaced with actual video URLs when available
-      count: '120+ animations'
-    },
-    {
-      title: 'Fitness & Lifestyle',
-      description: 'Workout graphics, health metrics, energy flows',
-      image: fitnessAnimation,
-      video: fitnessAnimation,
-      count: '85+ animations'
-    },
-    {
-      title: 'Business & Finance',
-      description: 'Charts, graphs, corporate motion graphics',
-      image: techAnimation,
-      video: techAnimation,
-      count: '95+ animations'
-    },
-    {
-      title: 'Travel & Nature',
-      description: 'Landscapes, travel routes, nature elements',
-      image: fitnessAnimation,
-      video: fitnessAnimation,
-      count: '110+ animations'
-    },
-    {
-      title: 'Abstract Backgrounds',
-      description: 'Flowing shapes, particles, gradient motions',
-      image: techAnimation,
-      video: techAnimation,
-      count: '200+ animations'
-    },
-    {
-      title: 'Social Media Hooks',
-      description: 'Attention-grabbing intros and transitions',
-      image: fitnessAnimation,
-      video: fitnessAnimation,
-      count: '150+ animations'
-    }
-  ];
+  // Use the new 4 canonical categories
+  const categories = CANONICAL_CATEGORIES.map((categoryName) => {
+    const info = CATEGORY_INFO[categoryName];
+    return {
+      title: categoryName,
+      description: info.description,
+      image: categoryName.includes('Tech') || categoryName.includes('Abstract') ? techAnimation : fitnessAnimation,
+      video: categoryName.includes('Tech') || categoryName.includes('Abstract') ? techAnimation : fitnessAnimation,
+      count: info.count,
+    };
+  });
 
   const pricingPlans = {
     oneTime: [
@@ -262,12 +229,12 @@ const MotionMintLanding = () => {
             </p>
           </div>
           
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6 max-w-5xl mx-auto">
             {categories.map((category, index) => (
               <div
                 key={index}
                 className="group relative overflow-hidden rounded-3xl cursor-pointer transform transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl"
-                onClick={() => navigate(`/category/${encodeURIComponent(category.title)}`)}
+                onClick={() => navigate(`/category/${getCategorySlug(category.title)}`)}
               >
                 {/* Image Container with Overlay */}
                 <div className="relative aspect-[4/5] overflow-hidden">

@@ -14,8 +14,45 @@ export type Database = {
   }
   public: {
     Tables: {
+      animation_tags: {
+        Row: {
+          animation_id: string
+          created_at: string
+          id: string
+          tag_id: string
+        }
+        Insert: {
+          animation_id: string
+          created_at?: string
+          id?: string
+          tag_id: string
+        }
+        Update: {
+          animation_id?: string
+          created_at?: string
+          id?: string
+          tag_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "animation_tags_animation_id_fkey"
+            columns: ["animation_id"]
+            isOneToOne: false
+            referencedRelation: "animations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "animation_tags_tag_id_fkey"
+            columns: ["tag_id"]
+            isOneToOne: false
+            referencedRelation: "tags"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       animations: {
         Row: {
+          canonical_category: string | null
           category: string
           created_at: string
           description: string | null
@@ -37,6 +74,7 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          canonical_category?: string | null
           category: string
           created_at?: string
           description?: string | null
@@ -58,6 +96,7 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          canonical_category?: string | null
           category?: string
           created_at?: string
           description?: string | null
@@ -101,6 +140,48 @@ export type Database = {
           full_name?: string | null
           id?: string
           updated_at?: string
+        }
+        Relationships: []
+      }
+      tag_bundles: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          name: string
+          tag_names: string[]
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          name: string
+          tag_names: string[]
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          name?: string
+          tag_names?: string[]
+        }
+        Relationships: []
+      }
+      tags: {
+        Row: {
+          created_at: string
+          id: string
+          name: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string
         }
         Relationships: []
       }
@@ -268,7 +349,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      get_canonical_category: {
+        Args: { old_category: string }
+        Returns: string
+      }
     }
     Enums: {
       [_ in never]: never

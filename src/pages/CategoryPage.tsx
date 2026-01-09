@@ -24,12 +24,21 @@ import { LoginModal } from '@/components/auth/LoginModal';
 import { SignUpModal } from '@/components/auth/SignUpModal';
 import { Input } from '@/components/ui/input';
 import { BackToTop } from '@/components/ui/BackToTop';
+import { 
+  CATEGORY_INFO, 
+  getCanonicalCategory, 
+  isOldCategory, 
+  getCategorySlug,
+  REVERSE_CATEGORY_MAPPING,
+  type CanonicalCategory
+} from '@/lib/categoryMapping';
 
 interface Animation {
   id: string;
   title: string;
   description: string;
   category: string;
+  canonical_category?: string;
   file_url: string;
   thumbnail_url: string;
   preview_url?: string;
@@ -44,27 +53,6 @@ interface Animation {
   thumb_source?: string | null;
 }
 
-const CATEGORY_INFO: Record<string, { description: string }> = {
-  'Tech & Futuristic': {
-    description: 'Holographic interfaces, circuit patterns, AI visuals, and futuristic motion graphics'
-  },
-  'Fitness & Lifestyle': {
-    description: 'Workout graphics, health metrics, energy flows, and wellness animations'
-  },
-  'Business & Finance': {
-    description: 'Charts, graphs, corporate motion graphics, and professional animations'
-  },
-  'Travel & Nature': {
-    description: 'Landscapes, travel routes, nature elements, and scenic animations'
-  },
-  'Abstract Backgrounds': {
-    description: 'Flowing shapes, particles, gradient motions, and abstract patterns'
-  },
-  'Social Media Hooks': {
-    description: 'Attention-grabbing intros, transitions, and viral-ready animations'
-  }
-};
-
 type GridView = 'comfortable' | 'compact';
 
 export default function CategoryPage() {
@@ -73,8 +61,21 @@ export default function CategoryPage() {
   const { user } = useAuth();
   const navigate = useNavigate();
   
-  const category = decodeURIComponent(categoryParam || '');
-  const categoryInfo = CATEGORY_INFO[category];
+  const decodedCategory = decodeURIComponent(categoryParam || '');
+  
+  // Handle redirect for old categories
+  useEffect(() => {
+    if (isOldCategory(decodedCategory)) {
+      const canonicalCategory = getCanonicalCategory(decodedCategory);
+      if (canonicalCategory) {
+        navigate(`/category/${getCategorySlug(canonicalCategory)}`, { replace: true });
+      }
+    }
+  }, [decodedCategory, navigate]);
+
+  // Use canonical category for display
+  const category = getCanonicalCategory(decodedCategory) || decodedCategory;
+  const categoryInfo = CATEGORY_INFO[category as CanonicalCategory];
 
   const [animations, setAnimations] = useState<Animation[]>([]);
   const [favorites, setFavorites] = useState<Set<string>>(new Set());
@@ -90,18 +91,25 @@ export default function CategoryPage() {
   const [showSignUpModal, setShowSignUpModal] = useState(false);
 
   useEffect(() => {
-    fetchAnimations();
+    if (!isOldCategory(decodedCategory)) {
+      fetchAnimations();
+    }
     if (user) {
       fetchUserData();
     }
-  }, [category, user]);
+  }, [category, user, decodedCategory]);
 
   const fetchAnimations = async () => {
     try {
+      // Get the old categories that map to this canonical category
+      const oldCategories = REVERSE_CATEGORY_MAPPING[category as CanonicalCategory] || [];
+      const allCategories = [...oldCategories, category];
+      
+      // Query for animations in any of the old categories OR the new canonical category
       const { data, error } = await supabase
         .from('animations')
         .select('*')
-        .eq('category', category)
+        .or(allCategories.map(c => `category.eq.${c}`).join(','))
         .order('created_at', { ascending: false });
 
       if (error) throw error;
