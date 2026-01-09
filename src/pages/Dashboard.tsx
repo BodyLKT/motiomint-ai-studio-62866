@@ -17,6 +17,7 @@ import AccountSettings from '@/components/dashboard/AccountSettings';
 import DownloadHistory from '@/components/dashboard/DownloadHistory';
 import MainNavigation from '@/components/navigation/MainNavigation';
 import { CartButton } from '@/components/CartButton';
+import { CANONICAL_CATEGORIES, getCanonicalCategory } from '@/lib/categoryMapping';
 
 interface Animation {
   id: string;
@@ -255,7 +256,8 @@ export default function Dashboard() {
     return null;
   }
 
-  const categories = Array.from(new Set(animations.map((a) => a.category)));
+  // Use the new 4 canonical categories
+  const categories = [...CANONICAL_CATEGORIES];
 
   const filteredAnimations = animations.filter((animation) => {
     const matchesSearch =
@@ -264,7 +266,8 @@ export default function Dashboard() {
       animation.description?.toLowerCase().includes(searchQuery.toLowerCase()) ||
       animation.tags.some((tag) => tag.toLowerCase().includes(searchQuery.toLowerCase()));
 
-    const matchesCategory = selectedCategory === null || animation.category === selectedCategory;
+    const animationCanonicalCategory = getCanonicalCategory(animation.category) || animation.category;
+    const matchesCategory = selectedCategory === null || animationCanonicalCategory === selectedCategory;
 
     return matchesSearch && matchesCategory;
   });

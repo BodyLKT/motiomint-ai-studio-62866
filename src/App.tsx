@@ -48,13 +48,13 @@ const App = () => (
               <Route path="/terms-of-service" element={<TermsOfService />} />
               <Route path="/about" element={<About />} />
               <Route path="/contact" element={<Contact />} />
-          <Route path="/help" element={<HelpCenter />} />
-          <Route path="/help/getting-started/:slug" element={<GettingStartedArticle />} />
-          <Route path="/help/subscription-billing/:slug" element={<SubscriptionBillingArticle />} />
-          <Route path="/help/license-usage/:slug" element={<LicenseUsageArticle />} />
-          <Route path="/help/contact-support/:slug" element={<ContactSupportArticle />} />
-          <Route path="/help/community/:slug" element={<CommunityArticle />} />
-          <Route path="/help/terms-policies/:slug" element={<TermsArticle />} />
+              <Route path="/help" element={<HelpCenter />} />
+              <Route path="/help/getting-started/:slug" element={<GettingStartedArticle />} />
+              <Route path="/help/subscription-billing/:slug" element={<SubscriptionBillingArticle />} />
+              <Route path="/help/license-usage/:slug" element={<LicenseUsageArticle />} />
+              <Route path="/help/contact-support/:slug" element={<ContactSupportArticle />} />
+              <Route path="/help/community/:slug" element={<CommunityArticle />} />
+              <Route path="/help/terms-policies/:slug" element={<TermsArticle />} />
               <Route
                 path="/dashboard" 
                 element={
@@ -63,6 +63,7 @@ const App = () => (
                   </ProtectedRoute>
                 } 
               />
+              {/* Category page handles both old and new category URLs */}
               <Route path="/category/:category" element={<CategoryPage />} />
               <Route path="/animation/:id" element={<VideoDetailsPage />} />
               <Route path="/similar/:id" element={<SimilarAnimations />} />

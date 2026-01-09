@@ -1,5 +1,6 @@
 import { supabase } from '@/integrations/supabase/client';
 import { searchArticles } from './helpCenterData';
+import { CANONICAL_CATEGORIES, getCanonicalCategory } from './categoryMapping';
 
 export interface SearchResultAnimation {
   type: 'animation';
@@ -44,14 +45,8 @@ export type UnifiedSearchResult =
   | SearchResultTool 
   | SearchResultHelpArticle;
 
-const CATEGORIES = [
-  'Tech & Futuristic',
-  'Fitness & Lifestyle',
-  'Business & Finance',
-  'Travel & Nature',
-  'Abstract Backgrounds',
-  'Social Media Hooks',
-];
+// Use the new 4 canonical categories
+const CATEGORIES = [...CANONICAL_CATEGORIES];
 
 const TOOLS = [
   {
