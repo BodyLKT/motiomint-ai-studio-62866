@@ -19,6 +19,7 @@ import { toast } from '@/hooks/use-toast';
 import MainNavigation from '@/components/navigation/MainNavigation';
 import EnhancedAnimationCard from '@/components/category/EnhancedAnimationCard';
 import FilterPanel from '@/components/category/FilterPanel';
+import PopularTagsBar from '@/components/category/PopularTagsBar';
 import SortDropdown, { SortOption } from '@/components/category/SortDropdown';
 import { LoginModal } from '@/components/auth/LoginModal';
 import { SignUpModal } from '@/components/auth/SignUpModal';
@@ -371,79 +372,122 @@ export default function CategoryPage() {
         {/* Filters & Controls Bar */}
         <div className="mb-6 space-y-4">
           {/* Mobile Filter & Sort */}
-          <div className="lg:hidden flex gap-2">
-            <Sheet>
-              <SheetTrigger asChild>
-                <Button variant="outline" className="flex-1">
-                  <SlidersHorizontal className="w-4 h-4 mr-2" />
-                  Filters
-                  {(selectedFormats.length + selectedResolutions.length + selectedTags.length) > 0 && (
-                    <Badge variant="secondary" className="ml-2">
-                      {selectedFormats.length + selectedResolutions.length + selectedTags.length}
-                    </Badge>
-                  )}
-                </Button>
-              </SheetTrigger>
-              <SheetContent side="left" className="w-80 overflow-y-auto">
-                <SheetHeader>
-                  <SheetTitle>Filters</SheetTitle>
-                </SheetHeader>
-                <div className="mt-6">
-                  <FilterPanel
-                    formats={allFormats}
-                    resolutions={allResolutions}
-                    tags={allTags}
-                    selectedFormats={selectedFormats}
-                    selectedResolutions={selectedResolutions}
-                    selectedTags={selectedTags}
-                    onFormatChange={setSelectedFormats}
-                    onResolutionChange={setSelectedResolutions}
-                    onTagChange={setSelectedTags}
-                    onClearAll={clearAllFilters}
-                  />
-                </div>
-              </SheetContent>
-            </Sheet>
-            <SortDropdown value={sortBy} onChange={setSortBy} />
+          <div className="lg:hidden space-y-4">
+            <div className="flex gap-2">
+              <Sheet>
+                <SheetTrigger asChild>
+                  <Button variant="outline" className="flex-1">
+                    <SlidersHorizontal className="w-4 h-4 mr-2" />
+                    Filters
+                    {(selectedFormats.length + selectedResolutions.length + selectedTags.length) > 0 && (
+                      <Badge variant="secondary" className="ml-2">
+                        {selectedFormats.length + selectedResolutions.length + selectedTags.length}
+                      </Badge>
+                    )}
+                  </Button>
+                </SheetTrigger>
+                <SheetContent side="left" className="w-80 overflow-y-auto">
+                  <SheetHeader>
+                    <SheetTitle>Filters</SheetTitle>
+                  </SheetHeader>
+                  <div className="mt-6">
+                    <FilterPanel
+                      formats={allFormats}
+                      resolutions={allResolutions}
+                      tags={allTags}
+                      selectedFormats={selectedFormats}
+                      selectedResolutions={selectedResolutions}
+                      selectedTags={selectedTags}
+                      onFormatChange={setSelectedFormats}
+                      onResolutionChange={setSelectedResolutions}
+                      onTagChange={setSelectedTags}
+                      onClearAll={clearAllFilters}
+                    />
+                  </div>
+                </SheetContent>
+              </Sheet>
+              <SortDropdown value={sortBy} onChange={setSortBy} />
+            </div>
+
+            {/* Mobile Popular Tags */}
+            {allTags.length > 0 && (
+              <div className="p-3 rounded-lg bg-card/30 backdrop-blur-sm border border-border/30">
+                <PopularTagsBar
+                  tags={allTags}
+                  selectedTags={selectedTags}
+                  onTagToggle={(tag) => {
+                    if (selectedTags.includes(tag)) {
+                      setSelectedTags(selectedTags.filter(t => t !== tag));
+                    } else {
+                      setSelectedTags([...selectedTags, tag]);
+                    }
+                  }}
+                  onClearTags={() => setSelectedTags([])}
+                  maxVisible={8}
+                />
+              </div>
+            )}
           </div>
 
           {/* Desktop Controls */}
-          <div className="hidden lg:flex items-center justify-between gap-4">
-            <div className="flex-1 max-w-md">
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                <Input
-                  type="text"
-                  placeholder="Search in this category..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-10 bg-card/50 backdrop-blur-sm border-border/50"
-                />
+          <div className="hidden lg:flex flex-col gap-4">
+            {/* Search + View Controls Row */}
+            <div className="flex items-center justify-between gap-4">
+              <div className="flex-1 max-w-md">
+                <div className="relative">
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                  <Input
+                    type="text"
+                    placeholder="Search in this category..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="pl-10 bg-card/50 backdrop-blur-sm border-border/50"
+                  />
+                </div>
+              </div>
+
+              <div className="flex items-center gap-3">
+                <SortDropdown value={sortBy} onChange={setSortBy} />
+                
+                <div className="flex items-center gap-1 border rounded-lg p-1 bg-card/50">
+                  <Button
+                    variant={gridView === 'comfortable' ? 'default' : 'ghost'}
+                    size="sm"
+                    onClick={() => setGridView('comfortable')}
+                    className="h-8 px-3"
+                  >
+                    <Grid3x3 className="w-4 h-4" />
+                  </Button>
+                  <Button
+                    variant={gridView === 'compact' ? 'default' : 'ghost'}
+                    size="sm"
+                    onClick={() => setGridView('compact')}
+                    className="h-8 px-3"
+                  >
+                    <LayoutGrid className="w-4 h-4" />
+                  </Button>
+                </div>
               </div>
             </div>
 
-            <div className="flex items-center gap-3">
-              <SortDropdown value={sortBy} onChange={setSortBy} />
-              
-              <div className="flex items-center gap-1 border rounded-lg p-1 bg-card/50">
-                <Button
-                  variant={gridView === 'comfortable' ? 'default' : 'ghost'}
-                  size="sm"
-                  onClick={() => setGridView('comfortable')}
-                  className="h-8 px-3"
-                >
-                  <Grid3x3 className="w-4 h-4" />
-                </Button>
-                <Button
-                  variant={gridView === 'compact' ? 'default' : 'ghost'}
-                  size="sm"
-                  onClick={() => setGridView('compact')}
-                  className="h-8 px-3"
-                >
-                  <LayoutGrid className="w-4 h-4" />
-                </Button>
+            {/* Popular Tags Bar */}
+            {allTags.length > 0 && (
+              <div className="p-4 rounded-lg bg-card/30 backdrop-blur-sm border border-border/30">
+                <PopularTagsBar
+                  tags={allTags}
+                  selectedTags={selectedTags}
+                  onTagToggle={(tag) => {
+                    if (selectedTags.includes(tag)) {
+                      setSelectedTags(selectedTags.filter(t => t !== tag));
+                    } else {
+                      setSelectedTags([...selectedTags, tag]);
+                    }
+                  }}
+                  onClearTags={() => setSelectedTags([])}
+                  maxVisible={16}
+                />
               </div>
-            </div>
+            )}
           </div>
         </div>
 
@@ -523,6 +567,8 @@ export default function CategoryPage() {
           </div>
         </div>
       </main>
+      
+      <BackToTop />
     </div>
   );
 }
