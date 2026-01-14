@@ -1,5 +1,5 @@
 import { useRef, useState, useEffect, useCallback } from 'react';
-import { Play, ImageOff } from 'lucide-react';
+import { Play, Expand, ImageOff } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Card } from '@/components/ui/card';
 
@@ -208,7 +208,7 @@ export default function DetailMediaPreview({
           />
         )}
 
-        {/* Play button - visible by default, hidden on hover (Pixabay pattern) */}
+        {/* Play icon - visible by default, hidden on hover */}
         <div 
           className={`absolute inset-0 transition-opacity duration-200 flex items-center justify-center pointer-events-none ${
             isHovered ? 'opacity-0' : 'opacity-100'
@@ -216,6 +216,17 @@ export default function DetailMediaPreview({
         >
           <div className="bg-black/50 backdrop-blur-sm rounded-full p-4 shadow-lg">
             <Play className="w-8 h-8 text-white fill-white" />
+          </div>
+        </div>
+
+        {/* Expand icon - hidden by default, visible on hover */}
+        <div 
+          className={`absolute inset-0 transition-opacity duration-200 flex items-center justify-center pointer-events-none ${
+            isHovered ? 'opacity-100' : 'opacity-0'
+          }`}
+        >
+          <div className="bg-black/35 backdrop-blur-sm rounded-full p-4 shadow-lg">
+            <Expand className="w-7 h-7 text-white" />
           </div>
         </div>
 
