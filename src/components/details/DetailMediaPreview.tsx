@@ -208,10 +208,12 @@ export default function DetailMediaPreview({
           />
         )}
 
-        {/* Hover overlay with play button */}
-        <div className={`absolute inset-0 bg-black/40 transition-opacity flex items-center justify-center ${
-          isHovered ? 'opacity-100' : 'opacity-0'
-        }`}>
+        {/* Play button - visible by default, hidden on hover (Pixabay pattern) */}
+        <div 
+          className={`absolute inset-0 transition-opacity duration-200 flex items-center justify-center pointer-events-none ${
+            isHovered ? 'opacity-0' : 'opacity-100'
+          }`}
+        >
           <div className="bg-black/50 backdrop-blur-sm rounded-full p-4 shadow-lg">
             <Play className="w-8 h-8 text-white fill-white" />
           </div>
