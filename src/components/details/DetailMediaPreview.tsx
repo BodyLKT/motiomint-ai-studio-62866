@@ -1,5 +1,6 @@
 import { useRef, useState, useEffect, useCallback } from 'react';
-import { Play, Expand, ImageOff } from 'lucide-react';
+import { ImageOff } from 'lucide-react';
+import { VideoOverlayIcon } from '@/components/ui/VideoOverlayIcon';
 import { Badge } from '@/components/ui/badge';
 import { Card } from '@/components/ui/card';
 
@@ -208,27 +209,8 @@ export default function DetailMediaPreview({
           />
         )}
 
-        {/* Play icon - visible by default, hidden on hover */}
-        <div 
-          className={`absolute inset-0 transition-opacity duration-200 flex items-center justify-center pointer-events-none ${
-            isHovered ? 'opacity-0' : 'opacity-100'
-          }`}
-        >
-          <div className="bg-black/50 backdrop-blur-sm rounded-full p-4 shadow-lg">
-            <Play className="w-8 h-8 text-white fill-white" />
-          </div>
-        </div>
-
-        {/* Expand icon - hidden by default, visible on hover */}
-        <div 
-          className={`absolute inset-0 transition-opacity duration-200 flex items-center justify-center pointer-events-none ${
-            isHovered ? 'opacity-100' : 'opacity-0'
-          }`}
-        >
-          <div className="bg-black/35 backdrop-blur-sm rounded-full p-4 shadow-lg">
-            <Expand className="w-7 h-7 text-white" />
-          </div>
-        </div>
+        {/* Overlay icon - Play by default, Expand on hover */}
+        <VideoOverlayIcon isHovered={isHovered} size="lg" />
 
         {/* Badges */}
         <div className="absolute top-4 right-4 flex gap-2">
