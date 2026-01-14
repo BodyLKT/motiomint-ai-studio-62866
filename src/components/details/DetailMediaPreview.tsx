@@ -1,5 +1,5 @@
 import { useRef, useState, useEffect, useCallback } from 'react';
-import { Eye, ImageOff } from 'lucide-react';
+import { Play, ImageOff } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Card } from '@/components/ui/card';
 
@@ -212,8 +212,8 @@ export default function DetailMediaPreview({
         <div className={`absolute inset-0 bg-black/40 transition-opacity flex items-center justify-center ${
           isHovered ? 'opacity-100' : 'opacity-0'
         }`}>
-          <div className="bg-primary/90 rounded-full p-4">
-            <Eye className="w-8 h-8 text-primary-foreground" />
+          <div className="bg-black/50 backdrop-blur-sm rounded-full p-4 shadow-lg">
+            <Play className="w-8 h-8 text-white fill-white" />
           </div>
         </div>
 
