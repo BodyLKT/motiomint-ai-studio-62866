@@ -16,6 +16,8 @@ interface DetailMediaPreviewProps {
   thumbSource?: string | null;
 }
 
+type AspectType = 'landscape' | 'portrait' | 'square';
+
 // Check if URL is a real video file (not a placeholder)
 function isRealVideoUrl(url?: string): boolean {
   if (!url) return false;
@@ -54,6 +56,8 @@ export default function DetailMediaPreview({
   const [isVideoReady, setIsVideoReady] = useState(false);
   const [hasError, setHasError] = useState(false);
   const [imageError, setImageError] = useState(false);
+  const [aspectType, setAspectType] = useState<AspectType>('landscape');
+  const [videoAspectRatio, setVideoAspectRatio] = useState<number>(16 / 9);
 
   const isValidVideoUrl = isRealVideoUrl(videoUrl);
 
@@ -78,7 +82,7 @@ export default function DetailMediaPreview({
 
   const showFallback = !effectiveThumbnailUrl || imageError;
 
-  // Preload video on mount
+  // Preload video on mount and detect aspect ratio
   useEffect(() => {
     if (isValidVideoUrl && videoRef.current) {
       videoRef.current.src = videoUrl;
@@ -86,8 +90,25 @@ export default function DetailMediaPreview({
     }
   }, [videoUrl, isValidVideoUrl]);
 
+  // Detect video aspect ratio when metadata loads
   const handleVideoLoaded = useCallback(() => {
     setIsVideoReady(true);
+    
+    if (videoRef.current) {
+      const { videoWidth, videoHeight } = videoRef.current;
+      if (videoWidth && videoHeight) {
+        const ratio = videoWidth / videoHeight;
+        setVideoAspectRatio(ratio);
+        
+        if (ratio < 0.9) {
+          setAspectType('portrait');
+        } else if (ratio > 1.1) {
+          setAspectType('landscape');
+        } else {
+          setAspectType('square');
+        }
+      }
+    }
   }, []);
 
   const handleVideoError = useCallback(() => {
@@ -123,10 +144,23 @@ export default function DetailMediaPreview({
 
   const showVideo = isHovered && isVideoReady && !hasError;
 
+  // Dynamic container classes based on aspect ratio
+  const getContainerClasses = () => {
+    switch (aspectType) {
+      case 'portrait':
+        return 'max-w-md mx-auto'; // Constrain width for portrait
+      case 'square':
+        return 'max-w-lg mx-auto'; // Medium width for square
+      default:
+        return 'w-full'; // Full width for landscape
+    }
+  };
+
   return (
-    <Card className="overflow-hidden bg-card/50 backdrop-blur-sm border-border/50 group">
+    <Card className={`overflow-hidden bg-card/50 backdrop-blur-sm border-border/50 group ${getContainerClasses()}`}>
       <div 
-        className="relative aspect-video bg-muted cursor-pointer"
+        className="relative bg-muted cursor-pointer"
+        style={{ aspectRatio: videoAspectRatio }}
         onClick={onClickPlay}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
