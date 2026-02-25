@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { PlayCircle, ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { supabase } from '@/integrations/supabase/client';
 import { useNavigate } from 'react-router-dom';
@@ -27,10 +27,15 @@ function HeroCarouselCard({
 
   return (
     <Card
-      className="group relative overflow-hidden rounded-xl cursor-pointer glass border-primary/20 hover:border-primary/40 transition-all duration-300 hover:scale-[1.03] hover:-translate-y-1 hover:shadow-2xl aspect-[3/4]"
+      className="group relative overflow-hidden rounded-xl cursor-pointer glass border-primary/20 hover:border-primary/40 transition-all duration-300 hover:scale-[1.03] hover:-translate-y-1 hover:shadow-2xl aspect-[3/4] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
       onClick={() => onClick(animation.id)}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
+      tabIndex={0}
+      onFocus={() => setIsHovered(true)}
+      onBlur={() => setIsHovered(false)}
+      onKeyDown={(e) => { if (e.key === 'Enter') onClick(animation.id); }}
+      role="link"
     >
       {/* Video Preview */}
       <div className="absolute inset-0">
@@ -40,8 +45,9 @@ function HeroCarouselCard({
           alt={animation.title}
           isHovering={isHovered}
           className="w-full h-full"
+          hideOverlay
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-background/20 to-transparent opacity-60 group-hover:opacity-40 transition-opacity pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-transparent opacity-40 group-hover:opacity-30 transition-opacity pointer-events-none" />
       </div>
 
       {/* Category Badge */}
@@ -49,16 +55,19 @@ function HeroCarouselCard({
         {animation.category}
       </Badge>
 
-      {/* Play Icon */}
-      <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity z-10">
-        <PlayCircle className="w-12 h-12 text-primary drop-shadow-lg" />
-      </div>
-
-      {/* Title */}
-      <div className="absolute bottom-0 left-0 right-0 p-3 z-10">
-        <h3 className="text-sm font-semibold text-foreground line-clamp-2">
-          {animation.title}
-        </h3>
+      {/* Title - slide-in from bottom-left on hover, avoids bottom-right watermark */}
+      <div
+        className={`absolute bottom-3 left-3 z-10 max-w-[70%] transition-all duration-200 ease-out pointer-events-none ${
+          isHovered
+            ? 'opacity-100 translate-y-0'
+            : 'opacity-0 translate-y-3'
+        }`}
+      >
+        <div className="bg-background/60 backdrop-blur-md rounded-lg px-3 py-1.5">
+          <h3 className="text-sm font-semibold text-foreground line-clamp-2">
+            {animation.title}
+          </h3>
+        </div>
       </div>
     </Card>
   );
