@@ -85,6 +85,16 @@ export const LoginModal = ({ open, onClose, onSwitchToSignUp }: LoginModalProps)
             </div>
           </div>
 
+          <div className="text-right">
+            <button
+              type="button"
+              onClick={() => { onClose(); navigate('/forgot-password'); }}
+              className="text-xs text-muted-foreground hover:text-primary"
+            >
+              Forgot password?
+            </button>
+          </div>
+
           <Button
             type="submit"
             variant="hero"

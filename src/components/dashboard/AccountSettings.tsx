@@ -8,7 +8,8 @@ import { Switch } from '@/components/ui/switch';
 import { Separator } from '@/components/ui/separator';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
-import { User, Mail, Lock, Shield, Bell, Trash2, Camera, Save } from 'lucide-react';
+import { User, Mail, Shield, Bell, Trash2, Camera, Save } from 'lucide-react';
+import ChangePasswordForm from '@/components/dashboard/ChangePasswordForm';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import { toast } from '@/hooks/use-toast';
@@ -219,23 +220,8 @@ export default function AccountSettings() {
 
           <Separator />
 
-          {/* Password Management */}
-          <div>
-            <h4 className="text-sm font-medium mb-4 flex items-center gap-2">
-              <Lock className="h-4 w-4" />
-              {t('dashboard.passwordManagement')}
-            </h4>
-            <p className="text-sm text-muted-foreground mb-4">
-              {t('dashboard.passwordDesc')}
-            </p>
-            <Button 
-              variant="outline" 
-              onClick={handlePasswordReset}
-              disabled={loading}
-            >
-              {t('dashboard.setNewPassword')}
-            </Button>
-          </div>
+          {/* Change Password */}
+          <ChangePasswordForm />
 
           <Separator />
 

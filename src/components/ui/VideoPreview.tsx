@@ -15,6 +15,8 @@ interface VideoPreviewProps {
   thumbSource?: string | null;
   /** Debug mode - show thumbnail source info */
   debug?: boolean;
+  /** Hide the play/expand overlay icon */
+  hideOverlay?: boolean;
 }
 
 // Track currently playing video - only allow ONE at a time for performance
@@ -57,6 +59,7 @@ export default function VideoPreview({
   thumbStatus,
   thumbSource,
   debug = false,
+  hideOverlay = false,
 }: VideoPreviewProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -226,7 +229,7 @@ export default function VideoPreview({
       )}
 
       {/* Overlay icon - Play by default, Expand on hover */}
-      <VideoOverlayIcon isHovered={isHovered} size="sm" />
+      {!hideOverlay && <VideoOverlayIcon isHovered={isHovered} size="sm" />}
 
       {/* Watermark */}
       <div className="absolute bottom-2 right-2 text-xs font-semibold text-white/70 bg-black/40 px-2 py-1 rounded pointer-events-none backdrop-blur-sm">
