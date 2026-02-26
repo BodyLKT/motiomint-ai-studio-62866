@@ -143,6 +143,7 @@ export default function EnhancedAnimationCard({
           thumbCardUrl={thumbCardUrl}
           thumbStatus={thumbStatus}
           thumbSource={thumbSource}
+          hideOverlay
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
         />
         
