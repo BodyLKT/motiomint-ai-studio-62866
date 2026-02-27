@@ -51,7 +51,7 @@ function HeroCarouselCard({
       </div>
 
       {/* Category Badge */}
-      <Badge className="absolute top-3 left-3 z-10 bg-primary/90 text-primary-foreground">
+      <Badge className="absolute top-3 left-3 z-10 bg-primary/40 text-primary-foreground backdrop-blur-md border border-white/20 shadow-[inset_0_1px_1px_rgba(255,255,255,0.25),0_4px_12px_rgba(0,0,0,0.2)] transition-all duration-200">
         {animation.category}
       </Badge>
 
@@ -63,7 +63,7 @@ function HeroCarouselCard({
             : 'opacity-0 translate-y-3'
         }`}
       >
-        <div className="bg-background/60 backdrop-blur-md rounded-lg px-3 py-1.5">
+        <div className="bg-background/30 backdrop-blur-md rounded-lg px-3 py-1.5 border border-white/20 shadow-[inset_0_1px_1px_rgba(255,255,255,0.2),0_4px_12px_rgba(0,0,0,0.15)]">
           <h3 className="text-sm font-semibold text-foreground line-clamp-2">
             {animation.title}
           </h3>
