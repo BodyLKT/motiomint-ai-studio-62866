@@ -212,15 +212,15 @@ export default function DetailMediaPreview({
         {/* Overlay icon - Play by default, Expand on hover */}
         <VideoOverlayIcon isHovered={isHovered} size="lg" />
 
-        {/* Badges */}
+        {/* Badges - Liquid Glass pills */}
         <div className="absolute top-4 right-4 flex gap-2">
           {format && (
-            <Badge className="bg-background/90 backdrop-blur-sm text-foreground">
+            <Badge className="bg-white/15 dark:bg-white/10 backdrop-blur-md text-white border border-white/30 dark:border-white/20 shadow-[inset_0_1px_1px_rgba(255,255,255,0.35),0_4px_12px_rgba(0,0,0,0.25)] font-semibold">
               {format}
             </Badge>
           )}
           {resolution && (
-            <Badge className="bg-background/90 backdrop-blur-sm text-foreground">
+            <Badge className="bg-white/15 dark:bg-white/10 backdrop-blur-md text-white border border-white/30 dark:border-white/20 shadow-[inset_0_1px_1px_rgba(255,255,255,0.35),0_4px_12px_rgba(0,0,0,0.25)] font-semibold">
               {resolution}
             </Badge>
           )}
