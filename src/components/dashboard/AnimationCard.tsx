@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Card } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { LiquidGlassIconButton } from '@/components/ui/LiquidGlassIconButton';
 import { Heart, Download, ShoppingCart, Loader2, Sparkles, Eye } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from '@/hooks/use-toast';
@@ -136,12 +136,11 @@ export default function AnimationCard({
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
           
           {/* Favorite Button - Top Right - visible only on hover */}
-          <Button
-            size="icon"
-            variant={isFavorite ? "default" : "secondary"}
-            className={`absolute top-3 right-3 rounded-full z-10 h-9 w-9 backdrop-blur-md shadow-[0_4px_12px_rgba(0,0,0,0.5)] hover:scale-110 transition-all duration-300 border opacity-0 group-hover:opacity-100 ${
-              isFavorite ? 'bg-primary text-primary-foreground border-primary' : 'bg-foreground/80 text-background border-foreground/40'
-            }`}
+          <LiquidGlassIconButton
+            className={cn(
+              "absolute top-3 right-3 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-200",
+              isFavorite && "bg-primary/50 dark:bg-primary/40 border-primary/50"
+            )}
             onClick={(e) => {
               e.stopPropagation();
               if (isGuest && onAuthRequired) {
@@ -152,7 +151,7 @@ export default function AnimationCard({
             }}
           >
             <Heart className={`h-4 w-4 ${isFavorite ? 'fill-current' : ''}`} />
-          </Button>
+          </LiquidGlassIconButton>
           
           {/* Title & Tags - Bottom Overlay - visible only on hover */}
           <div className="absolute bottom-0 left-0 right-0 p-4 space-y-2 translate-y-full group-hover:translate-y-0 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-all duration-300">
