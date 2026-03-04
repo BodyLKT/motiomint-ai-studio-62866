@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import { Play, Pause, Maximize, Volume2, VolumeX, X } from 'lucide-react';
 import { Button } from './button';
 import { Dialog, DialogContent } from './dialog';
@@ -8,55 +8,80 @@ interface ModernVideoPlayerProps {
   onClose: () => void;
   videoUrl: string;
   title?: string;
+  /** Resolution hint like "1080x1920" or "1920x1080" to set initial aspect ratio */
+  resolution?: string;
 }
 
-export const ModernVideoPlayer = ({ open, onClose, videoUrl, title }: ModernVideoPlayerProps) => {
+function parseResolution(resolution?: string): string {
+  if (!resolution) return '16 / 9';
+  // Handle formats like "1080x1920", "1920×1080", "1080 x 1920"
+  const match = resolution.match(/(\d+)\s*[x×]\s*(\d+)/i);
+  if (match) {
+    return `${match[1]} / ${match[2]}`;
+  }
+  return '16 / 9';
+}
+
+export const ModernVideoPlayer = ({ open, onClose, videoUrl, title, resolution }: ModernVideoPlayerProps) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
   const [showControls, setShowControls] = useState(true);
-  const [videoAspect, setVideoAspect] = useState<'landscape' | 'portrait' | 'square'>('landscape');
+  const [videoRatio, setVideoRatio] = useState<string>(() => parseResolution(resolution));
   const hideControlsTimeout = useRef<NodeJS.Timeout>();
 
+  // Update ratio when resolution prop changes
   useEffect(() => {
-    if (open && videoRef.current) {
-      videoRef.current.play();
-      setIsPlaying(true);
+    setVideoRatio(parseResolution(resolution));
+  }, [resolution]);
+
+  // Auto-play when dialog opens — wait for canplay event
+  useEffect(() => {
+    if (!open || !videoRef.current) return;
+    
+    const video = videoRef.current;
+    const tryPlay = () => {
+      video.play()
+        .then(() => setIsPlaying(true))
+        .catch(() => { /* user interaction required or source not ready */ });
+    };
+
+    if (video.readyState >= 3) {
+      tryPlay();
+    } else {
+      video.addEventListener('canplay', tryPlay, { once: true });
+      return () => video.removeEventListener('canplay', tryPlay);
     }
   }, [open]);
 
-  const handleLoadedMetadata = () => {
+  const handleLoadedMetadata = useCallback(() => {
     if (videoRef.current) {
       const { videoWidth, videoHeight } = videoRef.current;
-      if (videoWidth > videoHeight) {
-        setVideoAspect('landscape');
-      } else if (videoHeight > videoWidth) {
-        setVideoAspect('portrait');
-      } else {
-        setVideoAspect('square');
+      if (videoWidth && videoHeight) {
+        setVideoRatio(`${videoWidth} / ${videoHeight}`);
       }
     }
-  };
+  }, []);
 
-  const togglePlay = () => {
+  const togglePlay = useCallback(() => {
     if (videoRef.current) {
       if (isPlaying) {
         videoRef.current.pause();
       } else {
-        videoRef.current.play();
+        videoRef.current.play().catch(() => {});
       }
       setIsPlaying(!isPlaying);
     }
-  };
+  }, [isPlaying]);
 
-  const toggleMute = () => {
+  const toggleMute = useCallback(() => {
     if (videoRef.current) {
       videoRef.current.muted = !isMuted;
       setIsMuted(!isMuted);
     }
-  };
+  }, [isMuted]);
 
-  const toggleFullscreen = () => {
+  const toggleFullscreen = useCallback(() => {
     if (videoRef.current) {
       if (document.fullscreenElement) {
         document.exitFullscreen();
@@ -64,54 +89,53 @@ export const ModernVideoPlayer = ({ open, onClose, videoUrl, title }: ModernVide
         videoRef.current.requestFullscreen();
       }
     }
-  };
+  }, []);
 
-  const handleMouseMove = () => {
+  const handleMouseMove = useCallback(() => {
     setShowControls(true);
     if (hideControlsTimeout.current) {
       clearTimeout(hideControlsTimeout.current);
     }
     hideControlsTimeout.current = setTimeout(() => {
-      if (isPlaying) {
-        setShowControls(false);
-      }
+      setShowControls(prev => {
+        // Only hide if playing
+        return isPlaying ? false : prev;
+      });
     }, 3000);
-  };
+  }, [isPlaying]);
 
-  const handleClose = () => {
+  const handleClose = useCallback(() => {
     if (videoRef.current) {
       videoRef.current.pause();
       videoRef.current.currentTime = 0;
     }
     setIsPlaying(false);
     onClose();
-  };
+  }, [onClose]);
 
-  // Dynamic sizing based on video aspect ratio
-  const getContainerClasses = () => {
-    switch (videoAspect) {
-      case 'portrait':
-        return 'max-w-[50vw] sm:max-w-[40vw] md:max-w-[35vw]';
-      case 'square':
-        return 'max-w-[70vw] sm:max-w-[60vw] md:max-w-[50vw]';
-      default:
-        return 'max-w-[90vw] md:max-w-5xl';
-    }
+  // Container uses aspect-ratio + height to auto-determine width
+  const containerStyle: React.CSSProperties = {
+    aspectRatio: videoRatio,
+    maxHeight: '85vh',
+    maxWidth: '90vw',
+    height: '85vh',
   };
 
   return (
     <Dialog open={open} onOpenChange={handleClose}>
-      <DialogContent className={`${getContainerClasses()} max-h-[90vh] p-0 bg-black border-0 overflow-hidden [&>button]:hidden`}>
+      <DialogContent 
+        className="flex items-center justify-center p-0 bg-transparent border-0 shadow-none overflow-visible gap-0 [&>button]:hidden w-auto max-w-[90vw]"
+      >
         <div 
-          className="relative group"
+          className="relative group rounded-lg overflow-hidden bg-black"
+          style={containerStyle}
           onMouseMove={handleMouseMove}
           onMouseLeave={() => isPlaying && setShowControls(false)}
         >
-          {/* Video */}
           <video
             ref={videoRef}
             src={videoUrl}
-            className="w-full h-auto max-h-[85vh] object-contain"
+            className="absolute inset-0 w-full h-full object-contain"
             onClick={togglePlay}
             onLoadedMetadata={handleLoadedMetadata}
             loop
@@ -123,7 +147,7 @@ export const ModernVideoPlayer = ({ open, onClose, videoUrl, title }: ModernVide
           <Button
             variant="ghost"
             size="icon"
-            className={`absolute top-4 right-4 bg-black/50 hover:bg-black/70 text-white transition-opacity duration-300 ${
+            className={`absolute top-4 right-4 z-10 bg-black/50 hover:bg-black/70 text-white rounded-full transition-opacity duration-300 ${
               showControls ? 'opacity-100' : 'opacity-0'
             }`}
             onClick={handleClose}
@@ -149,43 +173,14 @@ export const ModernVideoPlayer = ({ open, onClose, videoUrl, title }: ModernVide
             }`}
           >
             <div className="flex items-center gap-4">
-              {/* Play/Pause */}
-              <Button
-                variant="ghost"
-                size="icon"
-                className="text-white hover:bg-white/20"
-                onClick={togglePlay}
-              >
-                {isPlaying ? (
-                  <Pause className="w-6 h-6" />
-                ) : (
-                  <Play className="w-6 h-6" />
-                )}
+              <Button variant="ghost" size="icon" className="text-white hover:bg-white/20" onClick={togglePlay}>
+                {isPlaying ? <Pause className="w-6 h-6" /> : <Play className="w-6 h-6" />}
               </Button>
-
-              {/* Volume */}
-              <Button
-                variant="ghost"
-                size="icon"
-                className="text-white hover:bg-white/20"
-                onClick={toggleMute}
-              >
-                {isMuted ? (
-                  <VolumeX className="w-6 h-6" />
-                ) : (
-                  <Volume2 className="w-6 h-6" />
-                )}
+              <Button variant="ghost" size="icon" className="text-white hover:bg-white/20" onClick={toggleMute}>
+                {isMuted ? <VolumeX className="w-6 h-6" /> : <Volume2 className="w-6 h-6" />}
               </Button>
-
               <div className="flex-1" />
-
-              {/* Fullscreen */}
-              <Button
-                variant="ghost"
-                size="icon"
-                className="text-white hover:bg-white/20"
-                onClick={toggleFullscreen}
-              >
+              <Button variant="ghost" size="icon" className="text-white hover:bg-white/20" onClick={toggleFullscreen}>
                 <Maximize className="w-6 h-6" />
               </Button>
             </div>
@@ -193,10 +188,10 @@ export const ModernVideoPlayer = ({ open, onClose, videoUrl, title }: ModernVide
 
           {/* Center Play Button Overlay */}
           {!isPlaying && (
-            <div className="absolute inset-0 flex items-center justify-center">
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
               <Button
                 size="icon"
-                className="w-20 h-20 rounded-full bg-primary/90 hover:bg-primary text-white shadow-2xl"
+                className="w-20 h-20 rounded-full bg-primary/90 hover:bg-primary text-white shadow-2xl pointer-events-auto"
                 onClick={togglePlay}
               >
                 <Play className="w-10 h-10 ml-1" />
