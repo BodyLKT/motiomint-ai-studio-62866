@@ -423,6 +423,7 @@ export default function VideoDetailsPage() {
         onClose={() => setShowVideoPlayer(false)}
         videoUrl={animation.preview_url || animation.file_url}
         title={animation.title}
+        resolution={animation.resolution || undefined}
       />
 
       {/* Share Modal */}
