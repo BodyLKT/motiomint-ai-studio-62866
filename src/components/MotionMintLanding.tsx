@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
@@ -33,7 +33,8 @@ import heroImage from '@/assets/hero-bg.jpg';
 import techAnimation from '@/assets/tech-animation.jpg';
 import fitnessAnimation from '@/assets/fitness-animation.jpg';
 import { BackToTop } from '@/components/ui/BackToTop';
-import { CANONICAL_CATEGORIES, CATEGORY_INFO, getCategorySlug } from '@/lib/categoryMapping';
+import { CANONICAL_CATEGORIES, CATEGORY_INFO, getCategorySlug, REVERSE_CATEGORY_MAPPING, type CanonicalCategory } from '@/lib/categoryMapping';
+import { supabase } from '@/integrations/supabase/client';
 
 const MotionMintLanding = () => {
   const { t } = useTranslation();
@@ -42,9 +43,30 @@ const MotionMintLanding = () => {
   const [showSignUpModal, setShowSignUpModal] = useState(false);
   const [showVideoPlayer, setShowVideoPlayer] = useState(false);
   const [selectedPricingTab, setSelectedPricingTab] = useState<'oneTime' | 'subscription'>('oneTime');
+  const [categoryCounts, setCategoryCounts] = useState<Record<string, number>>({});
   const { user } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
+
+  // Fetch real category counts
+  useEffect(() => {
+    const fetchCounts = async () => {
+      const { data, error } = await supabase
+        .from('animations')
+        .select('category');
+      
+      if (error || !data) return;
+
+      const counts: Record<string, number> = {};
+      for (const cat of CANONICAL_CATEGORIES) {
+        const oldCats = REVERSE_CATEGORY_MAPPING[cat] || [];
+        const allNames = [cat, ...oldCats];
+        counts[cat] = data.filter(d => (allNames as string[]).includes(d.category)).length;
+      }
+      setCategoryCounts(counts);
+    };
+    fetchCounts();
+  }, []);
 
   // Use the new 4 canonical categories
   const categories = CANONICAL_CATEGORIES.map((categoryName) => {
@@ -54,7 +76,7 @@ const MotionMintLanding = () => {
       description: info.description,
       image: categoryName.includes('Tech') || categoryName.includes('Abstract') ? techAnimation : fitnessAnimation,
       video: categoryName.includes('Tech') || categoryName.includes('Abstract') ? techAnimation : fitnessAnimation,
-      count: info.count,
+      count: categoryCounts[categoryName] !== undefined ? `${categoryCounts[categoryName]} animations` : info.count,
     };
   });
 
@@ -229,7 +251,7 @@ const MotionMintLanding = () => {
             </p>
           </div>
           
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6 max-w-5xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
             {categories.map((category, index) => (
               <div
                 key={index}

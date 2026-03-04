@@ -12,7 +12,7 @@ import {
   User,
   LogIn,
   LayoutDashboard,
-  ShoppingCart,
+  
   LogOut,
   Search,
   Sparkles,
@@ -36,7 +36,7 @@ import {
   Moon,
   Sun
 } from 'lucide-react';
-import { CartButton } from '@/components/CartButton';
+
 import GlobalSearchBar from '@/components/GlobalSearchBar';
 import { useTheme } from 'next-themes';
 import {
@@ -157,7 +157,7 @@ export default function MainNavigation({ onLoginClick, onSignUpClick }: MainNavi
   const toolsItems = [
     { name: t('tools.library'), icon: Film, path: '/dashboard', description: 'Browse all animations' },
     { name: t('tools.editShare'), icon: Wand2, path: '/dashboard', description: 'Customize animations' },
-    { name: t('tools.cart'), icon: ShoppingCart, path: '/cart', description: 'View your cart' },
+    
   ];
 
   return (
@@ -268,9 +268,6 @@ export default function MainNavigation({ onLoginClick, onSignUpClick }: MainNavi
               >
                 {t('nav.pricing')}
               </button>
-
-              {/* Cart Button (only when logged in) */}
-              {user && <CartButton />}
 
               {/* User Account Dropdown or Login/SignUp */}
               {user ? (
@@ -447,7 +444,6 @@ export default function MainNavigation({ onLoginClick, onSignUpClick }: MainNavi
               </button>
               
               <div className="flex items-center gap-2">
-                {user && <CartButton />}
                 <Button
                   variant="ghost"
                   size="icon"

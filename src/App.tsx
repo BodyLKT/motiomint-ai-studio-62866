@@ -13,7 +13,7 @@ import CategoryPage from "./pages/CategoryPage";
 import PricingPage from "./pages/PricingPage";
 import CheckoutPage from "./pages/CheckoutPage";
 import VideoDetailsPage from "./pages/VideoDetailsPage";
-import CartPage from "./pages/CartPage";
+
 import SimilarAnimations from "./pages/SimilarAnimations";
 import SearchResults from "./pages/SearchResults";
 import HelpCenter from "./pages/HelpCenter";
@@ -70,14 +70,6 @@ const App = () => (
               <Route path="/animation/:id" element={<VideoDetailsPage />} />
               <Route path="/similar/:id" element={<SimilarAnimations />} />
               <Route path="/search" element={<SearchResults />} />
-              <Route 
-                path="/cart" 
-                element={
-                  <ProtectedRoute>
-                    <CartPage />
-                  </ProtectedRoute>
-                } 
-              />
               <Route 
                 path="/admin/thumbnails" 
                 element={
