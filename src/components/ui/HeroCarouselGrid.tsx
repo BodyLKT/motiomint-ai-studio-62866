@@ -168,12 +168,11 @@ export const HeroCarouselGrid = () => {
   // Smooth page transition: fade out → swap → fade in
   const goToPage = useCallback((nextPage: number) => {
     if (transitioning || nextPage === visiblePage) return;
+    setCurrentPage(nextPage); // Update dot immediately
     setTransitioning(true);
-    // After fade-out completes, swap content
+    // After fade-out completes, swap content and fade back in
     setTimeout(() => {
       setVisiblePage(nextPage);
-      setCurrentPage(nextPage);
-      // Small delay then fade back in
       requestAnimationFrame(() => {
         setTransitioning(false);
       });
