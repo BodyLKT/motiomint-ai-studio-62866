@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useCallback, useRef, memo } from 'react';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
@@ -15,8 +15,8 @@ interface Animation {
   category: string;
 }
 
-// Extracted card component with its own hover state
-function HeroCarouselCard({ 
+// Memoized card component to prevent re-renders during transitions
+const HeroCarouselCard = memo(function HeroCarouselCard({ 
   animation, 
   onClick 
 }: { 
@@ -37,7 +37,6 @@ function HeroCarouselCard({
       onKeyDown={(e) => { if (e.key === 'Enter') onClick(animation.id); }}
       role="link"
     >
-      {/* Video Preview */}
       <div className="absolute inset-0">
         <VideoPreview
           thumbnailUrl={animation.thumbnail_url}
@@ -50,17 +49,13 @@ function HeroCarouselCard({
         <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-transparent opacity-40 group-hover:opacity-30 transition-opacity pointer-events-none" />
       </div>
 
-      {/* Category Badge */}
       <Badge className="absolute top-3 left-3 z-10 bg-primary/40 text-primary-foreground backdrop-blur-md border border-white/20 shadow-[inset_0_1px_1px_rgba(255,255,255,0.25),0_4px_12px_rgba(0,0,0,0.2)] transition-all duration-200">
         {animation.category}
       </Badge>
 
-      {/* Title - slide-in from bottom-left on hover, avoids bottom-right watermark */}
       <div
         className={`absolute bottom-3 left-3 z-10 max-w-[70%] transition-all duration-200 ease-out pointer-events-none ${
-          isHovered
-            ? 'opacity-100 translate-y-0'
-            : 'opacity-0 translate-y-3'
+          isHovered ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3'
         }`}
       >
         <div className="bg-background/30 backdrop-blur-md rounded-lg px-3 py-1.5 border border-white/20 shadow-[inset_0_1px_1px_rgba(255,255,255,0.2),0_4px_12px_rgba(0,0,0,0.15)]">
@@ -71,106 +66,177 @@ function HeroCarouselCard({
       </div>
     </Card>
   );
+});
+
+const CARDS_PER_PAGE = 6;
+const AUTO_PLAY_INTERVAL = 7000;
+const TRANSITION_MS = 400;
+
+/**
+ * Selects a category-balanced random set of animations.
+ * Rounds-robin through shuffled category buckets so no single category dominates.
+ */
+function selectBalanced(all: Animation[], count: number): Animation[] {
+  // Group by category
+  const buckets: Record<string, Animation[]> = {};
+  for (const a of all) {
+    (buckets[a.category] ??= []).push(a);
+  }
+
+  // Shuffle each bucket
+  for (const key of Object.keys(buckets)) {
+    shuffleInPlace(buckets[key]);
+  }
+
+  const categoryKeys = Object.keys(buckets);
+  shuffleInPlace(categoryKeys);
+
+  const result: Animation[] = [];
+  const usedIds = new Set<string>();
+  let idx = 0;
+
+  while (result.length < count && idx < all.length) {
+    for (const key of categoryKeys) {
+      if (result.length >= count) break;
+      const bucket = buckets[key];
+      const item = bucket.find(a => !usedIds.has(a.id));
+      if (item) {
+        result.push(item);
+        usedIds.add(item.id);
+      }
+    }
+    idx += categoryKeys.length;
+  }
+
+  // Final shuffle so categories aren't visually grouped
+  shuffleInPlace(result);
+  return result;
+}
+
+function shuffleInPlace<T>(arr: T[]): T[] {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
 }
 
 export const HeroCarouselGrid = () => {
-  const [animations, setAnimations] = useState<Animation[]>([]);
+  const [allAnimations, setAllAnimations] = useState<Animation[]>([]);
+  const [pages, setPages] = useState<Animation[][]>([]);
   const [currentPage, setCurrentPage] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [isPaused, setIsPaused] = useState(false);
+  const [transitioning, setTransitioning] = useState(false);
+  const [visiblePage, setVisiblePage] = useState(0);
   const navigate = useNavigate();
-  const autoPlayRef = useRef<NodeJS.Timeout | null>(null);
-  
-  const CARDS_PER_PAGE = 6;
-  const AUTO_PLAY_INTERVAL = 7000;
-  const totalPages = Math.ceil(animations.length / CARDS_PER_PAGE);
+  const autoPlayRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
+  const totalPages = pages.length;
+
+  // Fetch all animations once
   useEffect(() => {
-    fetchAnimations();
+    (async () => {
+      try {
+        const { data, error } = await supabase
+          .from('animations')
+          .select('id, title, thumbnail_url, file_url, category');
+        if (error) throw error;
+        if (data) setAllAnimations(data);
+      } catch (e) {
+        console.error('Error fetching animations:', e);
+      } finally {
+        setIsLoading(false);
+      }
+    })();
   }, []);
 
-  // Shuffle animations array
-  const shuffleArray = useCallback((array: Animation[]) => {
-    const shuffled = [...array];
-    for (let i = shuffled.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  // Build pages from balanced selection whenever allAnimations changes
+  useEffect(() => {
+    if (allAnimations.length === 0) return;
+    const totalCards = Math.min(allAnimations.length, 18);
+    const selected = selectBalanced(allAnimations, totalCards);
+    const newPages: Animation[][] = [];
+    for (let i = 0; i < selected.length; i += CARDS_PER_PAGE) {
+      newPages.push(selected.slice(i, i + CARDS_PER_PAGE));
     }
-    return shuffled;
-  }, []);
+    setPages(newPages);
+    setCurrentPage(0);
+    setVisiblePage(0);
+  }, [allAnimations]);
 
-  // Auto-play logic
+  // Smooth page transition: fade out → swap → fade in
+  const goToPage = useCallback((nextPage: number) => {
+    if (transitioning || nextPage === visiblePage) return;
+    setCurrentPage(nextPage); // Update dot immediately
+    setTransitioning(true);
+    // After fade-out completes, swap content and fade back in
+    setTimeout(() => {
+      setVisiblePage(nextPage);
+      requestAnimationFrame(() => {
+        setTransitioning(false);
+      });
+    }, TRANSITION_MS);
+  }, [transitioning, visiblePage]);
+
+  // Reshuffle and rebuild pages for loop
+  const reshufflePages = useCallback(() => {
+    if (allAnimations.length === 0) return;
+    const totalCards = Math.min(allAnimations.length, 18);
+    const selected = selectBalanced(allAnimations, totalCards);
+    const newPages: Animation[][] = [];
+    for (let i = 0; i < selected.length; i += CARDS_PER_PAGE) {
+      newPages.push(selected.slice(i, i + CARDS_PER_PAGE));
+    }
+    setPages(newPages);
+  }, [allAnimations]);
+
+  // Auto-play
+  const currentPageRef = useRef(currentPage);
+  currentPageRef.current = currentPage;
+
   useEffect(() => {
     if (isLoading || isPaused || totalPages <= 1) return;
 
     autoPlayRef.current = setInterval(() => {
-      setCurrentPage((prev) => {
-        const nextPage = (prev + 1) % totalPages;
-        // Shuffle when looping back to start
-        if (nextPage === 0) {
-          setAnimations((current) => shuffleArray(current));
-        }
-        return nextPage;
-      });
+      const next = (currentPageRef.current + 1) % totalPages;
+      if (next === 0) reshufflePages();
+      goToPage(next);
     }, AUTO_PLAY_INTERVAL);
 
     return () => {
-      if (autoPlayRef.current) {
-        clearInterval(autoPlayRef.current);
-      }
+      if (autoPlayRef.current) clearInterval(autoPlayRef.current);
     };
-  }, [isLoading, isPaused, totalPages, shuffleArray]);
+  }, [isLoading, isPaused, totalPages, goToPage, reshufflePages]);
 
-  const handleMouseEnter = useCallback(() => {
+  const handleMouseEnter = useCallback(() => setIsPaused(true), []);
+  const handleMouseLeave = useCallback(() => setIsPaused(false), []);
+
+  const handleCardClick = useCallback((id: string) => {
+    navigate(`/animation/${id}`);
+  }, [navigate]);
+
+  const goPrev = useCallback(() => {
     setIsPaused(true);
-  }, []);
-
-  const handleMouseLeave = useCallback(() => {
-    setIsPaused(false);
-  }, []);
-
-  const fetchAnimations = async () => {
-    try {
-      const { data, error } = await supabase
-        .from('animations')
-        .select('id, title, thumbnail_url, file_url, category')
-        .limit(18);
-
-      if (error) throw error;
-      if (data) setAnimations(data);
-    } catch (error) {
-      console.error('Error fetching animations:', error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handleCardClick = (animationId: string) => {
-    navigate(`/animation/${animationId}`);
-  };
-
-  const goToPrevious = useCallback(() => {
-    setIsPaused(true);
-    setCurrentPage((prev) => (prev - 1 + totalPages) % totalPages);
+    const prev = (currentPage - 1 + totalPages) % totalPages;
+    goToPage(prev);
     setTimeout(() => setIsPaused(false), 3000);
-  }, [totalPages]);
+  }, [currentPage, totalPages, goToPage]);
 
-  const goToNext = useCallback(() => {
+  const goNext = useCallback(() => {
     setIsPaused(true);
-    setCurrentPage((prev) => (prev + 1) % totalPages);
+    const next = (currentPage + 1) % totalPages;
+    goToPage(next);
     setTimeout(() => setIsPaused(false), 3000);
-  }, [totalPages]);
+  }, [currentPage, totalPages, goToPage]);
 
-  const goToPage = useCallback((page: number) => {
+  const handleDotClick = useCallback((page: number) => {
     setIsPaused(true);
-    setCurrentPage(page);
+    goToPage(page);
     setTimeout(() => setIsPaused(false), 3000);
-  }, []);
+  }, [goToPage]);
 
-  const currentAnimations = animations.slice(
-    currentPage * CARDS_PER_PAGE,
-    (currentPage + 1) * CARDS_PER_PAGE
-  );
+  const currentAnimations = pages[visiblePage] || [];
 
   if (isLoading) {
     return (
@@ -188,10 +254,14 @@ export const HeroCarouselGrid = () => {
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      {/* Grid Container with fade transition */}
+      {/* Grid with GPU-accelerated crossfade */}
       <div 
-        key={currentPage}
-        className="grid grid-cols-3 gap-4 lg:gap-6 w-full animate-fade-in"
+        className="grid grid-cols-3 gap-4 lg:gap-6 w-full will-change-[opacity,transform]"
+        style={{
+          opacity: transitioning ? 0 : 1,
+          transform: transitioning ? 'scale(0.98) translateY(4px)' : 'scale(1) translateY(0)',
+          transition: `opacity ${TRANSITION_MS}ms cubic-bezier(0.4, 0, 0.2, 1), transform ${TRANSITION_MS}ms cubic-bezier(0.4, 0, 0.2, 1)`,
+        }}
       >
         {currentAnimations.map((animation) => (
           <HeroCarouselCard 
@@ -208,7 +278,7 @@ export const HeroCarouselGrid = () => {
           <Button
             variant="ghost"
             size="icon"
-            onClick={goToPrevious}
+            onClick={goPrev}
             onMouseEnter={handleMouseEnter}
             className="absolute -left-4 top-1/2 -translate-y-1/2 z-20 glass hover:bg-primary/20 transition-all"
             aria-label="Previous"
@@ -219,7 +289,7 @@ export const HeroCarouselGrid = () => {
           <Button
             variant="ghost"
             size="icon"
-            onClick={goToNext}
+            onClick={goNext}
             onMouseEnter={handleMouseEnter}
             className="absolute -right-4 top-1/2 -translate-y-1/2 z-20 glass hover:bg-primary/20 transition-all"
             aria-label="Next"
@@ -235,12 +305,12 @@ export const HeroCarouselGrid = () => {
           {[...Array(totalPages)].map((_, index) => (
             <button
               key={index}
-              onClick={() => goToPage(index)}
+              onClick={() => handleDotClick(index)}
               onMouseEnter={handleMouseEnter}
-              className={`w-2 h-2 rounded-full transition-all duration-300 ${
+              className={`h-2 rounded-full transition-all duration-300 ${
                 index === currentPage
                   ? 'bg-primary w-8'
-                  : 'bg-muted-foreground/30 hover:bg-muted-foreground/50'
+                  : 'bg-muted-foreground/30 hover:bg-muted-foreground/50 w-2'
               }`}
               aria-label={`Go to page ${index + 1}`}
             />
