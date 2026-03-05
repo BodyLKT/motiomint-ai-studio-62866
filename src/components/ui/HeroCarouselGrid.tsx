@@ -193,16 +193,16 @@ export const HeroCarouselGrid = () => {
   }, [allAnimations]);
 
   // Auto-play
+  const currentPageRef = useRef(currentPage);
+  currentPageRef.current = currentPage;
+
   useEffect(() => {
     if (isLoading || isPaused || totalPages <= 1) return;
 
     autoPlayRef.current = setInterval(() => {
-      setCurrentPage(prev => {
-        const next = (prev + 1) % totalPages;
-        if (next === 0) reshufflePages();
-        goToPage(next);
-        return prev; // goToPage handles the actual update
-      });
+      const next = (currentPageRef.current + 1) % totalPages;
+      if (next === 0) reshufflePages();
+      goToPage(next);
     }, AUTO_PLAY_INTERVAL);
 
     return () => {
