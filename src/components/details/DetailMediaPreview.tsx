@@ -19,6 +19,22 @@ interface DetailMediaPreviewProps {
 
 type AspectType = 'landscape' | 'portrait' | 'square';
 
+/** Parse resolution string like "1080x1920" into { width, height } */
+function parseResolution(resolution?: string): { width: number; height: number } | null {
+  if (!resolution) return null;
+  const match = resolution.match(/^(\d+)\s*x\s*(\d+)$/i);
+  if (!match) return null;
+  return { width: parseInt(match[1], 10), height: parseInt(match[2], 10) };
+}
+
+function deriveAspect(resolution?: string): { ratio: number; type: AspectType } {
+  const parsed = parseResolution(resolution);
+  if (!parsed) return { ratio: 16 / 9, type: 'landscape' };
+  const ratio = parsed.width / parsed.height;
+  const type: AspectType = ratio < 0.9 ? 'portrait' : ratio > 1.1 ? 'landscape' : 'square';
+  return { ratio, type };
+}
+
 // Check if URL is a real video file (not a placeholder)
 function isRealVideoUrl(url?: string): boolean {
   if (!url) return false;
