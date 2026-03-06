@@ -1,0 +1,2 @@
+ALTER TABLE public.animations DROP CONSTRAINT animations_thumb_status_check;
+ALTER TABLE public.animations ADD CONSTRAINT animations_thumb_status_check CHECK (thumb_status = ANY (ARRAY['pending','processing','ready','failed','done']));
