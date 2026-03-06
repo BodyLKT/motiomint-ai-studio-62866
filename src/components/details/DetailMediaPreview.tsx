@@ -69,12 +69,13 @@ export default function DetailMediaPreview({
   thumbSource,
 }: DetailMediaPreviewProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const initialAspect = deriveAspect(resolution);
   const [isHovered, setIsHovered] = useState(false);
   const [isVideoReady, setIsVideoReady] = useState(false);
   const [hasError, setHasError] = useState(false);
   const [imageError, setImageError] = useState(false);
-  const [aspectType, setAspectType] = useState<AspectType>('landscape');
-  const [videoAspectRatio, setVideoAspectRatio] = useState<number>(16 / 9);
+  const [aspectType, setAspectType] = useState<AspectType>(initialAspect.type);
+  const [videoAspectRatio, setVideoAspectRatio] = useState<number>(initialAspect.ratio);
 
   const isValidVideoUrl = isRealVideoUrl(videoUrl);
 
