@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { LiquidGlassIconButton } from '@/components/ui/LiquidGlassIconButton';
-import { Heart, Download, ShoppingCart, Loader2, Sparkles, Eye } from 'lucide-react';
+import { Heart, Download, Loader2, Sparkles } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from '@/hooks/use-toast';
 import VideoPreview from '@/components/ui/VideoPreview';
@@ -168,25 +168,8 @@ export default function AnimationCard({
           </div>
           
           {/* Action Buttons - Overlaid on preview - visible only on hover */}
-          <div className="absolute inset-x-0 bottom-[72px] px-4 space-y-2 translate-y-full group-hover:translate-y-0 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-all duration-300">
-            {/* Primary Actions Row */}
+          <div className="absolute inset-x-0 bottom-[72px] px-4 translate-y-full group-hover:translate-y-0 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-all duration-300">
             <div className="flex gap-2">
-              {onCartToggle && (
-                <CardOverlayButton
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    if (isGuest && onAuthRequired) {
-                      onAuthRequired();
-                    } else {
-                      onCartToggle();
-                    }
-                  }}
-                  isActive={isInCart}
-                >
-                  <ShoppingCart className="h-3.5 w-3.5" />
-                  <span>{isInCart ? 'In Cart' : 'Add'}</span>
-                </CardOverlayButton>
-              )}
               <CardOverlayButton
                 onClick={(e) => {
                   e.stopPropagation();
@@ -200,23 +183,6 @@ export default function AnimationCard({
                   <Download className="h-3.5 w-3.5" />
                 )}
                 <span>{isDownloading ? t('animation.downloading') : t('animation.download')}</span>
-              </CardOverlayButton>
-            </div>
-            
-            {/* Secondary Actions Row */}
-            <div className="flex gap-2">
-              <CardOverlayButton
-                onClick={(e) => {
-                  e.stopPropagation();
-                  if (isGuest && onAuthRequired) {
-                    onAuthRequired();
-                  } else {
-                    setShowEditShare(true);
-                  }
-                }}
-              >
-                <Sparkles className="h-3.5 w-3.5" />
-                <span>{t('editShare.editAndShare')}</span>
               </CardOverlayButton>
               <CardOverlayButton
                 onClick={(e) => {

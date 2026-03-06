@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -18,6 +18,7 @@ import {
   SlidersHorizontal
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { supabase } from '@/integrations/supabase/client';
 
 interface FilterPanelProps {
   formats: string[];
@@ -32,10 +33,12 @@ interface FilterPanelProps {
   onClearAll: () => void;
 }
 
+const COLLAPSED_TAG_COUNT = 16;
+
 export default function FilterPanel({
   formats,
   resolutions,
-  tags,
+  tags: localTags,
   selectedFormats,
   selectedResolutions,
   selectedTags,
@@ -48,8 +51,54 @@ export default function FilterPanel({
   const [formatsOpen, setFormatsOpen] = useState(true);
   const [resolutionsOpen, setResolutionsOpen] = useState(true);
   const [tagsOpen, setTagsOpen] = useState(true);
+  const [tagsExpanded, setTagsExpanded] = useState(false);
+  const [globalTags, setGlobalTags] = useState<{ name: string; count: number }[]>([]);
+
+  // Fetch all unique tags from all animations globally
+  useEffect(() => {
+    async function fetchGlobalTags() {
+      const { data, error } = await supabase
+        .from('animations')
+        .select('tags');
+
+      if (error || !data) return;
+
+      const tagCounts = new Map<string, number>();
+      for (const row of data) {
+        if (row.tags) {
+          for (const tag of row.tags) {
+            tagCounts.set(tag, (tagCounts.get(tag) || 0) + 1);
+          }
+        }
+      }
+
+      const sorted = Array.from(tagCounts.entries())
+        .map(([name, count]) => ({ name, count }))
+        .sort((a, b) => b.count - a.count);
+
+      setGlobalTags(sorted);
+    }
+
+    fetchGlobalTags();
+  }, []);
 
   const activeFiltersCount = selectedFormats.length + selectedResolutions.length + selectedTags.length;
+
+  // Build tag display list: selected tags pinned at top, then remaining
+  const displayTags = useMemo(() => {
+    const allTagNames = globalTags.length > 0 ? globalTags.map(t => t.name) : localTags;
+    
+    // Pin selected tags that are outside the visible range
+    const pinnedSelected = selectedTags.filter(t => allTagNames.includes(t));
+    const remaining = allTagNames.filter(t => !selectedTags.includes(t));
+    const ordered = [...pinnedSelected, ...remaining];
+
+    if (tagsExpanded) return ordered;
+    return ordered.slice(0, Math.max(COLLAPSED_TAG_COUNT, pinnedSelected.length));
+  }, [globalTags, localTags, selectedTags, tagsExpanded]);
+
+  const totalTagCount = globalTags.length > 0 ? globalTags.length : localTags.length;
+  const hasMoreTags = totalTagCount > COLLAPSED_TAG_COUNT;
 
   const toggleFormat = (format: string) => {
     if (selectedFormats.includes(format)) {
@@ -187,8 +236,8 @@ export default function FilterPanel({
 
       <Separator />
 
-      {/* Tags Filter */}
-      {tags.length > 0 && (
+      {/* Tags Filter - Global tags with expand/collapse */}
+      {(globalTags.length > 0 || localTags.length > 0) && (
         <Collapsible open={tagsOpen} onOpenChange={setTagsOpen}>
           <CollapsibleTrigger className="flex items-center justify-between w-full group">
             <div className="flex items-center gap-2">
@@ -208,7 +257,7 @@ export default function FilterPanel({
           </CollapsibleTrigger>
           <CollapsibleContent className="pt-3">
             <div className="flex flex-wrap gap-2">
-              {tags.slice(0, 12).map((tag) => (
+              {displayTags.map((tag) => (
                 <Badge
                   key={tag}
                   variant={selectedTags.includes(tag) ? "default" : "outline"}
@@ -224,6 +273,24 @@ export default function FilterPanel({
                 </Badge>
               ))}
             </div>
+            {hasMoreTags && (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setTagsExpanded(!tagsExpanded)}
+                className="mt-3 w-full text-xs text-muted-foreground hover:text-foreground"
+              >
+                {tagsExpanded 
+                  ? `Show less` 
+                  : `Show all ${totalTagCount} tags`
+                }
+                {tagsExpanded ? (
+                  <ChevronUp className="w-3 h-3 ml-1" />
+                ) : (
+                  <ChevronDown className="w-3 h-3 ml-1" />
+                )}
+              </Button>
+            )}
           </CollapsibleContent>
         </Collapsible>
       )}
