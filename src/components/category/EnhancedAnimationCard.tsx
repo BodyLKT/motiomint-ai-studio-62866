@@ -7,8 +7,6 @@ import { LiquidGlassIconButton } from '@/components/ui/LiquidGlassIconButton';
 import { 
   Heart, 
   Download, 
-  ShoppingCart, 
-  Eye, 
   Sparkles
 } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
@@ -188,25 +186,8 @@ export default function EnhancedAnimationCard({
         </div>
 
         {/* Action Buttons - Overlaid on preview - visible only on hover */}
-        <div className="absolute inset-x-0 bottom-[72px] px-4 space-y-2 translate-y-full group-hover:translate-y-0 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-all duration-300">
-          {/* Primary Actions Row */}
+        <div className="absolute inset-x-0 bottom-[72px] px-4 translate-y-full group-hover:translate-y-0 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-all duration-300">
           <div className="flex gap-2">
-            {onCartToggle && (
-              <CardOverlayButton
-                onClick={(e) => {
-                  e.stopPropagation();
-                  if (isGuest && onAuthRequired) {
-                    onAuthRequired();
-                  } else {
-                    onCartToggle();
-                  }
-                }}
-                isActive={isInCart}
-              >
-                <ShoppingCart className="h-3.5 w-3.5" />
-                <span>{isInCart ? 'In Cart' : 'Add'}</span>
-              </CardOverlayButton>
-            )}
             <CardOverlayButton
               onClick={(e) => {
                 e.stopPropagation();
@@ -216,19 +197,6 @@ export default function EnhancedAnimationCard({
             >
               <Download className="h-3.5 w-3.5" />
               <span>{isDownloading ? 'Downloading...' : 'Download'}</span>
-            </CardOverlayButton>
-          </div>
-          
-          {/* Secondary Actions Row */}
-          <div className="flex gap-2">
-            <CardOverlayButton
-              onClick={(e) => {
-                e.stopPropagation();
-                handleViewDetails();
-              }}
-            >
-              <Eye className="h-3.5 w-3.5" />
-              <span>Preview</span>
             </CardOverlayButton>
             <CardOverlayButton
               onClick={(e) => {
