@@ -1,0 +1,2 @@
+ALTER TABLE public.animations DROP CONSTRAINT animations_thumb_source_check;
+ALTER TABLE public.animations ADD CONSTRAINT animations_thumb_source_check CHECK (thumb_source = ANY (ARRAY['pending','extracted_frame','fallback','uploaded']));
