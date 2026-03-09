@@ -17,6 +17,8 @@ interface VideoPreviewProps {
   debug?: boolean;
   /** Hide the play/expand overlay icon */
   hideOverlay?: boolean;
+  /** Enable mobile autoplay when card is in view (uses IntersectionObserver) */
+  mobileAutoplay?: boolean;
 }
 
 // Track currently playing video - only allow ONE at a time for performance

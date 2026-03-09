@@ -49,9 +49,6 @@ const HeroCarouselCard = memo(function HeroCarouselCard({
         <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-transparent opacity-40 group-hover:opacity-30 transition-opacity pointer-events-none" />
       </div>
 
-      <Badge className="absolute top-3 left-3 z-10 bg-primary/40 text-primary-foreground backdrop-blur-md border border-white/20 shadow-[inset_0_1px_1px_rgba(255,255,255,0.25),0_4px_12px_rgba(0,0,0,0.2)] transition-all duration-200">
-        {animation.category}
-      </Badge>
 
       <div
         className={`absolute bottom-3 left-3 z-10 max-w-[70%] transition-all duration-200 ease-out pointer-events-none ${

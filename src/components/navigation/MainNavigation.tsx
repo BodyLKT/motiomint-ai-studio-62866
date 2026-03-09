@@ -269,6 +269,39 @@ export default function MainNavigation({ onLoginClick, onSignUpClick }: MainNavi
                 {t('nav.pricing')}
               </button>
 
+              {/* Theme Toggle - between Pricing and user menu */}
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="icon" className="h-9 w-9" aria-label="Toggle theme">
+                    <Sun className="h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+                    <Moon className="absolute h-4 w-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="min-w-[150px]">
+                  <DropdownMenuItem
+                    onClick={() => setTheme('light')}
+                    className={`cursor-pointer ${theme === 'light' ? 'bg-accent' : ''}`}
+                  >
+                    <Sun className="mr-2 h-4 w-4" />
+                    <span>Light</span>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    onClick={() => setTheme('dark')}
+                    className={`cursor-pointer ${theme === 'dark' ? 'bg-accent' : ''}`}
+                  >
+                    <Moon className="mr-2 h-4 w-4" />
+                    <span>Dark</span>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    onClick={() => setTheme('system')}
+                    className={`cursor-pointer ${theme === 'system' ? 'bg-accent' : ''}`}
+                  >
+                    <Monitor className="mr-2 h-4 w-4" />
+                    <span>System</span>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+
               {/* User Account Dropdown or Login/SignUp */}
               {user ? (
                 <DropdownMenu>
