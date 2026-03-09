@@ -37,7 +37,8 @@ export default function CategoryGrid({ categories }: CategoryGridProps) {
         const info = CATEGORY_INFO[canonicalCategory as CanonicalCategory] || { 
           description: 'Explore this category', 
           icon: '🎬',
-          count: 'View all'
+          count: 'View all',
+          thumbnailAsset: undefined,
         };
         const thumbSrc = info.thumbnailAsset ? THUMBNAIL_MAP[info.thumbnailAsset] : undefined;
         
