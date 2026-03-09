@@ -45,6 +45,7 @@ const HeroCarouselCard = memo(function HeroCarouselCard({
           isHovering={isHovered}
           className="w-full h-full"
           hideOverlay
+          mobileAutoplay
         />
         <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-transparent opacity-40 group-hover:opacity-30 transition-opacity pointer-events-none" />
       </div>

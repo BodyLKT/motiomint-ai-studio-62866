@@ -62,6 +62,7 @@ export default function VideoPreview({
   thumbSource,
   debug = false,
   hideOverlay = false,
+  mobileAutoplay = false,
 }: VideoPreviewProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -69,9 +70,17 @@ export default function VideoPreview({
   const [isVideoReady, setIsVideoReady] = useState(false);
   const [hasError, setHasError] = useState(false);
   const [isInViewport, setIsInViewport] = useState(false);
+  const [mobileInView, setMobileInView] = useState(false);
+  const mobileDebounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  
+  // Detect touch device
+  const isTouchDevice = typeof window !== 'undefined' && ('ontouchstart' in window || navigator.maxTouchPoints > 0);
   
   // Use external hover if provided, otherwise use internal
   const isHovered = externalHover !== undefined ? externalHover : internalHover;
+  
+  // On mobile with autoplay, treat "in view" as hovered
+  const shouldPlay = isTouchDevice && mobileAutoplay ? mobileInView : isHovered;
 
   // Check if the videoUrl is actually a real video file
   const isValidVideoUrl = isRealVideoUrl(videoUrl);
@@ -114,6 +123,31 @@ export default function VideoPreview({
 
     return () => observer.disconnect();
   }, [isValidVideoUrl, videoUrl]);
+
+  // Mobile autoplay: observe with high threshold to find "most centered" card
+  useEffect(() => {
+    if (!mobileAutoplay || !isTouchDevice || !isValidVideoUrl || !containerRef.current) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          // Debounce to prevent thrashing during fast scrolling
+          if (mobileDebounceRef.current) clearTimeout(mobileDebounceRef.current);
+          mobileDebounceRef.current = setTimeout(() => {
+            setMobileInView(entry.isIntersecting && entry.intersectionRatio >= 0.6);
+          }, 150);
+        });
+      },
+      { threshold: [0, 0.3, 0.6, 0.8, 1.0] }
+    );
+
+    observer.observe(containerRef.current);
+
+    return () => {
+      observer.disconnect();
+      if (mobileDebounceRef.current) clearTimeout(mobileDebounceRef.current);
+    };
+  }, [mobileAutoplay, isTouchDevice, isValidVideoUrl]);
 
   // Handle video loaded
   const handleVideoLoaded = useCallback(() => {
@@ -172,14 +206,14 @@ export default function VideoPreview({
     setInternalHover(false);
   }, [externalHover]);
 
-  // Control video playback based on hover state
+  // Control video playback based on hover state OR mobile in-view state
   useEffect(() => {
-    if (isHovered && isInViewport && isVideoReady) {
+    if (shouldPlay && isInViewport && isVideoReady) {
       playVideo();
-    } else if (!isHovered) {
+    } else if (!shouldPlay) {
       pauseVideo();
     }
-  }, [isHovered, isInViewport, isVideoReady, playVideo, pauseVideo]);
+  }, [shouldPlay, isInViewport, isVideoReady, playVideo, pauseVideo]);
 
   // Cleanup on unmount
   useEffect(() => {
@@ -190,7 +224,7 @@ export default function VideoPreview({
     };
   }, []);
 
-  const showVideo = isHovered && isVideoReady && !hasError;
+  const showVideo = shouldPlay && isVideoReady && !hasError;
 
   return (
     <div
