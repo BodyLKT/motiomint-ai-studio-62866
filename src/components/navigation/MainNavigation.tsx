@@ -400,40 +400,7 @@ export default function MainNavigation({ onLoginClick, onSignUpClick }: MainNavi
 
                     <DropdownMenuSeparator className="my-2" />
 
-                    {/* Theme Submenu */}
-                    <DropdownMenuSub>
-                      <DropdownMenuSubTrigger className="cursor-pointer py-2.5 px-2">
-                        <Monitor className="mr-3 h-4 w-4" />
-                        <span className="font-medium">Theme</span>
-                      </DropdownMenuSubTrigger>
-                      <DropdownMenuSubContent 
-                        className="z-[1000] min-w-[180px] bg-popover border border-border/50 shadow-elevated"
-                      >
-                        <DropdownMenuItem
-                          onClick={() => setTheme('light')}
-                          className={`cursor-pointer py-2 px-2 ${theme === 'light' ? 'bg-accent' : ''}`}
-                        >
-                          <Sun className="mr-3 h-4 w-4" />
-                          <span className="font-medium">Light</span>
-                        </DropdownMenuItem>
-                        <DropdownMenuItem
-                          onClick={() => setTheme('dark')}
-                          className={`cursor-pointer py-2 px-2 ${theme === 'dark' ? 'bg-accent' : ''}`}
-                        >
-                          <Moon className="mr-3 h-4 w-4" />
-                          <span className="font-medium">Dark</span>
-                        </DropdownMenuItem>
-                        <DropdownMenuItem
-                          onClick={() => setTheme('system')}
-                          className={`cursor-pointer py-2 px-2 ${theme === 'system' ? 'bg-accent' : ''}`}
-                        >
-                          <Monitor className="mr-3 h-4 w-4" />
-                          <span className="font-medium">System</span>
-                        </DropdownMenuItem>
-                      </DropdownMenuSubContent>
-                    </DropdownMenuSub>
-
-                    <DropdownMenuSeparator className="my-2" />
+                    {/* Theme moved to top nav bar */}
 
                     {/* Log Out */}
                     <DropdownMenuItem 
