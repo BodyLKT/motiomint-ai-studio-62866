@@ -71,13 +71,19 @@ const MotionMintLanding = () => {
   }, []);
 
   // Use the new 4 canonical categories
+  const CATEGORY_THUMBS: Record<string, string> = {
+    'Tech & Digital': techDigitalThumb,
+    'Abstract & Motion Backgrounds': abstractMotionThumb,
+    'Lifestyle & Real World': lifestyleThumb,
+    'Social & UI Hooks': socialUiThumb,
+  };
+
   const categories = CANONICAL_CATEGORIES.map((categoryName) => {
     const info = CATEGORY_INFO[categoryName];
     return {
       title: categoryName,
       description: info.description,
-      image: categoryName.includes('Tech') || categoryName.includes('Abstract') ? techAnimation : fitnessAnimation,
-      video: categoryName.includes('Tech') || categoryName.includes('Abstract') ? techAnimation : fitnessAnimation,
+      image: CATEGORY_THUMBS[categoryName] || techDigitalThumb,
       count: categoryCounts[categoryName] !== undefined ? `${categoryCounts[categoryName]} animations` : info.count,
     };
   });
