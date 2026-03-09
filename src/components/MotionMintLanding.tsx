@@ -28,7 +28,6 @@ import { SignUpModal } from '@/components/auth/SignUpModal';
 import { ModernVideoPlayer } from '@/components/ui/ModernVideoPlayer';
 import { HeroCarouselGrid } from '@/components/ui/HeroCarouselGrid';
 import MainNavigation from '@/components/navigation/MainNavigation';
-import VideoPreview from '@/components/ui/VideoPreview';
 import heroImage from '@/assets/hero-bg.jpg';
 import techDigitalThumb from '@/assets/category-thumbnails/tech-digital.png';
 import abstractMotionThumb from '@/assets/category-thumbnails/abstract-motion.png';
