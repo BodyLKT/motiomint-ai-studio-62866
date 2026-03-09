@@ -70,30 +70,35 @@ export const CATEGORY_INFO: Record<CanonicalCategory, {
   icon: string;
   count: string;
   oldCategories: string[];
+  thumbnailAsset?: string;
 }> = {
   'Tech & Digital': {
     description: 'Holographic interfaces, AI visuals, fintech charts, dashboard elements, and corporate motion graphics',
     icon: '🚀',
     count: '215+ animations',
     oldCategories: ['Tech & Futuristic', 'Business & Finance'],
+    thumbnailAsset: 'tech-digital',
   },
   'Abstract & Motion Backgrounds': {
     description: 'Flowing shapes, particles, gradient motions, mesh patterns, and looping background animations',
     icon: '✨',
     count: '200+ animations',
     oldCategories: ['Abstract Backgrounds'],
+    thumbnailAsset: 'abstract-motion',
   },
   'Lifestyle & Real World': {
     description: 'Fitness graphics, health metrics, travel routes, nature elements, and wellness animations',
     icon: '🌍',
     count: '195+ animations',
     oldCategories: ['Fitness & Lifestyle', 'Travel & Nature'],
+    thumbnailAsset: 'lifestyle-real-world',
   },
   'Social & UI Hooks': {
     description: 'Attention-grabbing intros, transitions, UI elements, loaders, and viral-ready hooks',
     icon: '📱',
     count: '150+ animations',
     oldCategories: ['Social Media Hooks'],
+    thumbnailAsset: 'social-ui-hooks',
   },
 };
 

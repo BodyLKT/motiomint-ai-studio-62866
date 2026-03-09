@@ -28,10 +28,11 @@ import { SignUpModal } from '@/components/auth/SignUpModal';
 import { ModernVideoPlayer } from '@/components/ui/ModernVideoPlayer';
 import { HeroCarouselGrid } from '@/components/ui/HeroCarouselGrid';
 import MainNavigation from '@/components/navigation/MainNavigation';
-import VideoPreview from '@/components/ui/VideoPreview';
 import heroImage from '@/assets/hero-bg.jpg';
-import techAnimation from '@/assets/tech-animation.jpg';
-import fitnessAnimation from '@/assets/fitness-animation.jpg';
+import techDigitalThumb from '@/assets/category-thumbnails/tech-digital.png';
+import abstractMotionThumb from '@/assets/category-thumbnails/abstract-motion.png';
+import lifestyleThumb from '@/assets/category-thumbnails/lifestyle-real-world.png';
+import socialUiThumb from '@/assets/category-thumbnails/social-ui-hooks.png';
 import { BackToTop } from '@/components/ui/BackToTop';
 import { CANONICAL_CATEGORIES, CATEGORY_INFO, getCategorySlug, REVERSE_CATEGORY_MAPPING, type CanonicalCategory } from '@/lib/categoryMapping';
 import { supabase } from '@/integrations/supabase/client';
@@ -69,13 +70,19 @@ const MotionMintLanding = () => {
   }, []);
 
   // Use the new 4 canonical categories
+  const CATEGORY_THUMBS: Record<string, string> = {
+    'Tech & Digital': techDigitalThumb,
+    'Abstract & Motion Backgrounds': abstractMotionThumb,
+    'Lifestyle & Real World': lifestyleThumb,
+    'Social & UI Hooks': socialUiThumb,
+  };
+
   const categories = CANONICAL_CATEGORIES.map((categoryName) => {
     const info = CATEGORY_INFO[categoryName];
     return {
       title: categoryName,
       description: info.description,
-      image: categoryName.includes('Tech') || categoryName.includes('Abstract') ? techAnimation : fitnessAnimation,
-      video: categoryName.includes('Tech') || categoryName.includes('Abstract') ? techAnimation : fitnessAnimation,
+      image: CATEGORY_THUMBS[categoryName] || techDigitalThumb,
       count: categoryCounts[categoryName] !== undefined ? `${categoryCounts[categoryName]} animations` : info.count,
     };
   });
@@ -260,11 +267,11 @@ const MotionMintLanding = () => {
               >
                 {/* Image Container with Overlay */}
                 <div className="relative aspect-[4/5] overflow-hidden">
-                  <VideoPreview
-                    thumbnailUrl={category.image}
-                    videoUrl={category.video}
+                  <img
+                    src={category.image}
                     alt={category.title}
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    loading="lazy"
                   />
                   {/* Gradient Overlay */}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
