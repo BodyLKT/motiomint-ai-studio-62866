@@ -268,11 +268,11 @@ const MotionMintLanding = () => {
               >
                 {/* Image Container with Overlay */}
                 <div className="relative aspect-[4/5] overflow-hidden">
-                  <VideoPreview
-                    thumbnailUrl={category.image}
-                    videoUrl={category.video}
+                  <img
+                    src={category.image}
                     alt={category.title}
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    loading="lazy"
                   />
                   {/* Gradient Overlay */}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
