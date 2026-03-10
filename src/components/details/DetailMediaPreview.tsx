@@ -249,7 +249,7 @@ export default function DetailMediaPreview({
         </div>
 
         {/* Debug info - only visible in dev */}
-        {process.env.NODE_ENV === 'development' && (
+        {import.meta.env.DEV && (
           <div className="absolute top-4 left-4 text-[9px] bg-black/80 text-white p-1 rounded font-mono">
             <div>Source: {thumbSource || 'legacy'}</div>
             <div>Status: {thumbStatus || 'n/a'}</div>

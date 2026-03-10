@@ -28,7 +28,7 @@ export const ModernVideoPlayer = ({ open, onClose, videoUrl, title, resolution }
   const [isMuted, setIsMuted] = useState(false);
   const [showControls, setShowControls] = useState(true);
   const [videoRatio, setVideoRatio] = useState<string>(() => parseResolution(resolution));
-  const hideControlsTimeout = useRef<NodeJS.Timeout>();
+  const hideControlsTimeout = useRef<ReturnType<typeof setTimeout>>();
 
   // Update ratio when resolution prop changes
   useEffect(() => {
