@@ -44,18 +44,18 @@ export default function CategoryGrid({ categories }: CategoryGridProps) {
         
         return (
           <Link key={categoryName} to={`/category/${getCategorySlug(canonicalCategory)}`}>
-            <Card className="group relative overflow-hidden rounded-xl hover:shadow-xl transition-all duration-300 border-primary/20 hover:border-primary/40 h-full aspect-[4/5]">
+            <Card className="group relative overflow-hidden rounded-xl hover:shadow-xl transition-shadow duration-300 border-primary/20 hover:border-primary/40 h-full aspect-[4/5] will-change-transform" style={{ borderRadius: '0.75rem' }}>
               {/* Thumbnail background */}
               {thumbSrc && (
                 <img
                   src={thumbSrc}
                   alt={`${canonicalCategory} category`}
-                  className="absolute inset-0 w-full h-full object-cover"
+                  className="absolute inset-0 w-full h-full object-cover rounded-xl"
                   loading="lazy"
                 />
               )}
               {/* Gradient overlay for text readability */}
-              <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent rounded-xl" />
 
               <CardContent className="relative z-10 flex flex-col justify-end h-full p-5">
                 <Badge variant="secondary" className="self-start mb-3 text-xs bg-background/40 backdrop-blur-sm border-primary/20">
