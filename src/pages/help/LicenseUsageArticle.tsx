@@ -1378,11 +1378,360 @@ export default function LicenseUsageArticle() {
       icon: Shield,
       content: (
         <div className="space-y-8">
+          {/* Overview */}
           <div className="prose prose-slate dark:prose-invert max-w-none">
-            <p className="text-lg text-muted-foreground">
-              Placeholder for Copyright Claims article. Content coming soon.
+            <h2 className="text-2xl font-bold mb-4">Overview</h2>
+            <p className="text-muted-foreground leading-relaxed">
+              Motiomint respects intellectual property rights and responds to valid copyright complaints relating to content made available through the platform. This includes motion assets, animation previews, thumbnails, metadata, and other platform content where applicable. This page describes how copyright complaints are handled, how to submit a notice, and what to expect from the process.
             </p>
           </div>
+
+          {/* Scope */}
+          <div className="prose prose-slate dark:prose-invert max-w-none">
+            <h2 className="text-2xl font-bold mb-4">Scope of This Policy</h2>
+            <p className="text-muted-foreground leading-relaxed">
+              This page covers copyright complaints and DMCA-style notices directed at content accessible through the Motiomint platform. Other types of claims — including trademark disputes, privacy complaints, impersonation, or defamation — fall outside the primary scope of this page and should be directed to the appropriate channel via{' '}
+              <Link to="/help/contact-support/submit-request" className="text-primary hover:underline">Submit a Request</Link>.
+            </p>
+          </div>
+
+          {/* International Copyright Baseline */}
+          <div className="prose prose-slate dark:prose-invert max-w-none">
+            <h2 className="text-2xl font-bold mb-4">International Copyright Baseline</h2>
+            <ul className="space-y-3 text-muted-foreground">
+              <li className="flex items-start gap-2">
+                <AlertCircle className="w-4 h-4 text-primary mt-1 flex-shrink-0" />
+                <span>Copyright protection is generally automatic and does not depend on formal registration in many countries.</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <AlertCircle className="w-4 h-4 text-primary mt-1 flex-shrink-0" />
+                <span>Copyright rules and available remedies can vary by jurisdiction. The law of the country where protection is claimed may govern the available remedies.</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <AlertCircle className="w-4 h-4 text-primary mt-1 flex-shrink-0" />
+                <span>This policy is designed to align with major international copyright frameworks relevant to digital platforms, including Berne Convention / WIPO principles, the WIPO Copyright Treaty for digital works, the U.S. Digital Millennium Copyright Act (DMCA) framework, and EU platform notice-and-action expectations.</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <AlertCircle className="w-4 h-4 text-primary mt-1 flex-shrink-0" />
+                <span>This page does not alone guarantee compliance in every jurisdiction. Motiomint reviews its policies periodically and updates them as needed.</span>
+              </li>
+            </ul>
+          </div>
+
+          {/* Motiomint Content and Licensing Position */}
+          <div className="prose prose-slate dark:prose-invert max-w-none">
+            <h2 className="text-2xl font-bold mb-4">Motiomint Content and Licensing Position</h2>
+            <p className="text-muted-foreground leading-relaxed mb-4">
+              Motiomint provides licensed motion assets, stock animations, and related previews and supporting asset materials. Use of Motiomint content is governed by the applicable{' '}
+              <Link to="/help/license-usage/license-types" className="text-primary hover:underline">license type</Link>, the{' '}
+              <Link to="/terms-of-service" className="text-primary hover:underline">Terms of Service</Link>, and any category-specific restrictions.
+            </p>
+            <Alert>
+              <AlertCircle className="h-4 w-4" />
+              <AlertDescription>
+                Users may not upload, submit, distribute, request, or use infringing material through Motiomint features, workflows, or support channels.
+              </AlertDescription>
+            </Alert>
+          </div>
+
+          {/* What Rights Holders Can Report */}
+          <div className="prose prose-slate dark:prose-invert max-w-none">
+            <h2 className="text-2xl font-bold mb-4">What Rights Holders Can Report</h2>
+            <p className="text-muted-foreground leading-relaxed mb-4">
+              The following types of copyright issues may be reported:
+            </p>
+            <ul className="space-y-2 text-muted-foreground ml-4">
+              <li className="flex items-start gap-2">
+                <Shield className="w-4 h-4 text-primary mt-1 flex-shrink-0" />
+                <span>Unauthorized use of copyrighted animation or video content</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <Shield className="w-4 h-4 text-primary mt-1 flex-shrink-0" />
+                <span>Unauthorized copies of thumbnails or previews</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <Shield className="w-4 h-4 text-primary mt-1 flex-shrink-0" />
+                <span>Unlicensed redistribution of Motiomint-hosted content</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <Shield className="w-4 h-4 text-primary mt-1 flex-shrink-0" />
+                <span>Allegedly infringing user-submitted or platform-submitted materials, where applicable</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <Shield className="w-4 h-4 text-primary mt-1 flex-shrink-0" />
+                <span>Metadata or support materials that reproduce copyrighted works without permission</span>
+              </li>
+            </ul>
+          </div>
+
+          {/* How to Submit a Copyright Notice */}
+          <Card className="border-2">
+            <CardHeader>
+              <div className="flex items-center gap-3">
+                <div className="p-2 rounded-lg bg-primary/10 text-primary">
+                  <FileText className="w-6 h-6" />
+                </div>
+                <div>
+                  <CardTitle className="text-xl">How to Submit a Copyright Notice</CardTitle>
+                  <CardDescription>All copyright notices must include the following information</CardDescription>
+                </div>
+              </div>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <ul className="space-y-3 text-muted-foreground">
+                <li className="flex items-start gap-2">
+                  <Check className="w-4 h-4 text-green-500 mt-1 flex-shrink-0" />
+                  <span>Full name of the claimant or authorized representative</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <Check className="w-4 h-4 text-green-500 mt-1 flex-shrink-0" />
+                  <span>Company name, if applicable</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <Check className="w-4 h-4 text-green-500 mt-1 flex-shrink-0" />
+                  <span>Email address and other contact information</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <Check className="w-4 h-4 text-green-500 mt-1 flex-shrink-0" />
+                  <span>Identification of the copyrighted work claimed to be infringed (e.g., title, registration number, or description)</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <Check className="w-4 h-4 text-green-500 mt-1 flex-shrink-0" />
+                  <span>URL(s) or exact location(s) of the allegedly infringing material on Motiomint</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <Check className="w-4 h-4 text-green-500 mt-1 flex-shrink-0" />
+                  <span>Supporting details sufficient for Motiomint to locate and assess the material</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <Check className="w-4 h-4 text-green-500 mt-1 flex-shrink-0" />
+                  <span>A good-faith statement that the use of the material is not authorized by the copyright owner, its agent, or the law</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <Check className="w-4 h-4 text-green-500 mt-1 flex-shrink-0" />
+                  <span>A statement that the information in the notice is accurate, and that the claimant is authorized to act on behalf of the copyright owner</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <Check className="w-4 h-4 text-green-500 mt-1 flex-shrink-0" />
+                  <span>Physical or electronic signature of the claimant or authorized representative</span>
+                </li>
+              </ul>
+              <p className="text-sm text-muted-foreground mt-4">
+                Notices should be sent to{' '}
+                <a href="mailto:legal@motiomint.com" className="text-primary hover:underline">legal@motiomint.com</a>{' '}
+                or submitted via{' '}
+                <Link to="/help/contact-support/submit-request" className="text-primary hover:underline">Submit a Request</Link>.
+              </p>
+            </CardContent>
+          </Card>
+
+          {/* DMCA Notices for U.S.-Related Claims */}
+          <div className="prose prose-slate dark:prose-invert max-w-none">
+            <h2 className="text-2xl font-bold mb-4">DMCA Notices for U.S.-Related Claims</h2>
+            <p className="text-muted-foreground leading-relaxed mb-4">
+              If a claimant is submitting a notice under the U.S. Digital Millennium Copyright Act (17 U.S.C. § 512), the notice must include the elements required for an effective Section 512(c)(3) notification:
+            </p>
+            <Card className="border border-border">
+              <CardContent className="pt-6 space-y-3">
+                <ul className="space-y-2 text-muted-foreground">
+                  <li className="flex items-start gap-2">
+                    <span className="font-semibold text-foreground min-w-[20px]">1.</span>
+                    <span>A physical or electronic signature of the person authorized to act on behalf of the owner of the copyright interest.</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="font-semibold text-foreground min-w-[20px]">2.</span>
+                    <span>Identification of the copyrighted work claimed to have been infringed.</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="font-semibold text-foreground min-w-[20px]">3.</span>
+                    <span>Identification of the material that is claimed to be infringing and information sufficient to permit Motiomint to locate the material (e.g., specific URLs).</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="font-semibold text-foreground min-w-[20px]">4.</span>
+                    <span>Contact information for the complaining party, including address, telephone number, and email address.</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="font-semibold text-foreground min-w-[20px]">5.</span>
+                    <span>A statement that the complaining party has a good-faith belief that the use of the material is not authorized by the copyright owner, its agent, or the law.</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="font-semibold text-foreground min-w-[20px]">6.</span>
+                    <span>A statement that the information in the notification is accurate, and under penalty of perjury, that the complaining party is authorized to act on behalf of the copyright owner.</span>
+                  </li>
+                </ul>
+              </CardContent>
+            </Card>
+            <p className="text-muted-foreground leading-relaxed mt-4">
+              Upon receipt of a sufficiently complete DMCA notice, Motiomint may remove or disable access to the material identified in the notice and may notify the affected user or content source as appropriate.
+            </p>
+            {/* Admin note: Publish designated-agent details on the site and register / keep updated the designated agent in the U.S. Copyright Office DMCA directory before treating the site as having a formal DMCA agent workflow. */}
+            <Alert className="mt-4">
+              <AlertCircle className="h-4 w-4" />
+              <AlertDescription>
+                DMCA notices should be sent to Motiomint's designated agent at{' '}
+                <a href="mailto:legal@motiomint.com" className="text-primary hover:underline">legal@motiomint.com</a>.
+              </AlertDescription>
+            </Alert>
+          </div>
+
+          {/* Counter-Notice Process */}
+          <div className="prose prose-slate dark:prose-invert max-w-none">
+            <h2 className="text-2xl font-bold mb-4">Counter-Notice Process</h2>
+            <p className="text-muted-foreground leading-relaxed mb-4">
+              If you believe that material you provided or are associated with was removed or disabled by mistake or misidentification, you may submit a counter-notice. A valid counter-notice must include:
+            </p>
+            <ul className="space-y-2 text-muted-foreground ml-4">
+              <li className="flex items-start gap-2">
+                <Check className="w-4 h-4 text-primary mt-1 flex-shrink-0" />
+                <span>Your physical or electronic signature</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <Check className="w-4 h-4 text-primary mt-1 flex-shrink-0" />
+                <span>Identification of the material that was removed or disabled and the location where it appeared before removal</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <Check className="w-4 h-4 text-primary mt-1 flex-shrink-0" />
+                <span>A statement under penalty of perjury that you have a good-faith belief the material was removed or disabled as a result of mistake or misidentification</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <Check className="w-4 h-4 text-primary mt-1 flex-shrink-0" />
+                <span>Your name, address, and telephone number</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <Check className="w-4 h-4 text-primary mt-1 flex-shrink-0" />
+                <span>A statement consenting to the jurisdiction of the federal district court for the judicial district in which your address is located (or, if outside the United States, any judicial district in which Motiomint may be found), and that you will accept service of process from the person who provided the original notice</span>
+              </li>
+            </ul>
+            <p className="text-muted-foreground leading-relaxed mt-4">
+              If Motiomint receives a valid counter-notice, it may restore the material in line with applicable law and platform policy, unless the original claimant confirms that court proceedings have been initiated. Reinstatement timing will follow the requirements of applicable law and Motiomint's operational procedures.
+            </p>
+          </div>
+
+          {/* EU / International Notice-and-Action Handling */}
+          <div className="prose prose-slate dark:prose-invert max-w-none">
+            <h2 className="text-2xl font-bold mb-4">EU / International Notice-and-Action Handling</h2>
+            <p className="text-muted-foreground leading-relaxed mb-4">
+              Motiomint provides a user-friendly reporting path for allegedly illegal or infringing content and will review notices in a timely and diligent manner. Depending on the circumstances, Motiomint may:
+            </p>
+            <ul className="space-y-2 text-muted-foreground ml-4">
+              <li className="flex items-start gap-2">
+                <AlertCircle className="w-4 h-4 text-primary mt-1 flex-shrink-0" />
+                <span>Acknowledge receipt of the notice</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <AlertCircle className="w-4 h-4 text-primary mt-1 flex-shrink-0" />
+                <span>Request additional information from the reporting party</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <AlertCircle className="w-4 h-4 text-primary mt-1 flex-shrink-0" />
+                <span>Remove or disable access to the reported content</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <AlertCircle className="w-4 h-4 text-primary mt-1 flex-shrink-0" />
+                <span>Reject incomplete or unsupported notices</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <AlertCircle className="w-4 h-4 text-primary mt-1 flex-shrink-0" />
+                <span>Take other proportionate measures as required</span>
+              </li>
+            </ul>
+            <p className="text-muted-foreground leading-relaxed mt-4">
+              Where action is taken, Motiomint may provide a reasoned outcome or moderation explanation consistent with platform obligations and operational policy.
+            </p>
+          </div>
+
+          {/* Repeat Infringer / Repeat Abuse Policy */}
+          <div className="prose prose-slate dark:prose-invert max-w-none">
+            <h2 className="text-2xl font-bold mb-4">Repeat Infringer / Repeat Abuse Policy</h2>
+            <p className="text-muted-foreground leading-relaxed mb-3">
+              Motiomint may suspend, restrict, terminate, or refuse access to users or accounts involved in repeated copyright infringement or repeated abusive reporting.
+            </p>
+            <Alert variant="destructive" className="border-destructive/30 bg-destructive/5">
+              <AlertCircle className="h-4 w-4" />
+              <AlertDescription>
+                Knowingly false, misleading, abusive, or bad-faith claims may be rejected and may result in account or access restrictions where appropriate.
+              </AlertDescription>
+            </Alert>
+          </div>
+
+          {/* What Motiomint May Do After Receiving a Notice */}
+          <div className="prose prose-slate dark:prose-invert max-w-none">
+            <h2 className="text-2xl font-bold mb-4">What Motiomint May Do After Receiving a Notice</h2>
+            <p className="text-muted-foreground leading-relaxed mb-4">
+              After receiving a copyright notice, Motiomint may take one or more of the following actions at its discretion:
+            </p>
+            <ul className="space-y-2 text-muted-foreground ml-4">
+              <li className="flex items-start gap-2"><Check className="w-4 h-4 text-primary mt-1 flex-shrink-0" /><span>Request more information from the claimant</span></li>
+              <li className="flex items-start gap-2"><Check className="w-4 h-4 text-primary mt-1 flex-shrink-0" /><span>Temporarily disable access to the reported content</span></li>
+              <li className="flex items-start gap-2"><Check className="w-4 h-4 text-primary mt-1 flex-shrink-0" /><span>Remove content from the platform</span></li>
+              <li className="flex items-start gap-2"><Check className="w-4 h-4 text-primary mt-1 flex-shrink-0" /><span>Restrict downloads or previews for the reported material</span></li>
+              <li className="flex items-start gap-2"><Check className="w-4 h-4 text-primary mt-1 flex-shrink-0" /><span>Notify the relevant user, uploader, licensor, or contributor</span></li>
+              <li className="flex items-start gap-2"><Check className="w-4 h-4 text-primary mt-1 flex-shrink-0" /><span>Preserve records and evidence for internal review</span></li>
+              <li className="flex items-start gap-2"><Check className="w-4 h-4 text-primary mt-1 flex-shrink-0" /><span>Escalate the matter internally</span></li>
+              <li className="flex items-start gap-2"><Check className="w-4 h-4 text-primary mt-1 flex-shrink-0" /><span>Decline incomplete or unsupported notices</span></li>
+            </ul>
+          </div>
+
+          {/* Contact Details */}
+          <Card className="border-2 border-primary/30">
+            <CardHeader>
+              <CardTitle className="text-xl">Contact Details</CardTitle>
+              <CardDescription>For copyright notices and related legal inquiries</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4 text-muted-foreground">
+              <div className="grid gap-3 sm:grid-cols-2">
+                <div>
+                  <p className="font-medium text-foreground text-sm mb-1">Copyright / Legal Notices</p>
+                  <a href="mailto:legal@motiomint.com" className="text-primary hover:underline">legal@motiomint.com</a>
+                </div>
+                <div>
+                  <p className="font-medium text-foreground text-sm mb-1">General Support</p>
+                  <a href="mailto:support@motiomint.com" className="text-primary hover:underline">support@motiomint.com</a>
+                </div>
+              </div>
+              <p className="text-sm">
+                You can also reach us through{' '}
+                <Link to="/help/contact-support/submit-request" className="text-primary hover:underline">Submit a Request</Link>{' '}
+                or visit our{' '}
+                <Link to="/contact" className="text-primary hover:underline">Contact page</Link>.
+              </p>
+            </CardContent>
+          </Card>
+
+          {/* Important Limitation Language */}
+          <Alert>
+            <AlertCircle className="h-4 w-4" />
+            <AlertDescription className="space-y-2">
+              <p><strong>Important:</strong></p>
+              <ul className="list-disc list-inside space-y-1 text-sm">
+                <li>This article is for platform policy and procedural guidance only.</li>
+                <li>It is not a contract override and does not replace the{' '}
+                  <Link to="/terms-of-service" className="text-primary hover:underline">Terms of Service</Link>{' '}
+                  or applicable{' '}
+                  <Link to="/help/license-usage/license-types" className="text-primary hover:underline">license terms</Link>.
+                </li>
+                <li>Local law may apply depending on jurisdiction and the location where protection is claimed.</li>
+              </ul>
+            </AlertDescription>
+          </Alert>
+
+          {/* Related Articles */}
+          <div className="prose prose-slate dark:prose-invert max-w-none">
+            <h3 className="text-lg font-semibold mb-3">Related Articles</h3>
+            <ul className="space-y-2 text-muted-foreground">
+              <li><Link to="/help/license-usage/license-types" className="text-primary hover:underline">License Types</Link></li>
+              <li><Link to="/help/license-usage/commercial-use" className="text-primary hover:underline">Commercial Use</Link></li>
+              <li><Link to="/help/license-usage/attribution-requirements" className="text-primary hover:underline">Attribution Requirements</Link></li>
+              <li><Link to="/terms-of-service" className="text-primary hover:underline">Terms of Service</Link></li>
+              <li><Link to="/privacy-policy" className="text-primary hover:underline">Privacy Policy</Link></li>
+              <li><Link to="/help/contact-support/submit-request" className="text-primary hover:underline">Submit a Request</Link></li>
+            </ul>
+          </div>
+
+          {/* Last Updated */}
+          <p className="text-xs text-muted-foreground text-right border-t border-border pt-4">
+            Last updated: 19 March 2026
+          </p>
         </div>
       ),
     },
