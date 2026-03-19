@@ -17,6 +17,7 @@ import VideoDetailsPage from "./pages/VideoDetailsPage";
 import SimilarAnimations from "./pages/SimilarAnimations";
 import SearchResults from "./pages/SearchResults";
 import HelpCenter from "./pages/HelpCenter";
+import HelpCategoryPage from "./pages/HelpCategoryPage";
 import GettingStartedArticle from "./pages/help/GettingStartedArticle";
 import SubscriptionBillingArticle from "./pages/help/SubscriptionBillingArticle";
 import LicenseUsageArticle from "./pages/help/LicenseUsageArticle";
@@ -51,6 +52,7 @@ const App = () => (
               <Route path="/about" element={<About />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/help" element={<HelpCenter />} />
+              <Route path="/help/:categorySlug" element={<HelpCategoryPage />} />
               <Route path="/help/getting-started/:slug" element={<GettingStartedArticle />} />
               <Route path="/help/subscription-billing/:slug" element={<SubscriptionBillingArticle />} />
               <Route path="/help/license-usage/:slug" element={<LicenseUsageArticle />} />
