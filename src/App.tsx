@@ -17,6 +17,7 @@ import VideoDetailsPage from "./pages/VideoDetailsPage";
 import SimilarAnimations from "./pages/SimilarAnimations";
 import SearchResults from "./pages/SearchResults";
 import HelpCenter from "./pages/HelpCenter";
+import HelpCategoryPage from "./pages/HelpCategoryPage";
 import GettingStartedArticle from "./pages/help/GettingStartedArticle";
 import SubscriptionBillingArticle from "./pages/help/SubscriptionBillingArticle";
 import LicenseUsageArticle from "./pages/help/LicenseUsageArticle";
