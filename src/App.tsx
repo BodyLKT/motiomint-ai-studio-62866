@@ -52,6 +52,7 @@ const App = () => (
               <Route path="/about" element={<About />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/help" element={<HelpCenter />} />
+              <Route path="/help/:categorySlug" element={<HelpCategoryPage />} />
               <Route path="/help/getting-started/:slug" element={<GettingStartedArticle />} />
               <Route path="/help/subscription-billing/:slug" element={<SubscriptionBillingArticle />} />
               <Route path="/help/license-usage/:slug" element={<LicenseUsageArticle />} />
