@@ -54,7 +54,7 @@ export const Footer = () => {
               <p className="text-xs text-muted-foreground mb-2">
                 © 2025 MotioMint
               </p>
-              <p className="text-xs text-muted-foreground/70 leading-relaxed">
+              <p className="text-xs text-muted-foreground leading-relaxed">
                 MotioMint is not affiliated with or endorsed by Canva, CapCut, VEED, or any other third-party editor 
                 mentioned on this site. All trademarks are the property of their respective owners.
               </p>

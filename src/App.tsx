@@ -43,48 +43,50 @@ const App = () => (
           <Toaster />
           <Sonner />
           <BrowserRouter>
-            <Routes>
-              <Route path="/" element={<Index />} />
-              <Route path="/pricing" element={<PricingPage />} />
-              <Route path="/checkout" element={<CheckoutPage />} />
-              <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-              <Route path="/terms-of-service" element={<TermsOfService />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/contact" element={<Contact />} />
-              <Route path="/help" element={<HelpCenter />} />
-              <Route path="/help/:categorySlug" element={<HelpCategoryPage />} />
-              <Route path="/help/getting-started/:slug" element={<GettingStartedArticle />} />
-              <Route path="/help/subscription-billing/:slug" element={<SubscriptionBillingArticle />} />
-              <Route path="/help/license-usage/:slug" element={<LicenseUsageArticle />} />
-              <Route path="/help/contact-support/:slug" element={<ContactSupportArticle />} />
-              <Route path="/help/community/:slug" element={<CommunityArticle />} />
-              <Route path="/help/terms-policies/:slug" element={<TermsArticle />} />
-              <Route
-                path="/dashboard" 
-                element={
-                  <ProtectedRoute>
-                    <Dashboard />
-                  </ProtectedRoute>
-                } 
-              />
-              {/* Category page handles both old and new category URLs */}
-              <Route path="/category/:category" element={<CategoryPage />} />
-              <Route path="/animation/:id" element={<VideoDetailsPage />} />
-              <Route path="/similar/:id" element={<SimilarAnimations />} />
-              <Route path="/search" element={<SearchResults />} />
-              <Route 
-                path="/admin/thumbnails" 
-                element={
-                  <ProtectedRoute>
-                    <AdminThumbnails />
-                  </ProtectedRoute>
-                } 
-              />
-              <Route path="/forgot-password" element={<ForgotPassword />} />
-              <Route path="/reset-password" element={<ResetPassword />} />
-              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-              <Route path="*" element={<NotFound />} />
-            </Routes>
+            <main>
+              <Routes>
+                <Route path="/" element={<Index />} />
+                <Route path="/pricing" element={<PricingPage />} />
+                <Route path="/checkout" element={<CheckoutPage />} />
+                <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+                <Route path="/terms-of-service" element={<TermsOfService />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/contact" element={<Contact />} />
+                <Route path="/help" element={<HelpCenter />} />
+                <Route path="/help/:categorySlug" element={<HelpCategoryPage />} />
+                <Route path="/help/getting-started/:slug" element={<GettingStartedArticle />} />
+                <Route path="/help/subscription-billing/:slug" element={<SubscriptionBillingArticle />} />
+                <Route path="/help/license-usage/:slug" element={<LicenseUsageArticle />} />
+                <Route path="/help/contact-support/:slug" element={<ContactSupportArticle />} />
+                <Route path="/help/community/:slug" element={<CommunityArticle />} />
+                <Route path="/help/terms-policies/:slug" element={<TermsArticle />} />
+                <Route
+                  path="/dashboard" 
+                  element={
+                    <ProtectedRoute>
+                      <Dashboard />
+                    </ProtectedRoute>
+                  } 
+                />
+                {/* Category page handles both old and new category URLs */}
+                <Route path="/category/:category" element={<CategoryPage />} />
+                <Route path="/animation/:id" element={<VideoDetailsPage />} />
+                <Route path="/similar/:id" element={<SimilarAnimations />} />
+                <Route path="/search" element={<SearchResults />} />
+                <Route 
+                  path="/admin/thumbnails" 
+                  element={
+                    <ProtectedRoute>
+                      <AdminThumbnails />
+                    </ProtectedRoute>
+                  } 
+                />
+                <Route path="/forgot-password" element={<ForgotPassword />} />
+                <Route path="/reset-password" element={<ResetPassword />} />
+                {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </main>
           </BrowserRouter>
         </TooltipProvider>
       </AuthProvider>

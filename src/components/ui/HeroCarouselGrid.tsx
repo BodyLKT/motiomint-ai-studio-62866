@@ -305,13 +305,15 @@ export const HeroCarouselGrid = () => {
               key={index}
               onClick={() => handleDotClick(index)}
               onMouseEnter={handleMouseEnter}
-              className={`h-2 rounded-full transition-all duration-300 ${
+              className={`relative flex items-center justify-center min-w-[24px] min-h-[24px] rounded-full transition-all duration-300`}
+              aria-label={`Go to page ${index + 1}`}
+            >
+              <span className={`block h-2 rounded-full transition-all duration-300 ${
                 index === currentPage
                   ? 'bg-primary w-8'
                   : 'bg-muted-foreground/30 hover:bg-muted-foreground/50 w-2'
-              }`}
-              aria-label={`Go to page ${index + 1}`}
-            />
+              }`} />
+            </button>
           ))}
         </div>
       )}
