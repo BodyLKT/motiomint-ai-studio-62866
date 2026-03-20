@@ -4,6 +4,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { useState } from 'react';
+import { BrandLockup } from '@/components/BrandLockup';
 import { useTranslation } from 'react-i18next';
 
 export const Footer = () => {
