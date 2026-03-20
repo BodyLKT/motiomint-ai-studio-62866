@@ -172,12 +172,7 @@ export default function MainNavigation({ onLoginClick, onSignUpClick }: MainNavi
           {/* Desktop Layout */}
           <div className="hidden lg:flex items-center justify-between gap-6">
             {/* Logo - Left */}
-            <button
-              onClick={handleLogoClick}
-              className="font-bold text-2xl gradient-text hover:opacity-80 transition-opacity whitespace-nowrap flex-shrink-0"
-            >
-              motiomint
-            </button>
+            <BrandLockup size="md" onClick={handleLogoClick} />
 
             {/* Desktop Menu - Center/Left */}
             <div className="flex items-center gap-6">
