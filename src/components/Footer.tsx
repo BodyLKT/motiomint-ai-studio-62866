@@ -62,7 +62,7 @@ export const Footer = () => {
 
             {/* Column 2 - Product */}
             <div>
-              <h4 className="font-semibold mb-3 text-foreground">Product</h4>
+              <h4 className="font-semibold mb-3 text-foreground dark:text-accent">Product</h4>
               <ul className="space-y-2 text-sm text-muted-foreground">
                 <li>
                   <button onClick={() => navigate('/dashboard')} className="hover:text-foreground transition-colors">
