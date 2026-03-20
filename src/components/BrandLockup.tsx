@@ -14,9 +14,9 @@ export function BrandLockup({ size = 'md', onClick, className }: BrandLockupProp
   const isDark = resolvedTheme === 'dark';
 
   const sizeMap = {
-    sm: { logo: 'h-6 w-6', text: 'text-lg' },
-    md: { logo: 'h-7 w-7', text: 'text-2xl' },
-    lg: { logo: 'h-8 w-8', text: 'text-2xl' },
+    sm: { logo: 'h-7 w-7', text: 'text-lg' },
+    md: { logo: 'h-9 w-9', text: 'text-xl' },
+    lg: { logo: 'h-10 w-10', text: 'text-2xl' },
   };
 
   const s = sizeMap[size];
@@ -38,11 +38,14 @@ export function BrandLockup({ size = 'md', onClick, className }: BrandLockupProp
         className={cn(
           s.text,
           'font-bold tracking-tight whitespace-nowrap',
-          'font-[Righteous]',
-          isDark
-            ? 'text-[#2ed577]'
-            : 'text-[#6f0dd1]'
+          'bg-clip-text text-transparent'
         )}
+        style={{
+          fontFamily: "'MuseoModerno', sans-serif",
+          backgroundImage: isDark
+            ? 'linear-gradient(135deg, #2ed577, #6f0dd1)'
+            : 'linear-gradient(135deg, #6f0dd1, #2ed577)',
+        }}
       >
         motiomint
       </span>
