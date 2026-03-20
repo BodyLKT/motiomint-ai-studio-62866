@@ -432,12 +432,7 @@ export default function MainNavigation({ onLoginClick, onSignUpClick }: MainNavi
           {/* Mobile/Tablet Layout */}
           <div className="lg:hidden">
             <div className="flex items-center justify-between">
-              <button
-                onClick={handleLogoClick}
-                className="font-bold text-xl gradient-text hover:opacity-80 transition-opacity"
-              >
-                motiomint
-              </button>
+              <BrandLockup size="sm" onClick={handleLogoClick} />
               
               <div className="flex items-center gap-2">
                 <Button
