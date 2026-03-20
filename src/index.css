@@ -256,10 +256,10 @@
   /* Animated Gradient Background */
   .animated-gradient {
     background: linear-gradient(-45deg, 
-      hsl(270 91% 65% / 0.1), 
-      hsl(189 94% 57% / 0.1), 
-      hsl(270 91% 65% / 0.05), 
-      hsl(189 94% 57% / 0.15)
+      hsl(270 89% 44% / 0.1), 
+      hsl(217 89% 69% / 0.1), 
+      hsl(270 89% 44% / 0.05), 
+      hsl(217 89% 69% / 0.15)
     );
     background-size: 400% 400%;
     animation: gradient-shift 8s ease infinite;
