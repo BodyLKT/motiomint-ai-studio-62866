@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { BrandLockup } from '@/components/BrandLockup';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
@@ -171,12 +172,7 @@ export default function MainNavigation({ onLoginClick, onSignUpClick }: MainNavi
           {/* Desktop Layout */}
           <div className="hidden lg:flex items-center justify-between gap-6">
             {/* Logo - Left */}
-            <button
-              onClick={handleLogoClick}
-              className="font-bold text-2xl gradient-text hover:opacity-80 transition-opacity whitespace-nowrap flex-shrink-0"
-            >
-              motiomint
-            </button>
+            <BrandLockup size="md" onClick={handleLogoClick} />
 
             {/* Desktop Menu - Center/Left */}
             <div className="flex items-center gap-6">
@@ -436,12 +432,7 @@ export default function MainNavigation({ onLoginClick, onSignUpClick }: MainNavi
           {/* Mobile/Tablet Layout */}
           <div className="lg:hidden">
             <div className="flex items-center justify-between">
-              <button
-                onClick={handleLogoClick}
-                className="font-bold text-xl gradient-text hover:opacity-80 transition-opacity"
-              >
-                motiomint
-              </button>
+              <BrandLockup size="sm" onClick={handleLogoClick} />
               
               <div className="flex items-center gap-2">
                 <Button

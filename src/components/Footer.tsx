@@ -4,6 +4,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { useState } from 'react';
+import { BrandLockup } from '@/components/BrandLockup';
 import { useTranslation } from 'react-i18next';
 
 export const Footer = () => {
@@ -44,8 +45,8 @@ export const Footer = () => {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12 max-w-6xl mx-auto">
             {/* Column 1 - Brand */}
             <div className="col-span-2 md:col-span-1">
-              <div className="font-bold text-2xl gradient-text mb-3">
-                motiomint
+              <div className="mb-3">
+                <BrandLockup size="lg" onClick={() => navigate('/')} />
               </div>
               <p className="text-sm text-muted-foreground mb-4">
                 Empowering creators with AI-powered animations.
