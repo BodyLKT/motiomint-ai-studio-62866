@@ -308,7 +308,7 @@ export default function MainNavigation({ onLoginClick, onSignUpClick }: MainNavi
                     >
                       <Avatar className="h-9 w-9">
                         <AvatarImage src="" alt={user.email || "User"} />
-                        <AvatarFallback className="bg-primary text-primary-foreground font-semibold">
+                        <AvatarFallback className="bg-primary text-primary-foreground dark:bg-accent dark:text-accent-foreground font-semibold">
                           {user.email?.charAt(0).toUpperCase() || 'U'}
                         </AvatarFallback>
                       </Avatar>
