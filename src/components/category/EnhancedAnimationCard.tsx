@@ -154,7 +154,7 @@ export default function EnhancedAnimationCard({
         <LiquidGlassIconButton
           className={cn(
             "absolute top-3 right-3 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-200",
-            isFavorite && "bg-primary/50 dark:bg-primary/40 border-primary/50"
+            isFavorite && "bg-primary/50 dark:bg-accent/40 border-primary/50 dark:border-accent/50"
           )}
           onClick={(e) => {
             e.stopPropagation();
