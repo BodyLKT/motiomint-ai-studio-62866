@@ -87,7 +87,7 @@ export default function RealThumbnail({
           <span className="text-xs text-muted-foreground text-center line-clamp-2 font-medium">
             {title}
           </span>
-          <span className="text-[10px] text-muted-foreground/70 mt-1">
+          <span className="text-[10px] text-muted-foreground mt-1">
             Thumbnail pending
           </span>
         </div>

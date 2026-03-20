@@ -193,7 +193,7 @@ export default function DetailMediaPreview({
             <span className="text-sm text-muted-foreground text-center font-medium px-4">
               {title}
             </span>
-            <span className="text-xs text-muted-foreground/70 mt-2">
+            <span className="text-xs text-muted-foreground mt-2">
               Thumbnail pending extraction
             </span>
           </div>
