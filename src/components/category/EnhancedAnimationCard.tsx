@@ -123,7 +123,8 @@ export default function EnhancedAnimationCard({
       className={cn(
         "group relative overflow-hidden rounded-xl border-border/50 bg-card/50 backdrop-blur-sm transition-all duration-300 h-full",
         "hover:border-primary/50 hover:shadow-2xl hover:shadow-primary/20",
-        isHovered && "border-primary/50"
+        "dark:hover:border-accent/50 dark:hover:shadow-accent/20",
+        isHovered && "border-primary/50 dark:border-accent/50"
       )}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
@@ -153,7 +154,7 @@ export default function EnhancedAnimationCard({
         <LiquidGlassIconButton
           className={cn(
             "absolute top-3 right-3 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-200",
-            isFavorite && "bg-primary/50 dark:bg-primary/40 border-primary/50"
+            isFavorite && "bg-primary/50 dark:bg-accent/40 border-primary/50 dark:border-accent/50"
           )}
           onClick={(e) => {
             e.stopPropagation();

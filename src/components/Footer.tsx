@@ -62,7 +62,7 @@ export const Footer = () => {
 
             {/* Column 2 - Product */}
             <div>
-              <h4 className="font-semibold mb-3 text-foreground">Product</h4>
+              <h4 className="font-semibold mb-3 text-foreground dark:text-accent">Product</h4>
               <ul className="space-y-2 text-sm text-muted-foreground">
                 <li>
                   <button onClick={() => navigate('/dashboard')} className="hover:text-foreground transition-colors">
@@ -89,7 +89,7 @@ export const Footer = () => {
 
             {/* Column 3 - Company */}
             <div>
-              <h4 className="font-semibold mb-3 text-foreground">Company</h4>
+              <h4 className="font-semibold mb-3 text-foreground dark:text-accent">Company</h4>
               <ul className="space-y-2 text-sm text-muted-foreground">
                 <li>
                   <button onClick={() => navigate('/about')} className="hover:text-foreground transition-colors">
@@ -116,7 +116,7 @@ export const Footer = () => {
 
             {/* Column 4 - Account */}
             <div>
-              <h4 className="font-semibold mb-3 text-foreground">Account</h4>
+              <h4 className="font-semibold mb-3 text-foreground dark:text-accent">Account</h4>
               <ul className="space-y-2 text-sm text-muted-foreground">
                 <li>
                   <button onClick={() => navigate('/')} className="hover:text-foreground transition-colors">
