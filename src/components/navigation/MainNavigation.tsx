@@ -231,7 +231,7 @@ export default function MainNavigation({ onLoginClick, onSignUpClick }: MainNavi
                             <button
                               key={tool.name}
                               onClick={() => navigate(tool.path)}
-                              className="flex items-start gap-3 p-3 rounded-lg hover:bg-primary hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground transition-colors text-left w-full group text-foreground"
+                              className="flex items-start gap-3 p-3 rounded-lg hover:bg-primary hover:text-primary-foreground dark:hover:bg-accent dark:hover:text-accent-foreground focus:bg-primary focus:text-primary-foreground dark:focus:bg-accent dark:focus:text-accent-foreground transition-colors text-left w-full group text-foreground"
                             >
                               <tool.icon className="w-5 h-5 flex-shrink-0 mt-0.5 text-primary group-hover:text-primary-foreground group-focus:text-primary-foreground transition-colors" />
                               <div>
