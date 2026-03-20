@@ -200,7 +200,7 @@ export default function MainNavigation({ onLoginClick, onSignUpClick }: MainNavi
                               onClick={() => navigate(category.path)}
                               className="flex items-center gap-3 p-3 rounded-lg hover:bg-primary hover:text-primary-foreground dark:hover:bg-accent dark:hover:text-accent-foreground focus:bg-primary focus:text-primary-foreground dark:focus:bg-accent dark:focus:text-accent-foreground transition-colors text-left group text-foreground"
                             >
-                              <category.icon className="w-5 h-5 flex-shrink-0 text-primary group-hover:text-primary-foreground group-focus:text-primary-foreground transition-colors" />
+                              <category.icon className="w-5 h-5 flex-shrink-0 text-primary dark:text-accent group-hover:text-primary-foreground dark:group-hover:text-accent-foreground group-focus:text-primary-foreground dark:group-focus:text-accent-foreground transition-colors" />
                               <span className="text-sm font-medium transition-colors">
                                 {category.name}
                               </span>
