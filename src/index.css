@@ -33,8 +33,12 @@
     --muted-foreground: 240 5% 46%;
 
     /* Interactive Elements */
-    --accent: 270 89% 44%;            /* Same as primary */
+    --accent: 270 89% 44%;            /* Purple primary in light */
     --accent-foreground: 0 0% 100%;
+
+    /* Green accent token for light mode secondary use */
+    --accent-green: 149 70% 51%;       /* #2ed577 */
+    --accent-green-foreground: 0 0% 100%;
 
     /* System Colors */
     --destructive: 0 84% 60%;
