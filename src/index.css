@@ -8,50 +8,50 @@
 
 @layer base {
   :root {
-    /* Light Mode - Premium Clean Design */
+    /* Light Mode — MotioMint Brand Palette */
     --background: 0 0% 100%;           /* Pure white */
-    --background-alt: 240 20% 98%;     /* Subtle off-white */
-    --foreground: 240 10% 10%;         /* Near black text */
+    --background-alt: 240 5% 97%;      /* Subtle off-white */
+    --foreground: 240 33% 3%;          /* #05050a near-black */
 
     /* Cards & Surfaces */
     --card: 0 0% 100%;                 /* White cards */
-    --card-foreground: 240 10% 10%;    /* Dark text on cards */
-    --card-border: 240 6% 90%;         /* Light borders */
+    --card-foreground: 240 33% 3%;     /* #05050a */
+    --card-border: 180 1% 88%;         /* #e0e0e1 */
 
-    /* Neon Accents - Primary Purple */
-    --primary: 270 91% 65%;            /* Vibrant purple */
-    --primary-foreground: 0 0% 100%;   /* White text on purple */
-    --primary-glow: 270 91% 75%;       /* Lighter purple for glows */
+    /* Primary — Brand Purple #6f0dd1 */
+    --primary: 270 89% 44%;
+    --primary-foreground: 0 0% 100%;
+    --primary-glow: 270 89% 54%;
 
-    /* Neon Accents - Secondary Cyan */
-    --secondary: 189 94% 57%;          /* Vibrant cyan */
-    --secondary-foreground: 0 0% 100%; /* White text on cyan */
-    --secondary-glow: 189 94% 67%;     /* Lighter cyan for glows */
+    /* Secondary — Blue Accent #68a1f7 */
+    --secondary: 217 89% 69%;
+    --secondary-foreground: 0 0% 100%;
+    --secondary-glow: 217 89% 76%;
 
     /* Muted Elements */
-    --muted: 240 6% 95%;               /* Light gray backgrounds */
-    --muted-foreground: 240 4% 46%;    /* Medium gray text */
+    --muted: 180 1% 94%;              /* Derived from #e0e0e1 lighter */
+    --muted-foreground: 240 5% 46%;
 
     /* Interactive Elements */
-    --accent: 270 91% 65%;             /* Same as primary */
+    --accent: 270 89% 44%;            /* Same as primary */
     --accent-foreground: 0 0% 100%;
 
     /* System Colors */
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
-    --success: 142 76% 36%;
+    --success: 149 70% 51%;           /* #2ed577 green */
     --success-foreground: 0 0% 100%;
     --warning: 38 92% 50%;
     --warning-foreground: 0 0% 100%;
 
     /* Borders & Inputs */
-    --border: 240 6% 88%;
-    --input: 240 6% 88%;
-    --ring: 270 91% 65%;
+    --border: 180 1% 88%;             /* #e0e0e1 */
+    --input: 180 1% 88%;
+    --ring: 270 89% 44%;
 
     /* Component Specific */
     --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 10%;
+    --popover-foreground: 240 33% 3%;
 
     /* Design System Tokens */
     --radius: 0.75rem;
@@ -59,15 +59,15 @@
     --radius-lg: 1rem;
 
     /* Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(270 91% 65%), hsl(189 94% 57%));
-    --gradient-dark: linear-gradient(135deg, hsl(240 20% 98%), hsl(0 0% 100%));
-    --gradient-glow: linear-gradient(135deg, hsl(270 91% 65% / 0.15), hsl(189 94% 57% / 0.15));
+    --gradient-primary: linear-gradient(135deg, hsl(270 89% 44%), hsl(217 89% 69%));
+    --gradient-dark: linear-gradient(135deg, hsl(240 5% 97%), hsl(0 0% 100%));
+    --gradient-glow: linear-gradient(135deg, hsl(270 89% 44% / 0.15), hsl(217 89% 69% / 0.15));
 
     /* Shadows & Glows */
-    --shadow-glow: 0 0 40px hsl(270 91% 65% / 0.3);
-    --shadow-glow-secondary: 0 0 40px hsl(189 94% 57% / 0.3);
-    --shadow-card: 0 4px 24px hsl(240 10% 3% / 0.08);
-    --shadow-elevated: 0 8px 40px hsl(240 10% 3% / 0.12);
+    --shadow-glow: 0 0 40px hsl(270 89% 44% / 0.3);
+    --shadow-glow-secondary: 0 0 40px hsl(217 89% 69% / 0.3);
+    --shadow-card: 0 4px 24px hsl(240 33% 3% / 0.08);
+    --shadow-elevated: 0 8px 40px hsl(240 33% 3% / 0.12);
 
     /* Animations */
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -75,61 +75,61 @@
   }
 
   .dark {
-    /* Dark Mode - Original Futuristic Design */
-    --background: 240 10% 4%;           /* Deep dark navy */
-    --background-alt: 240 8% 8%;       /* Slightly lighter dark */
-    --foreground: 240 5% 96%;          /* Light text */
+    /* Dark Mode — MotioMint Brand Palette */
+    --background: 240 33% 3%;          /* #05050a */
+    --background-alt: 240 20% 6%;
+    --foreground: 180 1% 88%;          /* #e0e0e1 */
 
     /* Cards & Surfaces */
-    --card: 240 8% 8%;                 /* Card backgrounds */
-    --card-foreground: 240 5% 92%;     /* Card text */
-    --card-border: 240 6% 12%;         /* Subtle card borders */
+    --card: 240 20% 6%;
+    --card-foreground: 180 1% 88%;     /* #e0e0e1 */
+    --card-border: 240 10% 12%;
 
-    /* Neon Accents - Primary Purple */
-    --primary: 270 91% 65%;            /* Neon purple */
-    --primary-foreground: 240 10% 4%;  /* Dark text on purple */
-    --primary-glow: 270 91% 75%;       /* Lighter purple for glows */
+    /* Primary — Brand Purple #6f0dd1 */
+    --primary: 270 89% 44%;
+    --primary-foreground: 180 1% 88%;  /* #e0e0e1 on purple */
+    --primary-glow: 270 89% 54%;
 
-    /* Neon Accents - Secondary Cyan */
-    --secondary: 189 94% 57%;          /* Neon cyan/teal */
-    --secondary-foreground: 240 10% 4%; /* Dark text on cyan */
-    --secondary-glow: 189 94% 67%;     /* Lighter cyan for glows */
+    /* Secondary — Blue Accent #68a1f7 */
+    --secondary: 217 89% 69%;
+    --secondary-foreground: 240 33% 3%; /* #05050a */
+    --secondary-glow: 217 89% 76%;
 
     /* Muted Elements */
-    --muted: 240 6% 16%;               /* Muted backgrounds */
-    --muted-foreground: 240 4% 64%;    /* Muted text */
+    --muted: 240 8% 14%;
+    --muted-foreground: 180 1% 64%;
 
     /* Interactive Elements */
-    --accent: 270 91% 65%;             /* Same as primary for consistency */
-    --accent-foreground: 240 10% 4%;
+    --accent: 270 89% 44%;
+    --accent-foreground: 180 1% 88%;
 
     /* System Colors */
     --destructive: 0 84% 60%;
-    --destructive-foreground: 240 5% 96%;
-    --success: 142 76% 36%;
-    --success-foreground: 240 5% 96%;
+    --destructive-foreground: 180 1% 88%;
+    --success: 149 70% 51%;            /* #2ed577 */
+    --success-foreground: 240 33% 3%;
     --warning: 38 92% 50%;
-    --warning-foreground: 240 10% 4%;
+    --warning-foreground: 240 33% 3%;
 
     /* Borders & Inputs */
-    --border: 240 6% 12%;
-    --input: 240 6% 12%;
-    --ring: 270 91% 65%;
+    --border: 240 10% 12%;
+    --input: 240 10% 12%;
+    --ring: 270 89% 44%;
 
     /* Component Specific */
-    --popover: 240 8% 8%;
-    --popover-foreground: 240 5% 92%;
+    --popover: 240 20% 6%;
+    --popover-foreground: 180 1% 88%;
 
     /* Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(270 91% 65%), hsl(189 94% 57%));
-    --gradient-dark: linear-gradient(135deg, hsl(240 10% 4%), hsl(240 8% 8%));
-    --gradient-glow: linear-gradient(135deg, hsl(270 91% 65% / 0.1), hsl(189 94% 57% / 0.1));
+    --gradient-primary: linear-gradient(135deg, hsl(270 89% 44%), hsl(217 89% 69%));
+    --gradient-dark: linear-gradient(135deg, hsl(240 33% 3%), hsl(240 20% 6%));
+    --gradient-glow: linear-gradient(135deg, hsl(270 89% 44% / 0.1), hsl(217 89% 69% / 0.1));
 
     /* Shadows & Glows */
-    --shadow-glow: 0 0 40px hsl(270 91% 65% / 0.3);
-    --shadow-glow-secondary: 0 0 40px hsl(189 94% 57% / 0.3);
-    --shadow-card: 0 4px 24px hsl(240 10% 2% / 0.4);
-    --shadow-elevated: 0 8px 40px hsl(240 10% 2% / 0.6);
+    --shadow-glow: 0 0 40px hsl(270 89% 44% / 0.3);
+    --shadow-glow-secondary: 0 0 40px hsl(217 89% 69% / 0.3);
+    --shadow-card: 0 4px 24px hsl(240 33% 2% / 0.4);
+    --shadow-elevated: 0 8px 40px hsl(240 33% 2% / 0.6);
   }
 }
 
@@ -234,10 +234,10 @@
 
   @keyframes pulse-glow {
     0%, 100% {
-      box-shadow: 0 0 20px hsl(270 91% 65% / 0.3);
+      box-shadow: 0 0 20px hsl(270 89% 44% / 0.3);
     }
     50% {
-      box-shadow: 0 0 40px hsl(270 91% 65% / 0.6);
+      box-shadow: 0 0 40px hsl(270 89% 44% / 0.6);
     }
   }
 
@@ -256,10 +256,10 @@
   /* Animated Gradient Background */
   .animated-gradient {
     background: linear-gradient(-45deg, 
-      hsl(270 91% 65% / 0.1), 
-      hsl(189 94% 57% / 0.1), 
-      hsl(270 91% 65% / 0.05), 
-      hsl(189 94% 57% / 0.15)
+      hsl(270 89% 44% / 0.1), 
+      hsl(217 89% 69% / 0.1), 
+      hsl(270 89% 44% / 0.05), 
+      hsl(217 89% 69% / 0.15)
     );
     background-size: 400% 400%;
     animation: gradient-shift 8s ease infinite;
