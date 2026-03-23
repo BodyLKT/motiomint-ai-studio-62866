@@ -403,7 +403,7 @@ const MotionMintLanding = () => {
             ].map((item, index) => (
               <Card key={index} className="glass grid-item border-border/50 hover:border-primary/30">
                 <CardContent className="p-8 text-center">
-                  <div className="<div className="text-6xl font-black text-primary/50 mb-4" aria-hidden="true">" aria-hidden="true">
+                  <div className="text-6xl font-black text-primary/50 mb-4" aria-hidden="true">
                     {item.step}
                   </div>
                   <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6 text-primary">
