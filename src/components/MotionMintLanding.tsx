@@ -189,7 +189,6 @@ const MotionMintLanding = () => {
             backgroundSize: 'cover',
             backgroundRepeat: 'no-repeat',
             backgroundPosition: 'center',
-            opacity: resolvedTheme === 'dark' ? 0.08 : 0.35
           }}
         />
         
@@ -197,10 +196,10 @@ const MotionMintLanding = () => {
         <div 
           className="absolute inset-0 z-[1]"
           style={{
-            backdropFilter: 'blur(25px)',
-            WebkitBackdropFilter: 'blur(25px)',
-            opacity: 0.40,
-            backgroundColor: resolvedTheme === 'dark' ? 'hsl(var(--background))' : 'hsl(var(--background))',
+            backdropFilter: `blur(${resolvedTheme === 'dark' ? '8px' : '10px'})`,
+            WebkitBackdropFilter: `blur(${resolvedTheme === 'dark' ? '8px' : '10px'})`,
+            opacity: resolvedTheme === 'dark' ? 0.10 : 0.12,
+            backgroundColor: 'hsl(var(--background))',
           }}
         />
         
