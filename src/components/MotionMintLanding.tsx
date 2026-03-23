@@ -225,7 +225,6 @@ const MotionMintLanding = () => {
                   onClick={() => user ? navigate('/dashboard') : setShowSignUpModal(true)}
                 >
                   {t('hero.ctaFree')}
-                  {t('hero.ctaFree')}
                 </Button>
                 <Button 
                   variant="outline" 
