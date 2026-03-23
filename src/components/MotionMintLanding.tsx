@@ -511,7 +511,6 @@ const MotionMintLanding = () => {
                 onClick={() => user ? navigate('/dashboard') : setShowSignUpModal(true)}
               >
                 {t('leadMagnet.downloadFree')}
-                {t('leadMagnet.downloadFree')}
               </Button>
               <Button 
                 variant="outline" 
