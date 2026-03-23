@@ -225,7 +225,6 @@ const MotionMintLanding = () => {
                   onClick={() => user ? navigate('/dashboard') : setShowSignUpModal(true)}
                 >
                   {t('hero.ctaFree')}
-                  {t('hero.ctaFree')}
                 </Button>
                 <Button 
                   variant="outline" 
@@ -511,7 +510,6 @@ const MotionMintLanding = () => {
                 className="btn-glow text-lg px-8 py-4"
                 onClick={() => user ? navigate('/dashboard') : setShowSignUpModal(true)}
               >
-                {t('leadMagnet.downloadFree')}
                 {t('leadMagnet.downloadFree')}
               </Button>
               <Button 
