@@ -57,7 +57,7 @@ const HeroCarouselCard = memo(function HeroCarouselCard({
         }`}
       >
         <div className="bg-background/30 backdrop-blur-md rounded-lg px-3 py-1.5 border border-white/20 shadow-[inset_0_1px_1px_rgba(255,255,255,0.2),0_4px_12px_rgba(0,0,0,0.15)]">
-          <h3 className="text-sm font-semibold text-foreground line-clamp-2">
+          <p className="text-sm font-semibold text-foreground line-clamp-2">
             {animation.title}
           </h3>
         </div>
