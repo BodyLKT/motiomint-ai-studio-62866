@@ -186,8 +186,8 @@ const MotionMintLanding = () => {
           className="absolute inset-0 z-0"
           style={{
             backgroundImage: `url(${resolvedTheme === 'dark' ? heroPatternDark : heroPatternLight})`,
-            backgroundSize: '400px',
-            backgroundRepeat: 'repeat',
+            backgroundSize: 'cover',
+            backgroundRepeat: 'no-repeat',
             backgroundPosition: 'center',
             opacity: resolvedTheme === 'dark' ? 0.08 : 0.35
           }}
