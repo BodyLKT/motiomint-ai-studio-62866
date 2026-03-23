@@ -41,6 +41,7 @@ import { supabase } from '@/integrations/supabase/client';
 
 const MotionMintLanding = () => {
   const { t } = useTranslation();
+  const { resolvedTheme } = useTheme();
   const [email, setEmail] = useState('');
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showSignUpModal, setShowSignUpModal] = useState(false);
