@@ -28,7 +28,9 @@ import { SignUpModal } from '@/components/auth/SignUpModal';
 import { ModernVideoPlayer } from '@/components/ui/ModernVideoPlayer';
 import { HeroCarouselGrid } from '@/components/ui/HeroCarouselGrid';
 import MainNavigation from '@/components/navigation/MainNavigation';
-import heroImage from '@/assets/hero-bg.jpg';
+import { useTheme } from 'next-themes';
+import heroPatternLight from '@/assets/motiomint_background_pattern_light.png';
+import heroPatternDark from '@/assets/motiomint_background_pattern_dark.png';
 import techDigitalThumb from '@/assets/category-thumbnails/tech-digital.png';
 import abstractMotionThumb from '@/assets/category-thumbnails/abstract-motion.png';
 import lifestyleThumb from '@/assets/category-thumbnails/lifestyle-real-world.png';
@@ -39,6 +41,7 @@ import { supabase } from '@/integrations/supabase/client';
 
 const MotionMintLanding = () => {
   const { t } = useTranslation();
+  const { resolvedTheme } = useTheme();
   const [email, setEmail] = useState('');
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showSignUpModal, setShowSignUpModal] = useState(false);
@@ -182,10 +185,11 @@ const MotionMintLanding = () => {
         <div 
           className="absolute inset-0 z-0"
           style={{
-            backgroundImage: `url(${heroImage})`,
-            backgroundSize: 'cover',
+            backgroundImage: `url(${resolvedTheme === 'dark' ? heroPatternDark : heroPatternLight})`,
+            backgroundSize: '400px',
+            backgroundRepeat: 'repeat',
             backgroundPosition: 'center',
-            opacity: 0.4
+            opacity: resolvedTheme === 'dark' ? 0.08 : 0.35
           }}
         />
         {/* Lighter overlay for better background visibility */}
@@ -220,7 +224,7 @@ const MotionMintLanding = () => {
                   className="btn-glow text-lg px-8 py-4"
                   onClick={() => user ? navigate('/dashboard') : setShowSignUpModal(true)}
                 >
-                  <Gift className="w-5 h-5 mr-2" />
+                  {t('hero.ctaFree')}
                   {t('hero.ctaFree')}
                 </Button>
                 <Button 
@@ -507,7 +511,7 @@ const MotionMintLanding = () => {
                 className="btn-glow text-lg px-8 py-4"
                 onClick={() => user ? navigate('/dashboard') : setShowSignUpModal(true)}
               >
-                <Gift className="w-5 h-5 mr-2" />
+                {t('leadMagnet.downloadFree')}
                 {t('leadMagnet.downloadFree')}
               </Button>
               <Button 
