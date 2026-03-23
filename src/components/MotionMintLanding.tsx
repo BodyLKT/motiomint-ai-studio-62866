@@ -185,10 +185,11 @@ const MotionMintLanding = () => {
         <div 
           className="absolute inset-0 z-0"
           style={{
-            backgroundImage: `url(${heroImage})`,
-            backgroundSize: 'cover',
+            backgroundImage: `url(${resolvedTheme === 'dark' ? heroPatternDark : heroPatternLight})`,
+            backgroundSize: '400px',
+            backgroundRepeat: 'repeat',
             backgroundPosition: 'center',
-            opacity: 0.4
+            opacity: resolvedTheme === 'dark' ? 0.08 : 0.35
           }}
         />
         {/* Lighter overlay for better background visibility */}
