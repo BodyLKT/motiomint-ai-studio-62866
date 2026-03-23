@@ -192,10 +192,6 @@ const MotionMintLanding = () => {
             opacity: resolvedTheme === 'dark' ? 0.08 : 0.35
           }}
         />
-        {/* Lighter overlay for better background visibility */}
-        <div className="absolute inset-0 bg-black/20 z-0" />
-        <div className="absolute inset-0 bg-gradient-to-br from-background/80 via-background/70 to-background/60 dark:from-background/40 dark:via-background/25 dark:to-background/15 z-0" />
-        <div className="absolute inset-0 animated-gradient opacity-20 dark:opacity-100 z-0" />
         
         {/* Hero Inner Container */}
         <div className="container mx-auto px-4 relative z-10 w-full">
