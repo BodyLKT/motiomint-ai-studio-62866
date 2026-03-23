@@ -193,6 +193,17 @@ const MotionMintLanding = () => {
           }}
         />
         
+        {/* Glassmorphism overlay */}
+        <div 
+          className="absolute inset-0 z-[1]"
+          style={{
+            backdropFilter: 'blur(15px)',
+            WebkitBackdropFilter: 'blur(15px)',
+            opacity: resolvedTheme === 'dark' ? 0.15 : 0.20,
+            backgroundColor: resolvedTheme === 'dark' ? 'hsl(var(--background))' : 'hsl(var(--background))',
+          }}
+        />
+        
         {/* Hero Inner Container */}
         <div className="container mx-auto px-4 relative z-10 w-full">
           <div className="grid lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1.4fr)] gap-20 items-center">
