@@ -26,8 +26,12 @@ let currentlyPlayingVideo: HTMLVideoElement | null = null;
 
 function pauseCurrentVideo() {
   if (currentlyPlayingVideo) {
-    currentlyPlayingVideo.pause();
-    currentlyPlayingVideo.currentTime = 0;
+    try {
+      currentlyPlayingVideo.pause();
+      currentlyPlayingVideo.currentTime = 0;
+    } catch (_) {
+      // ignore if element was removed
+    }
     currentlyPlayingVideo = null;
   }
 }
@@ -35,20 +39,8 @@ function pauseCurrentVideo() {
 // Check if URL is a real video file (not a placeholder)
 function isRealVideoUrl(url?: string): boolean {
   if (!url) return false;
-  
-  // Exclude placeholder URLs
   if (url.includes('placehold.co') || url.includes('placeholder')) return false;
-  
-  // Check for valid video extensions or paths - must be MP4, WebM or MOV
-  const hasVideoExtension = 
-    url.endsWith('.mp4') ||
-    url.endsWith('.webm') ||
-    url.endsWith('.mov');
-  
-  // Also check if it's in the animations folder with a video extension
-  const isAnimationVideo = url.includes('/animations/') && hasVideoExtension;
-  
-  return hasVideoExtension || isAnimationVideo;
+  return url.endsWith('.mp4') || url.endsWith('.webm') || url.endsWith('.mov');
 }
 
 export default function VideoPreview({
@@ -71,42 +63,49 @@ export default function VideoPreview({
   const [hasError, setHasError] = useState(false);
   const [isInViewport, setIsInViewport] = useState(false);
   const [mobileInView, setMobileInView] = useState(false);
+  const [videoSrcSet, setVideoSrcSet] = useState(false);
   const mobileDebounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  
-  // Detect touch device
+
+  // Detect touch device once
   const isTouchDevice = typeof window !== 'undefined' && ('ontouchstart' in window || navigator.maxTouchPoints > 0);
-  
+
   // Use external hover if provided, otherwise use internal
   const isHovered = externalHover !== undefined ? externalHover : internalHover;
-  
+
   // On mobile with autoplay, treat "in view" as hovered
   const shouldPlay = isTouchDevice && mobileAutoplay ? mobileInView : isHovered;
 
-  // Check if the videoUrl is actually a real video file
   const isValidVideoUrl = isRealVideoUrl(videoUrl);
 
   // Determine which thumbnail URL to use (prefer new system)
-  const effectiveThumbnailUrl = 
-    (thumbStatus === 'ready' && thumbSource === 'extracted_frame' && thumbCardUrl) 
-      ? thumbCardUrl 
+  const effectiveThumbnailUrl =
+    (thumbStatus === 'ready' && thumbSource === 'extracted_frame' && thumbCardUrl)
+      ? thumbCardUrl
       : thumbnailUrl;
 
-  // Lazy load video when in viewport
+  // Set video src eagerly when in viewport — separated from observer to avoid race
+  useEffect(() => {
+    if (!isValidVideoUrl || !videoUrl || videoSrcSet || hasError) return;
+    if (!isInViewport) return;
+    const video = videoRef.current;
+    if (!video) return;
+
+    // Only set src once
+    video.src = videoUrl;
+    video.load();
+    setVideoSrcSet(true);
+  }, [isValidVideoUrl, videoUrl, isInViewport, videoSrcSet, hasError]);
+
+  // Viewport observer — only tracks visibility, does NOT touch the video element
   useEffect(() => {
     if (!isValidVideoUrl || !containerRef.current) return;
 
     const observer = new IntersectionObserver(
       (entries) => {
-        entries.forEach((entry) => {
+        for (const entry of entries) {
           setIsInViewport(entry.isIntersecting);
-          
-          // Preload video metadata when entering viewport for smoother hover experience
-          if (entry.isIntersecting && videoRef.current && !videoRef.current.src) {
-            videoRef.current.src = videoUrl!;
-            videoRef.current.load();
-          }
-          
-          // Pause if leaving viewport
+
+          // When leaving viewport, pause immediately
           if (!entry.isIntersecting && videoRef.current) {
             videoRef.current.pause();
             videoRef.current.currentTime = 0;
@@ -114,15 +113,14 @@ export default function VideoPreview({
               currentlyPlayingVideo = null;
             }
           }
-        });
+        }
       },
-      { rootMargin: '50px', threshold: 0 }
+      { rootMargin: '100px', threshold: 0 }
     );
 
     observer.observe(containerRef.current);
-
     return () => observer.disconnect();
-  }, [isValidVideoUrl, videoUrl]);
+  }, [isValidVideoUrl]);
 
   // Mobile autoplay: observe with high threshold to find "most centered" card
   useEffect(() => {
@@ -130,13 +128,12 @@ export default function VideoPreview({
 
     const observer = new IntersectionObserver(
       (entries) => {
-        entries.forEach((entry) => {
-          // Debounce to prevent thrashing during fast scrolling
+        for (const entry of entries) {
           if (mobileDebounceRef.current) clearTimeout(mobileDebounceRef.current);
           mobileDebounceRef.current = setTimeout(() => {
             setMobileInView(entry.isIntersecting && entry.intersectionRatio >= 0.6);
           }, 150);
-        });
+        }
       },
       { threshold: [0, 0.3, 0.6, 0.8, 1.0] }
     );
@@ -149,64 +146,60 @@ export default function VideoPreview({
     };
   }, [mobileAutoplay, isTouchDevice, isValidVideoUrl]);
 
-  // Handle video loaded
   const handleVideoLoaded = useCallback(() => {
     setIsVideoReady(true);
   }, []);
 
-  // Handle video error
   const handleVideoError = useCallback(() => {
     setHasError(true);
     setIsVideoReady(false);
   }, []);
 
-  // Play video - pause any currently playing video first
+  // Play video
   const playVideo = useCallback(() => {
-    if (!videoRef.current || !isVideoReady || hasError) return;
-    
-    // Pause currently playing video if different
-    if (currentlyPlayingVideo && currentlyPlayingVideo !== videoRef.current) {
+    const video = videoRef.current;
+    if (!video || !isVideoReady || hasError) return;
+
+    if (currentlyPlayingVideo && currentlyPlayingVideo !== video) {
       pauseCurrentVideo();
     }
-    
-    const playPromise = videoRef.current.play();
+
+    const playPromise = video.play();
     if (playPromise !== undefined) {
       playPromise
         .then(() => {
-          currentlyPlayingVideo = videoRef.current;
+          currentlyPlayingVideo = video;
         })
-        .catch((error) => {
-          // Autoplay might be blocked, that's okay
-          console.warn('Video play failed:', error);
+        .catch(() => {
+          // Autoplay blocked — ok
         });
     }
   }, [isVideoReady, hasError]);
 
-  // Pause video and reset
+  // Pause video
   const pauseVideo = useCallback(() => {
-    if (!videoRef.current) return;
-    
-    videoRef.current.pause();
-    videoRef.current.currentTime = 0;
-    
-    if (currentlyPlayingVideo === videoRef.current) {
+    const video = videoRef.current;
+    if (!video) return;
+    video.pause();
+    video.currentTime = 0;
+    if (currentlyPlayingVideo === video) {
       currentlyPlayingVideo = null;
     }
   }, []);
 
-  // Desktop hover handlers - only used when external hover not provided
+  // Desktop hover handlers
   const handleMouseEnter = useCallback(() => {
-    if (externalHover !== undefined) return; // Skip if controlled externally
+    if (externalHover !== undefined) return;
     if (!isValidVideoUrl || hasError) return;
     setInternalHover(true);
   }, [externalHover, isValidVideoUrl, hasError]);
 
   const handleMouseLeave = useCallback(() => {
-    if (externalHover !== undefined) return; // Skip if controlled externally
+    if (externalHover !== undefined) return;
     setInternalHover(false);
   }, [externalHover]);
 
-  // Control video playback based on hover state OR mobile in-view state
+  // Control playback
   useEffect(() => {
     if (shouldPlay && isInViewport && isVideoReady) {
       playVideo();
@@ -215,7 +208,7 @@ export default function VideoPreview({
     }
   }, [shouldPlay, isInViewport, isVideoReady, playVideo, pauseVideo]);
 
-  // Cleanup on unmount
+  // Cleanup
   useEffect(() => {
     return () => {
       if (videoRef.current && currentlyPlayingVideo === videoRef.current) {
@@ -233,7 +226,7 @@ export default function VideoPreview({
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      {/* Thumbnail - uses RealThumbnail for proper fallback handling */}
+      {/* Thumbnail */}
       <RealThumbnail
         thumbnailUrl={thumbCardUrl}
         legacyThumbnailUrl={thumbnailUrl}
@@ -246,14 +239,14 @@ export default function VideoPreview({
         debug={debug}
       />
 
-      {/* Video element - only render if we have a valid video URL */}
+      {/* Video element */}
       {isValidVideoUrl && !hasError && (
         <video
           ref={videoRef}
           loop
           muted
           playsInline
-          preload="metadata"
+          preload="none"
           poster={effectiveThumbnailUrl}
           onLoadedData={handleVideoLoaded}
           onCanPlayThrough={handleVideoLoaded}
@@ -264,7 +257,7 @@ export default function VideoPreview({
         />
       )}
 
-      {/* Overlay icon - Play by default, Expand on hover */}
+      {/* Overlay icon */}
       {!hideOverlay && <VideoOverlayIcon isHovered={isHovered} size="sm" />}
 
       {/* Watermark */}
@@ -278,6 +271,8 @@ export default function VideoPreview({
           <div>Source: {thumbSource || 'legacy'}</div>
           <div>Status: {thumbStatus || 'n/a'}</div>
           <div>Video: {isValidVideoUrl ? 'real' : 'placeholder'}</div>
+          <div>Ready: {isVideoReady ? 'yes' : 'no'}</div>
+          <div>SrcSet: {videoSrcSet ? 'yes' : 'no'}</div>
         </div>
       )}
     </div>
