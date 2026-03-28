@@ -27,7 +27,8 @@ const HeroCarouselCard = memo(function HeroCarouselCard({
 
   return (
     <Card
-      className="group relative overflow-hidden rounded-xl cursor-pointer glass border-primary/20 hover:border-primary/40 transition-all duration-300 hover:scale-[1.03] hover:-translate-y-1 hover:shadow-2xl aspect-[3/4] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+      className="group relative overflow-hidden rounded-xl cursor-pointer glass border-primary/20 hover:border-primary/40 transition-[border-color,box-shadow] duration-300 hover:shadow-2xl aspect-[3/4] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+      style={{ transform: 'translateZ(0)' }}
       onClick={() => onClick(animation.id)}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
