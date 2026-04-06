@@ -62,7 +62,7 @@ const CheckoutPage = () => {
               <span className="text-sm font-medium">Back to Pricing</span>
             </button>
             <div className="flex-1" />
-            <span className="font-bold text-2xl gradient-text">motiomint</span>
+            <BrandLockup size="md" onClick={() => navigate('/')} />
           </div>
         </div>
       </nav>
