@@ -388,6 +388,7 @@ export type Database = {
         }
         Returns: string
       }
+      record_download: { Args: { _animation_id: string }; Returns: undefined }
     }
     Enums: {
       app_role: "admin" | "moderator" | "user"
