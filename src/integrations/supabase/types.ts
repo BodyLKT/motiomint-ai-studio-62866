@@ -378,6 +378,16 @@ export type Database = {
         }
         Returns: boolean
       }
+      manage_subscription: {
+        Args: {
+          _download_limit?: number
+          _end_date?: string
+          _plan_name: string
+          _status?: string
+          _user_id: string
+        }
+        Returns: string
+      }
     }
     Enums: {
       app_role: "admin" | "moderator" | "user"
