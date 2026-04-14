@@ -348,11 +348,11 @@ export default function VideoDetailsPage() {
 
     setIsDownloading(true);
     try {
-      // Track download in database
-      await supabase.from('user_downloads').insert({
-        user_id: user.id,
-        animation_id: animation.id,
+      // Track download via server-side RPC (enforces quota)
+      const { error: rpcError } = await supabase.rpc('record_download', {
+        _animation_id: animation.id,
       });
+      if (rpcError) throw rpcError;
 
       // Trigger file download
       const link = document.createElement('a');
