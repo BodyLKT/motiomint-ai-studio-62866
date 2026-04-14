@@ -81,10 +81,11 @@ export default function EnhancedAnimationCard({
 
       if (fetchError) throw fetchError;
 
-      await supabase.from('user_downloads').insert({
-        user_id: user.id,
-        animation_id: id,
+      // Track download via server-side RPC (enforces quota)
+      const { error: rpcError } = await supabase.rpc('record_download', {
+        _animation_id: id,
       });
+      if (rpcError) throw rpcError;
 
       const link = document.createElement('a');
       link.href = animation.file_url;
