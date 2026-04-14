@@ -196,8 +196,8 @@ const MotionMintLanding = () => {
         <div 
           className="absolute inset-0 z-[1]"
           style={{
-            backdropFilter: 'blur(25px)',
-            WebkitBackdropFilter: 'blur(25px)',
+            backdropFilter: 'blur(35px)',
+            WebkitBackdropFilter: 'blur(35px)',
             opacity: 0.50,
             backgroundColor: 'hsl(var(--background))',
           }}
