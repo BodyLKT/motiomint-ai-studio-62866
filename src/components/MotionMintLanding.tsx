@@ -198,7 +198,7 @@ const MotionMintLanding = () => {
           style={{
             backdropFilter: 'blur(25px)',
             WebkitBackdropFilter: 'blur(25px)',
-            opacity: 0.40,
+            opacity: 0.50,
             backgroundColor: 'hsl(var(--background))',
           }}
         />
