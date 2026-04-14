@@ -145,25 +145,14 @@ const CheckoutPage = () => {
                 </div>
 
                 {paymentMethod === 'card' && (
-                  <div className="space-y-4">
-                    <div>
-                      <Label htmlFor="cardName">Card holder name</Label>
-                      <Input id="cardName" placeholder="John Doe" className="mt-1.5" />
-                    </div>
-                    <div>
-                      <Label htmlFor="cardNumber">Card number</Label>
-                      <Input id="cardNumber" placeholder="1234 5678 9012 3456" className="mt-1.5" />
-                    </div>
-                    <div className="grid grid-cols-2 gap-4">
-                      <div>
-                        <Label htmlFor="expiration">Expiration</Label>
-                        <Input id="expiration" placeholder="MM / YY" className="mt-1.5" />
-                      </div>
-                      <div>
-                        <Label htmlFor="cvv">CVV</Label>
-                        <Input id="cvv" placeholder="123" className="mt-1.5" />
-                      </div>
-                    </div>
+                  <div className="rounded-lg border border-border/50 bg-muted/30 p-6 text-center space-y-2">
+                    <Lock className="w-8 h-8 mx-auto text-muted-foreground" />
+                    <p className="text-sm text-muted-foreground">
+                      Secure card payment will be processed through our PCI-compliant payment provider.
+                    </p>
+                    <p className="text-xs text-muted-foreground">
+                      Payment integration coming soon.
+                    </p>
                   </div>
                 )}
               </CardContent>
